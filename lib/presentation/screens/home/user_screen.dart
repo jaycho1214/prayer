@@ -203,7 +203,6 @@ class UserScreen extends HookWidget {
                 body: TabBarView(
                   children: [
                     PrayersScreen(
-                      key: ObjectKey('prayer.${user.data?.uid}'),
                       physics: const NeverScrollableScrollPhysics(),
                       pagingController: prayerPagingController,
                       fetchFn: user.data?.uid == null || user.data?.uid == ''
@@ -215,7 +214,6 @@ class UserScreen extends HookWidget {
                                   ),
                     ),
                     GroupsScreen(
-                      key: ObjectKey('group.${user.data?.uid}'),
                       physics: const NeverScrollableScrollPhysics(),
                       pagingController: groupPagingController,
                       fetchFn: user.data?.uid == ''
