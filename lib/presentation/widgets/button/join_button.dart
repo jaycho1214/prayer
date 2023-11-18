@@ -47,7 +47,7 @@ class JoinButton extends StatelessWidget {
 
         return ShrinkingButton(
           onTap: () async {
-            if (value != GroupJoinState.none) {
+            if (value == GroupJoinState.joined) {
               final result = await ConfirmMenuForm.show(
                 context,
                 title: "Leave group",
