@@ -50,6 +50,7 @@ app.*.map.json
 assets/dependencies/
 
 # Secrets
+*.keystore
 .env*
 GoogleService-Info.plist
 google-services.json
