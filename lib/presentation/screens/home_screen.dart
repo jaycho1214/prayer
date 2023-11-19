@@ -16,22 +16,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
 
-  Future<Map> fetchRandomBible() async {
-    final resp =
-        await dio.get('https://bible-api.com/?random=verse&translation=kjv');
-    return {
-      'verse': resp.data['text'],
-      'reference': resp.data['reference'],
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
-    final refreshKey = useState(0);
-    final bibleSnapshot = useFuture(
-      useMemoized(() => fetchRandomBible(), [refreshKey.value]),
-      preserveState: false,
-    );
     final homePagingController =
         usePagingController<String?, String>(firstPageKey: null);
     final groupPagingController =
@@ -46,7 +32,6 @@ class HomeScreen extends HookWidget {
             body: RefreshIndicator(
               notificationPredicate: (notification) => notification.depth == 2,
               onRefresh: () async {
-                refreshKey.value += 1;
                 if (DefaultTabController.of(context).index == 0) {
                   homePagingController.refresh();
                 } else {
@@ -90,27 +75,6 @@ class HomeScreen extends HookWidget {
                           ),
                           Tab(text: 'Group'),
                         ],
-                      ),
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Skeletonizer(
-                      enabled: bibleSnapshot.data == null,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              bibleSnapshot.data?['verse'] ?? LoremIpsum,
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              bibleSnapshot.data?['reference'] ?? 'REFERENCE',
-                              style: TextStyle(color: MyTheme.outline),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
                   ),
