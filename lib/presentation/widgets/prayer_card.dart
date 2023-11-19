@@ -86,11 +86,23 @@ class PrayerCard extends HookWidget {
                 ),
                 const SizedBox(height: 5),
               ],
-              UserChip(
-                anon: snapshot.data?.anon == true,
-                uid: snapshot.data?.userId,
-                profile: snapshot.data?.user?.profile,
-                name: snapshot.data?.user?.name,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  UserChip(
+                    anon: snapshot.data?.anon == true,
+                    uid: snapshot.data?.userId,
+                    profile: snapshot.data?.user?.profile,
+                    name: snapshot.data?.user?.name,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    snapshot.data?.createdAt == null
+                        ? ''
+                        : Formatter.fromNow(snapshot.data!.createdAt!),
+                    style: TextStyle(color: MyTheme.outline),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               Text(
