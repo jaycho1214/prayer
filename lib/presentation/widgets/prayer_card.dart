@@ -99,6 +99,7 @@ class PrayerCard extends HookWidget {
                   fontSize: 15,
                 ),
                 maxLines: 10,
+                overflow: TextOverflow.ellipsis,
               ),
               if (snapshot.data?.media != null)
                 Padding(
