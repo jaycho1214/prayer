@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/presentation/widgets/user/uesr_card.dart';
+import 'package:prayer/presentation/widgets/user/user_card.dart';
 import 'package:prayer/repo/user_repository.dart';
 
 class UsersScreen extends HookWidget {
