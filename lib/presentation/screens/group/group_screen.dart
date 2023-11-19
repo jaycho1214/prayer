@@ -145,8 +145,11 @@ class GroupScreen extends HookWidget {
                                       state is GroupStateError,
                                   child: Column(
                                     children: [
-                                      GroupBannerImage(
-                                        banner: data.banner,
+                                      Hero(
+                                        tag: 'group.$groupId.banner',
+                                        child: GroupBannerImage(
+                                          banner: data.banner,
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
