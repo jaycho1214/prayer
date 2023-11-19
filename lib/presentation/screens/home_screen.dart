@@ -4,14 +4,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/placeholder.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/repo/prayer_repository.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
