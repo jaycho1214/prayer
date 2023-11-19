@@ -98,7 +98,7 @@ class PrayerCard extends HookWidget {
                 style: const TextStyle(
                   fontSize: 15,
                 ),
-                maxLines: 1,
+                maxLines: 10,
               ),
               if (snapshot.data?.media != null)
                 Padding(
