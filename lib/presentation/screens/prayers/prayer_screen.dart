@@ -169,8 +169,7 @@ class PrayerScreen extends HookWidget {
                           Text(
                             snapshot.data?.value ?? '',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 15,
                             ),
                           ),
                           const SizedBox(height: 10),
