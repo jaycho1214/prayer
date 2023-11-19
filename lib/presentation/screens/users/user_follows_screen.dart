@@ -9,7 +9,7 @@ import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
-import 'package:prayer/presentation/widgets/user/uesr_card.dart';
+import 'package:prayer/presentation/widgets/user/user_card.dart';
 import 'package:prayer/repo/user_repository.dart';
 
 class UsersFollowScreen extends HookWidget {
