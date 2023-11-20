@@ -76,8 +76,10 @@ class PrayerRepository {
 
   Future<bool> createPrayerPray({
     required String prayerId,
+    String? value,
   }) async {
-    final resp = await dio.post('/v1/prayers/$prayerId/pray');
+    final resp =
+        await dio.post('/v1/prayers/$prayerId/pray', data: {'value': value});
     return resp.data['data'] == 'success';
   }
 
