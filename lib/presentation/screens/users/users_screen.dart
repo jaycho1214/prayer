@@ -34,7 +34,11 @@ class UsersScreen extends HookWidget {
         talker.error('Error while searching users: $error');
         pagingController.error = error;
       }
-    }, []);
+    }, [query]);
+
+    useEffect(() {
+      pagingController.refresh();
+    }, [query]);
 
     useEffect(() {
       pagingController.addPageRequestListener(fetchPage);

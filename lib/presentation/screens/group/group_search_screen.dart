@@ -46,7 +46,11 @@ class GroupSearchScreen extends HookWidget {
         talker.error("Error on fetching next page of groups: $e");
         pagingController.error = e;
       });
-    }, []);
+    }, [query, uid]);
+
+    useEffect(() {
+      pagingController.refresh();
+    }, [query]);
 
     useEffect(() {
       pagingController.addPageRequestListener(requestPage);
