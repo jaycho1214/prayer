@@ -21,6 +21,7 @@ class GroupMemberCard extends HookWidget {
     super.key,
     required this.groupId,
     required this.member,
+    this.onDone,
     this.showAccept = false,
     this.showPromote = false,
   });
@@ -29,6 +30,7 @@ class GroupMemberCard extends HookWidget {
   final GroupMember member;
   final bool showAccept;
   final bool showPromote;
+  final void Function()? onDone;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class GroupMemberCard extends HookWidget {
             .acceptMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
+          onDone?.call();
         }).catchError((_) {
           GlobalSnackBar.show(context, message: "Failed to accept the user");
         }).whenComplete(() {
@@ -73,6 +76,7 @@ class GroupMemberCard extends HookWidget {
             .promoteMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
+          onDone?.call();
         }).catchError((_) {
           GlobalSnackBar.show(context, message: "Failed to promote the user");
         }).whenComplete(() {

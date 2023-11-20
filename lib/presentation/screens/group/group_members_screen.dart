@@ -122,6 +122,11 @@ class GroupMembersScreen extends HookWidget {
                                   'members' => membersPageController,
                                   _ => requestsPageController,
                                 },
+                                onAction: (_) {
+                                  moderatorsPageController.refresh();
+                                  membersPageController.refresh();
+                                  requestsPageController.refresh();
+                                },
                                 groupId: groupId,
                                 membersType: e,
                                 promote:
@@ -149,12 +154,14 @@ class MembersPage extends HookWidget {
     required this.membersType,
     required this.pagingController,
     this.promote,
+    this.onAction,
   });
 
   final PagingController<int?, GroupMember> pagingController;
   final String groupId;
   final String membersType;
   final bool? promote;
+  final void Function(String)? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -187,6 +194,7 @@ class MembersPage extends HookWidget {
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<GroupMember>(
         itemBuilder: (context, item, index) => GroupMemberCard(
+          onDone: () => onAction?.call(item.uid),
           groupId: groupId,
           member: item,
           showAccept: membersType == 'requests',
