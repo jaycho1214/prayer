@@ -57,7 +57,6 @@ class PrayersScreen extends HookWidget {
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
         itemBuilder: (context, item, index) => PrayerCard(
-          key: ObjectKey(item),
           prayerId: item,
           onTap: () => onTap?.call(item),
         ),
