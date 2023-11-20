@@ -160,8 +160,7 @@ class PrayerRepository {
     return resp.data;
   }
 
-  Future<Map> fetchPrayerPrays(
-      {required String prayerId, String? cursor}) async {
+  Future<Map> fetchPrayerPrays({required String prayerId, int? cursor}) async {
     final resp = await dio.get('/v1/prayers/$prayerId/pray', queryParameters: {
       'cursor': cursor,
     });
