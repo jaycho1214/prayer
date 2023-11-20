@@ -51,11 +51,13 @@ class UserScreen extends HookWidget {
     );
     final prayerPagingController =
         usePagingController<String?, String>(firstPageKey: null);
+    final prayPagingController =
+        usePagingController<String?, String>(firstPageKey: null);
     final groupPagingController =
         usePagingController<String?, String>(firstPageKey: null);
 
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: RefreshIndicator(
         notificationPredicate: (notification) => notification.depth == 2,
         onRefresh: () async {
@@ -66,6 +68,8 @@ class UserScreen extends HookWidget {
                 .add(AuthenticationEvent.refresh());
           }
           prayerPagingController.refresh();
+          groupPagingController.refresh();
+          prayPagingController.refresh();
           reloadKey.value = reloadKey.value + 1;
           await Future.wait([fetchUserFn]);
           return;
@@ -196,7 +200,7 @@ class UserScreen extends HookWidget {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: TabBarDelegate(
-                      tabs: ['Prayer', 'Group'],
+                      tabs: ['Prayers', 'Groups', 'Prays'],
                     ),
                   ),
                 ],
@@ -207,25 +211,32 @@ class UserScreen extends HookWidget {
                           PrayersScreen(
                             physics: const NeverScrollableScrollPhysics(),
                             pagingController: prayerPagingController,
-                            fetchFn:
-                                user.data?.uid == null || user.data?.uid == ''
-                                    ? null
-                                    : (cursor) => context
-                                        .read<PrayerRepository>()
-                                        .fetchUserPrayers(
-                                          userId: user.data!.uid,
-                                          cursor: cursor,
-                                        ),
+                            fetchFn: (cursor) => context
+                                .read<PrayerRepository>()
+                                .fetchUserPrayers(
+                                  userId: user.data!.uid,
+                                  cursor: cursor,
+                                ),
                           ),
                           GroupsScreen(
                             physics: const NeverScrollableScrollPhysics(),
                             pagingController: groupPagingController,
-                            fetchFn: user.data?.uid == ''
-                                ? null
-                                : (cursor) => context
-                                    .read<GroupRepository>()
-                                    .fetchGroupsByUser(
-                                        uid: user.data!.uid, cursor: cursor),
+                            fetchFn: (cursor) => context
+                                .read<GroupRepository>()
+                                .fetchGroupsByUser(
+                                  uid: user.data!.uid,
+                                  cursor: cursor,
+                                ),
+                          ),
+                          PrayersScreen(
+                            physics: const NeverScrollableScrollPhysics(),
+                            pagingController: prayPagingController,
+                            fetchFn: (cursor) => context
+                                .read<PrayerRepository>()
+                                .fetchPrayerPrayedByUser(
+                                  userId: user.data!.uid,
+                                  cursor: cursor,
+                                ),
                           ),
                         ],
                       ),
