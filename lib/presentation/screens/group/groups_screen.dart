@@ -54,6 +54,7 @@ class GroupsScreen extends HookWidget {
       physics: physics,
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
+        animateTransitions: true,
         itemBuilder: (context, item, index) => GroupCard(
           groupId: item,
           onTap: onTap != null ? () => onTap?.call(item) : null,
