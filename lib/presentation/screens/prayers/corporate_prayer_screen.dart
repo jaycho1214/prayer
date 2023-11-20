@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -217,7 +218,7 @@ class CorporatePrayerScreen extends HookWidget {
                         ),
                       if (snapshot.data?.prayers != null)
                         ...snapshot.data!.prayers!
-                            .map((e) => Container(
+                            .mapIndexed((index, e) => Container(
                                   width: double.infinity,
                                   margin:
                                       const EdgeInsets.symmetric(vertical: 5),
@@ -227,9 +228,24 @@ class CorporatePrayerScreen extends HookWidget {
                                     color: MyTheme.primary,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Text(
-                                    e,
-                                    style: TextStyle(),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${index + 1}.',
+                                        style: TextStyle(
+                                          color: MyTheme.surface,
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        e,
+                                        style: TextStyle(),
+                                      ),
+                                    ],
                                   ),
                                 ))
                             .toList(),
