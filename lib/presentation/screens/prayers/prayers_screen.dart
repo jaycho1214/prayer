@@ -55,6 +55,7 @@ class PrayersScreen extends HookWidget {
       pagingController: pagingController,
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 150),
       builderDelegate: PagedChildBuilderDelegate(
+        animateTransitions: true,
         itemBuilder: (context, item, index) => PrayerCard(
           key: ObjectKey(item),
           prayerId: item,

@@ -60,6 +60,7 @@ class GroupSearchScreen extends HookWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
+        animateTransitions: true,
         itemBuilder: (context, item, index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: GroupCard(
