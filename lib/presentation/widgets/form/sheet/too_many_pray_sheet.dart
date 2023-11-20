@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
-class PrayerPrayConfirmForm extends StatelessWidget {
-  const PrayerPrayConfirmForm({
+class TooManyPraySheet extends StatelessWidget {
+  const TooManyPraySheet({
     super.key,
   });
 
@@ -15,7 +15,7 @@ class PrayerPrayConfirmForm extends StatelessWidget {
         backgroundColor: Colors.transparent,
         barrierColor: Colors.transparent,
         builder: (context) {
-          return PrayerPrayConfirmForm();
+          return TooManyPraySheet();
         });
   }
 

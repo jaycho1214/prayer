@@ -5,7 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
-import 'package:prayer/presentation/widgets/form/sheet/prayer_pray_confirm.dart';
+import 'package:prayer/presentation/widgets/form/sheet/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
@@ -37,7 +37,7 @@ class PrayChip extends HookWidget {
           prayed.value = true;
           newValue.value += 1;
         } else {
-          PrayerPrayConfirmForm.show(context);
+          TooManyPraySheet.show(context);
         }
       }).catchError((e) {
         talker.error("Error while praying for the post", e);
