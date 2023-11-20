@@ -50,6 +50,7 @@ class GroupSearchScreen extends HookWidget {
 
     useEffect(() {
       pagingController.refresh();
+      return () => null;
     }, [query]);
 
     useEffect(() {

@@ -41,7 +41,7 @@ class PrayerScreen extends HookWidget {
       initialData: Prayer.placeholder,
     );
     final pagingController =
-        usePagingController<String?, PrayerPray>(firstPageKey: null);
+        usePagingController<int?, PrayerPray>(firstPageKey: null);
     final hasPrayed = useState(snapshot.data?.hasPrayed != null);
     final praysCount = useState(snapshot.data?.praysCount ?? 0);
 
@@ -254,13 +254,13 @@ class PraysScreen extends HookWidget {
   });
 
   final String prayerId;
-  final PagingController<String?, PrayerPray> pagingController;
+  final PagingController<int?, PrayerPray> pagingController;
 
   @override
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
 
-    final requestPage = useCallback((String? cursor) {
+    final requestPage = useCallback((int? cursor) {
       context
           .read<PrayerRepository>()
           .fetchPrayerPrays(
@@ -286,7 +286,7 @@ class PraysScreen extends HookWidget {
       return () => pagingController.removePageRequestListener(requestPage);
     }, [pagingController]);
 
-    return PagedListView<String?, PrayerPray>(
+    return PagedListView<int?, PrayerPray>(
       physics: const NeverScrollableScrollPhysics(),
       pagingController: pagingController,
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 100),
