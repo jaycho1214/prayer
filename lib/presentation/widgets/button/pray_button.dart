@@ -16,28 +16,46 @@ class PrayButton extends HookWidget {
     super.key,
     required this.prayerId,
     required this.value,
+    this.loading = false,
     this.hasPrayed = false,
+    this.silent = false,
+    this.onPray,
   });
 
   final String prayerId;
   final int value;
   final bool hasPrayed;
+  final bool loading;
+  final bool silent;
+  final void Function()? onPray;
+
+  Widget buildIndicator(BuildContext context) {
+    return Center(
+      child: PlatformCircularProgressIndicator(
+        cupertino: (context, target) => CupertinoProgressIndicatorData(
+            color: hasPrayed ? MyTheme.surface : null),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final loading = useState(false);
-    final newValue = useState(value);
-    final prayed = useState(hasPrayed);
+    final _loading = useState(loading);
+
+    useEffect(() {
+      _loading.value = loading;
+
+      return () => null;
+    }, [loading]);
 
     final onTap = useCallback(() async {
-      loading.value = true;
+      _loading.value = true;
       context
           .read<PrayerRepository>()
           .createPrayerPray(prayerId: prayerId)
           .then((value) {
         if (value) {
-          prayed.value = true;
-          newValue.value += 1;
+          onPray?.call();
         } else {
           PrayerPrayConfirmForm.show(context);
         }
@@ -45,49 +63,66 @@ class PrayButton extends HookWidget {
         talker.error("Error while praying for the post", e);
         GlobalSnackBar.show(context, message: "Failed to like the post");
       }).whenComplete(() {
-        loading.value = false;
+        _loading.value = false;
       });
     }, []);
 
-    if (loading.value) {
-      return PlatformCircularProgressIndicator();
+    if (silent) {
+      return ShrinkingButton(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 18),
+          decoration: BoxDecoration(
+            color: hasPrayed ? MyTheme.onPrimary : MyTheme.surfaceDim,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: _loading.value
+              ? buildIndicator(context)
+              : FaIcon(
+                  FontAwesomeIcons.lightHandsPraying,
+                  color: hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
+                  size: 15,
+                ),
+        ),
+      );
     }
     return ShrinkingButton(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
         decoration: BoxDecoration(
-          color: prayed.value ? MyTheme.onPrimary : MyTheme.surfaceDim,
+          color: hasPrayed ? MyTheme.onPrimary : MyTheme.surfaceDim,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FaIcon(
-              FontAwesomeIcons.lightHandsPraying,
-              color: prayed.value ? MyTheme.surface : MyTheme.onPrimary,
-              size: 15,
-            ),
-            const SizedBox(width: 5),
-            Text(
-              "Pray",
-              style: TextStyle(
-                fontSize: 15,
-                color: prayed.value ? MyTheme.surface : MyTheme.onPrimary,
-                fontWeight: FontWeight.bold,
+        child: _loading.value
+            ? buildIndicator(context)
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FaIcon(
+                    FontAwesomeIcons.personPraying,
+                    color: hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
+                    size: 15,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Pray with Words",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    Formatter.formatNumber(value),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(width: 10),
-            Text(
-              Formatter.formatNumber(newValue.value),
-              style: TextStyle(
-                fontSize: 15,
-                color: prayed.value ? MyTheme.surface : MyTheme.onPrimary,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
