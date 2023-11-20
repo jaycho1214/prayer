@@ -78,8 +78,8 @@ class PrayerRepository {
     required String prayerId,
     String? value,
   }) async {
-    final resp =
-        await dio.post('/v1/prayers/$prayerId/pray', data: {'value': value});
+    final resp = await dio
+        .post('/v1/prayers/pray', data: {'prayerId': prayerId, 'value': value});
     return resp.data['data'] == 'success';
   }
 
@@ -87,7 +87,7 @@ class PrayerRepository {
     required String prayerId,
     required int prayId,
   }) async {
-    final resp = await dio.delete('/v1/prayers/$prayerId/pray/$prayId');
+    final resp = await dio.delete('/v1/prayers/pray/$prayId');
     return resp.data['data'] == 'success';
   }
 
@@ -160,8 +160,21 @@ class PrayerRepository {
     return resp.data;
   }
 
+  Future<Map> fetchPrayerPrayedByUser(
+      {required String userId, String? cursor}) async {
+    final resp =
+        await dio.get('/v1/prayers/pray/by/user/$userId', queryParameters: {
+      'cursor': cursor,
+    });
+    return {
+      'data': List<String>.from(resp.data['data']),
+      'cursor': resp.data['cursor'],
+    };
+  }
+
   Future<Map> fetchPrayerPrays({required String prayerId, int? cursor}) async {
-    final resp = await dio.get('/v1/prayers/$prayerId/pray', queryParameters: {
+    final resp =
+        await dio.get('/v1/prayers/pray/by/prayer/$prayerId', queryParameters: {
       'cursor': cursor,
     });
     return {
