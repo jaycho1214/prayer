@@ -83,6 +83,14 @@ class PrayerRepository {
     return resp.data['data'] == 'success';
   }
 
+  Future<bool> deletePrayerPray({
+    required String prayerId,
+    required int prayId,
+  }) async {
+    final resp = await dio.delete('/v1/prayers/$prayerId/pray/$prayId');
+    return resp.data['data'] == 'success';
+  }
+
   Future<Prayer?> fetchPrayer(String prayerId) async {
     final resp = await dio.get('/v1/prayers/$prayerId');
     if (resp.data['message'] != null) {

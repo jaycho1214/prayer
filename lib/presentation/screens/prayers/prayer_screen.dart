@@ -11,16 +11,18 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/prayer_model.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/prayer_pray_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/pray_button.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
+import 'package:prayer/presentation/widgets/pray/pray_large_card.dart';
+import 'package:prayer/presentation/widgets/pray/pray_slim_card.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:prayer/presentation/widgets/user/user_image.dart';
+import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/prayer_repository.dart';
-import 'package:prayer/utils/formatter.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:super_context_menu/super_context_menu.dart';
 
 class PrayerScreen extends HookWidget {
   const PrayerScreen({
@@ -39,7 +41,21 @@ class PrayerScreen extends HookWidget {
       initialData: Prayer.placeholder,
     );
     final pagingController =
-        usePagingController<String?, PUser>(firstPageKey: null);
+        usePagingController<String?, PrayerPray>(firstPageKey: null);
+    final hasPrayed = useState(snapshot.data?.hasPrayed != null);
+    final praysCount = useState(snapshot.data?.praysCount ?? 0);
+
+    final onPray = useCallback(() {
+      hasPrayed.value = true;
+      praysCount.value += 1;
+      pagingController.refresh();
+    }, []);
+
+    useEffect(() {
+      hasPrayed.value = snapshot.data?.hasPrayed != null;
+      praysCount.value = snapshot.data?.praysCount ?? 0;
+      return () => null;
+    }, [snapshot.data, refreshKey.value]);
 
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
@@ -196,11 +212,32 @@ class PrayerScreen extends HookWidget {
             left: 0,
             right: 0,
             bottom: MediaQuery.of(context).padding.bottom,
-            child: PrayButton(
-              key: ObjectKey(snapshot.data?.praysCount),
-              prayerId: prayerId,
-              hasPrayed: snapshot.data?.hasPrayed != null,
-              value: snapshot.data?.praysCount ?? 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: PrayButton(
+                      loading: snapshot.data == null ||
+                          snapshot.connectionState == ConnectionState.waiting,
+                      prayerId: prayerId,
+                      hasPrayed: hasPrayed.value,
+                      onPray: onPray,
+                      value: praysCount.value,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  PrayButton(
+                    loading: snapshot.data == null ||
+                        snapshot.connectionState == ConnectionState.waiting,
+                    prayerId: prayerId,
+                    hasPrayed: hasPrayed.value,
+                    value: praysCount.value,
+                    silent: true,
+                    onPray: onPray,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -217,7 +254,7 @@ class PraysScreen extends HookWidget {
   });
 
   final String prayerId;
-  final PagingController<String?, PUser> pagingController;
+  final PagingController<String?, PrayerPray> pagingController;
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +268,7 @@ class PraysScreen extends HookWidget {
             cursor: cursor,
           )
           .then((data) {
-        final d = data['users'] as List<PUser>;
+        final d = data['prays'] as List<PrayerPray>;
         final cursor = data['cursor'];
         if (cursor == null) {
           pagingController.appendLastPage(d);
@@ -249,44 +286,57 @@ class PraysScreen extends HookWidget {
       return () => pagingController.removePageRequestListener(requestPage);
     }, [pagingController]);
 
-    return PagedListView<String?, PUser>(
+    return PagedListView<String?, PrayerPray>(
       physics: const NeverScrollableScrollPhysics(),
       pagingController: pagingController,
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 100),
       builderDelegate: PagedChildBuilderDelegate(
-        itemBuilder: (context, item, index) => ShrinkingButton(
-          onTap: () {
-            context.push(Uri(path: '/users', queryParameters: {'uid': item.uid})
-                .toString());
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              children: [
-                UserProfileImage(
-                  profile: item.profile,
-                  size: 30,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    '${item.username} has prayed for you',
-                    maxLines: 1,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  item.createdAt != null
-                      ? Formatter.fromNow(item.createdAt!)
-                      : '',
-                  style: TextStyle(
-                    color: MyTheme.outline,
-                  ),
-                ),
-                const SizedBox(width: 10),
-              ],
-            ),
+        animateTransitions: true,
+        itemBuilder: (context, item, index) => ContextMenuWidget(
+          menuProvider: (_) => Menu(
+            children: [
+              MenuAction(
+                callback: () {
+                  context.push(Uri(
+                      path: '/users',
+                      queryParameters: {'uid': item.user.uid}).toString());
+                },
+                title: item.user.username,
+              ),
+              MenuAction(
+                callback: () async {
+                  await context
+                      .read<PrayerRepository>()
+                      .deletePrayerPray(prayerId: prayerId, prayId: item.id)
+                      .then((value) {
+                    if (value) {
+                      pagingController.value = PagingState(
+                        nextPageKey: pagingController.value.nextPageKey,
+                        itemList: [...(pagingController.value.itemList ?? [])]
+                          ..removeAt(index),
+                        error: pagingController.value.error,
+                      );
+                    } else {
+                      GlobalSnackBar.show(context,
+                          message: "Failed to delete a pray");
+                    }
+                  }).catchError((e) {
+                    GlobalSnackBar.show(context,
+                        message: "Failed to delete a pray");
+                  });
+                },
+                title: 'Delete',
+                image: MenuImage.icon(FontAwesomeIcons.trash),
+                attributes: MenuActionAttributes(
+                    destructive: true,
+                    disabled: FirebaseAuth.instance.currentUser!.uid !=
+                        item.user.uid),
+              ),
+            ],
           ),
+          child: item.value == null
+              ? PraySlimCard(pray: item)
+              : PrayLargeCard(pray: item),
         ),
       ),
     );
