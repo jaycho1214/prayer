@@ -5,6 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/presentation/widgets/form/sheet/pray_with_word_form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
@@ -50,9 +51,19 @@ class PrayButton extends HookWidget {
 
     final onTap = useCallback(() async {
       _loading.value = true;
+      String? value;
+      if (!silent) {
+        value = await PrayWithWordForm.show(context, prayerId: prayerId);
+        if (value == null) {
+          return _loading.value = false;
+        }
+      }
       context
           .read<PrayerRepository>()
-          .createPrayerPray(prayerId: prayerId)
+          .createPrayerPray(
+            prayerId: prayerId,
+            value: value,
+          )
           .then((value) {
         if (value) {
           onPray?.call();
