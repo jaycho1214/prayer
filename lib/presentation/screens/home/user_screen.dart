@@ -200,31 +200,35 @@ class UserScreen extends HookWidget {
                     ),
                   ),
                 ],
-                body: TabBarView(
-                  children: [
-                    PrayersScreen(
-                      physics: const NeverScrollableScrollPhysics(),
-                      pagingController: prayerPagingController,
-                      fetchFn: user.data?.uid == null || user.data?.uid == ''
-                          ? null
-                          : (cursor) =>
-                              context.read<PrayerRepository>().fetchUserPrayers(
-                                    userId: user.data!.uid,
-                                    cursor: cursor,
-                                  ),
-                    ),
-                    GroupsScreen(
-                      physics: const NeverScrollableScrollPhysics(),
-                      pagingController: groupPagingController,
-                      fetchFn: user.data?.uid == ''
-                          ? null
-                          : (cursor) => context
-                              .read<GroupRepository>()
-                              .fetchGroupsByUser(
-                                  uid: user.data!.uid, cursor: cursor),
-                    ),
-                  ],
-                ),
+                body: user.data?.uid == null || user.data?.uid == ''
+                    ? const SizedBox()
+                    : TabBarView(
+                        children: [
+                          PrayersScreen(
+                            physics: const NeverScrollableScrollPhysics(),
+                            pagingController: prayerPagingController,
+                            fetchFn:
+                                user.data?.uid == null || user.data?.uid == ''
+                                    ? null
+                                    : (cursor) => context
+                                        .read<PrayerRepository>()
+                                        .fetchUserPrayers(
+                                          userId: user.data!.uid,
+                                          cursor: cursor,
+                                        ),
+                          ),
+                          GroupsScreen(
+                            physics: const NeverScrollableScrollPhysics(),
+                            pagingController: groupPagingController,
+                            fetchFn: user.data?.uid == ''
+                                ? null
+                                : (cursor) => context
+                                    .read<GroupRepository>()
+                                    .fetchGroupsByUser(
+                                        uid: user.data!.uid, cursor: cursor),
+                          ),
+                        ],
+                      ),
               ),
               if (canPop)
                 Positioned(
