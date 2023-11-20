@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/model/prayer_model.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/prayer_pray_model.dart';
 
 class PrayerRepository {
   Future<bool> createPrayer({
@@ -156,8 +156,8 @@ class PrayerRepository {
       'cursor': cursor,
     });
     return {
-      'users': List<Map<String, Object?>>.from(resp.data['data'])
-          .map((e) => PUser.fromJson(e))
+      'prays': List<Map<String, Object?>>.from(resp.data['data'])
+          .map((e) => PrayerPray.fromJson(e))
           .toList(),
       'cursor': resp.data['cursor'],
     };
