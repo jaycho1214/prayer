@@ -159,38 +159,41 @@ class PrayerFormScreen extends HookWidget {
                     ),
                   ),
                   if (media.value != null) ...[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 10, 50, 0),
-                      child: ShrinkingButton(
-                        onTap: () {
-                          media.value = null;
-                        },
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.file(
-                                File(media.value!),
-                                alignment: Alignment.centerLeft,
-                              ),
-                            ),
-                            Positioned(
-                              top: 5,
-                              right: 5,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: MyTheme.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                                padding: const EdgeInsets.all(10),
-                                child: FaIcon(
-                                  FontAwesomeIcons.xmark,
-                                  size: 15,
-                                  color: MyTheme.onPrimary,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 10, 50, 0),
+                        child: ShrinkingButton(
+                          onTap: () {
+                            media.value = null;
+                          },
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.file(
+                                  File(media.value!),
+                                  alignment: Alignment.centerLeft,
                                 ),
                               ),
-                            )
-                          ],
+                              Positioned(
+                                top: 5,
+                                right: 5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: MyTheme.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(10),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.xmark,
+                                    size: 15,
+                                    color: MyTheme.onPrimary,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
