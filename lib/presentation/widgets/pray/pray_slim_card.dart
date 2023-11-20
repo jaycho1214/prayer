@@ -14,7 +14,11 @@ class PraySlimCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+        color: MyTheme.surface,
+        borderRadius: BorderRadius.circular(20),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         children: [
