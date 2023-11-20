@@ -241,9 +241,11 @@ class CorporatePrayerScreen extends HookWidget {
                                         ),
                                       ),
                                       const SizedBox(width: 10),
-                                      Text(
-                                        e,
-                                        style: TextStyle(),
+                                      Expanded(
+                                        child: Text(
+                                          e,
+                                          style: TextStyle(),
+                                        ),
                                       ),
                                     ],
                                   ),
