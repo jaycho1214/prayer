@@ -52,7 +52,7 @@ class HomeTabBar extends HookWidget {
           .then((value) async {
         talker.debug("Notification settings updated: $value");
         final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-        if (Platform.isIOS && apnsToken != null) {
+        if (Platform.isIOS && apnsToken != null || Platform.isAndroid) {
           final fcmToken = await FirebaseMessaging.instance.getToken();
           if (fcmToken != null) {
             talker.debug('Fcm token refreshed: $fcmToken');
