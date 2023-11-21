@@ -31,6 +31,7 @@ Map<ThemeRef, Object> lightTheme = {};
 
 class MyTheme {
   static const primary = ColorRef(Color(0xFF301934));
+  static const fab = ColorRef(Color(0xEF562D5D));
   static const onPrimary = ColorRef(Color.fromRGBO(245, 245, 245, 1.0));
   static const outline = ColorRef(Color(0xFF696969));
   static const surface = ColorRef(Color.fromRGBO(10, 10, 10, 1.0));
