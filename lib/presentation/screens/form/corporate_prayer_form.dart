@@ -10,15 +10,13 @@ import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/model/group_model.dart';
+import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
-import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/upload_progress_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
-import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
 class CorporatePrayerForm extends HookWidget {
@@ -34,7 +32,7 @@ class CorporatePrayerForm extends HookWidget {
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
     final loading = useState(false);
     final prayers = useState(1);
-    final initialValue = GoRouterState.of(context).extra as Group?;
+    final initialValue = GoRouterState.of(context).extra as CorporatePrayer?;
 
     final onCreate = useCallback(() {
       if (formKey.currentState?.saveAndValidate() == true) {
@@ -79,37 +77,66 @@ class CorporatePrayerForm extends HookWidget {
 
     final onEdit = useCallback(() {
       if (initialValue == null) {
-        GlobalSnackBar.show(context, message: "Failed to edit a group");
+        GlobalSnackBar.show(context,
+            message: "Failed to edit a corporate prayer");
         return;
       }
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
-        talker.debug("Editing a group...");
+        talker.debug("Updating a corporate prayer...");
         final form = formKey.currentState!.value;
         context
-            .read<GroupRepository>()
-            .updateGroup(
-              groupId: initialValue.id,
-              name: form['name'],
+            .read<PrayerRepository>()
+            .updateCorporatePrayer(
+              corporateId: initialValue.id,
+              title: form['title'],
               description: form['description'],
-              banner:
-                  (form['banner'] as String?)?.startsWith('https://') == true
-                      ? null
-                      : form['banner'],
+              prayers: form.entries
+                  .where((element) =>
+                      element.key.startsWith('prayers.') &&
+                      element.value != null)
+                  .map((e) => e.value as String)
+                  .toList(),
+              startedAt: form['startedAt'] == null
+                  ? null
+                  : Jiffy.parse(form['startedAt'], pattern: 'yMMMd').dateTime,
+              endedAt: form['endedAt'] == null
+                  ? null
+                  : Jiffy.parse(form['endedAt'], pattern: 'yMMMd').dateTime,
             )
             .then((value) {
           context.pop(true);
-          talker.good("Successfully edited a group");
+          talker.good("Successfully edited a corporate prayer");
         }).catchError((e) {
           if (e is DioException) {
-            talker.error("Failed to edit a group: ${e.response}");
+            talker.error("Failed to update a corporate prayer: ${e.response}");
+          } else {
+            talker.error("Failed to update a corporate prayer: ${e}");
           }
-          GlobalSnackBar.show(context, message: "Failed to edit a group");
+          GlobalSnackBar.show(context,
+              message: "Failed to update a corporate prayer");
         }).whenComplete(() {
           loading.value = false;
         });
       }
     }, []);
+
+    final handleInitialValue = useCallback((CorporatePrayer prayer) {
+      final data = prayer.toJson();
+      prayer.prayers?.asMap().forEach((index, element) {
+        data['prayers.$index'] = element;
+      });
+      prayers.value = prayer.prayers?.length ?? 1;
+      if (prayer.startedAt != null) {
+        data['startedAt'] =
+            Jiffy.parseFromDateTime(prayer.startedAt!.toLocal()).yMMMd;
+      }
+      if (prayer.endedAt != null) {
+        data['endedAt'] =
+            Jiffy.parseFromDateTime(prayer.endedAt!.toLocal()).yMMMd;
+      }
+      return data;
+    });
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -131,7 +158,8 @@ class CorporatePrayerForm extends HookWidget {
         ),
         body: FormBuilder(
           key: formKey,
-          initialValue: initialValue == null ? {} : initialValue.toJson(),
+          initialValue:
+              initialValue == null ? {} : handleInitialValue(initialValue),
           child: Stack(
             children: [
               const Positioned(
@@ -367,45 +395,6 @@ class CorporatePrayerForm extends HookWidget {
                             ),
                           ),
                         ),
-                        if (initialValue != null) ...[
-                          const Divider(color: MyTheme.disabled),
-                          loading.value
-                              ? PlatformCircularProgressIndicator()
-                              : PrimaryTextButton(
-                                  text: "Delete",
-                                  onTap: () async {
-                                    loading.value = true;
-                                    if (await ConfirmMenuForm.show(
-                                          context,
-                                          title: "Delete a Group",
-                                          subtitle:
-                                              "You cannot undo this action",
-                                          description: [
-                                            "\u{26A0} All group members will be removed automatically.",
-                                            "\u{26A0} Corporate prayers and their associated prayers will be deleted.",
-                                            "\u{26A0} Any prayers posted in this group will be removed.",
-                                          ],
-                                          icon: FontAwesomeIcons.lightTrash,
-                                        ) ==
-                                        true) {
-                                      context
-                                          .read<GroupRepository>()
-                                          .removeGroup(initialValue.id)
-                                          .then((value) {
-                                        Navigator.of(context)
-                                            .popUntil(ModalRoute.withName('/'));
-                                      }).catchError((_) {
-                                        GlobalSnackBar.show(context,
-                                            message:
-                                                "Unable to delete a group");
-                                      }).whenComplete(() {
-                                        loading.value = false;
-                                      });
-                                    }
-                                  },
-                                  backgroundColor: Colors.red,
-                                ),
-                        ],
                       ],
                     ),
                   ),

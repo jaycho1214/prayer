@@ -60,6 +60,25 @@ class PrayerRepository {
     return true;
   }
 
+  Future<bool> updateCorporatePrayer({
+    required String corporateId,
+    required String title,
+    List<String> prayers = const [],
+    String? description,
+    DateTime? startedAt,
+    DateTime? endedAt,
+    void Function(double progress)? onSendProgress,
+  }) async {
+    await dio.put('/v1/prayers/corporate/$corporateId', data: {
+      'title': title,
+      'description': description,
+      'startedAt': startedAt?.toIso8601String(),
+      'endedAt': endedAt?.toIso8601String(),
+      'prayers': prayers.length == 0 ? null : jsonEncode(prayers),
+    });
+    return true;
+  }
+
   Future<bool> deletePrayer({
     required String prayerId,
   }) async {

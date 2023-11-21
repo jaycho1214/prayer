@@ -28,6 +28,44 @@ class CorporatePrayerScreen extends HookWidget {
 
   final String prayerId;
 
+  Jiffy parseFromDateTime(DateTime date) {
+    date = date.toLocal();
+    print(date);
+    return Jiffy.parseFromMap({
+      Unit.year: date.year,
+      Unit.month: date.month,
+      Unit.day: date.day,
+    });
+  }
+
+  String? getProgressText({Jiffy? startedAt, Jiffy? endedAt}) {
+    final now = Jiffy.parseFromMap({
+      Unit.year: Jiffy.now().year,
+      Unit.month: Jiffy.now().month,
+      Unit.day: Jiffy.now().daysInMonth,
+    });
+    if (startedAt == null && endedAt == null) {
+      return null;
+    } else if (startedAt == null) {
+      if (endedAt!.isBefore(now)) {
+        return 'Prayed';
+      }
+      return 'Praying';
+    } else if (endedAt == null) {
+      if (startedAt.isBefore(now)) {
+        return 'Praying';
+      }
+      return 'Preparing';
+    } else {
+      if (now.isBetween(startedAt, endedAt)) {
+        return 'Praying';
+      } else if (startedAt.isAfter(now)) {
+        return 'Preparing';
+      }
+      return 'Prayed';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final refreshKey = useState(0);
@@ -43,33 +81,15 @@ class CorporatePrayerScreen extends HookWidget {
         usePagingController<String?, String>(firstPageKey: null);
     final startedAt = snapshot.data?.startedAt == null
         ? null
-        : Jiffy.parseFromDateTime(snapshot.data!.startedAt!).toLocal();
+        : parseFromDateTime(snapshot.data!.startedAt!);
     final endedAt = snapshot.data?.endedAt == null
         ? null
-        : Jiffy.parseFromDateTime(snapshot.data!.endedAt!).toLocal();
-    final text = useMemoized(() {
-      final now = Jiffy.now().toLocal();
-      if (startedAt == null && endedAt == null) {
-        return null;
-      } else if (startedAt == null) {
-        if (endedAt!.isBefore(now)) {
-          return 'Prayed';
-        }
-        return 'Praying';
-      } else if (endedAt == null) {
-        if (startedAt.isBefore(now)) {
-          return 'Praying';
-        }
-        return 'Preparing';
-      } else {
-        if (now.isBetween(startedAt, endedAt)) {
-          return 'Praying';
-        } else if (startedAt.isAfter(now)) {
-          return 'Preparing';
-        }
-        return 'Prayed';
-      }
-    }, [snapshot.data, startedAt, endedAt]);
+        : parseFromDateTime(snapshot.data!.endedAt!);
+
+    final text = useMemoized(
+        () => getProgressText(startedAt: startedAt, endedAt: endedAt),
+        [snapshot.data, startedAt, endedAt]);
+
     final color = useMemoized(
         () => switch (text) {
               'Preparing' => [MyTheme.disabled, MyTheme.onPrimary],
@@ -88,6 +108,22 @@ class CorporatePrayerScreen extends HookWidget {
           if (snapshot.data?.userId == FirebaseAuth.instance.currentUser?.uid)
             PullDownButton(
                 itemBuilder: (context) => [
+                      PullDownMenuItem(
+                        onTap: () async {
+                          if (snapshot.data != null) {
+                            final resp = await context.push(
+                                Uri(path: '/form/corporate', queryParameters: {
+                                  'groupId': snapshot.data!.groupId,
+                                }).toString(),
+                                extra: snapshot.data);
+                            if (resp == true) {
+                              refreshKey.value += 1;
+                            }
+                          }
+                        },
+                        title: "Edit",
+                        icon: FontAwesomeIcons.penToSquare,
+                      ),
                       PullDownMenuItem(
                         onTap: () async {
                           final response = await ConfirmMenuForm.show(
