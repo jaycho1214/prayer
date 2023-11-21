@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
@@ -73,7 +73,7 @@ class CorporatePrayerScreen extends HookWidget {
   Widget build(BuildContext context) {
     final refreshKey = useState(0);
     final fetchFn = useMemoized(
-        () => context.read<PrayerRepository>().fetchCorporatePrayer(prayerId),
+        () => GetIt.I<PrayerRepository>().fetchCorporatePrayer(prayerId),
         [refreshKey.value]);
     final snapshot = useFuture(
       fetchFn,
@@ -143,8 +143,7 @@ class CorporatePrayerScreen extends HookWidget {
                             icon: FontAwesomeIcons.trash,
                           );
                           if (response == true) {
-                            context
-                                .read<PrayerRepository>()
+                            GetIt.I<PrayerRepository>()
                                 .deleteCorporatePrayer(prayerId: prayerId);
                             context.pop();
                           }
@@ -304,9 +303,8 @@ class CorporatePrayerScreen extends HookWidget {
               ],
               body: PrayersScreen(
                   physics: const NeverScrollableScrollPhysics(),
-                  fetchFn: (cursor) => context
-                      .read<PrayerRepository>()
-                      .fetchPrayersFromCorporatePrayer(
+                  fetchFn: (cursor) => GetIt.I<PrayerRepository>()
+                          .fetchPrayersFromCorporatePrayer(
                         prayerId: prayerId,
                         cursor: cursor,
                       ),
@@ -317,8 +315,7 @@ class CorporatePrayerScreen extends HookWidget {
             FAB(
               onTap: () async {
                 checkingMember.value = true;
-                final data = await context
-                    .read<GroupRepository>()
+                final data = await GetIt.I<GroupRepository>()
                     .fetchGroup(snapshot.data!.groupId);
                 checkingMember.value = false;
                 if (data?.acceptedAt == null) {

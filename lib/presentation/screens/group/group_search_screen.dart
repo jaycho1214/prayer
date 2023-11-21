@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/presentation/widgets/group_card.dart';
@@ -27,13 +27,12 @@ class GroupSearchScreen extends HookWidget {
     useAutomaticKeepAlive();
 
     final requestPage = useCallback((String? cursor) {
-      context
-          .read<GroupRepository>()
+      GetIt.I<GroupRepository>()
           .fetchGroups(
-            query: query,
-            cursor: cursor,
-            userId: uid,
-          )
+        query: query,
+        cursor: cursor,
+        userId: uid,
+      )
           .then((data) {
         final groups = List<String>.from(data['data']);
         final cursor = data['cursor'];

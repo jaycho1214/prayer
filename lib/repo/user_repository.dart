@@ -2,9 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hive/hive.dart';
 import 'package:prayer/constants/dio.dart';
+import 'package:prayer/constants/talker.dart';
+import 'package:prayer/errors.dart';
 import 'package:prayer/model/user_model.dart';
+import 'package:prayer/repo/response_types.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
+enum FollowersType { followings, followers }
 
 class UserRepository {
   Future<PUser?> fetchUser({
@@ -16,9 +21,6 @@ class UserRepository {
         : dio.get('/v1/users/by/username/$username'));
     final user =
         resp.data['data'] == null ? null : PUser.fromJson(resp.data['data']);
-    if (uid == FirebaseAuth.instance.currentUser?.uid) {
-      Hive.box('cache_bloc').put('myProfile', user?.toJson());
-    }
     return user;
   }
 
@@ -31,33 +33,40 @@ class UserRepository {
     });
   }
 
-  Future<Map> fetchFollowers(String uid, {String? cursor}) async {
-    final resp = await dio
-        .get('/v1/users/$uid/followers', queryParameters: {'cursor': cursor});
-    final user = resp.data['data'] == null
-        ? null
-        : List<Map<String, dynamic>>.from(resp.data['data'])
-            .map((e) => PUser.fromJson(e))
-            .toList();
-    return {'users': user, 'cursor': resp.data['cursor']};
-  }
-
-  Future<Map> fetchFollowings(String uid, {String? cursor}) async {
-    final resp = await dio
-        .get('/v1/users/$uid/followings', queryParameters: {'cursor': cursor});
-    final user = resp.data['data'] == null
-        ? null
-        : List<Map<String, dynamic>>.from(resp.data['data'])
-            .map((e) => PUser.fromJson(e))
-            .toList();
-    return {'users': user, 'cursor': resp.data['cursor']};
-  }
-
-  Future<PUser?> fetchUserByUsername(String username) async {
-    final resp = await dio.get('/v1/users/by/username/$username');
-    final user =
-        resp.data['data'] == null ? null : PUser.fromJson(resp.data['data']);
-    return user;
+  Future<PaginationResponse<PUser, String?>> fetchFollowers(String uid,
+      {String? cursor, FollowersType type = FollowersType.followings}) async {
+    try {
+      final resp = await dio.get('/v1/users/$uid/${type.name}',
+          queryParameters: {'cursor': cursor});
+      final user = resp.data['data'] == null
+          ? <PUser>[]
+          : List<Map<String, dynamic>>.from(resp.data['data'])
+              .map((e) => PUser.fromJson(e))
+              .toList();
+      return PaginationResponse<PUser, String?>(
+        items: user,
+        cursor: resp.data['cursor'],
+        error: null,
+      );
+    } on DioException catch (e) {
+      String? errorMessage;
+      if (e.response?.data['message'] != null) {
+        errorMessage = e.response?.data['message'];
+      } else {
+        errorMessage = 'Unknown Error Occured';
+      }
+      return PaginationResponse<PUser, String?>(
+        items: null,
+        cursor: null,
+        error: errorMessage,
+      );
+    } catch (e) {
+      return PaginationResponse<PUser, String?>(
+        items: null,
+        cursor: null,
+        error: e.toString(),
+      );
+    }
   }
 
   Future<PUser?> createUser({
@@ -65,20 +74,28 @@ class UserRepository {
     required String name,
     String? bio,
   }) async {
-    final resp = await dio.post(
-      '/v1/users',
-      data: {
-        'username': username,
-        'email': FirebaseAuth.instance.currentUser!.email,
-        'name': name,
-        'bio': bio
-      },
-      options: Options(contentType: Headers.formUrlEncodedContentType),
-    );
-    if (resp.data['message'] != null) {
-      throw resp.data['message'];
+    try {
+      await dio.post(
+        '/v1/users',
+        data: {
+          'username': username,
+          'email': FirebaseAuth.instance.currentUser!.email,
+          'name': name,
+          'bio': bio
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType),
+      );
+      return fetchUser(uid: FirebaseAuth.instance.currentUser!.uid);
+    } on DioException catch (err, stackTrace) {
+      if (err.response?.data['code'] == 'username-already-exists') {
+        throw DuplicatedUsernameException();
+      }
+      Sentry.captureException(err, stackTrace: stackTrace);
+      rethrow;
+    } catch (err, stackTrace) {
+      Sentry.captureException(err, stackTrace: stackTrace);
+      rethrow;
     }
-    return fetchUser(uid: FirebaseAuth.instance.currentUser!.uid);
   }
 
   Future<String> fetchUploadLinkAndUpload(
@@ -168,19 +185,36 @@ class UserRepository {
     return resp.data['data'];
   }
 
-  Future<List<String>> fetchUserGroups(String uid) async {
-    final resp = await dio.get('/v1/users/$uid/groups');
-    if (resp.data['message'] != null) {
-      throw resp.data['message'];
+  Future<PaginationResponse<PUser, String?>> fetchUsers(
+      {String? query, String? cursor}) async {
+    try {
+      final resp = await dio.get('/v1/users', queryParameters: {
+        'query': query,
+        'cursor': cursor,
+      });
+      return PaginationResponse<PUser, String?>(
+        items: resp.data['data'] != null
+            ? List<Map<String, Object?>>.from(resp.data['data'])
+                .map((e) => PUser.fromJson(e))
+                .toList()
+            : <PUser>[],
+        cursor: resp.data['cursor'],
+        error: null,
+      );
+    } on DioException catch (e) {
+      talker.error(e);
+      return PaginationResponse<PUser, String?>(
+        items: null,
+        cursor: null,
+        error: e.response?.data['message'] ?? e.toString(),
+      );
+    } catch (e) {
+      talker.error(e);
+      return PaginationResponse<PUser, String?>(
+        items: null,
+        cursor: null,
+        error: e.toString(),
+      );
     }
-    return List<String>.from(resp.data['data']);
-  }
-
-  Future<Map> fetchUsers({String? query, String? cursor}) async {
-    final resp = await dio.get('/v1/users', queryParameters: {
-      'query': query,
-      'cursor': cursor,
-    });
-    return resp.data;
   }
 }

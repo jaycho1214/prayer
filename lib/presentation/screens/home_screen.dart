@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -79,14 +79,12 @@ class HomeScreen extends HookWidget {
                 body: TabBarView(
                   children: [
                     PrayersScreen(
-                      fetchFn: (cursor) => context
-                          .read<PrayerRepository>()
+                      fetchFn: (cursor) => GetIt.I<PrayerRepository>()
                           .fetchHomeFeed(cursor: cursor),
                       pagingController: homePagingController,
                     ),
                     PrayersScreen(
-                      fetchFn: (cursor) => context
-                          .read<PrayerRepository>()
+                      fetchFn: (cursor) => GetIt.I<PrayerRepository>()
                           .fetchGroupPrayersFromUser(cursor: cursor),
                       pagingController: groupPagingController,
                     ),

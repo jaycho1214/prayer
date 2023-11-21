@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/presentation/widgets/group_card.dart';
+import 'package:prayer/repo/response_types.dart';
 
 class GroupsScreen extends HookWidget {
   const GroupsScreen({
@@ -14,7 +15,8 @@ class GroupsScreen extends HookWidget {
     this.physics,
   });
 
-  final Future<Map<dynamic, dynamic>> Function(String? cursor)? fetchFn;
+  final Future<PaginationResponse<String, String?>> Function(String? cursor)?
+      fetchFn;
   final ScrollController? scrollController;
   final PagingController<String?, String> pagingController;
   final ScrollPhysics? physics;
@@ -28,8 +30,8 @@ class GroupsScreen extends HookWidget {
         return;
       }
       fetchFn!(cursor).then((data) {
-        final groups = List<String>.from(data['data']);
-        final cursor = data['cursor'];
+        final groups = data.items ?? [];
+        final cursor = data.cursor;
         if (cursor == null) {
           pagingController.appendLastPage(groups);
         } else {

@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
@@ -36,7 +36,7 @@ class PrayerScreen extends HookWidget {
   Widget build(BuildContext context) {
     final refreshKey = useState(0);
     final snapshot = useFuture(
-      useMemoized(() => context.read<PrayerRepository>().fetchPrayer(prayerId),
+      useMemoized(() => GetIt.I<PrayerRepository>().fetchPrayer(prayerId),
           [refreshKey.value]),
       initialData: Prayer.placeholder,
     );
@@ -161,8 +161,7 @@ class PrayerScreen extends HookWidget {
                                     itemBuilder: (context) => [
                                           PullDownMenuItem(
                                             onTap: () {
-                                              context
-                                                  .read<PrayerRepository>()
+                                              GetIt.I<PrayerRepository>()
                                                   .deletePrayer(
                                                       prayerId: prayerId);
                                               context.pop('deleted');
@@ -261,12 +260,11 @@ class PraysScreen extends HookWidget {
     useAutomaticKeepAlive();
 
     final requestPage = useCallback((int? cursor) {
-      context
-          .read<PrayerRepository>()
+      GetIt.I<PrayerRepository>()
           .fetchPrayerPrays(
-            prayerId: prayerId,
-            cursor: cursor,
-          )
+        prayerId: prayerId,
+        cursor: cursor,
+      )
           .then((data) {
         final d = data['prays'] as List<PrayerPray>;
         final cursor = data['cursor'];
@@ -305,8 +303,7 @@ class PraysScreen extends HookWidget {
               ),
               MenuAction(
                 callback: () async {
-                  await context
-                      .read<PrayerRepository>()
+                  await GetIt.I<PrayerRepository>()
                       .deletePrayerPray(prayerId: prayerId, prayId: item.id)
                       .then((value) {
                     if (value) {

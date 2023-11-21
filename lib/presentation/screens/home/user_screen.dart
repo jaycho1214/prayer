@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/bloc/auth/authentication_bloc.dart';
-import 'package:prayer/bloc/auth/authentication_event.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/user_model.dart';
@@ -15,39 +14,35 @@ import 'package:prayer/presentation/widgets/button/follow_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
+import 'package:prayer/providers/user/user_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
-import 'package:prayer/repo/user_repository.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class UserScreen extends HookWidget {
+class UserScreen extends HookConsumerWidget {
   const UserScreen({
     super.key,
     this.uid,
     this.username,
     this.canPop = true,
-  });
+  }) : assert(uid == null || username == null);
 
   final String? uid;
   final String? username;
   final bool canPop;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final reloadKey = useState(0);
-    final fetchUserFn = useMemoized(
-        () => context.read<UserRepository>().fetchUser(
-              uid: uid ??
-                  (username != null
-                      ? null
-                      : FirebaseAuth.instance.currentUser!.uid),
-              username: username,
-            ),
-        [uid, username, reloadKey.value]);
-    final user = useFuture<PUser?>(
-      fetchUserFn,
-      preserveState: false,
-      initialData: PUser.placeholder,
+    final userValue = ref.watch(userProvider(
+      uid: uid ??
+          (username != null ? null : FirebaseAuth.instance.currentUser!.uid),
+      username: username,
+    ));
+    final user = userValue.when(
+      data: (value) => value,
+      error: (_, __) => PUser.placeholder,
+      loading: () => PUser.placeholder,
     );
     final prayerPagingController =
         usePagingController<String?, String>(firstPageKey: null);
@@ -61,18 +56,14 @@ class UserScreen extends HookWidget {
       child: RefreshIndicator(
         notificationPredicate: (notification) => notification.depth == 2,
         onRefresh: () async {
-          if ((uid ?? FirebaseAuth.instance.currentUser!.uid) ==
-              FirebaseAuth.instance.currentUser!.uid) {
-            context
-                .read<AuthenticationBloc>()
-                .add(AuthenticationEvent.refresh());
-          }
           prayerPagingController.refresh();
           groupPagingController.refresh();
           prayPagingController.refresh();
           reloadKey.value = reloadKey.value + 1;
-          await Future.wait([fetchUserFn]);
-          return;
+          return ref.refresh(userProvider(
+            uid: uid,
+            username: username,
+          ).future);
         },
         child: Container(
           color: MyTheme.surface,
@@ -90,7 +81,7 @@ class UserScreen extends HookWidget {
                     flexibleSpace: FlexibleSpaceBar(
                       stretchModes: [StretchMode.blurBackground],
                       background: UserBannerImage(
-                        banner: user.data?.banner,
+                        banner: user?.banner,
                       ),
                     ),
                   ),
@@ -99,9 +90,7 @@ class UserScreen extends HookWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 0),
                       child: Skeletonizer(
-                        enabled:
-                            user.connectionState == ConnectionState.waiting ||
-                                user.data == null,
+                        enabled: userValue.isLoading,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -115,39 +104,39 @@ class UserScreen extends HookWidget {
                                   ),
                                   padding: const EdgeInsets.all(5),
                                   child: UserProfileImage(
-                                    profile: user.data?.profile,
+                                    profile: user?.profile,
                                     size: 60,
                                   ),
                                 ),
                                 Spacer(),
-                                if (user.data?.uid !=
+                                if (user?.uid !=
                                     FirebaseAuth.instance.currentUser?.uid)
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: FollowButton(
-                                      key: ObjectKey(user.data),
-                                      uid: user.data?.uid,
-                                      followedAt: user.data?.followedAt,
+                                      key: ObjectKey(user),
+                                      uid: user?.uid,
+                                      followedAt: user?.followedAt,
                                     ),
                                   )
                               ],
                             ),
                             Text(
-                              user.data?.name ?? '',
+                              user?.name ?? '',
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w900),
                             ),
                             Text(
-                              '@${user.data?.username}',
+                              '@${user?.username}',
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: MyTheme.disabled,
                               ),
                             ),
-                            if ((user.data?.bio ?? '') != '') ...[
+                            if ((user?.bio ?? '') != '') ...[
                               const SizedBox(height: 10),
                               Text(
-                                user.data?.bio ?? '',
+                                user?.bio ?? '',
                                 style: const TextStyle(
                                   fontSize: 13,
                                   color: MyTheme.onPrimary,
@@ -157,16 +146,15 @@ class UserScreen extends HookWidget {
                             const SizedBox(height: 10),
                             ShrinkingButton(
                               onTap: () {
-                                if (user.data?.uid != null) {
-                                  context
-                                      .push('/users/${user.data!.uid}/follows');
+                                if (user?.uid != null) {
+                                  context.push('/users/${user!.uid}/follows');
                                 }
                               },
                               child: Row(
                                 children: [
                                   Row(
                                     children: [
-                                      Text("${user.data?.followersCount ?? 0}"),
+                                      Text("${user?.followersCount ?? 0}"),
                                       const SizedBox(width: 5),
                                       Text(
                                         "followers",
@@ -178,8 +166,7 @@ class UserScreen extends HookWidget {
                                   const SizedBox(width: 10),
                                   Row(
                                     children: [
-                                      Text(
-                                          "${user.data?.followingsCount ?? 0}"),
+                                      Text("${user?.followingsCount ?? 0}"),
                                       const SizedBox(width: 5),
                                       Text(
                                         "followings",
@@ -204,39 +191,36 @@ class UserScreen extends HookWidget {
                     ),
                   ),
                 ],
-                body: user.data?.uid == null || user.data?.uid == ''
+                body: user?.uid == null || user?.uid == ''
                     ? const SizedBox()
                     : TabBarView(
                         children: [
                           PrayersScreen(
                             physics: const NeverScrollableScrollPhysics(),
                             pagingController: prayerPagingController,
-                            fetchFn: (cursor) => context
-                                .read<PrayerRepository>()
-                                .fetchUserPrayers(
-                                  userId: user.data!.uid,
-                                  cursor: cursor,
-                                ),
+                            fetchFn: (cursor) =>
+                                GetIt.I<PrayerRepository>().fetchUserPrayers(
+                              userId: user!.uid,
+                              cursor: cursor,
+                            ),
                           ),
                           GroupsScreen(
                             physics: const NeverScrollableScrollPhysics(),
                             pagingController: groupPagingController,
-                            fetchFn: (cursor) => context
-                                .read<GroupRepository>()
-                                .fetchGroupsByUser(
-                                  uid: user.data!.uid,
-                                  cursor: cursor,
-                                ),
+                            fetchFn: (cursor) =>
+                                GetIt.I<GroupRepository>().fetchGroupsByUser(
+                              uid: user!.uid,
+                              cursor: cursor,
+                            ),
                           ),
                           PrayersScreen(
                             physics: const NeverScrollableScrollPhysics(),
                             pagingController: prayPagingController,
-                            fetchFn: (cursor) => context
-                                .read<PrayerRepository>()
+                            fetchFn: (cursor) => GetIt.I<PrayerRepository>()
                                 .fetchPrayerPrayedByUser(
-                                  userId: user.data!.uid,
-                                  cursor: cursor,
-                                ),
+                              userId: user!.uid,
+                              cursor: cursor,
+                            ),
                           ),
                         ],
                       ),
@@ -263,7 +247,7 @@ class UserScreen extends HookWidget {
                     ),
                   ),
                 ),
-              if (user.data?.uid == FirebaseAuth.instance.currentUser?.uid)
+              if (user?.uid == FirebaseAuth.instance.currentUser?.uid)
                 Positioned(
                   top: MediaQuery.of(context).padding.top + 10,
                   right: 20,

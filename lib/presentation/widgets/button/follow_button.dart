@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
@@ -31,8 +31,7 @@ class FollowButton extends HookWidget {
         if (uid == null) {
           return;
         }
-        context
-            .read<UserRepository>()
+        GetIt.I<UserRepository>()
             .followUser(uid: uid!, value: _followedAt.value == null)
             .then((value) {
           _followedAt.value = _followedAt.value == null ? DateTime.now() : null;

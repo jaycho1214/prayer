@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:prayer/bloc/auth/authentication_bloc.dart';
-import 'package:prayer/bloc/auth/authentication_state.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -19,9 +18,11 @@ import 'package:prayer/presentation/widgets/form/prayer_group_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
+import 'package:prayer/providers/auth/auth_provider.dart';
+import 'package:prayer/providers/auth/auth_state.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
-class PrayerFormScreen extends HookWidget {
+class PrayerFormScreen extends HookConsumerWidget {
   const PrayerFormScreen({
     super.key,
     this.groupId,
@@ -32,11 +33,11 @@ class PrayerFormScreen extends HookWidget {
   final String? corporateId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
-    final user = (context.read<AuthenticationBloc>().state
-            as AuthenticationStateSignedUp)
-        .user;
+    final user =
+        (ref.watch(authNotifierProvider).requireValue as AuthStateSignedUp)
+            .user;
     final anon = useState(false);
     final loading = useState(false);
     final _groupId = useState<String?>(groupId);
@@ -46,15 +47,14 @@ class PrayerFormScreen extends HookWidget {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
         final form = formKey.currentState!.value;
-        context
-            .read<PrayerRepository>()
+        GetIt.I<PrayerRepository>()
             .createPrayer(
-              value: form['value'],
-              groupId: form['groupId'],
-              corporateId: form['corporateId'],
-              anon: anon.value,
-              media: media.value,
-            )
+          value: form['value'],
+          groupId: form['groupId'],
+          corporateId: form['corporateId'],
+          anon: anon.value,
+          media: media.value,
+        )
             .then((value) {
           talker.good('Prayer posted: $value');
           Navigator.of(context).pop(true);

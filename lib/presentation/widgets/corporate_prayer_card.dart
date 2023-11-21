@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
@@ -25,7 +25,7 @@ class CorporatePrayerCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final prayerSnapshot = useFuture(useMemoized(
-        () => context.read<PrayerRepository>().fetchCorporatePrayer(prayerId)));
+        () => GetIt.I<PrayerRepository>().fetchCorporatePrayer(prayerId)));
 
     return Skeletonizer(
       enabled: prayerSnapshot.connectionState == ConnectionState.waiting,

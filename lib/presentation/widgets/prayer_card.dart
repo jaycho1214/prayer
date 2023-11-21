@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/chip/pray_chip.dart';
@@ -25,8 +25,8 @@ class PrayerCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final snapshot = useFuture(useMemoized(
-        () => context.read<PrayerRepository>().fetchPrayer(prayerId)));
+    final snapshot = useFuture(
+        useMemoized(() => GetIt.I<PrayerRepository>().fetchPrayer(prayerId)));
 
     return Skeletonizer(
       enabled: snapshot.connectionState == ConnectionState.waiting,
