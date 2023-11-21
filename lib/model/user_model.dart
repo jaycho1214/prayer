@@ -22,6 +22,8 @@ sealed class PUser with _$PUser {
     @JsonKey(name: 'followed_at') DateTime? followedAt,
     @Default(0) @JsonKey(name: 'followings_count') int followingsCount,
     @Default(0) @JsonKey(name: 'followers_count') int followersCount,
+    @Default(0) @JsonKey(name: 'prayers_count') int prayersCount,
+    @Default(0) @JsonKey(name: 'prays_count') int praysCount,
   }) = _PUser;
 
   static PUser get placeholder => PUser(

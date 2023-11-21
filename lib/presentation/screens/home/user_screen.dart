@@ -17,6 +17,7 @@ import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/user/user_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
+import 'package:prayer/utils/formatter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class UserScreen extends HookConsumerWidget {
@@ -144,6 +145,34 @@ class UserScreen extends HookConsumerWidget {
                               ),
                             ],
                             const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                        "${Formatter.formatNumber(user?.praysCount ?? 0)}"),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "prays",
+                                      style: TextStyle(color: MyTheme.outline),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(width: 10),
+                                Row(
+                                  children: [
+                                    Text(
+                                        "${Formatter.formatNumber(user?.prayersCount ?? 0)}"),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      "prayers",
+                                      style: TextStyle(color: MyTheme.outline),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
                             ShrinkingButton(
                               onTap: () {
                                 if (user?.uid != null) {
@@ -154,7 +183,8 @@ class UserScreen extends HookConsumerWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text("${user?.followersCount ?? 0}"),
+                                      Text(
+                                          "${Formatter.formatNumber(user?.followersCount ?? 0)}"),
                                       const SizedBox(width: 5),
                                       Text(
                                         "followers",
@@ -166,7 +196,8 @@ class UserScreen extends HookConsumerWidget {
                                   const SizedBox(width: 10),
                                   Row(
                                     children: [
-                                      Text("${user?.followingsCount ?? 0}"),
+                                      Text(
+                                          "${Formatter.formatNumber(user?.followingsCount ?? 0)}"),
                                       const SizedBox(width: 5),
                                       Text(
                                         "followings",

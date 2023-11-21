@@ -37,6 +37,10 @@ mixin _$PUser {
   int get followingsCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'followers_count')
   int get followersCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prayers_count')
+  int get prayersCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prays_count')
+  int get praysCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +64,9 @@ abstract class $PUserCopyWith<$Res> {
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       @JsonKey(name: 'followed_at') DateTime? followedAt,
       @JsonKey(name: 'followings_count') int followingsCount,
-      @JsonKey(name: 'followers_count') int followersCount});
+      @JsonKey(name: 'followers_count') int followersCount,
+      @JsonKey(name: 'prayers_count') int prayersCount,
+      @JsonKey(name: 'prays_count') int praysCount});
 }
 
 /// @nodoc
@@ -88,6 +94,8 @@ class _$PUserCopyWithImpl<$Res, $Val extends PUser>
     Object? followedAt = freezed,
     Object? followingsCount = null,
     Object? followersCount = null,
+    Object? prayersCount = null,
+    Object? praysCount = null,
   }) {
     return _then(_value.copyWith(
       uid: null == uid
@@ -138,6 +146,14 @@ class _$PUserCopyWithImpl<$Res, $Val extends PUser>
           ? _value.followersCount
           : followersCount // ignore: cast_nullable_to_non_nullable
               as int,
+      prayersCount: null == prayersCount
+          ? _value.prayersCount
+          : prayersCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      praysCount: null == praysCount
+          ? _value.praysCount
+          : praysCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -161,7 +177,9 @@ abstract class _$$PUserImplCopyWith<$Res> implements $PUserCopyWith<$Res> {
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       @JsonKey(name: 'followed_at') DateTime? followedAt,
       @JsonKey(name: 'followings_count') int followingsCount,
-      @JsonKey(name: 'followers_count') int followersCount});
+      @JsonKey(name: 'followers_count') int followersCount,
+      @JsonKey(name: 'prayers_count') int prayersCount,
+      @JsonKey(name: 'prays_count') int praysCount});
 }
 
 /// @nodoc
@@ -187,6 +205,8 @@ class __$$PUserImplCopyWithImpl<$Res>
     Object? followedAt = freezed,
     Object? followingsCount = null,
     Object? followersCount = null,
+    Object? prayersCount = null,
+    Object? praysCount = null,
   }) {
     return _then(_$PUserImpl(
       uid: null == uid
@@ -237,6 +257,14 @@ class __$$PUserImplCopyWithImpl<$Res>
           ? _value.followersCount
           : followersCount // ignore: cast_nullable_to_non_nullable
               as int,
+      prayersCount: null == prayersCount
+          ? _value.prayersCount
+          : prayersCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      praysCount: null == praysCount
+          ? _value.praysCount
+          : praysCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -256,7 +284,9 @@ class _$PUserImpl extends _PUser {
       @JsonKey(name: 'updated_at') this.updatedAt,
       @JsonKey(name: 'followed_at') this.followedAt,
       @JsonKey(name: 'followings_count') this.followingsCount = 0,
-      @JsonKey(name: 'followers_count') this.followersCount = 0})
+      @JsonKey(name: 'followers_count') this.followersCount = 0,
+      @JsonKey(name: 'prayers_count') this.prayersCount = 0,
+      @JsonKey(name: 'prays_count') this.praysCount = 0})
       : super._();
 
   factory _$PUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -291,10 +321,16 @@ class _$PUserImpl extends _PUser {
   @override
   @JsonKey(name: 'followers_count')
   final int followersCount;
+  @override
+  @JsonKey(name: 'prayers_count')
+  final int prayersCount;
+  @override
+  @JsonKey(name: 'prays_count')
+  final int praysCount;
 
   @override
   String toString() {
-    return 'PUser(uid: $uid, email: $email, username: $username, name: $name, bio: $bio, profile: $profile, banner: $banner, createdAt: $createdAt, updatedAt: $updatedAt, followedAt: $followedAt, followingsCount: $followingsCount, followersCount: $followersCount)';
+    return 'PUser(uid: $uid, email: $email, username: $username, name: $name, bio: $bio, profile: $profile, banner: $banner, createdAt: $createdAt, updatedAt: $updatedAt, followedAt: $followedAt, followingsCount: $followingsCount, followersCount: $followersCount, prayersCount: $prayersCount, praysCount: $praysCount)';
   }
 
   @override
@@ -319,7 +355,11 @@ class _$PUserImpl extends _PUser {
             (identical(other.followingsCount, followingsCount) ||
                 other.followingsCount == followingsCount) &&
             (identical(other.followersCount, followersCount) ||
-                other.followersCount == followersCount));
+                other.followersCount == followersCount) &&
+            (identical(other.prayersCount, prayersCount) ||
+                other.prayersCount == prayersCount) &&
+            (identical(other.praysCount, praysCount) ||
+                other.praysCount == praysCount));
   }
 
   @JsonKey(ignore: true)
@@ -337,7 +377,9 @@ class _$PUserImpl extends _PUser {
       updatedAt,
       followedAt,
       followingsCount,
-      followersCount);
+      followersCount,
+      prayersCount,
+      praysCount);
 
   @JsonKey(ignore: true)
   @override
@@ -355,19 +397,20 @@ class _$PUserImpl extends _PUser {
 
 abstract class _PUser extends PUser {
   const factory _PUser(
-          {required final String uid,
-          final String? email,
-          required final String username,
-          required final String name,
-          final String? bio,
-          final String? profile,
-          final String? banner,
-          @JsonKey(name: 'created_at') final DateTime? createdAt,
-          @JsonKey(name: 'updated_at') final DateTime? updatedAt,
-          @JsonKey(name: 'followed_at') final DateTime? followedAt,
-          @JsonKey(name: 'followings_count') final int followingsCount,
-          @JsonKey(name: 'followers_count') final int followersCount}) =
-      _$PUserImpl;
+      {required final String uid,
+      final String? email,
+      required final String username,
+      required final String name,
+      final String? bio,
+      final String? profile,
+      final String? banner,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+      @JsonKey(name: 'followed_at') final DateTime? followedAt,
+      @JsonKey(name: 'followings_count') final int followingsCount,
+      @JsonKey(name: 'followers_count') final int followersCount,
+      @JsonKey(name: 'prayers_count') final int prayersCount,
+      @JsonKey(name: 'prays_count') final int praysCount}) = _$PUserImpl;
   const _PUser._() : super._();
 
   factory _PUser.fromJson(Map<String, dynamic> json) = _$PUserImpl.fromJson;
@@ -401,6 +444,12 @@ abstract class _PUser extends PUser {
   @override
   @JsonKey(name: 'followers_count')
   int get followersCount;
+  @override
+  @JsonKey(name: 'prayers_count')
+  int get prayersCount;
+  @override
+  @JsonKey(name: 'prays_count')
+  int get praysCount;
   @override
   @JsonKey(ignore: true)
   _$$PUserImplCopyWith<_$PUserImpl> get copyWith =>
