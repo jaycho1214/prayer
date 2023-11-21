@@ -34,12 +34,12 @@ class MyTheme {
   static const fab = ColorRef(Color(0xEF562D5D));
   static const onPrimary = ColorRef(Color.fromRGBO(245, 245, 245, 1.0));
   static const outline = ColorRef(Color(0xFF696969));
-  static const surface = ColorRef(Color.fromRGBO(10, 10, 10, 1.0));
+  static const surface = ColorRef(Color.fromRGBO(15, 15, 15, 1.0));
   static const surfaceContainer = ColorRef(Color(0xFF301934));
   static const surfaceDim = ColorRef(Color(0xFF241320));
   static const inverseSurface = ColorRef(Color(0xFF2A3439));
 
-  static const sheetSurface = ColorRef(Color(0xFF050505));
+  static const sheetSurface = ColorRef(Color(0xFF000000));
   static const sheetSurfaceContainer = ColorRef(Color(0xFF1c1c1c));
 
   static const error = ColorRef(Colors.red);
