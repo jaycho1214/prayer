@@ -117,6 +117,7 @@ class AppRouter {
             path: 'form/prayer',
             builder: (context, state) => PrayerFormScreen(
               groupId: state.uri.queryParameters['groupId'],
+              corporateId: state.uri.queryParameters['corporateId'],
             ),
           ),
 

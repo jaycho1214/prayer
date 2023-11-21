@@ -60,6 +60,14 @@ class CorporatePrayerFormInner extends HookWidget {
     final snapshot =
         useFuture(fetchFn, initialData: CorporatePrayer.placeholder);
 
+    useEffect(() {
+      if (snapshot.connectionState == ConnectionState.done &&
+          snapshot.data == null) {
+        onChange?.call(null);
+      }
+      return () => null;
+    }, [snapshot]);
+
     return Skeletonizer(
       enabled: snapshot.connectionState == ConnectionState.waiting,
       child: ShrinkingButton(
