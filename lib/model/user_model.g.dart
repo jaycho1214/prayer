@@ -25,6 +25,8 @@ _$PUserImpl _$$PUserImplFromJson(Map<String, dynamic> json) => _$PUserImpl(
           : DateTime.parse(json['followed_at'] as String),
       followingsCount: json['followings_count'] as int? ?? 0,
       followersCount: json['followers_count'] as int? ?? 0,
+      prayersCount: json['prayers_count'] as int? ?? 0,
+      praysCount: json['prays_count'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$PUserImplToJson(_$PUserImpl instance) =>
@@ -41,4 +43,6 @@ Map<String, dynamic> _$$PUserImplToJson(_$PUserImpl instance) =>
       'followed_at': instance.followedAt?.toIso8601String(),
       'followings_count': instance.followingsCount,
       'followers_count': instance.followersCount,
+      'prayers_count': instance.prayersCount,
+      'prays_count': instance.praysCount,
     };
