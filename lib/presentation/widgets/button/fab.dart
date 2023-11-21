@@ -25,7 +25,7 @@ class FAB extends StatelessWidget {
           width: 63,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: MyTheme.primary,
+            color: MyTheme.fab,
             shape: BoxShape.circle,
           ),
           child: Center(
