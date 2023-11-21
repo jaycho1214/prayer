@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/errors.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
@@ -67,6 +68,12 @@ class JoinButton extends HookConsumerWidget {
           }
         }
         notifier.join(value != GroupJoinState.joined).catchError((e) {
+          if (e is AdminLeaveGroupException) {
+            return GlobalSnackBar.show(
+              context,
+              message: "Admin cannot leave the group",
+            );
+          }
           GlobalSnackBar.show(
             context,
             message:
