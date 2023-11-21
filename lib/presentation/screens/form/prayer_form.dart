@@ -25,9 +25,11 @@ class PrayerFormScreen extends HookWidget {
   const PrayerFormScreen({
     super.key,
     this.groupId,
+    this.corporateId,
   });
 
   final String? groupId;
+  final String? corporateId;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +91,7 @@ class PrayerFormScreen extends HookWidget {
 
     return FormBuilder(
       key: formKey,
-      initialValue: {'groupId': _groupId.value},
+      initialValue: {'groupId': _groupId.value, 'corporateId': corporateId},
       child: Stack(
         children: [
           PlatformScaffold(
