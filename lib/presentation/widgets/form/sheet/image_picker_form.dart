@@ -24,6 +24,7 @@ class ImagePickerForm extends StatelessWidget {
     showModalBottomSheet(
       backgroundColor: MyTheme.sheetSurface,
       context: context,
+      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => ImagePickerForm(
         onTap: onTap,
         initialValue: initialValue,

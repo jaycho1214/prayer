@@ -22,6 +22,8 @@ class CorporatePrayerPicker extends HookWidget {
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
+      backgroundColor: MyTheme.sheetSurface,
+      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => CorporatePrayerPicker(
         groupId: groupId,
       ),
