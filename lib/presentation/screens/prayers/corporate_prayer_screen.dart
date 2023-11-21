@@ -6,6 +6,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -18,12 +19,12 @@ import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
 import 'package:prayer/presentation/widgets/sheets/corporate_prayer_duration.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
-import 'package:prayer/repo/group_repository.dart';
+import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class CorporatePrayerScreen extends HookWidget {
+class CorporatePrayerScreen extends HookConsumerWidget {
   const CorporatePrayerScreen({
     super.key,
     required this.prayerId,
@@ -70,7 +71,7 @@ class CorporatePrayerScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final refreshKey = useState(0);
     final fetchFn = useMemoized(
         () => GetIt.I<PrayerRepository>().fetchCorporatePrayer(prayerId),
@@ -315,13 +316,20 @@ class CorporatePrayerScreen extends HookWidget {
             FAB(
               onTap: () async {
                 checkingMember.value = true;
-                final data = await GetIt.I<GroupRepository>()
-                    .fetchGroup(snapshot.data!.groupId);
-                checkingMember.value = false;
-                if (data?.acceptedAt == null) {
-                  return GlobalSnackBar.show(context,
-                      message: "You have to be a member of the group");
-                }
+                ref
+                    .read(GroupNotifierProvider(snapshot.data!.groupId))
+                    .whenData((value) {
+                  checkingMember.value = false;
+                  if (value == null) {
+                    GlobalSnackBar.show(context,
+                        message: "Unknown error occured");
+                    return;
+                  } else if (value.acceptedAt == null) {
+                    GlobalSnackBar.show(context,
+                        message: "You have to be a member of the group");
+                    return;
+                  }
+                });
                 final resp =
                     context.push(Uri(path: '/form/prayer', queryParameters: {
                   'groupId': snapshot.data!.groupId,
