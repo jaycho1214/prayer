@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:prayer/constants/dio.dart';
+import 'package:prayer/errors.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/repo/response_types.dart';
@@ -113,12 +114,21 @@ class GroupRepository {
     required String groupId,
     required bool value,
   }) async {
-    final resp = await dio
-        .post('/v1/groups/$groupId/join', data: {'value': value.toString()});
-    if (value) {
-      return resp.data['data'];
+    try {
+      final resp = await dio
+          .post('/v1/groups/$groupId/join', data: {'value': value.toString()});
+      if (value) {
+        return resp.data['data'];
+      }
+      return null;
+    } on DioException catch (err) {
+      if (err.response?.data['code'] == 'operation-not-allowed') {
+        throw AdminLeaveGroupException();
+      }
+      rethrow;
+    } catch (err) {
+      rethrow;
     }
-    return null;
   }
 
   Future<Map> fetchGroupMembers({
