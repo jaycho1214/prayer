@@ -13,7 +13,9 @@ import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/button/fab.dart';
 import 'package:prayer/presentation/widgets/button/join_button.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
+import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
+import 'package:prayer/presentation/widgets/sheets/group_information_sheet.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/group/group_provider.dart';
@@ -53,7 +55,22 @@ class GroupScreen extends HookConsumerWidget {
       backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
         backgroundColor: MyTheme.surface,
-        title: Text("Group"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Group"),
+            const SizedBox(width: 10),
+            PrimaryTextButton(
+                onTap: () {
+                  GroupInformationSheet.show(context, groupId);
+                },
+                text: switch (group.membershipType) {
+                  'restricted' => 'Restricted',
+                  'private' => 'Private',
+                  _ => 'Open',
+                }),
+          ],
+        ),
         leading: NavigateBackButton(),
         trailingActions: [
           Center(
