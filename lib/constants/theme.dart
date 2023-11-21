@@ -39,7 +39,7 @@ class MyTheme {
   static const surfaceDim = ColorRef(Color(0xFF241320));
   static const inverseSurface = ColorRef(Color(0xFF2A3439));
 
-  static const sheetSurface = ColorRef(Color(0xFF121212));
+  static const sheetSurface = ColorRef(Color(0xFF000000));
   static const sheetSurfaceContainer = ColorRef(Color(0xFF1c1c1c));
 
   static const error = ColorRef(Colors.red);

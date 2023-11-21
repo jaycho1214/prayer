@@ -15,6 +15,8 @@ class GroupPicker extends HookWidget {
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
+      backgroundColor: MyTheme.sheetSurface,
+      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => GroupPicker(),
     );
   }
@@ -27,48 +29,54 @@ class GroupPicker extends HookWidget {
       snap: true,
       snapSizes: [0.5, 1],
       expand: false,
-      builder: (context, scrollController) => Column(
-        children: [
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ShrinkingButton(
-              onTap: () => Navigator.of(context).pop(null),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: MyTheme.primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.globe,
-                      color: MyTheme.onPrimary,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Community",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+      builder: (context, scrollController) => Container(
+        decoration: BoxDecoration(
+          color: MyTheme.sheetSurface,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ShrinkingButton(
+                onTap: () => Navigator.of(context).pop(null),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: MyTheme.primary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.globe,
+                        color: MyTheme.onPrimary,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Text(
+                        "Community",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: GroupSearchScreen(
-              pagingController: pagingController,
-              uid: FirebaseAuth.instance.currentUser!.uid,
-              scrollController: scrollController,
-              onTap: (item) => Navigator.of(context).pop(item),
+            const SizedBox(height: 20),
+            Expanded(
+              child: GroupSearchScreen(
+                pagingController: pagingController,
+                uid: FirebaseAuth.instance.currentUser!.uid,
+                scrollController: scrollController,
+                onTap: (item) => Navigator.of(context).pop(item),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

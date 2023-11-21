@@ -28,7 +28,7 @@ class CorporatePrayerDuration extends StatelessWidget {
         elevation: 0,
         context: context,
         backgroundColor: Colors.transparent,
-        barrierColor: Colors.transparent,
+        barrierColor: Colors.white.withAlpha(15),
         builder: (context) {
           return CorporatePrayerDuration(
             status: status,

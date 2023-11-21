@@ -18,7 +18,7 @@ class PrayWithWordForm extends HookWidget {
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
-        barrierColor: Colors.transparent,
+        barrierColor: Colors.white.withAlpha(15),
         builder: (context) {
           return PrayWithWordForm(
             prayerId: prayerId,
