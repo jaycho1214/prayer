@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/model/group_model.dart';
+import 'package:prayer/repo/response_types.dart';
 
 class GroupRepository {
   Future<Group?> fetchGroup(String groupId) async {
@@ -79,11 +80,23 @@ class GroupRepository {
     );
   }
 
-  Future<Map> fetchGroupsByUser({required String uid, String? cursor}) async {
-    final resp = await dio.get('/v1/groups/by/user/$uid', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
+  Future<PaginationResponse<String, String?>> fetchGroupsByUser(
+      {required String uid, String? cursor}) async {
+    try {
+      final resp = await dio.get('/v1/groups/by/user/$uid', queryParameters: {
+        'cursor': cursor,
+      });
+      return PaginationResponse(
+        items: List<String>.from(resp.data['data']),
+        cursor: resp.data['cursor'],
+      );
+    } catch (e) {
+      return PaginationResponse(
+        items: null,
+        cursor: null,
+        error: e.toString(),
+      );
+    }
   }
 
   Future<Map> fetchGroups(
@@ -96,13 +109,16 @@ class GroupRepository {
     return resp.data;
   }
 
-  Future<Map> joinGroup({
+  Future<String?> joinGroup({
     required String groupId,
     required bool value,
   }) async {
     final resp = await dio
         .post('/v1/groups/$groupId/join', data: {'value': value.toString()});
-    return resp.data;
+    if (value) {
+      return resp.data['data'];
+    }
+    return null;
   }
 
   Future<Map> fetchGroupMembers({
@@ -123,20 +139,17 @@ class GroupRepository {
     };
   }
 
-  Future<bool> acceptMember(
+  Future<void> acceptMember(
       {required String groupId, required String userId}) async {
     await dio.post('/v1/groups/$groupId/requests', data: {'userId': userId});
-    return true;
   }
 
-  Future<bool> promoteMember(
+  Future<void> promoteMember(
       {required String groupId, required String userId}) async {
     await dio.post('/v1/groups/$groupId/promote', data: {'userId': userId});
-    return true;
   }
 
-  Future<bool> removeGroup(String groupId) async {
+  Future<void> removeGroup(String groupId) async {
     await dio.delete('/v1/groups/$groupId');
-    return true;
   }
 }

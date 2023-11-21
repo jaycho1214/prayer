@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
@@ -67,10 +67,7 @@ class UsernameInputForm extends HookWidget {
               input.isNotEmpty &&
               initialValue != input) {
             valid.value = 1;
-            context
-                .read<UserRepository>()
-                .fetchUserByUsername(input)
-                .then((value) {
+            GetIt.I<UserRepository>().fetchUser(username: input).then((value) {
               valid.value = value == null ? 2 : -1;
             }).catchError((error, stackTrace) {
               talker.error("Error while checking if username has already taken",

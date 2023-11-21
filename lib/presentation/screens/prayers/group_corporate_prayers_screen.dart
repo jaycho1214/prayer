@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
@@ -28,12 +28,11 @@ class GroupCorporatePrayersScreen extends HookWidget {
     useAutomaticKeepAlive();
 
     final requestPage = useCallback((String? cursor) {
-      context
-          .read<PrayerRepository>()
+      GetIt.I<PrayerRepository>()
           .fetchGroupCoporatePrayers(
-            groupId: groupId,
-            cursor: cursor,
-          )
+        groupId: groupId,
+        cursor: cursor,
+      )
           .then((data) {
         final groups = List<String>.from(data['data']);
         final cursor = data['cursor'];

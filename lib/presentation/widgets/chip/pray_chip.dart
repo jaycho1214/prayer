@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/form/sheet/too_many_pray_sheet.dart';
@@ -29,8 +29,7 @@ class PrayChip extends HookWidget {
 
     final onTap = useCallback(() async {
       loading.value = true;
-      context
-          .read<PrayerRepository>()
+      GetIt.I<PrayerRepository>()
           .createPrayerPray(prayerId: prayerId)
           .then((value) {
         if (value) {

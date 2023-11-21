@@ -1,12 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/bloc/auth/authentication_bloc.dart';
-import 'package:prayer/bloc/auth/authentication_event.dart';
-import 'package:prayer/bloc/auth/authentication_state.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -16,19 +15,19 @@ import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/upload_progress_bar.dart';
 import 'package:prayer/presentation/widgets/form/username_input_form.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
+import 'package:prayer/providers/auth/auth_provider.dart';
+import 'package:prayer/providers/auth/auth_state.dart';
+import 'package:prayer/providers/user/user_provider.dart';
 import 'package:prayer/repo/user_repository.dart';
 
-class UserFormScreen extends HookWidget {
+class UserFormScreen extends HookConsumerWidget {
   const UserFormScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final oldUser = useMemoized(
-        () => context
-            .read<AuthenticationBloc>()
-            .state
-            .mapOrNull(signedUp: (value) => value.user),
-        [context]);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final oldUser =
+        (ref.watch(authNotifierProvider).requireValue as AuthStateSignedUp)
+            .user;
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
     final loading = useState(false);
     final progress = useState(0.0);
@@ -37,21 +36,21 @@ class UserFormScreen extends HookWidget {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
         final values = formKey.currentState!.value;
-        context
-            .read<UserRepository>()
+        GetIt.I<UserRepository>()
             .updateUser(
-              username: values['username'],
-              name: values['name'],
-              bio: values['bio'],
-              profile: values['profile'],
-              banner: values['banner'],
-              onSendProgress: (newProgress) => progress.value = newProgress,
-            )
+          username: values['username'],
+          name: values['name'],
+          bio: values['bio'],
+          profile: values['profile'],
+          banner: values['banner'],
+          onSendProgress: (newProgress) => progress.value = newProgress,
+        )
             .then((value) {
-          context
-              .read<AuthenticationBloc>()
-              .add(const AuthenticationEvent.refresh());
-          context.pop();
+          if (value == 'success') {
+            ref.invalidate(
+                userProvider(uid: FirebaseAuth.instance.currentUser!.uid));
+            context.pop('updated');
+          }
         }).catchError((e) {
           talker.error('Unable to update user: $e');
           GlobalSnackBar.show(context,
@@ -67,15 +66,13 @@ class UserFormScreen extends HookWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        if (oldUser != null) {
-          formKey.currentState?.patchValue({
-            "username": oldUser.username,
-            "name": oldUser.name,
-            "bio": oldUser.bio,
-            "profile": oldUser.profile,
-            "banner": oldUser.banner,
-          });
-        }
+        formKey.currentState?.patchValue({
+          "username": oldUser.username,
+          "name": oldUser.name,
+          "bio": oldUser.bio,
+          "profile": oldUser.profile,
+          "banner": oldUser.banner,
+        });
       });
       return () {};
     }, [formKey, oldUser]);
@@ -89,12 +86,10 @@ class UserFormScreen extends HookWidget {
           title: Text("Profile"),
           trailingActions: [
             Center(
-              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) => PrimaryTextButton(
-                  text: 'Done',
-                  onTap: onSubmit,
-                  loading: state is AuthenticationStateSignUpLoading,
-                ),
+              child: PrimaryTextButton(
+                text: 'Done',
+                onTap: onSubmit,
+                loading: loading.value,
               ),
             ),
           ],
@@ -114,12 +109,12 @@ class UserFormScreen extends HookWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.width + 50,
                         ),
-                        BannerImageForm(initialValue: oldUser?.banner),
+                        BannerImageForm(initialValue: oldUser.banner),
                         Positioned(
                           left: 30,
                           bottom: 20,
                           child:
-                              ProfileImageForm(initialValue: oldUser?.profile),
+                              ProfileImageForm(initialValue: oldUser.profile),
                         ),
                       ],
                     ),
@@ -132,7 +127,7 @@ class UserFormScreen extends HookWidget {
                       child: Column(
                         children: [
                           UsernameInputForm(
-                            initialValue: oldUser?.username,
+                            initialValue: oldUser.username,
                           ),
                           const SizedBox(height: 5),
                           TextInputField(

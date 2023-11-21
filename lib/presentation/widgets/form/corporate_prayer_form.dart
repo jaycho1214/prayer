@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/presentation/widgets/form/sheet/corporate_prayer_picker.dart';
@@ -53,9 +53,7 @@ class CorporatePrayerFormInner extends HookWidget {
     final fetchFn = useMemoized(
         () => corporateId == null
             ? null
-            : context
-                .read<PrayerRepository>()
-                .fetchCorporatePrayer(corporateId!),
+            : GetIt.I<PrayerRepository>().fetchCorporatePrayer(corporateId!),
         [corporateId]);
     final snapshot =
         useFuture(fetchFn, initialData: CorporatePrayer.placeholder);

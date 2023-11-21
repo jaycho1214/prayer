@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:prayer/bloc/group/group_bloc.dart';
-import 'package:prayer/bloc/group/group_state.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/user/group_member_card.dart';
+import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 
-class GroupMembersScreen extends HookWidget {
+class GroupMembersScreen extends HookConsumerWidget {
   const GroupMembersScreen({
     super.key,
     required this.groupId,
@@ -24,8 +24,8 @@ class GroupMembersScreen extends HookWidget {
   final String groupId;
 
   @override
-  Widget build(BuildContext context) {
-    final group = (context.read<GroupBloc>().state as GroupStateLoaded).group;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final group = ref.watch(GroupNotifierProvider(groupId)).value;
     final promoting = useState(false);
     final membersPageController =
         usePagingController<int?, GroupMember>(firstPageKey: null);
@@ -35,7 +35,8 @@ class GroupMembersScreen extends HookWidget {
         usePagingController<int?, GroupMember>(firstPageKey: null);
 
     return DefaultTabController(
-      length: group.moderator != null && group.membershipType != 'open' ? 3 : 2,
+      length:
+          group?.moderator != null && group?.membershipType != 'open' ? 3 : 2,
       child: Builder(
         builder: (context) {
           return PlatformScaffold(
@@ -76,7 +77,7 @@ class GroupMembersScreen extends HookWidget {
                       ),
                       leading: NavigateBackButton(),
                       actions: [
-                        if (group.adminId ==
+                        if (group?.adminId ==
                             FirebaseAuth.instance.currentUser?.uid)
                           Container(
                             decoration: promoting.value
@@ -98,8 +99,8 @@ class GroupMembersScreen extends HookWidget {
                         tabs: [
                           Tab(text: 'Moderators'),
                           Tab(text: 'Members'),
-                          if (group.moderator != null &&
-                              group.membershipType != 'open')
+                          if (group?.moderator != null &&
+                              group?.membershipType != 'open')
                             Tab(text: 'Requests'),
                         ],
                       ),
@@ -168,11 +169,11 @@ class MembersPage extends HookWidget {
     useAutomaticKeepAlive();
     final fetchPage = useCallback((int? cursor) async {
       try {
-        final data = await context.read<GroupRepository>().fetchGroupMembers(
-              groupId: groupId,
-              cursor: cursor,
-              type: membersType,
-            );
+        final data = await GetIt.I<GroupRepository>().fetchGroupMembers(
+          groupId: groupId,
+          cursor: cursor,
+          type: membersType,
+        );
         if (data['cursor'] != null) {
           pagingController.appendPage(data['members'], data['cursor']);
         } else {

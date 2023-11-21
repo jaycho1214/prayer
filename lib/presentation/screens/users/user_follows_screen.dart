@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
@@ -10,6 +10,7 @@ import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/user/user_card.dart';
+import 'package:prayer/repo/response_types.dart';
 import 'package:prayer/repo/user_repository.dart';
 
 class UsersFollowScreen extends HookWidget {
@@ -63,18 +64,20 @@ class UsersFollowScreen extends HookWidget {
                     FollowsPage(
                       pagingController: followersPageController,
                       fetchFn: (cursor) =>
-                          context.read<UserRepository>().fetchFollowers(
-                                uid,
-                                cursor: cursor,
-                              ),
+                          GetIt.I<UserRepository>().fetchFollowers(
+                        uid,
+                        cursor: cursor,
+                        type: FollowersType.followers,
+                      ),
                     ),
                     FollowsPage(
                       pagingController: followingsPageController,
                       fetchFn: (cursor) =>
-                          context.read<UserRepository>().fetchFollowings(
-                                uid,
-                                cursor: cursor,
-                              ),
+                          GetIt.I<UserRepository>().fetchFollowers(
+                        uid,
+                        cursor: cursor,
+                        type: FollowersType.followings,
+                      ),
                     ),
                   ],
                 ),
@@ -94,23 +97,22 @@ class FollowsPage extends HookWidget {
     required this.pagingController,
   });
 
-  final Future<Map> Function(String?) fetchFn;
+  final Future<PaginationResponse<PUser, String?>> Function(String?) fetchFn;
   final PagingController<String?, PUser> pagingController;
 
   @override
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
     final fetchPage = useCallback((String? cursor) async {
-      try {
-        final data = await fetchFn(cursor);
-        if (data['cursor'] != null) {
-          pagingController.appendPage(data['users'], data['cursor']);
-        } else {
-          pagingController.appendLastPage(data['users']);
-        }
-      } catch (error) {
-        talker.error('Error while fetching members of the group: $error');
-        pagingController.error = error;
+      final data = await fetchFn(cursor);
+      if (data.error != null) {
+        talker
+            .error('Error while fetching members of the group: ${data.error}');
+        pagingController.error = data.error;
+      } else if (data.cursor != null) {
+        pagingController.appendPage(data.items!, data.cursor);
+      } else {
+        pagingController.appendLastPage(data.items!);
       }
     }, []);
 

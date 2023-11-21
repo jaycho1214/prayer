@@ -1,18 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:prayer/repo/group_repository.dart';
+import 'package:prayer/providers/group/group_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class GroupCard extends HookWidget {
+class GroupCard extends HookConsumerWidget {
   const GroupCard({
     super.key,
     required this.groupId,
@@ -23,10 +22,9 @@ class GroupCard extends HookWidget {
   final void Function()? onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final fetchFn = useMemoized(
-        () => context.read<GroupRepository>().fetchGroup(groupId), []);
-    final data = useFuture<Group?>(fetchFn, initialData: Group.placeholder);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(GroupNotifierProvider(groupId));
+    final group = data.value ?? Group.placeholder;
 
     return ShrinkingButton(
       onTap: () {
@@ -38,7 +36,7 @@ class GroupCard extends HookWidget {
         }
       },
       child: Skeletonizer(
-        enabled: data.connectionState == ConnectionState.waiting,
+        enabled: data.value == null,
         child: Stack(
           children: [
             ShaderMask(
@@ -59,9 +57,9 @@ class GroupCard extends HookWidget {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 0.5,
                     color: MyTheme.surfaceContainer,
-                    child: data.data?.banner != null
+                    child: group.banner != null
                         ? CachedNetworkImage(
-                            imageUrl: data.data!.banner!,
+                            imageUrl: group.banner!,
                             fit: BoxFit.cover,
                           )
                         : null,
@@ -76,20 +74,20 @@ class GroupCard extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     UserChip(
-                      profile: data.data?.user?.profile,
-                      name: data.data?.user?.name,
+                      profile: group.user?.profile,
+                      name: group.user?.name,
                     ),
                     Spacer(),
                     Row(
                       children: [
                         StatisticsChip(
                           icon: FontAwesomeIcons.users,
-                          value: data.data?.membersCount ?? 0,
+                          value: group.membersCount,
                         ),
                         const SizedBox(width: 10),
                         StatisticsChip(
                           icon: FontAwesomeIcons.handsPraying,
-                          value: data.data?.prayersCount ?? 0,
+                          value: group.prayersCount,
                         ),
                       ],
                     ),
@@ -99,7 +97,7 @@ class GroupCard extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          data.data?.name ?? '',
+                          group.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -107,9 +105,9 @@ class GroupCard extends HookWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (data.data?.description != null)
+                        if (group.description != null)
                           Text(
-                            data.data!.description!,
+                            group.description!,
                             style: const TextStyle(
                               fontSize: 12,
                               color: MyTheme.outline,

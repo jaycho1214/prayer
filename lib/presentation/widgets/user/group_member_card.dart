@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/bloc/group/group_bloc.dart';
-import 'package:prayer/bloc/group/group_state.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
@@ -14,9 +13,10 @@ import 'package:prayer/presentation/widgets/form/sheet/confirm_slim_menu_form.da
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
+import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 
-class GroupMemberCard extends HookWidget {
+class GroupMemberCard extends HookConsumerWidget {
   const GroupMemberCard({
     super.key,
     required this.groupId,
@@ -33,10 +33,11 @@ class GroupMemberCard extends HookWidget {
   final void Function()? onDone;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final accepted = useState(false);
     final promoted = useState(false);
     final loading = useState(false);
+    final group = ref.watch(GroupNotifierProvider(groupId)).value;
 
     final handleAccept = useCallback(() async {
       loading.value = true;
@@ -47,8 +48,7 @@ class GroupMemberCard extends HookWidget {
         icon: FontAwesomeIcons.check,
       );
       if (result == true) {
-        context
-            .read<GroupRepository>()
+        GetIt.I<GroupRepository>()
             .acceptMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
@@ -71,8 +71,7 @@ class GroupMemberCard extends HookWidget {
         icon: FontAwesomeIcons.userPilot,
       );
       if (result == true) {
-        context
-            .read<GroupRepository>()
+        GetIt.I<GroupRepository>()
             .promoteMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
@@ -113,33 +112,22 @@ class GroupMemberCard extends HookWidget {
                             fontSize: 15,
                           ),
                         ),
-                        BlocBuilder<GroupBloc, GroupState>(
-                          bloc: BlocProvider.of<GroupBloc>(context),
-                          builder: (context, state) {
-                            if (state is GroupStateLoaded) {
-                              if (state.group.adminId == member.uid ||
-                                  member.moderator != null) {
-                                return Container(
-                                  margin: const EdgeInsets.only(left: 5),
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    color: MyTheme.primary,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    state.group.adminId == member.uid
-                                        ? 'Admin'
-                                        : 'Moderator',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                );
-                              }
-                            }
-                            return SizedBox();
-                          },
+                        Container(
+                          margin: const EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: MyTheme.primary,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            group?.adminId == member.uid
+                                ? 'Admin'
+                                : 'Moderator',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                       ],
                     ),

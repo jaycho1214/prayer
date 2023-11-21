@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/form/sheet/pray_with_word_form.dart';
@@ -58,12 +58,11 @@ class PrayButton extends HookWidget {
           return _loading.value = false;
         }
       }
-      context
-          .read<PrayerRepository>()
+      GetIt.I<PrayerRepository>()
           .createPrayerPray(
-            prayerId: prayerId,
-            value: value,
-          )
+        prayerId: prayerId,
+        value: value,
+      )
           .then((value) {
         if (value) {
           onPray?.call();

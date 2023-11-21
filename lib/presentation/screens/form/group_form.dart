@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
@@ -35,14 +35,13 @@ class GroupFormScreen extends HookWidget {
         loading.value = true;
         talker.debug("Creating a group...");
         final form = formKey.currentState!.value;
-        context
-            .read<GroupRepository>()
+        GetIt.I<GroupRepository>()
             .createGroup(
-              name: form['name'],
-              description: form['description'],
-              membershipType: form['membershipType'],
-              banner: form['banner'],
-            )
+          name: form['name'],
+          description: form['description'],
+          membershipType: form['membershipType'],
+          banner: form['banner'],
+        )
             .then((value) {
           context.pop(true);
           talker.good("Successfully created a group");
@@ -66,14 +65,13 @@ class GroupFormScreen extends HookWidget {
         loading.value = true;
         talker.debug("Editing a group...");
         final form = formKey.currentState!.value;
-        context
-            .read<GroupRepository>()
+        GetIt.I<GroupRepository>()
             .updateGroup(
-              groupId: initialValue.id,
-              name: form['name'],
-              description: form['description'],
-              banner: form['banner'],
-            )
+          groupId: initialValue.id,
+          name: form['name'],
+          description: form['description'],
+          banner: form['banner'],
+        )
             .then((value) {
           context.pop(true);
           talker.good("Successfully edited a group");
@@ -201,8 +199,7 @@ class GroupFormScreen extends HookWidget {
                                           icon: FontAwesomeIcons.lightTrash,
                                         ) ==
                                         true) {
-                                      context
-                                          .read<GroupRepository>()
+                                      GetIt.I<GroupRepository>()
                                           .removeGroup(initialValue.id)
                                           .then((value) {
                                         Navigator.of(context)

@@ -1,55 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/bloc/auth/authentication_bloc.dart';
-import 'package:prayer/bloc/auth/authentication_event.dart';
-import 'package:prayer/bloc/auth/authentication_state.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/errors.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/username_input_form.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
+import 'package:prayer/providers/auth/auth_provider.dart';
+import 'package:prayer/providers/auth/auth_state.dart';
+import 'package:prayer/repo/user_repository.dart';
 
-class SignUpScreen extends HookWidget {
+class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(authNotifierProvider, (previous, next) {
+      if (next.value is AuthStateSignedUp) {
+        context.go('/');
+      }
+    });
+
+    final loading = useState(false);
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
 
     final onSubmit = useCallback(() {
-      try {
-        if (formKey.currentState?.saveAndValidate() == true) {
-          final form = formKey.currentState!.value;
-          context.read<AuthenticationBloc>().add(AuthenticationEvent.signUp(
-                username: form['username'],
-                name: form['name'],
-                bio: form['bio'],
-              ));
-        }
-      } catch (e) {
-        GlobalSnackBar.show(context, message: e.toString());
+      if (formKey.currentState?.saveAndValidate() == true) {
+        loading.value = true;
+        final form = formKey.currentState!.value;
+        GetIt.I<UserRepository>()
+            .createUser(
+          username: form['username'],
+          name: form['name'],
+          bio: form['bio'],
+        )
+            .then((value) {
+          ref.read(authNotifierProvider.notifier).updateUser(value);
+        }).catchError((e) {
+          if (e is DuplicatedUsernameException) {
+            GlobalSnackBar.show(context,
+                message: 'Username ${form['username']} is already taken');
+            return;
+          }
+          GlobalSnackBar.show(context, message: e.toString());
+        }).whenComplete(() {
+          loading.value = false;
+        });
       }
     }, [
       context,
       formKey,
     ]);
-
-    useEffect(() {
-      final subscription =
-          context.read<AuthenticationBloc>().stream.listen((event) {
-        if (event is AuthenticationStateSignUpError) {
-          GlobalSnackBar.show(context, message: event.message);
-        }
-        if (event is AuthenticationStateSignedUp) {
-          context.go('/');
-        }
-      });
-      return subscription.cancel;
-    }, []);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -62,12 +68,10 @@ class SignUpScreen extends HookWidget {
           ),
           trailingActions: [
             Center(
-              child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) => PrimaryTextButton(
-                  text: 'Done',
-                  onTap: onSubmit,
-                  loading: state is AuthenticationStateSignUpLoading,
-                ),
+              child: PrimaryTextButton(
+                text: 'Done',
+                onTap: onSubmit,
+                loading: loading.value,
               ),
             ),
           ],

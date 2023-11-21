@@ -2,16 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/bloc/auth/authentication_bloc.dart';
-import 'package:prayer/bloc/auth/authentication_event.dart';
-import 'package:prayer/bloc/auth/authentication_state.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
@@ -20,8 +18,10 @@ import 'package:prayer/presentation/screens/home/user_screen.dart';
 import 'package:prayer/presentation/screens/home_screen.dart';
 import 'package:prayer/presentation/widgets/button/fab.dart';
 import 'package:prayer/presentation/widgets/notification_bar.dart';
+import 'package:prayer/providers/auth/auth_provider.dart';
+import 'package:prayer/providers/auth/auth_state.dart';
 
-class HomeTabBar extends HookWidget {
+class HomeTabBar extends HookConsumerWidget {
   const HomeTabBar({super.key});
 
   handleNotification(BuildContext context, RemoteMessage? message) {
@@ -42,9 +42,10 @@ class HomeTabBar extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
     final index = useState(0);
+    final state = ref.watch(authNotifierProvider).value;
 
     useEffect(() {
       FirebaseMessaging.instance
@@ -63,9 +64,6 @@ class HomeTabBar extends HookWidget {
         talker.error(
             "Error occured while updating notification settings: $e", e);
       });
-      context
-          .read<AuthenticationBloc>()
-          .add(const AuthenticationEvent.refresh());
       return () {};
     }, []);
 
@@ -104,10 +102,13 @@ class HomeTabBar extends HookWidget {
         children: [
           IndexedStack(
             index: index.value,
-            children: const [
+            children: [
               HomeScreen(),
               SearchScreen(),
-              UserScreen(canPop: false),
+              UserScreen(
+                uid: FirebaseAuth.instance.currentUser!.uid,
+                canPop: false,
+              ),
             ],
           ),
           FAB(onTap: () {
@@ -146,28 +147,26 @@ class HomeTabBar extends HookWidget {
                 color: index.value == 1 ? MyTheme.onPrimary : MyTheme.disabled,
               )),
           BottomNavigationBarItem(
-            label: '',
-            icon: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-              builder: (context, state) => switch (state) {
-                AuthenticationStateSignedUp(user: final user) => Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: index.value == 2
-                            ? MyTheme.onPrimary
-                            : MyTheme.disabled,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                    padding: EdgeInsets.all(user.profile == null ? 10 : 2),
-                    child: UserTabButton(
-                      index: index.value,
-                      profile: user.profile,
-                    ),
+              label: '',
+              icon: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color:
+                        index.value == 2 ? MyTheme.onPrimary : MyTheme.disabled,
                   ),
-                _ => const SizedBox(),
-              },
-            ),
-          ),
+                  shape: BoxShape.circle,
+                ),
+                padding: EdgeInsets.all(state is AuthStateSignedUp
+                    ? state.user.profile == null
+                        ? 10
+                        : 2
+                    : 2),
+                child: UserTabButton(
+                  index: index.value,
+                  profile:
+                      state is AuthStateSignedUp ? state.user.profile : null,
+                ),
+              )),
         ],
       ),
     );
