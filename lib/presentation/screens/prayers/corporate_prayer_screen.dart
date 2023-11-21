@@ -15,7 +15,7 @@ import 'package:prayer/presentation/widgets/button/fab.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
-import 'package:prayer/presentation/widgets/form/sheet/corporate_prayer_duration.dart';
+import 'package:prayer/presentation/widgets/sheets/corporate_prayer_duration.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/group_repository.dart';

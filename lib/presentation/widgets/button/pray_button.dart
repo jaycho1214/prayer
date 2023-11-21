@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/form/sheet/pray_with_word_form.dart';
-import 'package:prayer/presentation/widgets/form/sheet/too_many_pray_sheet.dart';
+import 'package:prayer/presentation/widgets/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/prayer_repository.dart';

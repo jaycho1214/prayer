@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
-import 'package:prayer/presentation/widgets/form/sheet/too_many_pray_sheet.dart';
+import 'package:prayer/presentation/widgets/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
