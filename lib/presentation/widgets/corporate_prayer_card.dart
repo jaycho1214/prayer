@@ -84,7 +84,7 @@ class CorporatePrayerCard extends HookWidget {
                     TextChip(
                         icon: FontAwesomeIcons.calendarDays,
                         value:
-                            '${Jiffy.parseFromDateTime(prayerSnapshot.data!.startedAt!).yMMMd}${prayerSnapshot.data?.endedAt == null ? "" : "-${Jiffy.parseFromDateTime(prayerSnapshot.data!.endedAt!).yMMMd}"}'),
+                            '${Jiffy.parseFromDateTime(prayerSnapshot.data!.startedAt!.toLocal()).yMMMd}${prayerSnapshot.data?.endedAt == null ? "" : "-${Jiffy.parseFromDateTime(prayerSnapshot.data!.endedAt!.toLocal()).yMMMd}"}'),
                   Spacer(),
                   StatisticsChip(
                     icon: FontAwesomeIcons.personPraying,
