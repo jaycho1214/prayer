@@ -17,6 +17,7 @@ import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/sheets/group_information_sheet.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
+import 'package:prayer/presentation/widgets/statistics_text.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/prayer_repository.dart';
@@ -83,14 +84,17 @@ class GroupScreen extends HookConsumerWidget {
                         title: "Members",
                         icon: FontAwesomeIcons.lightUsers,
                       ),
-                      PullDownMenuItem(
-                        onTap: () => context.push('/form/group', extra: group),
-                        title: "Edit",
-                        icon: FontAwesomeIcons.penToSquare,
-                        enabled: group.adminId ==
-                            FirebaseAuth.instance.currentUser?.uid,
-                        isDestructive: true,
-                      ),
+                      if (group.adminId ==
+                          FirebaseAuth.instance.currentUser?.uid)
+                        PullDownMenuItem(
+                          onTap: () =>
+                              context.push('/form/group', extra: group),
+                          title: "Edit",
+                          icon: FontAwesomeIcons.penToSquare,
+                          enabled: group.adminId ==
+                              FirebaseAuth.instance.currentUser?.uid,
+                          isDestructive: true,
+                        ),
                     ],
                 buttonBuilder: (context, showMenu) {
                   return NavigateIconButton(
@@ -153,16 +157,20 @@ class GroupScreen extends HookConsumerWidget {
                                       Text(
                                         group.description!,
                                         style: TextStyle(
-                                            color: MyTheme.outline,
-                                            fontSize: 12),
+                                            color: MyTheme.placeholderText,
+                                            fontSize: 13),
                                       ),
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Text('${group.membersCount} members'),
+                                        StatisticsText(
+                                            value: group.membersCount,
+                                            text: "Members"),
                                         const SizedBox(width: 15),
-                                        Text('${group.prayersCount} prayers'),
+                                        StatisticsText(
+                                            value: group.prayersCount,
+                                            text: "Prayers"),
                                         Spacer(),
                                         JoinButton(
                                           groupId: groupId,
