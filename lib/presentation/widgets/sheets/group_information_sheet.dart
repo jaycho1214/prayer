@@ -93,7 +93,7 @@ class GroupInformationSheet extends ConsumerWidget {
                   const SizedBox(height: 10),
                   if (group?.createdAt != null)
                     Text(
-                      "3. This community was established at ${Jiffy.parseFromDateTime(group!.createdAt!).toLocal().yMMMd}",
+                      "3. This group was established at ${Jiffy.parseFromDateTime(group!.createdAt!).toLocal().yMMMd}",
                       style: TextStyle(
                         color: MyTheme.outline,
                         fontSize: 14,
