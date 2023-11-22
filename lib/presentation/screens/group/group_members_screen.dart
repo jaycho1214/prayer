@@ -11,6 +11,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
+import 'package:prayer/presentation/widgets/tab_bar.dart';
 import 'package:prayer/presentation/widgets/user/group_member_card.dart';
 import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
@@ -63,46 +64,67 @@ class GroupMembersScreen extends HookConsumerWidget {
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                         context),
                     sliver: SliverAppBar(
+                      toolbarHeight: 25,
                       pinned: true,
                       surfaceTintColor: MyTheme.surface,
                       backgroundColor: MyTheme.surface,
-                      title: Text(
-                        'Members',
-                        style: platformThemeData(
-                          context,
-                          material: (ThemeData data) =>
-                              data.textTheme.headlineSmall,
-                          cupertino: (data) => data.textTheme.navTitleTextStyle,
-                        ),
-                      ),
-                      leading: NavigateBackButton(),
-                      actions: [
-                        if (group?.adminId ==
-                            FirebaseAuth.instance.currentUser?.uid)
+                      title: Stack(
+                        children: [
                           Container(
-                            decoration: promoting.value
-                                ? BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: MyTheme.primary,
-                                  )
-                                : null,
+                            width: double.infinity,
                             child: Center(
-                              child: NavigateIconButton(
-                                icon: FontAwesomeIcons.userPilot,
-                                onPressed: () =>
-                                    promoting.value = !promoting.value,
+                              child: Text(
+                                'Members',
+                                style: platformThemeData(
+                                  context,
+                                  material: (ThemeData data) =>
+                                      data.textTheme.headlineSmall,
+                                  cupertino: (data) =>
+                                      data.textTheme.navTitleTextStyle,
+                                ),
                               ),
                             ),
                           ),
-                      ],
-                      bottom: TabBar(
-                        tabs: [
-                          Tab(text: 'Moderators'),
-                          Tab(text: 'Members'),
-                          if (group?.moderator != null &&
-                              group?.membershipType != 'open')
-                            Tab(text: 'Requests'),
+                          Positioned(
+                            top: -13,
+                            left: 0,
+                            child: NavigateBackButton(),
+                          ),
+                          if (group?.adminId ==
+                              FirebaseAuth.instance.currentUser?.uid)
+                            Positioned(
+                              top: -13,
+                              right: 0,
+                              child: Container(
+                                decoration: promoting.value
+                                    ? BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: MyTheme.primary,
+                                      )
+                                    : null,
+                                child: Center(
+                                  child: NavigateIconButton(
+                                    icon: FontAwesomeIcons.userPilot,
+                                    onPressed: () =>
+                                        promoting.value = !promoting.value,
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
+                      ),
+                      automaticallyImplyLeading: false,
+                      bottom: PreferredSize(
+                        preferredSize: Size.fromHeight(40),
+                        child: CustomTabBar(
+                          tabs: [
+                            'Moderators',
+                            'Members',
+                            if (group?.moderator != null &&
+                                group?.membershipType != 'open')
+                              'Requests'
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -8,6 +8,7 @@ import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/screens/group/group_search_screen.dart';
 import 'package:prayer/presentation/screens/users/users_screen.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/tab_bar.dart';
 
 class SearchScreen extends HookWidget {
   const SearchScreen({super.key});
@@ -90,12 +91,7 @@ class SearchScreen extends HookWidget {
                 backgroundColor: MyTheme.surface,
                 body: Column(
                   children: [
-                    TabBar(
-                      tabs: [
-                        Tab(text: 'Groups'),
-                        Tab(text: 'Users'),
-                      ],
-                    ),
+                    CustomTabBar(tabs: ['Groups', 'Users']),
                     Expanded(
                       child: TabBarView(
                         children: [
