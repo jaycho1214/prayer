@@ -10,8 +10,12 @@ part 'group_provider.g.dart';
 class GroupNotifier extends _$GroupNotifier {
   @override
   FutureOr<Group?> build(String groupId) async {
-    final data = await GetIt.I<GroupRepository>().fetchGroup(groupId);
-    return data;
+    try {
+      final data = await GetIt.I<GroupRepository>().fetchGroup(groupId);
+      return data;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<void> join(bool value) async {
