@@ -78,7 +78,7 @@ class GroupInformationSheet extends ConsumerWidget {
                       _ => '1.',
                     },
                     style: TextStyle(
-                      color: MyTheme.outline,
+                      color: MyTheme.placeholderText,
                       fontSize: 14,
                     ),
                   ),
@@ -86,7 +86,7 @@ class GroupInformationSheet extends ConsumerWidget {
                   Text(
                     "2. Only group members can post the prayer and participate in prayer activities",
                     style: TextStyle(
-                      color: MyTheme.outline,
+                      color: MyTheme.placeholderText,
                       fontSize: 14,
                     ),
                   ),
@@ -95,7 +95,7 @@ class GroupInformationSheet extends ConsumerWidget {
                     Text(
                       "3. This group was established at ${Jiffy.parseFromDateTime(group!.createdAt!).toLocal().yMMMd}",
                       style: TextStyle(
-                        color: MyTheme.outline,
+                        color: MyTheme.placeholderText,
                         fontSize: 14,
                       ),
                     ),
