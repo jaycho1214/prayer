@@ -53,7 +53,7 @@ class GroupsScreen extends HookWidget {
 
     return PagedListView<String?, Group>(
       scrollController: scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       physics: physics,
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
