@@ -35,6 +35,11 @@ class GroupFormScreen extends HookWidget {
         loading.value = true;
         talker.debug("Creating a group...");
         final form = formKey.currentState!.value;
+        if (form['banner'] == null) {
+          loading.value = false;
+          return GlobalSnackBar.show(context,
+              message: "Please upload a banner");
+        }
         GetIt.I<GroupRepository>()
             .createGroup(
           name: form['name'],
@@ -65,6 +70,12 @@ class GroupFormScreen extends HookWidget {
         loading.value = true;
         talker.debug("Editing a group...");
         final form = formKey.currentState!.value;
+        if (form['banner'] == null ||
+            (form['banner'] as String?)?.startsWith('https') == false) {
+          loading.value = false;
+          return GlobalSnackBar.show(context,
+              message: "Please upload a banner");
+        }
         GetIt.I<GroupRepository>()
             .updateGroup(
           groupId: initialValue.id,
