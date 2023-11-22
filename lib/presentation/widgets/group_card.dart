@@ -8,94 +8,86 @@ import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:prayer/providers/group/group_provider.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class GroupCard extends HookConsumerWidget {
   const GroupCard({
     super.key,
-    required this.groupId,
+    required this.group,
     this.onTap,
   });
 
-  final String groupId;
+  final Group group;
   final void Function()? onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(GroupNotifierProvider(groupId));
-    final group = data.value ?? Group.placeholder;
-
     return ShrinkingButton(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
         if (onTap != null) {
           onTap?.call();
         } else {
-          context.push('/groups/$groupId');
+          context.push('/groups/${group.id}');
         }
       },
-      child: Skeletonizer(
-        enabled: data.value == null,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              Hero(
+                tag: 'group.${group.id}.banner',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.width * 0.5,
+                    color: MyTheme.placeholder,
+                    child: group.banner != null
+                        ? CachedNetworkImage(
+                            imageUrl: group.banner!,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 10,
+                top: 10,
+                child: UserChip(
+                  profile: group.admin?.profile,
+                  name: group.admin?.name,
+                ),
+              ),
+              Positioned(
+                right: 10,
+                top: 10,
+                child: StatisticsChip(
+                  icon: FontAwesomeIcons.lightUsers,
+                  value: group.membersCount,
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Hero(
-                  tag: 'group.$groupId.banner',
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width * 0.5,
-                      color: MyTheme.placeholder,
-                      child: group.banner != null
-                          ? CachedNetworkImage(
-                              imageUrl: group.banner!,
-                              fit: BoxFit.cover,
-                            )
-                          : null,
-                    ),
+                Text(
+                  group.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 20,
                   ),
-                ),
-                Positioned(
-                  left: 10,
-                  top: 10,
-                  child: UserChip(
-                    profile: group.user?.profile,
-                    name: group.user?.name,
-                  ),
-                ),
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: StatisticsChip(
-                    icon: FontAwesomeIcons.lightUsers,
-                    value: group.membersCount,
-                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    group.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 20,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

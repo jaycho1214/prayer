@@ -9,9 +9,9 @@ part of 'group_model.dart';
 _$GroupImpl _$$GroupImplFromJson(Map<String, dynamic> json) => _$GroupImpl(
       id: json['id'] as String,
       name: json['name'] as String,
-      user: json['user'] == null
+      admin: json['admin'] == null
           ? null
-          : PUser.fromJson(json['user'] as Map<String, dynamic>),
+          : PUser.fromJson(json['admin'] as Map<String, dynamic>),
       description: json['description'] as String?,
       banner: json['banner'] as String?,
       adminId: json['admin_id'] as String,
@@ -36,7 +36,7 @@ Map<String, dynamic> _$$GroupImplToJson(_$GroupImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'user': instance.user,
+      'admin': instance.admin,
       'description': instance.description,
       'banner': instance.banner,
       'admin_id': instance.adminId,

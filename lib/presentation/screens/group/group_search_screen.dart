@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
+import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/group_card.dart';
 import 'package:prayer/repo/group_repository.dart';
 
@@ -16,7 +17,7 @@ class GroupSearchScreen extends HookWidget {
     this.uid,
   });
 
-  final PagingController<String?, String> pagingController;
+  final PagingController<String?, Group> pagingController;
   final ScrollController? scrollController;
   final String? query;
   final String? uid;
@@ -34,12 +35,11 @@ class GroupSearchScreen extends HookWidget {
         userId: uid,
       )
           .then((data) {
-        final groups = List<String>.from(data['data']);
-        final cursor = data['cursor'];
+        final cursor = data.cursor;
         if (cursor == null) {
-          pagingController.appendLastPage(groups);
+          pagingController.appendLastPage(data.items!);
         } else {
-          pagingController.appendPage(groups, cursor);
+          pagingController.appendPage(data.items!, cursor);
         }
       }).catchError((e) {
         talker.error("Error on fetching next page of groups: $e");
@@ -59,7 +59,7 @@ class GroupSearchScreen extends HookWidget {
       };
     }, []);
 
-    return PagedListView<String?, String>(
+    return PagedListView<String?, Group>(
       scrollController: scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       pagingController: pagingController,
@@ -68,8 +68,8 @@ class GroupSearchScreen extends HookWidget {
         itemBuilder: (context, item, index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: GroupCard(
-            groupId: item,
-            onTap: onTap != null ? () => onTap?.call(item) : null,
+            group: item,
+            onTap: onTap != null ? () => onTap?.call(item.id) : null,
           ),
         ),
       ),

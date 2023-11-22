@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
+import 'package:prayer/model/group_model.dart';
 import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/screens/group/groups_screen.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
@@ -50,7 +51,7 @@ class UserScreen extends HookConsumerWidget {
     final prayPagingController =
         usePagingController<String?, String>(firstPageKey: null);
     final groupPagingController =
-        usePagingController<String?, String>(firstPageKey: null);
+        usePagingController<String?, Group>(firstPageKey: null);
 
     return DefaultTabController(
       length: 3,
