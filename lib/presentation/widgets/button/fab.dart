@@ -21,9 +21,9 @@ class FAB extends StatelessWidget {
       child: ShrinkingButton(
         onTap: onTap,
         child: Container(
-          height: 63,
-          width: 63,
-          padding: const EdgeInsets.all(20),
+          height: 53,
+          width: 53,
+          padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: MyTheme.fab,
             shape: BoxShape.circle,
@@ -33,7 +33,11 @@ class FAB extends StatelessWidget {
                 ? CircularProgressIndicator.adaptive(
                     strokeWidth: 2.0,
                   )
-                : FaIcon(FontAwesomeIcons.plus),
+                : FaIcon(
+                    FontAwesomeIcons.plus,
+                    color: MyTheme.fabIcon,
+                    size: 20,
+                  ),
           ),
         ),
       ),

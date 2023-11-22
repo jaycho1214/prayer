@@ -15,7 +15,7 @@ class GroupBannerImage extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.width * 0.5,
-      color: MyTheme.primary,
+      color: MyTheme.placeholder,
     );
   }
 
@@ -44,7 +44,7 @@ class UserBannerImage extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 300,
-      color: MyTheme.primary,
+      color: MyTheme.placeholder,
     );
   }
 
@@ -77,7 +77,7 @@ class UserProfileImage extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: MyTheme.primary,
+        color: MyTheme.placeholder,
         shape: BoxShape.circle,
       ),
     );
