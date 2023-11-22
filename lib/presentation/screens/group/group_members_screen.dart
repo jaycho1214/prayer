@@ -115,7 +115,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                       ),
                       automaticallyImplyLeading: false,
                       bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(40),
+                        preferredSize: Size.fromHeight(60),
                         child: CustomTabBar(
                           tabs: [
                             'Moderators',
