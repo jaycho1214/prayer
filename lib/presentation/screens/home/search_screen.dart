@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
+import 'package:prayer/model/group_model.dart';
 import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/screens/group/group_search_screen.dart';
 import 'package:prayer/presentation/screens/users/users_screen.dart';
@@ -18,7 +19,7 @@ class SearchScreen extends HookWidget {
     final query = useState('');
     final queryController = useTextEditingController();
     final groupsPagingController =
-        usePagingController<String?, String>(firstPageKey: null);
+        usePagingController<String?, Group>(firstPageKey: null);
     final usersPagingController =
         usePagingController<String?, PUser>(firstPageKey: null);
 

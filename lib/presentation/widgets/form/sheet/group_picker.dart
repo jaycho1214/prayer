@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
+import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/screens/group/group_search_screen.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
@@ -24,7 +25,7 @@ class GroupPicker extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final pagingController =
-        usePagingController<String?, String>(firstPageKey: null);
+        usePagingController<String?, Group>(firstPageKey: null);
     return DraggableScrollableSheet(
       snap: true,
       snapSizes: [0.5, 1],

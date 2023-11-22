@@ -22,7 +22,7 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
 mixin _$Group {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  PUser? get user => throw _privateConstructorUsedError;
+  PUser? get admin => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get banner => throw _privateConstructorUsedError;
   @JsonKey(name: 'admin_id')
@@ -55,7 +55,7 @@ abstract class $GroupCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      PUser? user,
+      PUser? admin,
       String? description,
       String? banner,
       @JsonKey(name: 'admin_id') String adminId,
@@ -67,7 +67,7 @@ abstract class $GroupCopyWith<$Res> {
       @JsonKey(name: 'members_count') int membersCount,
       @JsonKey(name: 'prayers_count') int prayersCount});
 
-  $PUserCopyWith<$Res>? get user;
+  $PUserCopyWith<$Res>? get admin;
 }
 
 /// @nodoc
@@ -85,7 +85,7 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? user = freezed,
+    Object? admin = freezed,
     Object? description = freezed,
     Object? banner = freezed,
     Object? adminId = null,
@@ -106,9 +106,9 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
+      admin: freezed == admin
+          ? _value.admin
+          : admin // ignore: cast_nullable_to_non_nullable
               as PUser?,
       description: freezed == description
           ? _value.description
@@ -155,13 +155,13 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
 
   @override
   @pragma('vm:prefer-inline')
-  $PUserCopyWith<$Res>? get user {
-    if (_value.user == null) {
+  $PUserCopyWith<$Res>? get admin {
+    if (_value.admin == null) {
       return null;
     }
 
-    return $PUserCopyWith<$Res>(_value.user!, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
+    return $PUserCopyWith<$Res>(_value.admin!, (value) {
+      return _then(_value.copyWith(admin: value) as $Val);
     });
   }
 }
@@ -176,7 +176,7 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
   $Res call(
       {String id,
       String name,
-      PUser? user,
+      PUser? admin,
       String? description,
       String? banner,
       @JsonKey(name: 'admin_id') String adminId,
@@ -189,7 +189,7 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
       @JsonKey(name: 'prayers_count') int prayersCount});
 
   @override
-  $PUserCopyWith<$Res>? get user;
+  $PUserCopyWith<$Res>? get admin;
 }
 
 /// @nodoc
@@ -205,7 +205,7 @@ class __$$GroupImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? user = freezed,
+    Object? admin = freezed,
     Object? description = freezed,
     Object? banner = freezed,
     Object? adminId = null,
@@ -226,9 +226,9 @@ class __$$GroupImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
+      admin: freezed == admin
+          ? _value.admin
+          : admin // ignore: cast_nullable_to_non_nullable
               as PUser?,
       description: freezed == description
           ? _value.description
@@ -280,7 +280,7 @@ class _$GroupImpl extends _Group {
   const _$GroupImpl(
       {required this.id,
       required this.name,
-      this.user,
+      this.admin,
       this.description,
       this.banner,
       @JsonKey(name: 'admin_id') required this.adminId,
@@ -301,7 +301,7 @@ class _$GroupImpl extends _Group {
   @override
   final String name;
   @override
-  final PUser? user;
+  final PUser? admin;
   @override
   final String? description;
   @override
@@ -333,7 +333,7 @@ class _$GroupImpl extends _Group {
 
   @override
   String toString() {
-    return 'Group(id: $id, name: $name, user: $user, description: $description, banner: $banner, adminId: $adminId, membershipType: $membershipType, createdAt: $createdAt, joinedAt: $joinedAt, acceptedAt: $acceptedAt, moderator: $moderator, membersCount: $membersCount, prayersCount: $prayersCount)';
+    return 'Group(id: $id, name: $name, admin: $admin, description: $description, banner: $banner, adminId: $adminId, membershipType: $membershipType, createdAt: $createdAt, joinedAt: $joinedAt, acceptedAt: $acceptedAt, moderator: $moderator, membersCount: $membersCount, prayersCount: $prayersCount)';
   }
 
   @override
@@ -343,7 +343,7 @@ class _$GroupImpl extends _Group {
             other is _$GroupImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.user, user) || other.user == user) &&
+            (identical(other.admin, admin) || other.admin == admin) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.banner, banner) || other.banner == banner) &&
@@ -370,7 +370,7 @@ class _$GroupImpl extends _Group {
       runtimeType,
       id,
       name,
-      user,
+      admin,
       description,
       banner,
       adminId,
@@ -400,7 +400,7 @@ abstract class _Group extends Group {
   const factory _Group(
       {required final String id,
       required final String name,
-      final PUser? user,
+      final PUser? admin,
       final String? description,
       final String? banner,
       @JsonKey(name: 'admin_id') required final String adminId,
@@ -420,7 +420,7 @@ abstract class _Group extends Group {
   @override
   String get name;
   @override
-  PUser? get user;
+  PUser? get admin;
   @override
   String? get description;
   @override

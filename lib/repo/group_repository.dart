@@ -81,14 +81,18 @@ class GroupRepository {
     );
   }
 
-  Future<PaginationResponse<String, String?>> fetchGroupsByUser(
+  Future<PaginationResponse<Group, String?>> fetchGroupsByUser(
       {required String uid, String? cursor}) async {
     try {
       final resp = await dio.get('/v1/groups/by/user/$uid', queryParameters: {
         'cursor': cursor,
       });
       return PaginationResponse(
-        items: List<String>.from(resp.data['data']),
+        items: resp.data['data'] == null
+            ? <Group>[]
+            : List<Map<String, Object?>>.from(
+                resp.data['data'],
+              ).map((e) => Group.fromJson(e)).toList(),
         cursor: resp.data['cursor'],
       );
     } catch (e) {
@@ -100,14 +104,21 @@ class GroupRepository {
     }
   }
 
-  Future<Map> fetchGroups(
+  Future<PaginationResponse<Group, String?>> fetchGroups(
       {String? query, String? cursor, String? userId}) async {
     final resp = await dio.get('/v1/groups', queryParameters: {
       'query': query,
       'cursor': cursor,
       'userId': userId,
     });
-    return resp.data;
+    return PaginationResponse(
+      items: resp.data['data'] == null
+          ? <Group>[]
+          : List<Map<String, Object?>>.from(
+              resp.data['data'],
+            ).map((e) => Group.fromJson(e)).toList(),
+      cursor: resp.data['cursor'],
+    );
   }
 
   Future<String?> joinGroup({

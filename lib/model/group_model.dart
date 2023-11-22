@@ -13,7 +13,7 @@ class Group with _$Group {
   const factory Group({
     required String id,
     required String name,
-    PUser? user,
+    PUser? admin,
     String? description,
     String? banner,
     @JsonKey(name: 'admin_id') required String adminId,
@@ -32,7 +32,7 @@ class Group with _$Group {
         adminId: "1",
         membershipType: "open",
         description: LoremIpsum,
-        user: PUser.placeholder,
+        admin: PUser.placeholder,
       );
 
   factory Group.fromJson(Map<String, Object?> json) => _$GroupFromJson(json);

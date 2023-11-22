@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
+import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/group_card.dart';
 import 'package:prayer/repo/response_types.dart';
 
@@ -15,10 +16,10 @@ class GroupsScreen extends HookWidget {
     this.physics,
   });
 
-  final Future<PaginationResponse<String, String?>> Function(String? cursor)?
+  final Future<PaginationResponse<Group, String?>> Function(String? cursor)?
       fetchFn;
   final ScrollController? scrollController;
-  final PagingController<String?, String> pagingController;
+  final PagingController<String?, Group> pagingController;
   final ScrollPhysics? physics;
   final void Function(String)? onTap;
 
@@ -50,7 +51,7 @@ class GroupsScreen extends HookWidget {
       };
     }, []);
 
-    return PagedListView<String?, String>(
+    return PagedListView<String?, Group>(
       scrollController: scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       physics: physics,
@@ -58,8 +59,8 @@ class GroupsScreen extends HookWidget {
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
         itemBuilder: (context, item, index) => GroupCard(
-          groupId: item,
-          onTap: onTap != null ? () => onTap?.call(item) : null,
+          group: item,
+          onTap: onTap != null ? () => onTap?.call(item.id) : null,
         ),
       ),
     );

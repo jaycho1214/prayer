@@ -214,41 +214,45 @@ class PrayerFormScreen extends HookConsumerWidget {
               child: Stack(
                 children: [
                   Divider(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 5, 0, 0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          style: ButtonStyle(
-                            backgroundColor: anon.value
-                                ? MaterialStatePropertyAll(MyTheme.primary)
-                                : null,
-                          ),
-                          onPressed: () {
-                            anon.value = !anon.value;
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.userSecret,
-                            size: 15,
-                            color: MyTheme.onPrimary,
-                          ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 0, 5),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            ShrinkingButton(
+                              onTap: pickImage,
+                              child: FaIcon(
+                                FontAwesomeIcons.image,
+                                size: 20,
+                                color: MyTheme.primary,
+                              ),
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          style: ButtonStyle(
-                            backgroundColor: media.value != null
-                                ? MaterialStatePropertyAll(MyTheme.primary)
-                                : null,
-                          ),
-                          onPressed: pickImage,
-                          icon: FaIcon(
-                            FontAwesomeIcons.image,
-                            size: 15,
-                            color: MyTheme.onPrimary,
-                          ),
+                      ),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
+                        child: Row(
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.globe,
+                              size: 15,
+                              color: MyTheme.onPrimary,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              "Your prayer is anonymous",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
