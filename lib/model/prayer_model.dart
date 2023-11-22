@@ -14,18 +14,18 @@ class Prayer with _$Prayer {
   const factory Prayer({
     required String id,
     @JsonKey(name: 'user_id') String? userId,
-    PUser? user,
-    Group? group,
-    CorporatePrayer? corporate,
-    bool? anon,
     @JsonKey(name: 'group_id') String? groupId,
-    @JsonKey(name: 'corporate_id') String? corporateId,
+    bool? anon,
     required String value,
     String? media,
-    @Default(0) @JsonKey(name: 'prays_count') int praysCount,
     @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'corporate_id') String? corporateId,
+    @Default(0) @JsonKey(name: 'prays_count') int praysCount,
     @JsonKey(name: 'has_prayed') DateTime? hasPrayed,
+    PUser? user,
     PUser? pray,
+    Group? group,
+    CorporatePrayer? corporate,
   }) = _Prayer;
 
   factory Prayer.fromJson(Map<String, Object?> json) => _$PrayerFromJson(json);
