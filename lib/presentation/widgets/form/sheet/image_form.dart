@@ -147,9 +147,11 @@ class BannerImageForm extends StatelessWidget {
                               field.value!,
                               errorBuilder: (context, error, stackTrace) =>
                                   const SizedBox(),
+                              fit: BoxFit.cover,
                             )
                           : Image.file(
                               File(field.value!),
+                              fit: BoxFit.cover,
                             )
                       : const SizedBox(),
                 ),

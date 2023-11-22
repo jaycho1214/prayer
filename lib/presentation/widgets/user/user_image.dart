@@ -27,6 +27,7 @@ class GroupBannerImage extends StatelessWidget {
             errorWidget: (context, url, error) => _buildPlaceholder(context),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 0.5,
+            fit: BoxFit.cover,
           )
         : _buildPlaceholder(context);
   }
