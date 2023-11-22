@@ -15,6 +15,7 @@ import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/corporate_prayer_Form.dart';
 import 'package:prayer/presentation/widgets/form/prayer_group_form.dart';
+import 'package:prayer/presentation/widgets/form/sheet/prayer_visibility_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
@@ -42,6 +43,7 @@ class PrayerFormScreen extends HookConsumerWidget {
     final loading = useState(false);
     final _groupId = useState<String?>(groupId);
     final media = useState<String?>(null);
+    final focusNode = useFocusNode();
 
     final submit = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
@@ -111,7 +113,6 @@ class PrayerFormScreen extends HookConsumerWidget {
               ],
             ),
             body: GestureDetector(
-              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
               child: ListView(
                 children: [
                   Row(
@@ -127,12 +128,16 @@ class PrayerFormScreen extends HookConsumerWidget {
                           _groupId.value = newGroupId;
                           formKey.currentState?.fields['corporateId']
                               ?.didChange(null);
+                          focusNode.requestFocus();
                         },
                       ),
                       if (_groupId.value != null) ...[
                         const SizedBox(width: 10),
                         CorporatePrayerForm(
                           groupId: _groupId.value!,
+                          onChange: (_) {
+                            focusNode.requestFocus();
+                          },
                         ),
                       ],
                     ],
@@ -140,6 +145,7 @@ class PrayerFormScreen extends HookConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 40),
                     child: FormBuilderTextField(
+                      focusNode: focusNode,
                       name: 'value',
                       minLines: 5,
                       maxLines: 10,
@@ -226,30 +232,42 @@ class PrayerFormScreen extends HookConsumerWidget {
                               child: FaIcon(
                                 FontAwesomeIcons.image,
                                 size: 20,
-                                color: MyTheme.primary,
+                                color: MyTheme.onPrimary,
                               ),
                             ),
                           ],
                         ),
                       ),
                       Divider(),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
-                        child: Row(
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.globe,
-                              size: 15,
-                              color: MyTheme.onPrimary,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "Your prayer is anonymous",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                      ShrinkingButton(
+                        onTap: () async {
+                          anon.value = await PrayerVisibilityForm.show(context,
+                                  anonymous: anon.value) ??
+                              anon.value;
+                          focusNode.requestFocus();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
+                          child: Row(
+                            children: [
+                              FaIcon(
+                                anon.value
+                                    ? FontAwesomeIcons.lightUserSlash
+                                    : FontAwesomeIcons.lightUser,
+                                size: 15,
+                                color: MyTheme.onPrimary,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 10),
+                              Text(
+                                !anon.value
+                                    ? "Everyone can see your name"
+                                    : "Your prayer is anonymous",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
