@@ -43,7 +43,7 @@ class GroupScreen extends HookConsumerWidget {
       next.when(
         data: (value) {},
         error: (err, _) {
-          GlobalSnackBar.show(context, message: err.toString());
+          GlobalSnackBar.show(context, message: 'Unknown error occured');
         },
         loading: () {},
       );
