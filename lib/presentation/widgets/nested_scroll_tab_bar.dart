@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/presentation/widgets/tab_bar.dart';
 
 class TabBarDelegate extends SliverPersistentHeaderDelegate {
   const TabBarDelegate({
@@ -13,9 +14,7 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: MyTheme.surface,
-      child: TabBar(
-        tabs: tabs.map((tab) => Tab(text: tab)).toList(),
-      ),
+      child: CustomTabBar(tabs: tabs),
     );
   }
 
