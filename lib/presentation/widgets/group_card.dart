@@ -37,88 +37,72 @@ class GroupCard extends HookConsumerWidget {
       },
       child: Skeletonizer(
         enabled: data.value == null,
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ShaderMask(
-              shaderCallback: (bounds) => LinearGradient(
-                end: FractionalOffset.center,
-                begin: FractionalOffset.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.7),
-                  Colors.black.withOpacity(0.0),
-                ],
-              ).createShader(bounds),
-              blendMode: BlendMode.srcATop,
-              child: Hero(
-                tag: 'group.$groupId.banner',
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width * 0.5,
-                    color: MyTheme.surfaceContainer,
-                    child: group.banner != null
-                        ? CachedNetworkImage(
-                            imageUrl: group.banner!,
-                            fit: BoxFit.cover,
-                          )
-                        : null,
+            Stack(
+              children: [
+                Hero(
+                  tag: 'group.$groupId.banner',
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width * 0.5,
+                      color: MyTheme.placeholder,
+                      child: group.banner != null
+                          ? CachedNetworkImage(
+                              imageUrl: group.banner!,
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    UserChip(
-                      profile: group.user?.profile,
-                      name: group.user?.name,
-                    ),
-                    Spacer(),
-                    Row(
-                      children: [
-                        StatisticsChip(
-                          icon: FontAwesomeIcons.users,
-                          value: group.membersCount,
-                        ),
-                        const SizedBox(width: 10),
-                        StatisticsChip(
-                          icon: FontAwesomeIcons.handsPraying,
-                          value: group.prayersCount,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          group.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (group.description != null)
-                          Text(
-                            group.description!,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: MyTheme.outline,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                      ],
-                    ),
-                  ],
+                Positioned(
+                  left: 10,
+                  top: 10,
+                  child: UserChip(
+                    profile: group.user?.profile,
+                    name: group.user?.name,
+                  ),
                 ),
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: StatisticsChip(
+                    icon: FontAwesomeIcons.lightUsers,
+                    value: group.membersCount,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    group.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 20,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (group.description != null)
+                    Text(
+                      group.description!,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: MyTheme.placeholderText,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
               ),
             ),
           ],
