@@ -8,6 +8,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
+import 'package:prayer/presentation/widgets/tab_bar.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
 class HomeScreen extends HookWidget {
@@ -38,40 +39,46 @@ class HomeScreen extends HookWidget {
               child: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverAppBar(
+                    toolbarHeight: 20,
                     surfaceTintColor: MyTheme.surface,
                     foregroundColor: MyTheme.surface,
                     backgroundColor: MyTheme.surface,
-                    title: Text(
-                      "Prayer",
-                      style: platformThemeData(
-                        context,
-                        material: (ThemeData data) =>
-                            data.textTheme.headlineSmall,
-                        cupertino: (data) => data.textTheme.navTitleTextStyle,
-                      ),
+                    title: Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          child: Text(
+                            "Prayer",
+                            textAlign: TextAlign.center,
+                            style: platformThemeData(
+                              context,
+                              material: (ThemeData data) => data
+                                  .textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                              cupertino: (data) => data
+                                  .textTheme.navTitleTextStyle
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: -13,
+                          right: 0,
+                          child: NavigateIconButton(
+                            icon: FontAwesomeIcons.gear,
+                            onPressed: () {
+                              context.push('/settings');
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                    actions: [
-                      NavigateIconButton(
-                        icon: FontAwesomeIcons.gear,
-                        onPressed: () {
-                          context.push('/settings');
-                        },
-                      ),
-                    ],
                     floating: true,
                     pinned: true,
                     bottom: PreferredSize(
                       preferredSize: Size.fromHeight(48),
-                      child: TabBar(
-                        indicatorSize: TabBarIndicatorSize.label,
-                        tabs: [
-                          Tab(
-                            text: 'Home',
-                            height: 20,
-                            iconMargin: const EdgeInsets.only(bottom: 0.0),
-                          ),
-                          Tab(text: 'Group'),
-                        ],
+                      child: CustomTabBar(
+                        tabs: ['Home', 'Group'],
                       ),
                     ),
                   ),
