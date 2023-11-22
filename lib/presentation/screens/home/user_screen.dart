@@ -13,11 +13,11 @@ import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/button/follow_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/statistics_text.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/user/user_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
-import 'package:prayer/utils/formatter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class UserScreen extends HookConsumerWidget {
@@ -78,9 +78,11 @@ class UserScreen extends HookConsumerWidget {
                     backgroundColor: MyTheme.surface,
                     pinned: true,
                     automaticallyImplyLeading: false,
-                    expandedHeight: MediaQuery.of(context).size.width,
+                    expandedHeight: user?.banner == null
+                        ? 100
+                        : MediaQuery.of(context).size.width,
                     flexibleSpace: FlexibleSpaceBar(
-                      stretchModes: [StretchMode.blurBackground],
+                      stretchModes: [StretchMode.fadeTitle],
                       background: UserBannerImage(
                         banner: user?.banner,
                       ),
@@ -147,28 +149,14 @@ class UserScreen extends HookConsumerWidget {
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                        "${Formatter.formatNumber(user?.praysCount ?? 0)}"),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      "prays",
-                                      style: TextStyle(color: MyTheme.outline),
-                                    ),
-                                  ],
+                                StatisticsText(
+                                  value: user?.praysCount ?? 0,
+                                  text: "Prays",
                                 ),
                                 const SizedBox(width: 10),
-                                Row(
-                                  children: [
-                                    Text(
-                                        "${Formatter.formatNumber(user?.prayersCount ?? 0)}"),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      "prayers",
-                                      style: TextStyle(color: MyTheme.outline),
-                                    ),
-                                  ],
+                                StatisticsText(
+                                  value: user?.prayersCount ?? 0,
+                                  text: "Prayers",
                                 ),
                               ],
                             ),
@@ -181,30 +169,14 @@ class UserScreen extends HookConsumerWidget {
                               },
                               child: Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "${Formatter.formatNumber(user?.followersCount ?? 0)}"),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        "followers",
-                                        style:
-                                            TextStyle(color: MyTheme.outline),
-                                      ),
-                                    ],
+                                  StatisticsText(
+                                    value: user?.followersCount ?? 0,
+                                    text: "Followers",
                                   ),
                                   const SizedBox(width: 10),
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "${Formatter.formatNumber(user?.followingsCount ?? 0)}"),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        "followings",
-                                        style:
-                                            TextStyle(color: MyTheme.outline),
-                                      ),
-                                    ],
+                                  StatisticsText(
+                                    value: user?.followingsCount ?? 0,
+                                    text: "Followings",
                                   ),
                                 ],
                               ),
