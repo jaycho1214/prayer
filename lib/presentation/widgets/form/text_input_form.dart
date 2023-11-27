@@ -6,7 +6,7 @@ class TextInputField extends StatelessWidget {
   const TextInputField({
     super.key,
     required this.name,
-    required this.labelText,
+    this.labelText,
     this.decoration,
     this.minLines,
     this.maxLines,
@@ -25,7 +25,7 @@ class TextInputField extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? initialValue;
   final String? counterText;
-  final String labelText;
+  final String? labelText;
   final String name;
   final int? minLines;
   final int? maxLines;
@@ -54,11 +54,13 @@ class TextInputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          labelText,
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
+        if (labelText != null) ...[
+          Text(
+            labelText!,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+        ],
         Stack(
           alignment: Alignment.center,
           children: [
