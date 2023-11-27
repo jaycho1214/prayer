@@ -193,33 +193,39 @@ class GroupScreen extends HookConsumerWidget {
                         ),
                       ),
                     ],
-                    body: group.membershipType != 'open' &&
-                            group.acceptedAt == null
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 20,
-                              horizontal: 20,
-                            ),
-                            child: Text(
-                              "This group is ${group.membershipType}.\nJoin to see the prayers",
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        : TabBarView(
-                            children: [
-                              PrayersScreen(
-                                physics: const NeverScrollableScrollPhysics(),
-                                fetchFn: (cursor) => GetIt.I<PrayerRepository>()
-                                    .fetchGroupPrayers(groupId: groupId),
-                                pagingController: prayerPagingController,
+                    body: data.value == null
+                        ? const CircularProgressIndicator.adaptive()
+                        : group.membershipType != 'open' &&
+                                group.acceptedAt == null
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 20,
+                                ),
+                                child: Text(
+                                  "This group is ${group.membershipType}.\nJoin to see the prayers",
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            : TabBarView(
+                                children: [
+                                  PrayersScreen(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    fetchFn: (cursor) =>
+                                        GetIt.I<PrayerRepository>()
+                                            .fetchGroupPrayers(
+                                                groupId: groupId),
+                                    pagingController: prayerPagingController,
+                                  ),
+                                  GroupCorporatePrayersScreen(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    groupId: groupId,
+                                    pagingController: corporatePagingController,
+                                  ),
+                                ],
                               ),
-                              GroupCorporatePrayersScreen(
-                                physics: const NeverScrollableScrollPhysics(),
-                                groupId: groupId,
-                                pagingController: corporatePagingController,
-                              ),
-                            ],
-                          ),
                   ),
                   FAB(
                     onTap: () async {
