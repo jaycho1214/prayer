@@ -11,6 +11,8 @@ final dio = Dio(BaseOptions(
   ..interceptors.add(InterceptorsWrapper(
     onRequest: (options, handler) async {
       options.headers['X-Timezone'] = DateTime.now().timeZoneName;
+      options.headers['X-Timezone-Offset'] =
+          DateTime.now().timeZoneOffset.inHours;
       final token = await FirebaseAuth.instance.currentUser?.getIdToken();
       talker.debug('New Id Token Fetched: $token');
       if (token != null) {
