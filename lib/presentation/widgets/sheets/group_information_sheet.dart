@@ -72,9 +72,9 @@ class GroupInformationSheet extends ConsumerWidget {
                       'open' =>
                         '1. All prayers in the group are public, visible to everyone, and joining is unrestricted.',
                       'restricted' =>
-                        '1. Joining the group requires approval, but prayers are visible to all.',
+                        '1. Joining the group requires approval, and only members can view prayers.',
                       'private' =>
-                        "1. Prayers shared within the group are exclusively visible to members only; non-members cannot view, pray, or pray with words",
+                        "1. Group is unlisted in searches and its prayers are inaccessible to non-members.",
                       _ => '1.',
                     },
                     style: TextStyle(

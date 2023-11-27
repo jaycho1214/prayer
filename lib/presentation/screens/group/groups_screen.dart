@@ -6,7 +6,7 @@ import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/group_card.dart';
 import 'package:prayer/repo/response_types.dart';
 
-class GroupsScreen extends HookWidget {
+class GroupsScreen<CursorType> extends HookWidget {
   const GroupsScreen({
     super.key,
     required this.pagingController,
@@ -16,27 +16,27 @@ class GroupsScreen extends HookWidget {
     this.physics,
   });
 
-  final Future<PaginationResponse<Group, String?>> Function(String? cursor)?
+  final Future<PaginationResponse<Group, CursorType?>> Function(dynamic cursor)?
       fetchFn;
   final ScrollController? scrollController;
-  final PagingController<String?, Group> pagingController;
+  final PagingController<CursorType, Group> pagingController;
   final ScrollPhysics? physics;
   final void Function(String)? onTap;
 
   @override
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
-    final requestPage = useCallback((String? cursor) {
+    final requestPage = useCallback((CursorType? cursor) {
       if (fetchFn == null) {
         return;
       }
       fetchFn!(cursor).then((data) {
-        final groups = data.items ?? [];
-        final cursor = data.cursor;
-        if (cursor == null) {
-          pagingController.appendLastPage(groups);
+        final newGroups = data.items ?? [];
+        final newCursor = data.cursor;
+        if (newCursor == null) {
+          pagingController.appendLastPage(newGroups);
         } else {
-          pagingController.appendPage(groups, cursor);
+          pagingController.appendPage(newGroups, newCursor);
         }
       }).catchError((e) {
         talker.error("Error on fetching next page of groups: $e");
@@ -51,7 +51,7 @@ class GroupsScreen extends HookWidget {
       };
     }, []);
 
-    return PagedListView<String?, Group>(
+    return PagedListView<CursorType, Group>(
       scrollController: scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       physics: physics,

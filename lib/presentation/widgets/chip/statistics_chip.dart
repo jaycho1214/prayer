@@ -12,12 +12,14 @@ class StatisticsChip extends StatelessWidget {
     required this.value,
     this.onTap,
     this.inverted = false,
+    this.loading = false,
   });
 
   final void Function()? onTap;
   final IconData icon;
   final int value;
   final bool inverted;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +33,28 @@ class StatisticsChip extends StatelessWidget {
               color: inverted ? MyTheme.onPrimary : MyTheme.surfaceDim,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FaIcon(
-                  icon,
-                  color: inverted ? MyTheme.surface : MyTheme.onPrimary,
-                  size: 12,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  Formatter.formatNumber(value),
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: inverted ? MyTheme.surface : MyTheme.onPrimary,
+            child: loading
+                ? CircularProgressIndicator.adaptive(
+                    backgroundColor: inverted ? Colors.black : Colors.white,
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FaIcon(
+                        icon,
+                        color: inverted ? MyTheme.surface : MyTheme.onPrimary,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        Formatter.formatNumber(value),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: inverted ? MyTheme.surface : MyTheme.onPrimary,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         ),
       ),

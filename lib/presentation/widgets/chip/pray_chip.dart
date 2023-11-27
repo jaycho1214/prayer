@@ -1,59 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_it/get_it.dart';
-import 'package:prayer/constants/talker.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
-import 'package:prayer/repo/prayer_repository.dart';
+import 'package:prayer/providers/prayer/prayer_provider.dart';
 
-class PrayChip extends HookWidget {
+class PrayChip extends ConsumerWidget {
   const PrayChip({
     super.key,
     required this.prayerId,
-    required this.value,
-    this.hasPrayed = false,
   });
 
   final String prayerId;
-  final int value;
-  final bool hasPrayed;
-
   @override
-  Widget build(BuildContext context) {
-    final loading = useState(false);
-    final newValue = useState(value);
-    final prayed = useState(hasPrayed);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prayer = ref.watch(prayerNotifierProvider(prayerId));
+    final prayerNotifier = ref.watch(prayerNotifierProvider(prayerId).notifier);
 
-    final onTap = useCallback(() async {
-      loading.value = true;
-      GetIt.I<PrayerRepository>()
-          .createPrayerPray(prayerId: prayerId)
-          .then((value) {
-        if (value) {
-          prayed.value = true;
-          newValue.value += 1;
-        } else {
-          TooManyPraySheet.show(context);
-        }
-      }).catchError((e) {
-        talker.error("Error while praying for the post", e);
-        GlobalSnackBar.show(context, message: "Failed to like the post");
-      }).whenComplete(() {
-        loading.value = false;
-      });
-    }, []);
-
-    if (loading.value) {
-      return PlatformCircularProgressIndicator();
-    }
     return StatisticsChip(
-      onTap: onTap,
+      onTap: () {
+        prayerNotifier.prayForUser(onError: () {
+          GlobalSnackBar.show(context, message: "Failed to pray for the user");
+        }, onNeedWait: () {
+          TooManyPraySheet.show(context);
+        });
+      },
+      loading: prayer.isLoading,
       icon: FontAwesomeIcons.lightHandsPraying,
-      inverted: prayed.value,
-      value: newValue.value,
+      inverted: prayer.value?.hasPrayed != null,
+      value: prayer.value?.praysCount ?? 0,
     );
   }
 }

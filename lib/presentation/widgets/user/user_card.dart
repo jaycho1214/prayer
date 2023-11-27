@@ -13,8 +13,10 @@ class UserCard extends HookWidget {
     required this.name,
     required this.username,
     this.profile,
+    this.onTap,
   });
 
+  final void Function()? onTap;
   final String uid;
   final String? profile;
   final String name;
@@ -23,8 +25,9 @@ class UserCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return ShrinkingButton(
-      onTap: () => context
-          .push(Uri(path: '/users', queryParameters: {'uid': uid}).toString()),
+      onTap: onTap ??
+          () => context.push(
+              Uri(path: '/users', queryParameters: {'uid': uid}).toString()),
       child: Container(
         width: double.infinity,
         child: Padding(

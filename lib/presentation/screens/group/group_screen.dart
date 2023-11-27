@@ -63,7 +63,9 @@ class GroupScreen extends HookConsumerWidget {
             const SizedBox(width: 10),
             PrimaryTextButton(
                 onTap: () {
-                  GroupInformationSheet.show(context, groupId);
+                  if (data.value != null) {
+                    GroupInformationSheet.show(context, groupId);
+                  }
                 },
                 text: switch (group.membershipType) {
                   'restricted' => 'Restricted',
@@ -111,7 +113,7 @@ class GroupScreen extends HookConsumerWidget {
           builder: (context) {
             return RefreshIndicator(
               notificationPredicate: (notification) =>
-                  group.membershipType == 'private' && group.acceptedAt == null
+                  group.membershipType != 'open' && group.acceptedAt == null
                       ? notification.depth == 0
                       : notification.depth == 2,
               onRefresh: () async {
@@ -191,7 +193,7 @@ class GroupScreen extends HookConsumerWidget {
                         ),
                       ),
                     ],
-                    body: group.membershipType == 'private' &&
+                    body: group.membershipType != 'open' &&
                             group.acceptedAt == null
                         ? Padding(
                             padding: const EdgeInsets.symmetric(
@@ -199,7 +201,7 @@ class GroupScreen extends HookConsumerWidget {
                               horizontal: 20,
                             ),
                             child: Text(
-                              "This group is private.\nJoin to see the prayers",
+                              "This group is ${group.membershipType}.\nJoin to see the prayers",
                               textAlign: TextAlign.center,
                             ),
                           )
@@ -222,11 +224,17 @@ class GroupScreen extends HookConsumerWidget {
                   FAB(
                     onTap: () async {
                       if (DefaultTabController.of(context).index == 0) {
-                        final didAdd = await context.push(Uri(
-                            path: '/form/prayer',
-                            queryParameters: {'groupId': groupId}).toString());
-                        if (didAdd == true) {
-                          prayerPagingController.refresh();
+                        if (group.acceptedAt == null) {
+                          GlobalSnackBar.show(context,
+                              message: "Only members can post prayers.");
+                        } else {
+                          final didAdd = await context.push(Uri(
+                                  path: '/form/prayer',
+                                  queryParameters: {'groupId': groupId})
+                              .toString());
+                          if (didAdd == true) {
+                            prayerPagingController.refresh();
+                          }
                         }
                       } else if (DefaultTabController.of(context).index == 1) {
                         if (group.moderator == null) {

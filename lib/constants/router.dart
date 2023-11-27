@@ -12,6 +12,7 @@ import 'package:prayer/presentation/screens/group/group_members_screen.dart';
 import 'package:prayer/presentation/screens/group/group_screen.dart';
 import 'package:prayer/presentation/screens/home/user_screen.dart';
 import 'package:prayer/presentation/screens/home_tab_bar.dart';
+import 'package:prayer/presentation/screens/notifications_screen.dart';
 import 'package:prayer/presentation/screens/prayers/corporate_prayer_screen.dart';
 import 'package:prayer/presentation/screens/prayers/prayer_screen.dart';
 import 'package:prayer/presentation/screens/settings_screen.dart';
@@ -59,6 +60,12 @@ class AppRouter {
       path: '/',
       builder: (context, state) => const HomeTabBar(),
       routes: [
+        //NOTIFICATONS
+        GoRoute(
+          path: 'notifications',
+          builder: (context, state) => const NotificationsScreen(),
+        ),
+
         // USER
         GoRoute(
           path: 'users',

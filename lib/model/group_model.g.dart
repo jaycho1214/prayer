@@ -25,6 +25,9 @@ _$GroupImpl _$$GroupImplFromJson(Map<String, dynamic> json) => _$GroupImpl(
       acceptedAt: json['accepted_at'] == null
           ? null
           : DateTime.parse(json['accepted_at'] as String),
+      invitedAt: json['invited_at'] == null
+          ? null
+          : DateTime.parse(json['invited_at'] as String),
       moderator: json['moderator'] == null
           ? null
           : DateTime.parse(json['moderator'] as String),
@@ -44,6 +47,7 @@ Map<String, dynamic> _$$GroupImplToJson(_$GroupImpl instance) =>
       'created_at': instance.createdAt?.toIso8601String(),
       'joined_at': instance.joinedAt?.toIso8601String(),
       'accepted_at': instance.acceptedAt?.toIso8601String(),
+      'invited_at': instance.invitedAt?.toIso8601String(),
       'moderator': instance.moderator?.toIso8601String(),
       'members_count': instance.membersCount,
       'prayers_count': instance.prayersCount,

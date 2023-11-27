@@ -8,6 +8,7 @@ import 'package:prayer/providers/auth/auth_state.dart';
 import 'package:prayer/repo/authentication_repository.dart';
 import 'package:prayer/repo/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_provider.g.dart';
 
@@ -19,7 +20,17 @@ class AuthNotifier extends _$AuthNotifier {
   FutureOr<AuthState> build() async {
     final unsubscribe = _subscribe();
     ref.onDispose(unsubscribe);
-
+    ref.listenSelf((_, next) {
+      if (next.value != null) {
+        GetIt.I<SharedPreferences>().setInt(
+            'auth.signInStatus',
+            switch (next.value!) {
+              AuthStateSignedOut() => 0,
+              AuthStateSignedIn() => 1,
+              AuthStateSignedUp() => 2,
+            });
+      }
+    });
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) {
       return AuthStateSignedOut();

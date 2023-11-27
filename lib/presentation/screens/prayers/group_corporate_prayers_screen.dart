@@ -34,12 +34,10 @@ class GroupCorporatePrayersScreen extends HookWidget {
         cursor: cursor,
       )
           .then((data) {
-        final groups = List<String>.from(data['data']);
-        final cursor = data['cursor'];
-        if (cursor == null) {
-          pagingController.appendLastPage(groups);
+        if (data.cursor == null) {
+          pagingController.appendLastPage(data.items ?? []);
         } else {
-          pagingController.appendPage(groups, cursor);
+          pagingController.appendPage(data.items ?? [], data.cursor);
         }
       }).catchError((e) {
         talker.error("Error on fetching next page of groups: $e");

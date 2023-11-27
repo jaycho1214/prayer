@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 class MembershipTypeForm extends StatelessWidget {
   const MembershipTypeForm({super.key});
@@ -13,39 +14,47 @@ class MembershipTypeForm extends StatelessWidget {
     required void Function(String)? onChanged,
     bool? disabled,
   }) =>
-      Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color:
-                        disabled == true ? MyTheme.disabled : MyTheme.onPrimary,
+      ShrinkingButton(
+        onTap: () {
+          if (disabled == true) {
+            return;
+          }
+          onChanged?.call(name);
+        },
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: disabled == true
+                          ? MyTheme.disabled
+                          : MyTheme.onPrimary,
+                    ),
                   ),
-                ),
-                Text(
-                  description,
-                  style: const TextStyle(fontSize: 12, color: MyTheme.disabled),
-                ),
-              ],
+                  Text(
+                    description,
+                    style:
+                        const TextStyle(fontSize: 12, color: MyTheme.disabled),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Checkbox.adaptive(
-              value: value,
-              onChanged: (value) {
-                if (disabled == true) {
-                  return;
-                }
-                if (value != null || value == false) {
+            const SizedBox(width: 10),
+            Checkbox.adaptive(
+                value: value,
+                onChanged: (value) {
+                  if (disabled == true) {
+                    return;
+                  }
                   onChanged?.call(name);
-                }
-              }),
-        ],
+                }),
+          ],
+        ),
       );
 
   @override
@@ -54,9 +63,6 @@ class MembershipTypeForm extends StatelessWidget {
       name: 'membershipType',
       initialValue: 'open',
       validator: (value) {
-        if (value == 'private') {
-          return 'Private is not supported yet';
-        }
         if (value != 'open' && value != 'restricted' && value != 'private') {
           return 'Please choose one of the type';
         }
@@ -77,7 +83,7 @@ class MembershipTypeForm extends StatelessWidget {
             name: 'restricted',
             title: 'Restricted',
             description:
-                'People must ask or be invited to join the group. Restricted group remains visible to everyone',
+                'People must ask or be invited to join the group; prayers are not visible to non-members',
             value: state.value == 'restricted',
             onChanged: state.didChange,
           ),
@@ -86,10 +92,9 @@ class MembershipTypeForm extends StatelessWidget {
             name: 'private',
             title: 'Private',
             description:
-                'Similar to restricted, but only members can view and participate.',
+                'Similar to restricted, but it is hidden from searches and exclusively for those who are invited',
             value: state.value == 'private',
             onChanged: state.didChange,
-            disabled: true,
           ),
           if (state.errorText != null) ...[
             const SizedBox(height: 20),

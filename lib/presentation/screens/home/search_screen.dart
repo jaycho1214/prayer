@@ -66,7 +66,7 @@ class SearchScreen extends HookWidget {
                             controller: queryController,
                             hintText: "Search...",
                             hintStyle: const MaterialStatePropertyAll(
-                              TextStyle(color: MyTheme.disabled),
+                              TextStyle(color: MyTheme.placeholderText),
                             ),
                           ),
                         ),
