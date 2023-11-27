@@ -67,7 +67,7 @@ class JoinButton extends HookConsumerWidget {
             return;
           }
         }
-        notifier.join(value != GroupJoinState.joined).catchError((e) {
+        notifier.join(value == GroupJoinState.none).catchError((e) {
           if (e is AdminLeaveGroupException) {
             return GlobalSnackBar.show(
               context,
@@ -92,7 +92,9 @@ class JoinButton extends HookConsumerWidget {
                 : null,
           ),
           child: Text(
-            text,
+            value == GroupJoinState.none && group?.invitedAt != null
+                ? 'Invited'
+                : text,
             style: TextStyle(
               fontSize: 15,
               color: colors[1],

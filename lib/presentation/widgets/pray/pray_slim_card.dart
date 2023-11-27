@@ -29,7 +29,7 @@ class PraySlimCard extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              '${pray.user.username} has prayed for you',
+              '${pray.user.username} has prayed',
               maxLines: 1,
             ),
           ),

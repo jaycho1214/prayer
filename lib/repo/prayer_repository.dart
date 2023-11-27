@@ -6,6 +6,7 @@ import 'package:prayer/constants/dio.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/model/prayer_model.dart';
 import 'package:prayer/model/prayer_pray_model.dart';
+import 'package:prayer/repo/response_types.dart';
 
 class PrayerRepository {
   Future<bool> createPrayer({
@@ -131,76 +132,67 @@ class PrayerRepository {
     return prayer;
   }
 
-  Future<Map> fetchPrayersFromCorporatePrayer(
+  Future<PaginationResponse<String, CursorType?>>
+      fetchPrayerPagination<CursorType>(String url, CursorType? cursor) async {
+    final resp = await dio.get(url, queryParameters: {
+      'cursor': cursor,
+    });
+    return PaginationResponse(
+      items: List<String>.from(resp.data['data']),
+      cursor: resp.data['cursor'],
+    );
+  }
+
+  Future<PaginationResponse<String, String?>> fetchPrayersFromCorporatePrayer(
       {required String prayerId, String? cursor}) async {
-    final resp = await dio
-        .get('/v1/prayers/corporate/$prayerId/prayers', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
+    return fetchPrayerPagination(
+        '/v1/prayers/corporate/$prayerId/prayers', cursor);
   }
 
-  Future<Map> fetchHomeFeed({String? cursor}) async {
-    final resp = await dio.get('/v1/prayers', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
+  Future<PaginationResponse<String, String?>> fetchHomeFeed(
+      {String? cursor}) async {
+    return fetchPrayerPagination('/v1/prayers', cursor);
   }
 
-  Future<Map> fetchUserPrayers({required String userId, String? cursor}) async {
-    final resp = await dio.get('/v1/prayers/by/user/$userId', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
-  }
-
-  Future<Map> fetchGroupPrayersFromUser({String? cursor}) async {
-    final resp = await dio.get('/v1/prayers/by/group', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
-  }
-
-  Future<Map> fetchGroupPrayers(
-      {required String groupId, String? cursor}) async {
-    final resp =
-        await dio.get('/v1/prayers/by/group/$groupId', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
-  }
-
-  Future<Map> fetchGroupCoporatePrayers(
-      {required String groupId, String? cursor}) async {
-    final resp = await dio
-        .get('/v1/prayers/corporate/by/group/$groupId', queryParameters: {
-      'cursor': cursor,
-    });
-    return resp.data;
-  }
-
-  Future<Map> fetchPrayerPrayedByUser(
+  Future<PaginationResponse<String, String?>> fetchUserPrayers(
       {required String userId, String? cursor}) async {
-    final resp =
-        await dio.get('/v1/prayers/pray/by/user/$userId', queryParameters: {
-      'cursor': cursor,
-    });
-    return {
-      'data': List<String>.from(resp.data['data']),
-      'cursor': resp.data['cursor'],
-    };
+    return fetchPrayerPagination('/v1/prayers/by/user/$userId', cursor);
   }
 
-  Future<Map> fetchPrayerPrays({required String prayerId, int? cursor}) async {
+  Future<PaginationResponse<String, String?>> fetchGroupPrayersFromUser(
+      {String? cursor}) async {
+    return fetchPrayerPagination('/v1/prayers/by/group', cursor);
+  }
+
+  Future<PaginationResponse<String, String?>> fetchGroupPrayers({
+    required String groupId,
+    String? cursor,
+  }) async {
+    return fetchPrayerPagination('/v1/prayers/by/group/$groupId', cursor);
+  }
+
+  Future<PaginationResponse<String, String?>> fetchGroupCoporatePrayers(
+      {required String groupId, String? cursor}) async {
+    return fetchPrayerPagination(
+        '/v1/prayers/corporate/by/group/$groupId', cursor);
+  }
+
+  Future<PaginationResponse<String, String?>> fetchPrayerPrayedByUser(
+      {required String userId, String? cursor}) async {
+    return fetchPrayerPagination('/v1/prayers/pray/by/user/$userId', cursor);
+  }
+
+  Future<PaginationResponse<PrayerPray, int?>> fetchPrayerPrays(
+      {required String prayerId, int? cursor}) async {
     final resp =
         await dio.get('/v1/prayers/pray/by/prayer/$prayerId', queryParameters: {
       'cursor': cursor,
     });
-    return {
-      'prays': List<Map<String, Object?>>.from(resp.data['data'])
+    return PaginationResponse(
+      items: List<Map<String, Object?>>.from(resp.data['data'])
           .map((e) => PrayerPray.fromJson(e))
           .toList(),
-      'cursor': resp.data['cursor'],
-    };
+      cursor: resp.data['cursor'],
+    );
   }
 }

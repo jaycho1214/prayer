@@ -16,6 +16,8 @@ import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 
+enum GroupMemberCardActionType { accept, revoke }
+
 class GroupMemberCard extends HookConsumerWidget {
   const GroupMemberCard({
     super.key,
@@ -23,19 +25,19 @@ class GroupMemberCard extends HookConsumerWidget {
     required this.member,
     this.onDone,
     this.showAccept = false,
-    this.showPromote = false,
+    this.showUndoInvite = false,
   });
 
   final String groupId;
   final GroupMember member;
   final bool showAccept;
-  final bool showPromote;
-  final void Function()? onDone;
+  final bool showUndoInvite;
+  final void Function(GroupMemberCardActionType)? onDone;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final accepted = useState(false);
-    final promoted = useState(false);
+    final revoked = useState(false);
     final loading = useState(false);
     final group = ref.watch(GroupNotifierProvider(groupId)).value;
 
@@ -52,7 +54,7 @@ class GroupMemberCard extends HookConsumerWidget {
             .acceptMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
-          onDone?.call();
+          onDone?.call(GroupMemberCardActionType.accept);
         }).catchError((_) {
           GlobalSnackBar.show(context, message: "Failed to accept the user");
         }).whenComplete(() {
@@ -62,22 +64,26 @@ class GroupMemberCard extends HookConsumerWidget {
       loading.value = false;
     }, []);
 
-    final handlePromote = useCallback(() async {
+    final handleRevoke = useCallback(() async {
       loading.value = true;
       final result = await ConfirmSlimMenuForm.show(
         context,
-        title: "Promote @${member.username}?",
+        title: "Revoke an invitation of @${member.username}?",
         description: "You cannot undo this action",
-        icon: FontAwesomeIcons.userPilot,
+        icon: FontAwesomeIcons.check,
       );
       if (result == true) {
         GetIt.I<GroupRepository>()
-            .promoteMember(groupId: groupId, userId: member.uid)
+            .inviteUserToGroup(
+          groupId: groupId,
+          userIds: [member.uid],
+          value: false,
+        )
             .then((value) {
-          accepted.value = true;
-          onDone?.call();
+          revoked.value = true;
+          onDone?.call(GroupMemberCardActionType.revoke);
         }).catchError((_) {
-          GlobalSnackBar.show(context, message: "Failed to promote the user");
+          GlobalSnackBar.show(context, message: "Failed to revoke the invite");
         }).whenComplete(() {
           loading.value = false;
         });
@@ -112,23 +118,24 @@ class GroupMemberCard extends HookConsumerWidget {
                             fontSize: 15,
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 5),
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: MyTheme.primary,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            group?.adminId == member.uid
-                                ? 'Admin'
-                                : 'Moderator',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
+                        if (member.moderator != null)
+                          Container(
+                            margin: const EdgeInsets.only(left: 5),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: MyTheme.primary,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              group?.adminId == member.uid
+                                  ? 'Admin'
+                                  : 'Moderator',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                     Text(
@@ -148,13 +155,13 @@ class GroupMemberCard extends HookConsumerWidget {
                         inverse: accepted.value,
                         onTap: accepted.value ? null : handleAccept,
                       ),
-              if (showPromote)
+              if (showUndoInvite)
                 loading.value
                     ? PlatformCircularProgressIndicator()
                     : PrimaryTextButton(
-                        text: promoted.value ? "Promoted" : 'Promote',
-                        inverse: promoted.value,
-                        onTap: promoted.value ? null : handlePromote,
+                        text: revoked.value ? "Revoked" : 'Revoke',
+                        inverse: revoked.value,
+                        onTap: revoked.value ? null : handleRevoke,
                       ),
             ],
           ),

@@ -94,7 +94,7 @@ class UserScreen extends HookConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 0),
                       child: Skeletonizer(
-                        enabled: userValue.isLoading,
+                        enabled: userValue.value == null,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -195,7 +195,7 @@ class UserScreen extends HookConsumerWidget {
                     ),
                   ),
                 ],
-                body: user?.uid == null || user?.uid == ''
+                body: userValue.value == null || (user?.uid ?? '') == ''
                     ? const SizedBox()
                     : TabBarView(
                         children: [

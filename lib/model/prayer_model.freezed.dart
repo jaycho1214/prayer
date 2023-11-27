@@ -23,23 +23,23 @@ mixin _$Prayer {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
-  PUser? get user => throw _privateConstructorUsedError;
-  Group? get group => throw _privateConstructorUsedError;
-  CorporatePrayer? get corporate => throw _privateConstructorUsedError;
-  bool? get anon => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   String? get groupId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'corporate_id')
-  String? get corporateId => throw _privateConstructorUsedError;
+  bool? get anon => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
   String? get media => throw _privateConstructorUsedError;
-  @JsonKey(name: 'prays_count')
-  int get praysCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'corporate_id')
+  String? get corporateId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prays_count')
+  int get praysCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'has_prayed')
   DateTime? get hasPrayed => throw _privateConstructorUsedError;
+  PUser? get user => throw _privateConstructorUsedError;
   PUser? get pray => throw _privateConstructorUsedError;
+  Group? get group => throw _privateConstructorUsedError;
+  CorporatePrayer? get corporate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,23 +54,23 @@ abstract class $PrayerCopyWith<$Res> {
   $Res call(
       {String id,
       @JsonKey(name: 'user_id') String? userId,
-      PUser? user,
-      Group? group,
-      CorporatePrayer? corporate,
-      bool? anon,
       @JsonKey(name: 'group_id') String? groupId,
-      @JsonKey(name: 'corporate_id') String? corporateId,
+      bool? anon,
       String value,
       String? media,
-      @JsonKey(name: 'prays_count') int praysCount,
       @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'corporate_id') String? corporateId,
+      @JsonKey(name: 'prays_count') int praysCount,
       @JsonKey(name: 'has_prayed') DateTime? hasPrayed,
-      PUser? pray});
+      PUser? user,
+      PUser? pray,
+      Group? group,
+      CorporatePrayer? corporate});
 
   $PUserCopyWith<$Res>? get user;
+  $PUserCopyWith<$Res>? get pray;
   $GroupCopyWith<$Res>? get group;
   $CorporatePrayerCopyWith<$Res>? get corporate;
-  $PUserCopyWith<$Res>? get pray;
 }
 
 /// @nodoc
@@ -88,18 +88,18 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
   $Res call({
     Object? id = null,
     Object? userId = freezed,
-    Object? user = freezed,
-    Object? group = freezed,
-    Object? corporate = freezed,
-    Object? anon = freezed,
     Object? groupId = freezed,
-    Object? corporateId = freezed,
+    Object? anon = freezed,
     Object? value = null,
     Object? media = freezed,
-    Object? praysCount = null,
     Object? createdAt = freezed,
+    Object? corporateId = freezed,
+    Object? praysCount = null,
     Object? hasPrayed = freezed,
+    Object? user = freezed,
     Object? pray = freezed,
+    Object? group = freezed,
+    Object? corporate = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -110,9 +110,45 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
+      groupId: freezed == groupId
+          ? _value.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      anon: freezed == anon
+          ? _value.anon
+          : anon // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      corporateId: freezed == corporateId
+          ? _value.corporateId
+          : corporateId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      praysCount: null == praysCount
+          ? _value.praysCount
+          : praysCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasPrayed: freezed == hasPrayed
+          ? _value.hasPrayed
+          : hasPrayed // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
+              as PUser?,
+      pray: freezed == pray
+          ? _value.pray
+          : pray // ignore: cast_nullable_to_non_nullable
               as PUser?,
       group: freezed == group
           ? _value.group
@@ -122,42 +158,6 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
           ? _value.corporate
           : corporate // ignore: cast_nullable_to_non_nullable
               as CorporatePrayer?,
-      anon: freezed == anon
-          ? _value.anon
-          : anon // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      groupId: freezed == groupId
-          ? _value.groupId
-          : groupId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      corporateId: freezed == corporateId
-          ? _value.corporateId
-          : corporateId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-      media: freezed == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as String?,
-      praysCount: null == praysCount
-          ? _value.praysCount
-          : praysCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      hasPrayed: freezed == hasPrayed
-          ? _value.hasPrayed
-          : hasPrayed // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      pray: freezed == pray
-          ? _value.pray
-          : pray // ignore: cast_nullable_to_non_nullable
-              as PUser?,
     ) as $Val);
   }
 
@@ -170,6 +170,18 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
 
     return $PUserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $PUserCopyWith<$Res>? get pray {
+    if (_value.pray == null) {
+      return null;
+    }
+
+    return $PUserCopyWith<$Res>(_value.pray!, (value) {
+      return _then(_value.copyWith(pray: value) as $Val);
     });
   }
 
@@ -196,18 +208,6 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
       return _then(_value.copyWith(corporate: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PUserCopyWith<$Res>? get pray {
-    if (_value.pray == null) {
-      return null;
-    }
-
-    return $PUserCopyWith<$Res>(_value.pray!, (value) {
-      return _then(_value.copyWith(pray: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -220,27 +220,27 @@ abstract class _$$PrayerImplCopyWith<$Res> implements $PrayerCopyWith<$Res> {
   $Res call(
       {String id,
       @JsonKey(name: 'user_id') String? userId,
-      PUser? user,
-      Group? group,
-      CorporatePrayer? corporate,
-      bool? anon,
       @JsonKey(name: 'group_id') String? groupId,
-      @JsonKey(name: 'corporate_id') String? corporateId,
+      bool? anon,
       String value,
       String? media,
-      @JsonKey(name: 'prays_count') int praysCount,
       @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'corporate_id') String? corporateId,
+      @JsonKey(name: 'prays_count') int praysCount,
       @JsonKey(name: 'has_prayed') DateTime? hasPrayed,
-      PUser? pray});
+      PUser? user,
+      PUser? pray,
+      Group? group,
+      CorporatePrayer? corporate});
 
   @override
   $PUserCopyWith<$Res>? get user;
   @override
+  $PUserCopyWith<$Res>? get pray;
+  @override
   $GroupCopyWith<$Res>? get group;
   @override
   $CorporatePrayerCopyWith<$Res>? get corporate;
-  @override
-  $PUserCopyWith<$Res>? get pray;
 }
 
 /// @nodoc
@@ -256,18 +256,18 @@ class __$$PrayerImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? userId = freezed,
-    Object? user = freezed,
-    Object? group = freezed,
-    Object? corporate = freezed,
-    Object? anon = freezed,
     Object? groupId = freezed,
-    Object? corporateId = freezed,
+    Object? anon = freezed,
     Object? value = null,
     Object? media = freezed,
-    Object? praysCount = null,
     Object? createdAt = freezed,
+    Object? corporateId = freezed,
+    Object? praysCount = null,
     Object? hasPrayed = freezed,
+    Object? user = freezed,
     Object? pray = freezed,
+    Object? group = freezed,
+    Object? corporate = freezed,
   }) {
     return _then(_$PrayerImpl(
       id: null == id
@@ -278,9 +278,45 @@ class __$$PrayerImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
+      groupId: freezed == groupId
+          ? _value.groupId
+          : groupId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      anon: freezed == anon
+          ? _value.anon
+          : anon // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      media: freezed == media
+          ? _value.media
+          : media // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      corporateId: freezed == corporateId
+          ? _value.corporateId
+          : corporateId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      praysCount: null == praysCount
+          ? _value.praysCount
+          : praysCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasPrayed: freezed == hasPrayed
+          ? _value.hasPrayed
+          : hasPrayed // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
+              as PUser?,
+      pray: freezed == pray
+          ? _value.pray
+          : pray // ignore: cast_nullable_to_non_nullable
               as PUser?,
       group: freezed == group
           ? _value.group
@@ -290,42 +326,6 @@ class __$$PrayerImplCopyWithImpl<$Res>
           ? _value.corporate
           : corporate // ignore: cast_nullable_to_non_nullable
               as CorporatePrayer?,
-      anon: freezed == anon
-          ? _value.anon
-          : anon // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      groupId: freezed == groupId
-          ? _value.groupId
-          : groupId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      corporateId: freezed == corporateId
-          ? _value.corporateId
-          : corporateId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-      media: freezed == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as String?,
-      praysCount: null == praysCount
-          ? _value.praysCount
-          : praysCount // ignore: cast_nullable_to_non_nullable
-              as int,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      hasPrayed: freezed == hasPrayed
-          ? _value.hasPrayed
-          : hasPrayed // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      pray: freezed == pray
-          ? _value.pray
-          : pray // ignore: cast_nullable_to_non_nullable
-              as PUser?,
     ));
   }
 }
@@ -337,18 +337,18 @@ class _$PrayerImpl implements _Prayer {
   const _$PrayerImpl(
       {required this.id,
       @JsonKey(name: 'user_id') this.userId,
-      this.user,
-      this.group,
-      this.corporate,
-      this.anon,
       @JsonKey(name: 'group_id') this.groupId,
-      @JsonKey(name: 'corporate_id') this.corporateId,
+      this.anon,
       required this.value,
       this.media,
-      @JsonKey(name: 'prays_count') this.praysCount = 0,
       @JsonKey(name: 'created_at') this.createdAt,
+      @JsonKey(name: 'corporate_id') this.corporateId,
+      @JsonKey(name: 'prays_count') this.praysCount = 0,
       @JsonKey(name: 'has_prayed') this.hasPrayed,
-      this.pray});
+      this.user,
+      this.pray,
+      this.group,
+      this.corporate});
 
   factory _$PrayerImpl.fromJson(Map<String, dynamic> json) =>
       _$$PrayerImplFromJson(json);
@@ -359,38 +359,38 @@ class _$PrayerImpl implements _Prayer {
   @JsonKey(name: 'user_id')
   final String? userId;
   @override
-  final PUser? user;
-  @override
-  final Group? group;
-  @override
-  final CorporatePrayer? corporate;
-  @override
-  final bool? anon;
-  @override
   @JsonKey(name: 'group_id')
   final String? groupId;
   @override
-  @JsonKey(name: 'corporate_id')
-  final String? corporateId;
+  final bool? anon;
   @override
   final String value;
   @override
   final String? media;
   @override
-  @JsonKey(name: 'prays_count')
-  final int praysCount;
-  @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
+  @override
+  @JsonKey(name: 'corporate_id')
+  final String? corporateId;
+  @override
+  @JsonKey(name: 'prays_count')
+  final int praysCount;
   @override
   @JsonKey(name: 'has_prayed')
   final DateTime? hasPrayed;
   @override
+  final PUser? user;
+  @override
   final PUser? pray;
+  @override
+  final Group? group;
+  @override
+  final CorporatePrayer? corporate;
 
   @override
   String toString() {
-    return 'Prayer(id: $id, userId: $userId, user: $user, group: $group, corporate: $corporate, anon: $anon, groupId: $groupId, corporateId: $corporateId, value: $value, media: $media, praysCount: $praysCount, createdAt: $createdAt, hasPrayed: $hasPrayed, pray: $pray)';
+    return 'Prayer(id: $id, userId: $userId, groupId: $groupId, anon: $anon, value: $value, media: $media, createdAt: $createdAt, corporateId: $corporateId, praysCount: $praysCount, hasPrayed: $hasPrayed, user: $user, pray: $pray, group: $group, corporate: $corporate)';
   }
 
   @override
@@ -400,23 +400,23 @@ class _$PrayerImpl implements _Prayer {
             other is _$PrayerImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.user, user) || other.user == user) &&
-            (identical(other.group, group) || other.group == group) &&
-            (identical(other.corporate, corporate) ||
-                other.corporate == corporate) &&
-            (identical(other.anon, anon) || other.anon == anon) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
-            (identical(other.corporateId, corporateId) ||
-                other.corporateId == corporateId) &&
+            (identical(other.anon, anon) || other.anon == anon) &&
             (identical(other.value, value) || other.value == value) &&
             (identical(other.media, media) || other.media == media) &&
-            (identical(other.praysCount, praysCount) ||
-                other.praysCount == praysCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.corporateId, corporateId) ||
+                other.corporateId == corporateId) &&
+            (identical(other.praysCount, praysCount) ||
+                other.praysCount == praysCount) &&
             (identical(other.hasPrayed, hasPrayed) ||
                 other.hasPrayed == hasPrayed) &&
-            (identical(other.pray, pray) || other.pray == pray));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.pray, pray) || other.pray == pray) &&
+            (identical(other.group, group) || other.group == group) &&
+            (identical(other.corporate, corporate) ||
+                other.corporate == corporate));
   }
 
   @JsonKey(ignore: true)
@@ -425,18 +425,18 @@ class _$PrayerImpl implements _Prayer {
       runtimeType,
       id,
       userId,
-      user,
-      group,
-      corporate,
-      anon,
       groupId,
-      corporateId,
+      anon,
       value,
       media,
-      praysCount,
       createdAt,
+      corporateId,
+      praysCount,
       hasPrayed,
-      pray);
+      user,
+      pray,
+      group,
+      corporate);
 
   @JsonKey(ignore: true)
   @override
@@ -456,18 +456,18 @@ abstract class _Prayer implements Prayer {
   const factory _Prayer(
       {required final String id,
       @JsonKey(name: 'user_id') final String? userId,
-      final PUser? user,
-      final Group? group,
-      final CorporatePrayer? corporate,
-      final bool? anon,
       @JsonKey(name: 'group_id') final String? groupId,
-      @JsonKey(name: 'corporate_id') final String? corporateId,
+      final bool? anon,
       required final String value,
       final String? media,
-      @JsonKey(name: 'prays_count') final int praysCount,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: 'corporate_id') final String? corporateId,
+      @JsonKey(name: 'prays_count') final int praysCount,
       @JsonKey(name: 'has_prayed') final DateTime? hasPrayed,
-      final PUser? pray}) = _$PrayerImpl;
+      final PUser? user,
+      final PUser? pray,
+      final Group? group,
+      final CorporatePrayer? corporate}) = _$PrayerImpl;
 
   factory _Prayer.fromJson(Map<String, dynamic> json) = _$PrayerImpl.fromJson;
 
@@ -477,34 +477,34 @@ abstract class _Prayer implements Prayer {
   @JsonKey(name: 'user_id')
   String? get userId;
   @override
-  PUser? get user;
-  @override
-  Group? get group;
-  @override
-  CorporatePrayer? get corporate;
-  @override
-  bool? get anon;
-  @override
   @JsonKey(name: 'group_id')
   String? get groupId;
   @override
-  @JsonKey(name: 'corporate_id')
-  String? get corporateId;
+  bool? get anon;
   @override
   String get value;
   @override
   String? get media;
   @override
-  @JsonKey(name: 'prays_count')
-  int get praysCount;
-  @override
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;
+  @override
+  @JsonKey(name: 'corporate_id')
+  String? get corporateId;
+  @override
+  @JsonKey(name: 'prays_count')
+  int get praysCount;
   @override
   @JsonKey(name: 'has_prayed')
   DateTime? get hasPrayed;
   @override
+  PUser? get user;
+  @override
   PUser? get pray;
+  @override
+  Group? get group;
+  @override
+  CorporatePrayer? get corporate;
   @override
   @JsonKey(ignore: true)
   _$$PrayerImplCopyWith<_$PrayerImpl> get copyWith =>

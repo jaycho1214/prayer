@@ -35,11 +35,11 @@ class GroupSearchScreen extends HookWidget {
         userId: uid,
       )
           .then((data) {
-        final cursor = data.cursor;
-        if (cursor == null) {
+        final newCursor = data.cursor;
+        if (newCursor == null) {
           pagingController.appendLastPage(data.items!);
         } else {
-          pagingController.appendPage(data.items!, cursor);
+          pagingController.appendPage(data.items!, newCursor);
         }
       }).catchError((e) {
         talker.error("Error on fetching next page of groups: $e");

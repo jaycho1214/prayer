@@ -15,15 +15,19 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/firebase_options.dart';
 import 'package:prayer/repo/authentication_repository.dart';
 import 'package:prayer/repo/group_repository.dart';
+import 'package:prayer/repo/notification_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:prayer/repo/user_repository.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  final List<Future<dynamic>> tasks = [];
-  tasks.add(initialize());
-  tasks.add(
-      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform));
+  final futureFns = {
+    'init': initialize(),
+    'firebase':
+        Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    'sharedPref': SharedPreferences.getInstance(),
+  };
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -33,8 +37,11 @@ Future<void> main() async {
   GetIt.I.registerSingleton(AuthenticationRepository());
   GetIt.I.registerSingleton(UserRepository());
   GetIt.I.registerLazySingleton(() => GroupRepository());
+  GetIt.I.registerLazySingleton(() => NotificationRepository());
   GetIt.I.registerLazySingleton(() => PrayerRepository());
-  await Future.wait(tasks);
+  final pref = await (futureFns['sharedPref'] as Future<SharedPreferences>);
+  GetIt.I.registerLazySingleton(() => pref);
+  await Future.wait(futureFns.values.toList());
   if (kDebugMode) {
     runApp(ProviderScope(
       child: const App(),

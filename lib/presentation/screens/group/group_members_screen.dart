@@ -11,10 +11,14 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
+import 'package:prayer/presentation/widgets/form/sheet/member_picker.dart';
+import 'package:prayer/presentation/widgets/form/sheet/invite_users_picker.dart';
 import 'package:prayer/presentation/widgets/tab_bar.dart';
 import 'package:prayer/presentation/widgets/user/group_member_card.dart';
 import 'package:prayer/providers/group/group_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
+import 'package:prayer/repo/response_types.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 
 class GroupMembersScreen extends HookConsumerWidget {
   const GroupMembersScreen({
@@ -27,17 +31,18 @@ class GroupMembersScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final group = ref.watch(GroupNotifierProvider(groupId)).value;
-    final promoting = useState(false);
     final membersPageController =
-        usePagingController<int?, GroupMember>(firstPageKey: null);
+        usePagingController<String?, GroupMember>(firstPageKey: null);
     final moderatorsPageController =
-        usePagingController<int?, GroupMember>(firstPageKey: null);
+        usePagingController<String?, GroupMember>(firstPageKey: null);
     final requestsPageController =
-        usePagingController<int?, GroupMember>(firstPageKey: null);
+        usePagingController<String?, GroupMember>(firstPageKey: null);
+    final invitesPageController =
+        usePagingController<String?, GroupMember>(firstPageKey: null);
 
     return DefaultTabController(
       length:
-          group?.moderator != null && group?.membershipType != 'open' ? 3 : 2,
+          group?.moderator != null && group?.membershipType != 'open' ? 4 : 2,
       child: Builder(
         builder: (context) {
           return PlatformScaffold(
@@ -55,6 +60,9 @@ class GroupMembersScreen extends HookConsumerWidget {
                   case 2:
                     requestsPageController.refresh();
                     break;
+                  case 3:
+                    invitesPageController.refresh();
+                    break;
                 }
                 return null;
               },
@@ -64,7 +72,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                         context),
                     sliver: SliverAppBar(
-                      toolbarHeight: 25,
+                      toolbarHeight: 40,
                       pinned: true,
                       surfaceTintColor: MyTheme.surface,
                       backgroundColor: MyTheme.surface,
@@ -90,26 +98,57 @@ class GroupMembersScreen extends HookConsumerWidget {
                             left: 0,
                             child: NavigateBackButton(),
                           ),
-                          if (group?.adminId ==
-                              FirebaseAuth.instance.currentUser?.uid)
+                          if (group?.moderator != null)
                             Positioned(
                               top: -13,
                               right: 0,
-                              child: Container(
-                                decoration: promoting.value
-                                    ? BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: MyTheme.primary,
-                                      )
-                                    : null,
-                                child: Center(
-                                  child: NavigateIconButton(
-                                    icon: FontAwesomeIcons.userPilot,
-                                    onPressed: () =>
-                                        promoting.value = !promoting.value,
-                                  ),
-                                ),
-                              ),
+                              child: InviteUsersPicker(
+                                  groupId: groupId,
+                                  builder: (context, showUsersPicker) {
+                                    return MemberPicker(
+                                      groupId: groupId,
+                                      builder: (context, showPromotePicker) {
+                                        return PullDownButton(
+                                          itemBuilder: (context) => [
+                                            PullDownMenuItem(
+                                              onTap: () async {
+                                                if (await showUsersPicker() ==
+                                                    true) {
+                                                  invitesPageController
+                                                      .refresh();
+                                                }
+                                              },
+                                              title: 'Invite',
+                                              icon: FontAwesomeIcons.envelope,
+                                            ),
+                                            if (group?.adminId ==
+                                                FirebaseAuth
+                                                    .instance.currentUser?.uid)
+                                              PullDownMenuItem(
+                                                onTap: () async {
+                                                  if (await showPromotePicker() !=
+                                                      null) {
+                                                    moderatorsPageController
+                                                        .refresh();
+                                                    membersPageController
+                                                        .refresh();
+                                                  }
+                                                },
+                                                title: 'Promote',
+                                                icon:
+                                                    FontAwesomeIcons.userShield,
+                                              ),
+                                          ],
+                                          buttonBuilder: (context, showMenu) =>
+                                              NavigateIconButton(
+                                            icon: FontAwesomeIcons
+                                                .ellipsisVertical,
+                                            onPressed: showMenu,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }),
                             ),
                         ],
                       ),
@@ -122,7 +161,10 @@ class GroupMembersScreen extends HookConsumerWidget {
                             'Members',
                             if (group?.moderator != null &&
                                 group?.membershipType != 'open')
-                              'Requests'
+                              'Requests',
+                            if (group?.moderator != null &&
+                                group?.membershipType != 'open')
+                              'Invites'
                           ],
                         ),
                       ),
@@ -130,7 +172,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                   ),
                 ],
                 body: TabBarView(
-                  children: ['moderators', 'members', 'requests']
+                  children: ['moderators', 'members', 'requests', 'invites']
                       .map(
                         (e) => Builder(
                           builder: (context) => CustomScrollView(
@@ -140,20 +182,36 @@ class GroupMembersScreen extends HookConsumerWidget {
                                   handle: NestedScrollView
                                       .sliverOverlapAbsorberHandleFor(context)),
                               MembersPage(
+                                fetchFn: (cursor) => switch (e) {
+                                  'invites' => GetIt.I<GroupRepository>()
+                                        .fetchGroupInvites(
+                                      groupId: groupId,
+                                      cursor: cursor,
+                                    ),
+                                  _ => GetIt.I<GroupRepository>()
+                                        .fetchGroupMembers(
+                                      groupId: groupId,
+                                      cursor: cursor,
+                                      type: e,
+                                    ),
+                                },
                                 pagingController: switch (e) {
                                   'moderators' => moderatorsPageController,
                                   'members' => membersPageController,
-                                  _ => requestsPageController,
+                                  'requests' => requestsPageController,
+                                  _ => invitesPageController,
                                 },
-                                onAction: (_) {
-                                  moderatorsPageController.refresh();
-                                  membersPageController.refresh();
-                                  requestsPageController.refresh();
+                                onAction: (actionType, _) {
+                                  if (actionType ==
+                                      GroupMemberCardActionType.accept) {
+                                    membersPageController.refresh();
+                                    requestsPageController.refresh();
+                                  } else {
+                                    invitesPageController.refresh();
+                                  }
                                 },
                                 groupId: groupId,
                                 membersType: e,
-                                promote:
-                                    e != 'members' ? false : promoting.value,
                               )
                             ],
                           ),
@@ -173,33 +231,42 @@ class GroupMembersScreen extends HookConsumerWidget {
 class MembersPage extends HookWidget {
   const MembersPage({
     super.key,
+    required this.fetchFn,
     required this.groupId,
     required this.membersType,
     required this.pagingController,
-    this.promote,
     this.onAction,
   });
 
-  final PagingController<int?, GroupMember> pagingController;
+  final Future<PaginationResponse<GroupMember, String?>> Function(dynamic)
+      fetchFn;
+  final PagingController<String?, GroupMember> pagingController;
   final String groupId;
   final String membersType;
-  final bool? promote;
-  final void Function(String)? onAction;
+  final void Function(GroupMemberCardActionType, String)? onAction;
 
   @override
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
-    final fetchPage = useCallback((int? cursor) async {
+    final fetchPage = useCallback((String? cursor) async {
       try {
-        final data = await GetIt.I<GroupRepository>().fetchGroupMembers(
-          groupId: groupId,
-          cursor: cursor,
-          type: membersType,
-        );
-        if (data['cursor'] != null) {
-          pagingController.appendPage(data['members'], data['cursor']);
+        PaginationResponse<GroupMember, dynamic> data;
+        if (membersType == 'invites') {
+          data = await GetIt.I<GroupRepository>().fetchGroupInvites(
+            groupId: groupId,
+            cursor: cursor,
+          );
         } else {
-          pagingController.appendLastPage(data['members']);
+          data = await GetIt.I<GroupRepository>().fetchGroupMembers(
+            groupId: groupId,
+            cursor: cursor,
+            type: membersType,
+          );
+        }
+        if (data.cursor != null) {
+          pagingController.appendPage(data.items ?? [], data.cursor);
+        } else {
+          pagingController.appendLastPage(data.items ?? []);
         }
       } catch (error) {
         talker.error('Error while fetching members of the group: $error');
@@ -217,11 +284,11 @@ class MembersPage extends HookWidget {
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<GroupMember>(
         itemBuilder: (context, item, index) => GroupMemberCard(
-          onDone: () => onAction?.call(item.uid),
+          onDone: (actionType) => onAction?.call(actionType, item.uid),
           groupId: groupId,
           member: item,
           showAccept: membersType == 'requests',
-          showPromote: promote ?? false,
+          showUndoInvite: membersType == 'invites',
         ),
       ),
     );

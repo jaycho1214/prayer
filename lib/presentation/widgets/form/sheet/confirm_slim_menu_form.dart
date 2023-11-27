@@ -49,7 +49,7 @@ class ConfirmSlimMenuForm extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          borderRadius: BorderRadius.circular(100),
           color: MyTheme.sheetSurface,
         ),
         child: Row(
@@ -65,8 +65,8 @@ class ConfirmSlimMenuForm extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   if (description != null)
                     Text(
@@ -75,7 +75,7 @@ class ConfirmSlimMenuForm extends StatelessWidget {
                         color: MyTheme.disabled,
                       ),
                       maxLines: 1,
-                      overflow: TextOverflow.fade,
+                      overflow: TextOverflow.ellipsis,
                     ),
                 ],
               ),

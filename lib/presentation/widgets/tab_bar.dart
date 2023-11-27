@@ -11,9 +11,14 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isScrollable = tabs.length > 3;
     return TabBar(
+      isScrollable: isScrollable,
       indicatorSize: TabBarIndicatorSize.label,
-      labelPadding: const EdgeInsets.all(0),
+      tabAlignment: isScrollable ? TabAlignment.start : null,
+      labelPadding: isScrollable
+          ? const EdgeInsets.symmetric(horizontal: 20)
+          : const EdgeInsets.all(0),
       indicatorPadding: const EdgeInsets.all(0),
       padding: const EdgeInsets.all(0),
       labelColor: MyTheme.onPrimary,

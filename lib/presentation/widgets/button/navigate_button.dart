@@ -31,15 +31,17 @@ class NavigateBackButton extends StatelessWidget {
   const NavigateBackButton({
     super.key,
     this.result,
+    this.onPressed,
   });
 
+  final void Function()? onPressed;
   final dynamic result;
 
   @override
   Widget build(BuildContext context) {
     return NavigateIconButton(
       icon: FontAwesomeIcons.solidChevronLeft,
-      onPressed: () => context.pop(result),
+      onPressed: onPressed ?? () => context.pop(result),
     );
   }
 }

@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/chip/pray_chip.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
-import 'package:prayer/repo/prayer_repository.dart';
+import 'package:prayer/providers/prayer/prayer_provider.dart';
 import 'package:prayer/utils/formatter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class PrayerCard extends HookWidget {
+class PrayerCard extends ConsumerWidget {
   const PrayerCard({
     super.key,
     required this.prayerId,
@@ -24,12 +23,11 @@ class PrayerCard extends HookWidget {
   final String prayerId;
 
   @override
-  Widget build(BuildContext context) {
-    final snapshot = useFuture(
-        useMemoized(() => GetIt.I<PrayerRepository>().fetchPrayer(prayerId)));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prayer = ref.watch(prayerNotifierProvider(prayerId));
 
     return Skeletonizer(
-      enabled: snapshot.connectionState == ConnectionState.waiting,
+      enabled: prayer.isLoading || prayer.value == null,
       child: ShrinkingButton(
         onTap: () {
           context.push('/prayers/$prayerId');
@@ -40,14 +38,12 @@ class PrayerCard extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (snapshot.data?.groupId != null) ...[
+              if (prayer.value?.group != null) ...[
                 Row(
                   children: [
                     ShrinkingButton(
                       onTap: () {
-                        if (snapshot.data?.groupId != null) {
-                          context.push('/groups/${snapshot.data!.groupId!}');
-                        }
+                        context.push('/groups/${prayer.value?.groupId}');
                       },
                       child: Row(
                         children: [
@@ -58,15 +54,15 @@ class PrayerCard extends HookWidget {
                             color: MyTheme.onPrimary,
                           ),
                           const SizedBox(width: 5),
-                          Text(snapshot.data?.group?.name ?? ''),
+                          Text(prayer.value?.group?.name ?? ''),
                         ],
                       ),
                     ),
-                    if (snapshot.data?.corporateId != null)
+                    if (prayer.value?.corporate != null)
                       ShrinkingButton(
                         onTap: () {
                           context.push(
-                              '/prayers/corporate/${snapshot.data!.corporateId!}');
+                              '/prayers/corporate/${prayer.value?.corporateId}');
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +74,7 @@ class PrayerCard extends HookWidget {
                               color: MyTheme.onPrimary,
                             ),
                             const SizedBox(width: 5),
-                            Text(snapshot.data?.corporate?.title ?? ''),
+                            Text(prayer.value?.corporate?.title ?? ''),
                           ],
                         ),
                       ),
@@ -90,36 +86,36 @@ class PrayerCard extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   UserChip(
-                    anon: snapshot.data?.anon == true,
-                    uid: snapshot.data?.userId,
-                    profile: snapshot.data?.user?.profile,
-                    name: snapshot.data?.user?.name,
+                    anon: prayer.value?.anon == true,
+                    uid: prayer.value?.userId,
+                    profile: prayer.value?.user?.profile,
+                    name: prayer.value?.user?.name,
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    snapshot.data?.createdAt == null
+                    prayer.value?.createdAt == null
                         ? ''
-                        : Formatter.fromNow(snapshot.data!.createdAt!),
+                        : Formatter.fromNow(prayer.value!.createdAt!),
                     style: TextStyle(color: MyTheme.outline),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
               Text(
-                snapshot.data?.value ?? '',
+                prayer.value?.value ?? '',
                 style: const TextStyle(
                   fontSize: 15,
                 ),
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
               ),
-              if (snapshot.data?.media != null)
+              if (prayer.value?.media != null)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 80, 0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CachedNetworkImage(
-                      imageUrl: snapshot.data!.media!,
+                      imageUrl: prayer.value!.media!,
                     ),
                   ),
                 ),
@@ -127,26 +123,26 @@ class PrayerCard extends HookWidget {
               Row(
                 children: [
                   Expanded(
-                    child: snapshot.data?.pray == null
+                    child: prayer.value?.pray == null
                         ? const SizedBox()
                         : Row(
                             children: [
                               UserProfileImage(
-                                profile: snapshot.data?.pray?.profile,
+                                profile: prayer.value?.pray?.profile,
                                 size: 30,
                               ),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: Text(
-                                  '${snapshot.data?.pray?.username} has prayed for you',
+                                  '${prayer.value?.pray?.username} has prayed',
                                   maxLines: 1,
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              if (snapshot.data?.pray?.createdAt != null)
+                              if (prayer.value?.pray?.createdAt != null)
                                 Text(
                                   Formatter.fromNow(
-                                      snapshot.data!.pray!.createdAt!),
+                                      prayer.value!.pray!.createdAt!),
                                   style: TextStyle(
                                     color: MyTheme.outline,
                                   ),
@@ -155,11 +151,7 @@ class PrayerCard extends HookWidget {
                             ],
                           ),
                   ),
-                  PrayChip(
-                    prayerId: prayerId,
-                    hasPrayed: snapshot.data?.hasPrayed != null,
-                    value: snapshot.data?.praysCount ?? 0,
-                  ),
+                  PrayChip(prayerId: prayerId),
                 ],
               ),
             ],

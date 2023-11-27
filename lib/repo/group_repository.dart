@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -104,6 +105,29 @@ class GroupRepository {
     }
   }
 
+  Future<PaginationResponse<Group, int?>> fetchInvitedGroups(
+      {int? cursor}) async {
+    try {
+      final resp = await dio.get('/v1/groups/invitation', queryParameters: {
+        'cursor': cursor,
+      });
+      return PaginationResponse(
+        items: resp.data['data'] == null
+            ? <Group>[]
+            : List<Map<String, Object?>>.from(
+                resp.data['data'],
+              ).map((e) => Group.fromJson(e)).toList(),
+        cursor: resp.data['cursor'],
+      );
+    } catch (e) {
+      return PaginationResponse(
+        items: null,
+        cursor: null,
+        error: e.toString(),
+      );
+    }
+  }
+
   Future<PaginationResponse<Group, String?>> fetchGroups(
       {String? query, String? cursor, String? userId}) async {
     final resp = await dio.get('/v1/groups', queryParameters: {
@@ -142,22 +166,88 @@ class GroupRepository {
     }
   }
 
-  Future<Map> fetchGroupMembers({
+  Future<void> inviteUserToGroup({
     required String groupId,
-    int? cursor,
-    String type = 'members',
+    required List<String> userIds,
+    bool value = true,
   }) async {
-    final resp = await dio
-        .get('/v1/groups/$groupId/$type', queryParameters: {'cursor': cursor});
-    final members = resp.data['data'] == null
-        ? null
-        : List<Map<String, dynamic>>.from(resp.data['data'])
-            .map((data) => GroupMember.fromJson(data))
-            .toList();
-    return {
-      'cursor': resp.data['cursor'],
-      'members': members,
-    };
+    try {
+      if (value) {
+        await dio.post('/v1/groups/$groupId/invite', data: {
+          'value': jsonEncode(userIds),
+        });
+      } else {
+        await dio.delete('/v1/groups/$groupId/invite', data: {
+          'value': jsonEncode(userIds),
+        });
+      }
+    } on DioException catch (err) {
+      if (err.response?.data['code'] == 'operation-not-allowed') {
+        throw AdminLeaveGroupException();
+      }
+      rethrow;
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<PaginationResponse<GroupMember, String?>> fetchGroupMembers({
+    required String groupId,
+    String type = 'members',
+    String? query,
+    String? cursor,
+  }) async {
+    try {
+      final resp = await dio.get(
+        '/v1/groups/$groupId/$type',
+        queryParameters: {
+          'cursor': cursor,
+          'query': query,
+        },
+      );
+      final members = resp.data['data'] == null
+          ? null
+          : List<Map<String, dynamic>>.from(resp.data['data'])
+              .map((data) => GroupMember.fromJson(data))
+              .toList();
+      return PaginationResponse(
+        items: members,
+        cursor: resp.data['cursor'],
+      );
+    } catch (err) {
+      return PaginationResponse<GroupMember, String?>(
+        items: [],
+        error: err.toString(),
+      );
+    }
+  }
+
+  Future<PaginationResponse<GroupMember, String?>> fetchGroupInvites({
+    required String groupId,
+    String? cursor,
+  }) async {
+    try {
+      final resp = await dio.get(
+        '/v1/groups/$groupId/invites',
+        queryParameters: {
+          'cursor': cursor == null ? null : int.tryParse(cursor),
+        },
+      );
+      final members = resp.data['data'] == null
+          ? null
+          : List<Map<String, dynamic>>.from(resp.data['data'])
+              .map((data) => GroupMember.fromJson(data))
+              .toList();
+      return PaginationResponse(
+        items: members,
+        cursor: resp.data['cursor'].toString(),
+      );
+    } catch (err) {
+      return PaginationResponse<GroupMember, String?>(
+        items: [],
+        error: err.toString(),
+      );
+    }
   }
 
   Future<void> acceptMember(
@@ -165,9 +255,13 @@ class GroupRepository {
     await dio.post('/v1/groups/$groupId/requests', data: {'userId': userId});
   }
 
-  Future<void> promoteMember(
-      {required String groupId, required String userId}) async {
-    await dio.post('/v1/groups/$groupId/promote', data: {'userId': userId});
+  Future<void> promoteMember({
+    required String groupId,
+    required String userId,
+    required bool value,
+  }) async {
+    await dio.post('/v1/groups/$groupId/promote',
+        data: {'userId': userId, 'value': value});
   }
 
   Future<void> removeGroup(String groupId) async {

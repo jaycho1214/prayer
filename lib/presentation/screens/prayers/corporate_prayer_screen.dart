@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -34,7 +33,6 @@ class CorporatePrayerScreen extends HookConsumerWidget {
 
   Jiffy parseFromDateTime(DateTime date) {
     date = date.toLocal();
-    print(date);
     return Jiffy.parseFromMap({
       Unit.year: date.year,
       Unit.month: date.month,
@@ -263,7 +261,9 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                             ),
                           if (snapshot.data?.prayers != null)
                             ...snapshot.data!.prayers!
-                                .mapIndexed((index, e) => Container(
+                                .asMap()
+                                .entries
+                                .map((entry) => Container(
                                       width: double.infinity,
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 5),
@@ -278,7 +278,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${index + 1}.',
+                                            '${entry.key + 1}.',
                                             style: TextStyle(
                                               color: MyTheme.surface,
                                               fontWeight: FontWeight.w900,
@@ -288,7 +288,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                           const SizedBox(width: 10),
                                           Expanded(
                                             child: Text(
-                                              e,
+                                              entry.value,
                                               style: TextStyle(),
                                             ),
                                           ),

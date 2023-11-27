@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/prayer_card.dart';
+import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
+import 'package:prayer/repo/response_types.dart';
 
-class PrayersScreen extends HookWidget {
+class PrayersScreen<CursorType> extends HookConsumerWidget {
   const PrayersScreen({
     super.key,
     required this.fetchFn,
@@ -15,27 +18,35 @@ class PrayersScreen extends HookWidget {
     this.physics,
   });
 
-  final Future<Map<dynamic, dynamic>> Function(String? cursor)? fetchFn;
+  final Future<PaginationResponse<String, CursorType?>> Function(
+      CursorType? cursor)? fetchFn;
   final ScrollController? scrollController;
-  final PagingController<String?, String> pagingController;
+  final PagingController<CursorType?, String> pagingController;
   final void Function(String)? onTap;
   final ScrollPhysics? physics;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
 
-    final requestPage = useCallback((String? cursor) {
+    ref.listen(deletedPrayerNotifierProvider, (previous, next) {
+      pagingController.value = PagingState(
+        nextPageKey: pagingController.value.nextPageKey,
+        itemList: [...pagingController.value.itemList ?? []]
+          ..removeWhere((element) => next.indexOf(element) != -1),
+        error: pagingController.value.error,
+      );
+    });
+
+    final requestPage = useCallback((CursorType? cursor) {
       if (fetchFn == null) {
         return;
       }
       fetchFn!(cursor).then((data) {
-        final d = List<String>.from(data['data']);
-        final cursor = data['cursor'];
-        if (cursor == null) {
-          pagingController.appendLastPage(d);
+        if (data.cursor == null) {
+          pagingController.appendLastPage(data.items ?? []);
         } else {
-          pagingController.appendPage(d, cursor);
+          pagingController.appendPage(data.items ?? [], data.cursor);
         }
       }).catchError((e) {
         talker.error("Error on fetching next page of group prayers: $e");
@@ -48,7 +59,7 @@ class PrayersScreen extends HookWidget {
       return () => pagingController.removePageRequestListener(requestPage);
     }, [pagingController]);
 
-    return PagedListView<String?, String>.separated(
+    return PagedListView<CursorType?, String>.separated(
       physics: physics,
       cacheExtent: 5000,
       scrollController: scrollController,

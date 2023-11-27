@@ -12,15 +12,22 @@ class UsersScreen extends HookWidget {
     super.key,
     required this.pagingController,
     this.query = '',
+    this.scrollController,
+    this.hideOnEmptyQuery = true,
   });
 
+  final ScrollController? scrollController;
   final PagingController<String?, PUser> pagingController;
   final String query;
+  final bool hideOnEmptyQuery;
 
   @override
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
     final fetchPage = useCallback((String? cursor) async {
+      if (hideOnEmptyQuery && query == '') {
+        return pagingController.appendLastPage([]);
+      }
       final data = await GetIt.I<UserRepository>().fetchUsers(
         query: query,
         cursor: cursor,
@@ -47,8 +54,13 @@ class UsersScreen extends HookWidget {
       return () => pagingController.removePageRequestListener(fetchPage);
     }, [fetchPage]);
 
+    if (hideOnEmptyQuery && query == '') {
+      return const SizedBox();
+    }
+
     return PagedListView(
       pagingController: pagingController,
+      scrollController: scrollController,
       builderDelegate: PagedChildBuilderDelegate<PUser>(
         itemBuilder: (context, item, index) => UserCard(
           uid: item.uid,

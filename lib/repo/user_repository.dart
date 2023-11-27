@@ -185,12 +185,16 @@ class UserRepository {
     return resp.data['data'];
   }
 
-  Future<PaginationResponse<PUser, String?>> fetchUsers(
-      {String? query, String? cursor}) async {
+  Future<PaginationResponse<PUser, String?>> fetchUsers({
+    String? query,
+    String? cursor,
+    String? excludeGroupId,
+  }) async {
     try {
       final resp = await dio.get('/v1/users', queryParameters: {
         'query': query,
         'cursor': cursor,
+        'excludeGroupId': excludeGroupId,
       });
       return PaginationResponse<PUser, String?>(
         items: resp.data['data'] != null
