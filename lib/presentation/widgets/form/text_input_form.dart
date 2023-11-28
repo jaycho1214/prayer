@@ -7,6 +7,7 @@ class TextInputField extends StatelessWidget {
     super.key,
     required this.name,
     this.labelText,
+    this.hintText,
     this.decoration,
     this.minLines,
     this.maxLines,
@@ -26,6 +27,7 @@ class TextInputField extends StatelessWidget {
   final String? initialValue;
   final String? counterText;
   final String? labelText;
+  final String? hintText;
   final String name;
   final int? minLines;
   final int? maxLines;
@@ -80,6 +82,7 @@ class TextInputField extends StatelessWidget {
               onTap: onTap,
               decoration: InputDecoration(
                 errorMaxLines: 2,
+                hintText: hintText,
                 counterText: counterText,
                 focusedBorder: _commonBorder(color: MyTheme.onPrimary),
                 errorBorder: _commonBorder(color: MyTheme.error),
