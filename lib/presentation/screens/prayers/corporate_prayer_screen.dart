@@ -16,6 +16,7 @@ import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
 import 'package:prayer/presentation/widgets/sheets/corporate_prayer_duration.dart';
+import 'package:prayer/presentation/widgets/sheets/reminder_detail.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/group/group_provider.dart';
@@ -41,27 +42,23 @@ class CorporatePrayerScreen extends HookConsumerWidget {
   }
 
   String? getProgressText({Jiffy? startedAt, Jiffy? endedAt}) {
-    final now = Jiffy.parseFromMap({
-      Unit.year: Jiffy.now().year,
-      Unit.month: Jiffy.now().month,
-      Unit.day: Jiffy.now().daysInMonth,
-    });
+    final now = Jiffy.now().toLocal();
     if (startedAt == null && endedAt == null) {
       return null;
     } else if (startedAt == null) {
-      if (endedAt!.isBefore(now)) {
-        return 'Prayed';
+      if (now.isSameOrBefore(endedAt!, unit: Unit.day)) {
+        return 'Praying';
       }
-      return 'Praying';
+      return 'Prayed';
     } else if (endedAt == null) {
-      if (startedAt.isBefore(now)) {
+      if (now.isSameOrAfter(startedAt, unit: Unit.day)) {
         return 'Praying';
       }
       return 'Preparing';
     } else {
-      if (now.isBetween(startedAt, endedAt)) {
+      if (now.isBetween(startedAt, endedAt.add(days: 1), unit: Unit.day)) {
         return 'Praying';
-      } else if (startedAt.isAfter(now)) {
+      } else if (now.isBefore(startedAt, unit: Unit.day)) {
         return 'Preparing';
       }
       return 'Prayed';
@@ -218,29 +215,50 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                   ],
                                 ),
                               ),
-                              if (text != null)
-                                ShrinkingButton(
-                                  onTap: () {
-                                    CorporatePrayerDuration.show(
-                                      context,
-                                      status:
-                                          CorporatePrayerDurationStatus.praying,
-                                      startedAt: startedAt,
-                                      endedAt: endedAt,
-                                    );
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: color[0],
-                                      borderRadius: BorderRadius.circular(10),
+                              Row(
+                                children: [
+                                  if (snapshot.data?.reminder != null)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: ShrinkingButton(
+                                        onTap: () => ReminderDetailSheet.show(
+                                          context,
+                                          reminder: snapshot.data!.reminder!,
+                                        ),
+                                        child: FaIcon(
+                                          FontAwesomeIcons.bell,
+                                          size: 20,
+                                          color: MyTheme.onPrimary,
+                                        ),
+                                      ),
                                     ),
-                                    child: Text(
-                                      text,
-                                      style: TextStyle(color: color[1]),
+                                  if (text != null)
+                                    ShrinkingButton(
+                                      onTap: () {
+                                        CorporatePrayerDuration.show(
+                                          context,
+                                          status: CorporatePrayerDurationStatus
+                                              .praying,
+                                          startedAt: startedAt,
+                                          endedAt: endedAt,
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: color[0],
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Text(
+                                          text,
+                                          style: TextStyle(color: color[1]),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                ],
+                              ),
                             ],
                           ),
                           const SizedBox(height: 10),
