@@ -20,6 +20,9 @@ _$CorporatePrayerImpl _$$CorporatePrayerImplFromJson(
       groupId: json['group_id'] as String,
       title: json['title'] as String,
       description: json['description'] as String?,
+      reminder: json['reminder'] == null
+          ? null
+          : Reminder.fromJson(json['reminder'] as Map<String, dynamic>),
       prayers:
           const CorporatePrayerConverter().fromJson(json['prayers'] as String?),
       prayersCount: json['prayers_count'] as int? ?? 0,
@@ -44,6 +47,7 @@ Map<String, dynamic> _$$CorporatePrayerImplToJson(
       'group_id': instance.groupId,
       'title': instance.title,
       'description': instance.description,
+      'reminder': instance.reminder,
       'prayers': const CorporatePrayerConverter().toJson(instance.prayers),
       'prayers_count': instance.prayersCount,
       'started_at': instance.startedAt?.toIso8601String(),

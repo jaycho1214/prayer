@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:prayer/model/group_model.dart';
+import 'package:prayer/model/reminder_model.dart';
 import 'package:prayer/model/user_model.dart';
 
 part 'corporate_prayer_model.freezed.dart';
@@ -18,6 +19,7 @@ class CorporatePrayer with _$CorporatePrayer {
     @JsonKey(name: 'group_id') required String groupId,
     required String title,
     String? description,
+    Reminder? reminder,
     @CorporatePrayerConverter() List<String>? prayers,
     @Default(0) @JsonKey(name: 'prayers_count') int prayersCount,
     @JsonKey(name: 'started_at') DateTime? startedAt,
