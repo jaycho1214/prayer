@@ -94,7 +94,6 @@ class NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(item);
     if (item.group != null) {
       return buildGroupRow(context);
     }
