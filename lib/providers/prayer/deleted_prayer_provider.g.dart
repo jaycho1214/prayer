@@ -7,7 +7,7 @@ part of 'deleted_prayer_provider.dart';
 // **************************************************************************
 
 String _$deletedPrayerNotifierHash() =>
-    r'00a81fc33bbb377ca9912bd03af4be69dbeafe26';
+    r'2c3de28755692613d72bfaea91030b05923cb615';
 
 /// See also [DeletedPrayerNotifier].
 @ProviderFor(DeletedPrayerNotifier)
