@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
+import 'package:prayer/presentation/widgets/form/reminder_form.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/upload_progress_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
@@ -34,16 +37,23 @@ class CorporatePrayerForm extends HookWidget {
     final prayers = useState(1);
     final initialValue = GoRouterState.of(context).extra as CorporatePrayer?;
 
-    final onCreate = useCallback(() {
+    final onClick = useCallback(() {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
-        talker.debug("Creating a corporate prayer...");
+        talker.debug(initialValue == null
+            ? "Creating a corporate prayer..."
+            : "Updating a corporate prayer");
         final form = formKey.currentState!.value;
+        loading.value = false;
         GetIt.I<PrayerRepository>()
-            .createCorporatePrayer(
+            .createOrUpdateCorporatePrayer(
+          corporateId: initialValue?.id,
           groupId: groupId,
           title: form['title'],
           description: form['description'],
+          reminderDays: form['reminder'],
+          reminderText: form['reminderText'],
+          reminderTime: form['reminderTime'],
           prayers: form.entries
               .where((element) =>
                   element.key.startsWith('prayers.') && element.value != null)
@@ -58,59 +68,18 @@ class CorporatePrayerForm extends HookWidget {
         )
             .then((value) {
           context.pop(true);
-          talker.good("Successfully created a corporate prayer");
+          talker.good(
+              "Successfully ${initialValue == null ? 'created' : 'updated'} a corporate prayer");
         }).catchError((e) {
           if (e is DioException) {
-            talker.error("Failed to create a corporate prayer: ${e.response}");
+            talker.error(
+                "Failed to ${initialValue == null ? 'create' : 'update'} a corporate prayer: ${e.error}");
           } else {
-            talker.error("Failed to create a corporate prayer: ${e}");
+            talker.error(
+                "Failed to ${initialValue == null ? 'create' : 'update'} a corporate prayer: ${e}");
           }
           GlobalSnackBar.show(context,
               message: "Failed to create a corporate prayer");
-        }).whenComplete(() {
-          loading.value = false;
-        });
-      }
-    }, []);
-
-    final onEdit = useCallback(() {
-      if (initialValue == null) {
-        GlobalSnackBar.show(context,
-            message: "Failed to edit a corporate prayer");
-        return;
-      }
-      if (formKey.currentState?.saveAndValidate() == true) {
-        loading.value = true;
-        talker.debug("Updating a corporate prayer...");
-        final form = formKey.currentState!.value;
-        GetIt.I<PrayerRepository>()
-            .updateCorporatePrayer(
-          corporateId: initialValue.id,
-          title: form['title'],
-          description: form['description'],
-          prayers: form.entries
-              .where((element) =>
-                  element.key.startsWith('prayers.') && element.value != null)
-              .map((e) => e.value as String)
-              .toList(),
-          startedAt: form['startedAt'] == null
-              ? null
-              : Jiffy.parse(form['startedAt'], pattern: 'yMMMd').dateTime,
-          endedAt: form['endedAt'] == null
-              ? null
-              : Jiffy.parse(form['endedAt'], pattern: 'yMMMd').dateTime,
-        )
-            .then((value) {
-          context.pop(true);
-          talker.good("Successfully edited a corporate prayer");
-        }).catchError((e) {
-          if (e is DioException) {
-            talker.error("Failed to update a corporate prayer: ${e.response}");
-          } else {
-            talker.error("Failed to update a corporate prayer: ${e}");
-          }
-          GlobalSnackBar.show(context,
-              message: "Failed to update a corporate prayer");
         }).whenComplete(() {
           loading.value = false;
         });
@@ -131,6 +100,11 @@ class CorporatePrayerForm extends HookWidget {
         data['endedAt'] =
             Jiffy.parseFromDateTime(prayer.endedAt!.toLocal()).yMMMd;
       }
+      if (prayer.reminder != null) {
+        data['reminderTime'] = prayer.reminder!.time;
+        data['reminder'] = jsonEncode(prayer.reminder!.days);
+        data['reminderText'] = prayer.reminder!.value;
+      }
       return data;
     });
 
@@ -146,7 +120,7 @@ class CorporatePrayerForm extends HookWidget {
             Center(
               child: PrimaryTextButton(
                 text: initialValue == null ? "Post" : "Edit",
-                onTap: initialValue == null ? onCreate : onEdit,
+                onTap: onClick,
                 loading: loading.value,
               ),
             ),
@@ -223,6 +197,10 @@ class CorporatePrayerForm extends HookWidget {
                         const SizedBox(height: 10),
                         const Divider(color: MyTheme.outline),
                         const SizedBox(height: 10),
+                        ReminderDatePickerForm(),
+                        const SizedBox(height: 10),
+                        const Divider(color: MyTheme.outline),
+                        const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Row(
@@ -230,7 +208,7 @@ class CorporatePrayerForm extends HookWidget {
                               Expanded(
                                 child: TextInputField(
                                   name: "startedAt",
-                                  labelText: "Started From",
+                                  labelText: "Started At",
                                   keyboardType: TextInputType.none,
                                   onTap: () async {
                                     FocusScope.of(context)
@@ -263,7 +241,7 @@ class CorporatePrayerForm extends HookWidget {
                               Expanded(
                                 child: TextInputField(
                                   name: "endedAt",
-                                  labelText: "Ended From",
+                                  labelText: "Ended At",
                                   keyboardType: TextInputType.none,
                                   onTap: () async {
                                     FocusScope.of(context)
@@ -304,7 +282,7 @@ class CorporatePrayerForm extends HookWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "After the duration of prayers has elapsed, they will be marked as concluded",
+                          "After the duration of prayers has elapsed, they will be marked as concluded, and reminders will not be sent.",
                           style: const TextStyle(
                             color: MyTheme.outline,
                           ),
