@@ -51,9 +51,12 @@ class CorporatePrayerForm extends HookWidget {
           groupId: groupId,
           title: form['title'],
           description: form['description'],
-          reminderDays: form['reminder'],
-          reminderText: form['reminderText'],
-          reminderTime: form['reminderTime'],
+          reminderDays:
+              form['reminderActivated'] == true ? form['reminder'] : null,
+          reminderText:
+              form['reminderActivated'] == true ? form['reminderText'] : null,
+          reminderTime:
+              form['reminderActivated'] == true ? form['reminderTime'] : null,
           prayers: form.entries
               .where((element) =>
                   element.key.startsWith('prayers.') && element.value != null)
@@ -101,6 +104,7 @@ class CorporatePrayerForm extends HookWidget {
             Jiffy.parseFromDateTime(prayer.endedAt!.toLocal()).yMMMd;
       }
       if (prayer.reminder != null) {
+        data['reminderActivated'] = true;
         data['reminderTime'] = prayer.reminder!.time;
         data['reminder'] = jsonEncode(prayer.reminder!.days);
         data['reminderText'] = prayer.reminder!.value;
@@ -197,7 +201,9 @@ class CorporatePrayerForm extends HookWidget {
                         const SizedBox(height: 10),
                         const Divider(color: MyTheme.outline),
                         const SizedBox(height: 10),
-                        ReminderDatePickerForm(),
+                        ReminderDatePickerForm(
+                          formKey: formKey,
+                        ),
                         const SizedBox(height: 10),
                         const Divider(color: MyTheme.outline),
                         const SizedBox(height: 10),
