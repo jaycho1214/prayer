@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/model/prayer_model.dart';
@@ -41,41 +42,36 @@ class PrayerRepository {
     return true;
   }
 
-  Future<bool> createCorporatePrayer({
+  Future<bool> createOrUpdateCorporatePrayer({
+    String? corporateId,
     required String groupId,
     required String title,
     List<String> prayers = const [],
     String? description,
     DateTime? startedAt,
     DateTime? endedAt,
+    DateTime? reminderTime,
+    String? reminderText,
+    String? reminderDays,
     void Function(double progress)? onSendProgress,
   }) async {
     await dio.post('/v1/prayers/corporate', data: {
+      'corporateId': corporateId,
       'groupId': groupId,
       'title': title,
       'description': description,
       'startedAt': startedAt?.toIso8601String(),
       'endedAt': endedAt?.toIso8601String(),
       'prayers': prayers.length == 0 ? null : jsonEncode(prayers),
-    });
-    return true;
-  }
-
-  Future<bool> updateCorporatePrayer({
-    required String corporateId,
-    required String title,
-    List<String> prayers = const [],
-    String? description,
-    DateTime? startedAt,
-    DateTime? endedAt,
-    void Function(double progress)? onSendProgress,
-  }) async {
-    await dio.put('/v1/prayers/corporate/$corporateId', data: {
-      'title': title,
-      'description': description,
-      'startedAt': startedAt?.toIso8601String(),
-      'endedAt': endedAt?.toIso8601String(),
-      'prayers': prayers.length == 0 ? null : jsonEncode(prayers),
+      'reminderTime': reminderTime?.toLocal() == null
+          ? null
+          : Jiffy.parseFromDateTime(reminderTime!.toLocal().copyWith(
+                second: 0,
+                microsecond: 0,
+                millisecond: 0,
+              )).Hms,
+      'reminderText': reminderText,
+      'reminderDays': reminderDays,
     });
     return true;
   }
