@@ -29,6 +29,7 @@ mixin _$CorporatePrayer {
   String get groupId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  Reminder? get reminder => throw _privateConstructorUsedError;
   @CorporatePrayerConverter()
   List<String>? get prayers => throw _privateConstructorUsedError;
   @JsonKey(name: 'prayers_count')
@@ -60,6 +61,7 @@ abstract class $CorporatePrayerCopyWith<$Res> {
       @JsonKey(name: 'group_id') String groupId,
       String title,
       String? description,
+      Reminder? reminder,
       @CorporatePrayerConverter() List<String>? prayers,
       @JsonKey(name: 'prayers_count') int prayersCount,
       @JsonKey(name: 'started_at') DateTime? startedAt,
@@ -68,6 +70,7 @@ abstract class $CorporatePrayerCopyWith<$Res> {
 
   $PUserCopyWith<$Res>? get user;
   $GroupCopyWith<$Res>? get group;
+  $ReminderCopyWith<$Res>? get reminder;
 }
 
 /// @nodoc
@@ -90,6 +93,7 @@ class _$CorporatePrayerCopyWithImpl<$Res, $Val extends CorporatePrayer>
     Object? groupId = null,
     Object? title = null,
     Object? description = freezed,
+    Object? reminder = freezed,
     Object? prayers = freezed,
     Object? prayersCount = null,
     Object? startedAt = freezed,
@@ -125,6 +129,10 @@ class _$CorporatePrayerCopyWithImpl<$Res, $Val extends CorporatePrayer>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      reminder: freezed == reminder
+          ? _value.reminder
+          : reminder // ignore: cast_nullable_to_non_nullable
+              as Reminder?,
       prayers: freezed == prayers
           ? _value.prayers
           : prayers // ignore: cast_nullable_to_non_nullable
@@ -171,6 +179,18 @@ class _$CorporatePrayerCopyWithImpl<$Res, $Val extends CorporatePrayer>
       return _then(_value.copyWith(group: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ReminderCopyWith<$Res>? get reminder {
+    if (_value.reminder == null) {
+      return null;
+    }
+
+    return $ReminderCopyWith<$Res>(_value.reminder!, (value) {
+      return _then(_value.copyWith(reminder: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -189,6 +209,7 @@ abstract class _$$CorporatePrayerImplCopyWith<$Res>
       @JsonKey(name: 'group_id') String groupId,
       String title,
       String? description,
+      Reminder? reminder,
       @CorporatePrayerConverter() List<String>? prayers,
       @JsonKey(name: 'prayers_count') int prayersCount,
       @JsonKey(name: 'started_at') DateTime? startedAt,
@@ -199,6 +220,8 @@ abstract class _$$CorporatePrayerImplCopyWith<$Res>
   $PUserCopyWith<$Res>? get user;
   @override
   $GroupCopyWith<$Res>? get group;
+  @override
+  $ReminderCopyWith<$Res>? get reminder;
 }
 
 /// @nodoc
@@ -219,6 +242,7 @@ class __$$CorporatePrayerImplCopyWithImpl<$Res>
     Object? groupId = null,
     Object? title = null,
     Object? description = freezed,
+    Object? reminder = freezed,
     Object? prayers = freezed,
     Object? prayersCount = null,
     Object? startedAt = freezed,
@@ -254,6 +278,10 @@ class __$$CorporatePrayerImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      reminder: freezed == reminder
+          ? _value.reminder
+          : reminder // ignore: cast_nullable_to_non_nullable
+              as Reminder?,
       prayers: freezed == prayers
           ? _value._prayers
           : prayers // ignore: cast_nullable_to_non_nullable
@@ -289,6 +317,7 @@ class _$CorporatePrayerImpl implements _CorporatePrayer {
       @JsonKey(name: 'group_id') required this.groupId,
       required this.title,
       this.description,
+      this.reminder,
       @CorporatePrayerConverter() final List<String>? prayers,
       @JsonKey(name: 'prayers_count') this.prayersCount = 0,
       @JsonKey(name: 'started_at') this.startedAt,
@@ -315,6 +344,8 @@ class _$CorporatePrayerImpl implements _CorporatePrayer {
   final String title;
   @override
   final String? description;
+  @override
+  final Reminder? reminder;
   final List<String>? _prayers;
   @override
   @CorporatePrayerConverter()
@@ -341,7 +372,7 @@ class _$CorporatePrayerImpl implements _CorporatePrayer {
 
   @override
   String toString() {
-    return 'CorporatePrayer(id: $id, userId: $userId, user: $user, group: $group, groupId: $groupId, title: $title, description: $description, prayers: $prayers, prayersCount: $prayersCount, startedAt: $startedAt, endedAt: $endedAt, createdAt: $createdAt)';
+    return 'CorporatePrayer(id: $id, userId: $userId, user: $user, group: $group, groupId: $groupId, title: $title, description: $description, reminder: $reminder, prayers: $prayers, prayersCount: $prayersCount, startedAt: $startedAt, endedAt: $endedAt, createdAt: $createdAt)';
   }
 
   @override
@@ -357,6 +388,8 @@ class _$CorporatePrayerImpl implements _CorporatePrayer {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.reminder, reminder) ||
+                other.reminder == reminder) &&
             const DeepCollectionEquality().equals(other._prayers, _prayers) &&
             (identical(other.prayersCount, prayersCount) ||
                 other.prayersCount == prayersCount) &&
@@ -378,6 +411,7 @@ class _$CorporatePrayerImpl implements _CorporatePrayer {
       groupId,
       title,
       description,
+      reminder,
       const DeepCollectionEquality().hash(_prayers),
       prayersCount,
       startedAt,
@@ -408,6 +442,7 @@ abstract class _CorporatePrayer implements CorporatePrayer {
           @JsonKey(name: 'group_id') required final String groupId,
           required final String title,
           final String? description,
+          final Reminder? reminder,
           @CorporatePrayerConverter() final List<String>? prayers,
           @JsonKey(name: 'prayers_count') final int prayersCount,
           @JsonKey(name: 'started_at') final DateTime? startedAt,
@@ -434,6 +469,8 @@ abstract class _CorporatePrayer implements CorporatePrayer {
   String get title;
   @override
   String? get description;
+  @override
+  Reminder? get reminder;
   @override
   @CorporatePrayerConverter()
   List<String>? get prayers;
