@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/presentation/screens/auth/login_screen.dart';
@@ -19,20 +20,27 @@ import 'package:prayer/presentation/screens/settings_screen.dart';
 import 'package:prayer/presentation/screens/users/user_follows_screen.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
   static final routerProvider = Provider((ref) {
-    final authState = ref.watch(authNotifierProvider).value;
+    final authState = ref.watch(authNotifierProvider);
     return GoRouter(
       navigatorKey: navigatorKey,
-      initialLocation:
-          FirebaseAuth.instance.currentUser != null ? '/' : '/auth/signIn',
+      initialLocation: switch (
+          GetIt.I<SharedPreferences>().getInt('auth.signInStatus') ?? 0) {
+        2 => '/',
+        _ => '/auth/signIn',
+      },
       redirect: (context, state) {
-        if (authState is AuthStateSignedIn) {
+        if (authState.isLoading) {
+          return null;
+        }
+        if (authState.value is AuthStateSignedIn) {
           return '/auth/signUp';
-        } else if (authState is AuthStateSignedUp) {
+        } else if (authState.value is AuthStateSignedUp) {
           if (state.path?.startsWith('/auth') == true) {
             return '/';
           }
