@@ -143,7 +143,7 @@ class PrayerFormScreen extends HookConsumerWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 40),
+                    padding: const EdgeInsets.fromLTRB(40, 0, 20, 0),
                     child: FormBuilderTextField(
                       focusNode: focusNode,
                       name: 'value',
