@@ -94,7 +94,7 @@ class UserScreen extends HookConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 30, vertical: 0),
                       child: Skeletonizer(
-                        enabled: userValue.value == null,
+                        enabled: userValue.value == null || userValue.isLoading,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
