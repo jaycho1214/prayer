@@ -66,7 +66,7 @@ class GroupSearchScreen extends HookWidget {
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
         itemBuilder: (context, item, index) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5),
           child: GroupCard(
             group: item,
             onTap: onTap != null ? () => onTap?.call(item.id) : null,
