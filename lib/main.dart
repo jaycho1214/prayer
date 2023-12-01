@@ -1,4 +1,3 @@
-import 'package:applovin_max/applovin_max.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -66,12 +65,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> initialize() async {
   await dotenv.load();
-  final [mp, _] = await Future.wait([
-    Mixpanel.init(
-      dotenv.env['MIXPANEL_TOKEN']!,
-      trackAutomaticEvents: true,
-    ),
-    AppLovinMAX.initialize(dotenv.env['APPLOVIN_SDK_KEY']!),
-  ]);
-  mixpanel = mp as Mixpanel;
+  mixpanel = await Mixpanel.init(
+    dotenv.env['MIXPANEL_TOKEN']!,
+    trackAutomaticEvents: true,
+  );
 }

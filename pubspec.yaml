@@ -55,7 +55,6 @@ dependencies:
   flutter_form_builder: ^9.1.1
   pull_down_button: ^0.9.3
   mixpanel_flutter: ^2.1.1
-  applovin_max: ^3.3.0
   jiffy: ^6.2.1
   flutter_native_splash: ^2.3.5
   sentry_flutter: ^7.13.1
