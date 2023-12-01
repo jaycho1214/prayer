@@ -131,7 +131,9 @@ class GroupScreen extends HookConsumerWidget {
                     headerSliverBuilder: (context, _) => [
                       SliverToBoxAdapter(
                         child: Skeletonizer(
-                          enabled: data.value == null,
+                          enabled: data.value == null ||
+                              data.isLoading ||
+                              data.hasError,
                           child: Column(
                             children: [
                               Hero(
