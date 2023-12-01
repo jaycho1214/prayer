@@ -58,13 +58,6 @@ class LoginScreen extends HookConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              LoginButton(
-                iconPath: "assets/images/logo/x.png",
-                text: "Continue with X",
-                onTap: () {
-                  lastPressed.value = 'x';
-                },
-              ),
               if (Platform.isIOS) ...[
                 const SizedBox(height: 10),
                 LoginButton(
