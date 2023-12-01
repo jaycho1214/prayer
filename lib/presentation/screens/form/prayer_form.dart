@@ -15,6 +15,7 @@ import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/corporate_prayer_Form.dart';
 import 'package:prayer/presentation/widgets/form/prayer_group_form.dart';
+import 'package:prayer/presentation/widgets/form/sheet/confirm_pray_with_name.dart';
 import 'package:prayer/presentation/widgets/form/sheet/prayer_visibility_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
@@ -49,6 +50,14 @@ class PrayerFormScreen extends HookConsumerWidget {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
         final form = formKey.currentState!.value;
+        if (!anon.value) {
+          final resp = await ConfirmPrayWithNameForm.show(context);
+          if (resp != true) {
+            loading.value = false;
+            focusNode.requestFocus();
+            return;
+          }
+        }
         GetIt.I<PrayerRepository>()
             .createPrayer(
           value: form['value'],
