@@ -15,8 +15,7 @@ import 'package:prayer/model/prayer_pray_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/pray_button.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
-import 'package:prayer/presentation/widgets/pray/pray_large_card.dart';
-import 'package:prayer/presentation/widgets/pray/pray_slim_card.dart';
+import 'package:prayer/presentation/widgets/form/pray_card.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
@@ -24,7 +23,6 @@ import 'package:prayer/providers/prayer/prayer_provider.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:super_context_menu/super_context_menu.dart';
 
 class PrayerScreen extends HookConsumerWidget {
   const PrayerScreen({
@@ -269,54 +267,31 @@ class PraysScreen extends HookConsumerWidget {
     return PagedListView<int?, PrayerPray>(
       physics: const NeverScrollableScrollPhysics(),
       pagingController: pagingController,
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 100),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 200),
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
-        itemBuilder: (context, item, index) => ContextMenuWidget(
-          menuProvider: (_) => Menu(
-            children: [
-              MenuAction(
-                callback: () {
-                  context.push(Uri(
-                      path: '/users',
-                      queryParameters: {'uid': item.user.uid}).toString());
-                },
-                title: item.user.username,
-              ),
-              MenuAction(
-                callback: () async {
-                  await GetIt.I<PrayerRepository>()
-                      .deletePrayerPray(prayerId: prayerId, prayId: item.id)
-                      .then((value) {
-                    if (value) {
-                      ref.invalidate(prayerNotifierProvider(prayerId));
-                      pagingController.value = PagingState(
-                        nextPageKey: pagingController.value.nextPageKey,
-                        itemList: [...(pagingController.value.itemList ?? [])]
-                          ..removeAt(index),
-                        error: pagingController.value.error,
-                      );
-                    } else {
-                      GlobalSnackBar.show(context,
-                          message: "Failed to delete a pray");
-                    }
-                  }).catchError((e) {
-                    GlobalSnackBar.show(context,
-                        message: "Failed to delete a pray");
-                  });
-                },
-                title: 'Delete',
-                image: MenuImage.icon(FontAwesomeIcons.trash),
-                attributes: MenuActionAttributes(
-                    destructive: true,
-                    disabled: FirebaseAuth.instance.currentUser!.uid !=
-                        item.user.uid),
-              ),
-            ],
-          ),
-          child: item.value == null
-              ? PraySlimCard(pray: item)
-              : PrayLargeCard(pray: item),
+        itemBuilder: (context, item, index) => PrayCard(
+          pray: item,
+          onDelete: () async {
+            await GetIt.I<PrayerRepository>()
+                .deletePrayerPray(prayerId: prayerId, prayId: item.id)
+                .then((value) {
+              if (value) {
+                ref.invalidate(prayerNotifierProvider(prayerId));
+                pagingController.value = PagingState(
+                  nextPageKey: pagingController.value.nextPageKey,
+                  itemList: [...(pagingController.value.itemList ?? [])]
+                    ..removeAt(index),
+                  error: pagingController.value.error,
+                );
+              } else {
+                GlobalSnackBar.show(context,
+                    message: "Failed to delete a pray");
+              }
+            }).catchError((e) {
+              GlobalSnackBar.show(context, message: "Failed to delete a pray");
+            });
+          },
         ),
       ),
     );
