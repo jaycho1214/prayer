@@ -47,9 +47,7 @@ class _ShrinkingButtonState extends State<ShrinkingButton> {
       onLongPressDown: (_) => setState(() {
         pressed = true;
       }),
-      onLongPressStart: (_) => setState(() {
-        pressed = true;
-      }),
+      onLongPressStart: onTapUp,
       onLongPressUp: () => setState(() {
         pressed = false;
       }),
