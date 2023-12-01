@@ -85,15 +85,14 @@ class PrayerCard extends ConsumerWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: UserChip(
-                      anon: prayer.value?.anon == true,
-                      uid: prayer.value?.userId,
-                      profile: prayer.value?.user?.profile,
-                      name: prayer.value?.user?.name,
-                      username: prayer.value?.user?.username,
-                    ),
+                  UserChip(
+                    anon: prayer.value?.anon == true,
+                    uid: prayer.value?.userId,
+                    profile: prayer.value?.user?.profile,
+                    name: prayer.value?.user?.name,
+                    username: prayer.value?.user?.username,
                   ),
+                  Spacer(),
                   const SizedBox(width: 10),
                   Text(
                     prayer.value?.createdAt == null
