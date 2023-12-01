@@ -19,6 +19,7 @@ import 'package:prayer/presentation/screens/settings_screen.dart';
 import 'package:prayer/presentation/screens/users/user_follows_screen.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
@@ -33,6 +34,9 @@ class AppRouter {
         2 => '/',
         _ => '/auth/signIn',
       },
+      observers: [
+        SentryNavigatorObserver(),
+      ],
       redirect: (context, state) {
         if (authState.isLoading) {
           return null;
