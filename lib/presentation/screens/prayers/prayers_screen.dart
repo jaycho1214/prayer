@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/presentation/widgets/ad_card.dart';
 import 'package:prayer/presentation/widgets/prayer_card.dart';
 import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
 import 'package:prayer/repo/response_types.dart';
@@ -73,18 +72,8 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
           onTap: () => onTap?.call(item),
         ),
       ),
-      separatorBuilder: (context, index) {
-        if (index % 4 == 0 && index > 0) {
-          return Column(
-            children: [
-              const Divider(color: MyTheme.disabled),
-              AdCard(),
-              const Divider(color: MyTheme.disabled),
-            ],
-          );
-        }
-        return const Divider(color: MyTheme.disabled);
-      },
+      separatorBuilder: (context, index) =>
+          const Divider(color: MyTheme.disabled),
     );
   }
 }

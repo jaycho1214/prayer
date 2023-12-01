@@ -164,8 +164,7 @@ class PrayerScreen extends HookConsumerWidget {
                                     buttonBuilder: (context, showMenu) {
                                       return NavigateIconButton(
                                         onPressed: showMenu,
-                                        icon: FontAwesomeIcons
-                                            .solidEllipsisVertical,
+                                        icon: FontAwesomeIcons.ellipsisVertical,
                                       );
                                     })
                             ],
