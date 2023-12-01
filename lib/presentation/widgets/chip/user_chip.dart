@@ -44,6 +44,7 @@ class UserChip extends StatelessWidget {
                 const SizedBox(width: 10),
                 Text(
                   anon ? "Anonymous" : name ?? '',
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
@@ -54,6 +55,7 @@ class UserChip extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Text(
                       '@$username',
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: MyTheme.placeholderText,
                         fontWeight: FontWeight.bold,
