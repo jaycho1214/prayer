@@ -136,6 +136,7 @@ class PrayerScreen extends HookConsumerWidget {
                                       uid: prayer.value?.userId,
                                       name: prayer.value?.user?.name,
                                       profile: prayer.value?.user?.profile,
+                                      username: prayer.value?.user?.username,
                                       anon: prayer.value?.anon ?? false,
                                     ),
                                   ],

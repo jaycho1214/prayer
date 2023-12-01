@@ -75,6 +75,7 @@ class CorporatePrayerCard extends HookWidget {
                     uid: prayerSnapshot.data?.userId,
                     profile: prayerSnapshot.data?.user?.profile,
                     name: prayerSnapshot.data?.user?.name,
+                    username: prayerSnapshot.data?.user?.username,
                   ),
                 ],
               ),

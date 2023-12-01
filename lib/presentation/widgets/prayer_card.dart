@@ -34,7 +34,7 @@ class PrayerCard extends ConsumerWidget {
           onTap?.call();
         },
         child: Container(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -85,11 +85,14 @@ class PrayerCard extends ConsumerWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  UserChip(
-                    anon: prayer.value?.anon == true,
-                    uid: prayer.value?.userId,
-                    profile: prayer.value?.user?.profile,
-                    name: prayer.value?.user?.name,
+                  Flexible(
+                    child: UserChip(
+                      anon: prayer.value?.anon == true,
+                      uid: prayer.value?.userId,
+                      profile: prayer.value?.user?.profile,
+                      name: prayer.value?.user?.name,
+                      username: prayer.value?.user?.username,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Text(
@@ -100,7 +103,7 @@ class PrayerCard extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Text(
                 prayer.value?.value ?? '',
                 style: const TextStyle(

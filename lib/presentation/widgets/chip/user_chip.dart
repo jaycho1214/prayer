@@ -11,12 +11,14 @@ class UserChip extends StatelessWidget {
     this.uid,
     this.profile,
     this.name,
+    this.username,
     this.anon = false,
   });
 
   final String? uid;
   final String? profile;
   final String? name;
+  final String? username;
   final bool anon;
 
   @override
@@ -32,10 +34,6 @@ class UserChip extends StatelessWidget {
           },
           child: Container(
             padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: MyTheme.surfaceDim,
-              borderRadius: BorderRadius.circular(20),
-            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -48,8 +46,21 @@ class UserChip extends StatelessWidget {
                   anon ? "Anonymous" : name ?? '',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 15,
                   ),
                 ),
+                if (!anon && username != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Text(
+                      '@$username',
+                      style: const TextStyle(
+                        color: MyTheme.placeholderText,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
