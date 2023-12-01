@@ -40,8 +40,24 @@ class _ShrinkingButtonState extends State<ShrinkingButton> {
       behavior: HitTestBehavior.translucent,
       onTap: onTap,
       onTapUp: onTapUp,
+      onLongPress: onTap,
       onTapDown: (_) => setState(() {
         pressed = true;
+      }),
+      onLongPressDown: (_) => setState(() {
+        pressed = true;
+      }),
+      onLongPressStart: (_) => setState(() {
+        pressed = true;
+      }),
+      onLongPressUp: () => setState(() {
+        pressed = false;
+      }),
+      onLongPressEnd: (_) => setState(() {
+        pressed = false;
+      }),
+      onLongPressCancel: () => setState(() {
+        pressed = false;
       }),
       onTapCancel: () => setState(() {
         pressed = false;
