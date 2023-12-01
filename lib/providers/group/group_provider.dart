@@ -3,6 +3,7 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
 
 part 'group_provider.g.dart';
@@ -16,7 +17,8 @@ class GroupNotifier extends _$GroupNotifier {
     try {
       final data = await GetIt.I<GroupRepository>().fetchGroup(groupId);
       return data;
-    } catch (e) {
+    } catch (error, stackTrace) {
+      Sentry.captureException(error, stackTrace: stackTrace);
       return null;
     }
   }
@@ -53,9 +55,10 @@ class GroupNotifier extends _$GroupNotifier {
             ));
           }
         }
-      } catch (e) {
-        talker.error("Error while joining the group", e);
+      } catch (error, stackTrace) {
+        talker.error("Error while joining the group", error);
         state = AsyncValue.data(backup);
+        Sentry.captureException(error, stackTrace: stackTrace);
         rethrow;
       }
     });

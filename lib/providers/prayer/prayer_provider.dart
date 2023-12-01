@@ -3,6 +3,7 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/model/prayer_model.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
 
 part 'prayer_provider.g.dart';
@@ -16,7 +17,8 @@ class PrayerNotifier extends _$PrayerNotifier {
     try {
       final data = await GetIt.I<PrayerRepository>().fetchPrayer(prayerId);
       return data;
-    } catch (e) {
+    } catch (error, stackTrace) {
+      Sentry.captureException(error, stackTrace: stackTrace);
       return null;
     }
   }
@@ -41,8 +43,9 @@ class PrayerNotifier extends _$PrayerNotifier {
           state = AsyncValue.data(backup);
           onNeedWait?.call();
         }
-      } catch (err) {
-        talker.error("Error while praying for the post", err);
+      } catch (error, stackTrace) {
+        Sentry.captureException(error, stackTrace: stackTrace);
+        talker.error("Error while praying for the post", error);
         onError?.call();
       }
     });

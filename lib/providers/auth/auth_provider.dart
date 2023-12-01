@@ -84,6 +84,7 @@ class AuthNotifier extends _$AuthNotifier {
           return;
         }
       }
+      Sentry.captureException(error, stackTrace: stackTrace);
       state = AsyncValue.error(error, stackTrace);
     }
   }

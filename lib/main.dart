@@ -49,7 +49,7 @@ Future<void> main() async {
     await SentryFlutter.init(
       (options) {
         options.dsn = dotenv.env['SENTRY_DSN'];
-        options.tracesSampleRate = 1.0;
+        options.tracesSampleRate = 0.5;
       },
       appRunner: () => runApp(ProviderScope(
         child: const App(),
