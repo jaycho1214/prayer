@@ -8,6 +8,7 @@ import 'package:prayer/providers/auth/auth_state.dart';
 import 'package:prayer/repo/authentication_repository.dart';
 import 'package:prayer/repo/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_provider.g.dart';
@@ -21,6 +22,19 @@ class AuthNotifier extends _$AuthNotifier {
     final unsubscribe = _subscribe();
     ref.onDispose(unsubscribe);
     ref.listenSelf((_, next) {
+      Sentry.configureScope((scope) {
+        if (next.value == null) {
+          scope.setUser(null);
+        } else if (next.value is AuthStateSignedUp) {
+          final u = next.value as AuthStateSignedUp;
+          scope.setUser(SentryUser(
+            id: u.user.uid,
+            username: u.user.username,
+            email: u.user.email,
+            name: u.user.name,
+          ));
+        }
+      });
       if (next.value != null) {
         GetIt.I<SharedPreferences>().setInt(
             'auth.signInStatus',
@@ -88,7 +102,6 @@ class AuthNotifier extends _$AuthNotifier {
         state = AsyncValue.data(AuthStateSignedOut());
       } else {
         mixpanel.identify(user.uid);
-        mixpanel.registerSuperProperties({'\$email': user.email});
       }
     });
     return () {
