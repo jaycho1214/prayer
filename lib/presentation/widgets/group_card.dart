@@ -53,8 +53,10 @@ class GroupCard extends HookConsumerWidget {
                 left: 10,
                 top: 10,
                 child: UserChip(
+                  uid: group.adminId,
                   profile: group.admin?.profile,
                   name: group.admin?.name,
+                  username: group.admin?.username,
                 ),
               ),
               Positioned(

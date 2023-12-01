@@ -93,6 +93,8 @@ class UserProfileImage extends StatelessWidget {
         height: size,
         errorWidget: (context, url, error) => _buildPlaceholder(context),
         imageBuilder: (context, imageProvider) => Container(
+          width: size,
+          height: size,
           decoration: BoxDecoration(
             image: DecorationImage(image: imageProvider),
             shape: BoxShape.circle,

@@ -147,8 +147,8 @@ class PrayerFormScreen extends HookConsumerWidget {
                     child: FormBuilderTextField(
                       focusNode: focusNode,
                       name: 'value',
-                      minLines: 5,
-                      maxLines: 10,
+                      minLines: 7,
+                      maxLines: 7,
                       autofocus: true,
                       validator: (value) {
                         if ((value ?? '').trim() == '') {

@@ -211,6 +211,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                       uid: snapshot.data?.userId,
                                       name: snapshot.data?.user?.name,
                                       profile: snapshot.data?.user?.profile,
+                                      username: snapshot.data?.user?.username,
                                     ),
                                   ],
                                 ),
