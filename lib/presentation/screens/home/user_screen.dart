@@ -56,7 +56,9 @@ class UserScreen extends HookConsumerWidget {
     return DefaultTabController(
       length: 3,
       child: RefreshIndicator(
-        notificationPredicate: (notification) => notification.depth == 2,
+        notificationPredicate: (notification) => user == PUser.placeholder
+            ? notification.depth == 0
+            : notification.depth == 2,
         onRefresh: () async {
           prayerPagingController.refresh();
           groupPagingController.refresh();
@@ -92,9 +94,13 @@ class UserScreen extends HookConsumerWidget {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 0),
+                        horizontal: 30,
+                        vertical: 0,
+                      ),
                       child: Skeletonizer(
-                        enabled: userValue.value == null || userValue.isLoading,
+                        enabled: userValue.value == null ||
+                            userValue.isLoading ||
+                            userValue.hasError,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
