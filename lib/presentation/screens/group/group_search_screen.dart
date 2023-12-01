@@ -61,7 +61,6 @@ class GroupSearchScreen extends HookWidget {
 
     return PagedListView<String?, Group>(
       scrollController: scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,

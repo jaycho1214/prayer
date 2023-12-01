@@ -38,21 +38,29 @@ class GroupPicker extends HookWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
+            Text(
+              "Choose a Group",
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+            ),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ShrinkingButton(
                 onTap: () => Navigator.of(context).pop(null),
                 child: Container(
                   padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: MyTheme.primary,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
                   child: Row(
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.globe,
-                        color: MyTheme.onPrimary,
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: MyTheme.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: FaIcon(
+                          FontAwesomeIcons.lightGlobe,
+                          color: MyTheme.onPrimary,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       Text(
@@ -67,7 +75,7 @@ class GroupPicker extends HookWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            Divider(color: MyTheme.outline),
             Expanded(
               child: GroupSearchScreen(
                 pagingController: pagingController,
