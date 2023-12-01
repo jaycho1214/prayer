@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/presentation/screens/auth/login_screen.dart';
 import 'package:prayer/presentation/screens/auth/signup_screen.dart';
 import 'package:prayer/presentation/screens/form/corporate_prayer_form.dart';
@@ -35,6 +36,7 @@ class AppRouter {
         _ => '/auth/signIn',
       },
       observers: [
+        MixpanelNavigatorObserver(),
         SentryNavigatorObserver(),
       ],
       redirect: (context, state) {

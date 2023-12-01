@@ -59,6 +59,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<void> signIn(AuthProvider provider) async {
     try {
+      mixpanel.timeEvent("Sign In");
       state = AsyncValue.loading();
       final authRepo = GetIt.I<AuthenticationRepository>();
       final UserCredential credential = await switch (provider) {
@@ -68,12 +69,14 @@ class AuthNotifier extends _$AuthNotifier {
       };
       if (credential.user == null) {
         state = AsyncValue.error(MissingUidError(), StackTrace.current);
+        mixpanel.track("Sign In", properties: {'status': false});
         return;
       }
       final data =
           await GetIt.I<UserRepository>().fetchUser(uid: credential.user!.uid);
       talker.info(
           'User (${credential.user!.uid}) data fetched: ${data?.toJson()}');
+      mixpanel.track("Sign In", properties: {'provider': provider.name});
       state = AsyncValue.data(
           data == null ? AuthStateSignedIn() : AuthStateSignedUp(data));
     } catch (error, stackTrace) {
@@ -84,6 +87,7 @@ class AuthNotifier extends _$AuthNotifier {
           return;
         }
       }
+      mixpanel.track("Sign In", properties: {'status': false});
       Sentry.captureException(error, stackTrace: stackTrace);
       state = AsyncValue.error(error, stackTrace);
     }

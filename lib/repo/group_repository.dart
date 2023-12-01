@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:prayer/constants/dio.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/errors.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/model/group_model.dart';
@@ -49,6 +50,9 @@ class GroupRepository {
         'banner': uploadedBanner,
       },
     );
+    mixpanel.track("Group Created", properties: {
+      'name': name,
+    });
   }
 
   Future<void> updateGroup({
@@ -80,6 +84,7 @@ class GroupRepository {
         'banner': uploadedBanner ?? '',
       }..removeWhere((_, value) => value?.startsWith('https') == true),
     );
+    mixpanel.track("Group Updated");
   }
 
   Future<PaginationResponse<Group, String?>> fetchGroupsByUser(
@@ -153,8 +158,10 @@ class GroupRepository {
       final resp = await dio
           .post('/v1/groups/$groupId/join', data: {'value': value.toString()});
       if (value) {
+        mixpanel.track("Group Joined");
         return resp.data['data'];
       }
+      mixpanel.track("Group Left");
       return null;
     } on DioException catch (err) {
       if (err.response?.data['code'] == 'operation-not-allowed') {
@@ -176,10 +183,12 @@ class GroupRepository {
         await dio.post('/v1/groups/$groupId/invite', data: {
           'value': jsonEncode(userIds),
         });
+        mixpanel.track("Users Invited");
       } else {
         await dio.delete('/v1/groups/$groupId/invite', data: {
           'value': jsonEncode(userIds),
         });
+        mixpanel.track("Users Invited Undo");
       }
     } on DioException catch (err) {
       if (err.response?.data['code'] == 'operation-not-allowed') {
@@ -266,5 +275,6 @@ class GroupRepository {
 
   Future<void> removeGroup(String groupId) async {
     await dio.delete('/v1/groups/$groupId');
+    mixpanel.track("Group Removed");
   }
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/dio.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/model/prayer_model.dart';
 import 'package:prayer/model/prayer_pray_model.dart';
@@ -33,6 +34,13 @@ class PrayerRepository {
       uploaded = urlResp.data['fileName'];
     }
     await dio.post('/v1/prayers', data: {
+      'groupId': groupId,
+      'corporateId': corporateId,
+      'value': value,
+      'anon': anon ?? false,
+      'media': uploaded,
+    });
+    mixpanel.track("Prayer Created", properties: {
       'groupId': groupId,
       'corporateId': corporateId,
       'value': value,
@@ -73,6 +81,12 @@ class PrayerRepository {
       'reminderText': reminderText,
       'reminderDays': reminderDays,
     });
+    mixpanel.track("Corporate Prayer Created", properties: {
+      'groupId': groupId,
+      'corporateId': corporateId,
+      'title': title,
+      'description': description,
+    });
     return true;
   }
 
@@ -80,6 +94,7 @@ class PrayerRepository {
     required String prayerId,
   }) async {
     await dio.delete('/v1/prayers/$prayerId');
+    mixpanel.track("Prayer Deleted");
     return true;
   }
 
@@ -87,6 +102,7 @@ class PrayerRepository {
     required String prayerId,
   }) async {
     await dio.delete('/v1/prayers/corporate/$prayerId');
+    mixpanel.track("Corporate Prayer Deleted");
     return true;
   }
 
@@ -96,6 +112,7 @@ class PrayerRepository {
   }) async {
     final resp = await dio
         .post('/v1/prayers/pray', data: {'prayerId': prayerId, 'value': value});
+    mixpanel.track("Pray Created");
     return resp.data['data'] == 'success';
   }
 
@@ -104,6 +121,7 @@ class PrayerRepository {
     required int prayId,
   }) async {
     final resp = await dio.delete('/v1/prayers/pray/$prayId');
+    mixpanel.track("Pray Deleted");
     return resp.data['data'] == 'success';
   }
 

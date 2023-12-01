@@ -68,5 +68,6 @@ Future<void> initialize() async {
   mixpanel = await Mixpanel.init(
     dotenv.env['MIXPANEL_TOKEN']!,
     trackAutomaticEvents: true,
+    optOutTrackingDefault: kDebugMode,
   );
 }

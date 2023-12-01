@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prayer/constants/dio.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/errors.dart';
 import 'package:prayer/model/user_model.dart';
@@ -28,6 +29,7 @@ class UserRepository {
     required String uid,
     required bool value,
   }) async {
+    mixpanel.track("User Followed");
     await dio.post('/v1/users/$uid/follows', data: {
       'value': value,
     });
