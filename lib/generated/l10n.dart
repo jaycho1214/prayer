@@ -410,6 +410,16 @@ class S {
     );
   }
 
+  /// `All prayers in corporate prayers will not be deleted.`
+  String get descriptionDeleteCorporatePrayer {
+    return Intl.message(
+      'All prayers in corporate prayers will not be deleted.',
+      name: 'descriptionDeleteCorporatePrayer',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Let''s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!`
   String get descriptionYourPrayerHasBeenReceived {
     return Intl.message(
@@ -1445,6 +1455,26 @@ class S {
     return Intl.message(
       'Share your prayer without revealing your identity, keeping your name private.',
       name: 'titleAnonymously',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete a corporate prayer?`
+  String get titleConfirmDeleteCorporatePrayer {
+    return Intl.message(
+      'Are you sure you want to delete a corporate prayer?',
+      name: 'titleConfirmDeleteCorporatePrayer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Corporate Prayer`
+  String get titleDeleteCorporatePrayer {
+    return Intl.message(
+      'Delete Corporate Prayer',
+      name: 'titleDeleteCorporatePrayer',
       desc: '',
       args: [],
     );

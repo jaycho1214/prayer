@@ -96,6 +96,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteGroup": MessageLookupByLibrary.simpleMessage("Delete a Group"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "descriptionDeleteCorporatePrayer":
+            MessageLookupByLibrary.simpleMessage(
+                "All prayers in corporate prayers will not be deleted."),
         "descriptionYourPrayerHasBeenReceived":
             MessageLookupByLibrary.simpleMessage(
                 "Let\'\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!"),
@@ -259,6 +262,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "titleAnonymously": MessageLookupByLibrary.simpleMessage(
             "Share your prayer without revealing your identity, keeping your name private."),
+        "titleConfirmDeleteCorporatePrayer":
+            MessageLookupByLibrary.simpleMessage(
+                "Are you sure you want to delete a corporate prayer?"),
+        "titleDeleteCorporatePrayer":
+            MessageLookupByLibrary.simpleMessage("Delete Corporate Prayer"),
         "titleGroupDescription": MessageLookupByLibrary.simpleMessage(
             "Tell us a detail about your Group, such as its purpose or mission."),
         "titleGroupType": m7,

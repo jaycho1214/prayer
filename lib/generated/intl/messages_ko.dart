@@ -93,6 +93,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("삭제"),
         "deleteGroup": MessageLookupByLibrary.simpleMessage("그룹 삭제"),
         "description": MessageLookupByLibrary.simpleMessage("설명"),
+        "descriptionDeleteCorporatePrayer":
+            MessageLookupByLibrary.simpleMessage("중보기도에 있는 기도문은 삭제되지 않습니다."),
         "descriptionYourPrayerHasBeenReceived":
             MessageLookupByLibrary.simpleMessage(
                 "다음 기도는 5분 뒤에 할 수 있습니다. 잠시 스트레칭을 하거나 조용히 묵상하는 시간은 어떨까요?"),
@@ -246,6 +248,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "title": MessageLookupByLibrary.simpleMessage("제목"),
         "titleAnonymously":
             MessageLookupByLibrary.simpleMessage("익명 기도문은 누가 올렸는지 확인할 수 없습니다"),
+        "titleConfirmDeleteCorporatePrayer":
+            MessageLookupByLibrary.simpleMessage("정말 중보기도를 삭제하시겠습니까?"),
+        "titleDeleteCorporatePrayer":
+            MessageLookupByLibrary.simpleMessage("중보기도 삭제"),
         "titleGroupDescription": MessageLookupByLibrary.simpleMessage(
             "이 그룹이 어떤 그룹인지 알려주세요. 예) 목적, 미션, 기도제목"),
         "titleGroupType": m7,
