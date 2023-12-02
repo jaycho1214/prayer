@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Account`
+  String get account {
+    return Intl.message(
+      'Account',
+      name: 'account',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Admin`
   String get admin {
     return Intl.message(
@@ -95,6 +105,16 @@ class S {
     return Intl.message(
       '1. All group members will be removed automatically.:2. Corporate prayers and their associated prayers will be deleted.:3. Any prayers posted in this group will be removed.',
       name: 'alertDeleteGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback has sent`
+  String get alertFeedbackSent {
+    return Intl.message(
+      'Feedback has sent',
+      name: 'alertFeedbackSent',
       desc: '',
       args: [],
     );
@@ -390,6 +410,16 @@ class S {
     );
   }
 
+  /// `Delete an account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete an account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Delete a Group`
   String get deleteGroup {
     return Intl.message(
@@ -410,6 +440,16 @@ class S {
     );
   }
 
+  /// `1. Users will be immediately deleted.:2. Users cannot recover once they are deleted.:3. Users must delete all the groups they own.:4. Users must leave all the groups to which they belong.:5. Users must not have any corporate prayers.`
+  String get descriptionDeleteAccount {
+    return Intl.message(
+      '1. Users will be immediately deleted.:2. Users cannot recover once they are deleted.:3. Users must delete all the groups they own.:4. Users must leave all the groups to which they belong.:5. Users must not have any corporate prayers.',
+      name: 'descriptionDeleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All prayers in corporate prayers will not be deleted.`
   String get descriptionDeleteCorporatePrayer {
     return Intl.message(
@@ -420,11 +460,31 @@ class S {
     );
   }
 
+  /// `Join us in nurturing a community of faith and support. Our app offers a unique space for users to share and uplift through prayers, free from ads and without selling any data. We rely entirely on donations to keep this serene and safe platform running. Every contribution, big or small, makes a meaningful difference. Thank you for supporting this journey of fellowship and prayer.`
+  String get descriptionNeedDonation {
+    return Intl.message(
+      'Join us in nurturing a community of faith and support. Our app offers a unique space for users to share and uplift through prayers, free from ads and without selling any data. We rely entirely on donations to keep this serene and safe platform running. Every contribution, big or small, makes a meaningful difference. Thank you for supporting this journey of fellowship and prayer.',
+      name: 'descriptionNeedDonation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Let''s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!`
   String get descriptionYourPrayerHasBeenReceived {
     return Intl.message(
       'Let\'\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!',
       name: 'descriptionYourPrayerHasBeenReceived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Donate Now`
+  String get donatePrayer {
+    return Intl.message(
+      'Donate Now',
+      name: 'donatePrayer',
       desc: '',
       args: [],
     );
@@ -555,6 +615,16 @@ class S {
     return Intl.message(
       'Failed to delete a pray',
       name: 'errorDeletePray',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please follow all the steps before deleting a user.`
+  String get errorDeleteUser {
+    return Intl.message(
+      'Please follow all the steps before deleting a user.',
+      name: 'errorDeleteUser',
       desc: '',
       args: [],
     );
@@ -1260,6 +1330,16 @@ class S {
     );
   }
 
+  /// `Rate Prayer`
+  String get ratePrayer {
+    return Intl.message(
+      'Rate Prayer',
+      name: 'ratePrayer',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Reminder`
   String get reminder {
     return Intl.message(
@@ -1340,6 +1420,16 @@ class S {
     );
   }
 
+  /// `Send Feedback`
+  String get sendFeedback {
+    return Intl.message(
+      'Send Feedback',
+      name: 'sendFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send Invitation`
   String get sendInvitation {
     return Intl.message(
@@ -1355,6 +1445,26 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share your prayer requests, express your prayers, and offer your prayers for others on Prayer today! \n\n {url}`
+  String shareAppMessage(Object url) {
+    return Intl.message(
+      'Share your prayer requests, express your prayers, and offer your prayers for others on Prayer today! \n\n $url',
+      name: 'shareAppMessage',
+      desc: '',
+      args: [url],
+    );
+  }
+
+  /// `Share Prayer`
+  String get sharePrayer {
+    return Intl.message(
+      'Share Prayer',
+      name: 'sharePrayer',
       desc: '',
       args: [],
     );
@@ -1465,6 +1575,16 @@ class S {
     return Intl.message(
       'Are you sure you want to delete a corporate prayer?',
       name: 'titleConfirmDeleteCorporatePrayer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete an account?`
+  String get titleDeleteAccount {
+    return Intl.message(
+      'Are you sure you want to delete an account?',
+      name: 'titleDeleteAccount',
       desc: '',
       args: [],
     );

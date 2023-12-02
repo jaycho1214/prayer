@@ -16,7 +16,9 @@ import 'package:prayer/presentation/screens/home_tab_bar.dart';
 import 'package:prayer/presentation/screens/notifications_screen.dart';
 import 'package:prayer/presentation/screens/prayers/corporate_prayer_screen.dart';
 import 'package:prayer/presentation/screens/prayers/prayer_screen.dart';
-import 'package:prayer/presentation/screens/settings_screen.dart';
+import 'package:prayer/presentation/screens/settings/account_settings_screen.dart';
+import 'package:prayer/presentation/screens/settings/donate_screen.dart';
+import 'package:prayer/presentation/screens/settings/settings_screen.dart';
 import 'package:prayer/presentation/screens/users/user_follows_screen.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
@@ -153,6 +155,16 @@ class AppRouter {
         GoRoute(
           path: 'settings',
           builder: (context, state) => const SettingsScreen(),
+          routes: [
+            GoRoute(
+              path: 'account',
+              builder: (context, state) => const AccountSettingsScreen(),
+            ),
+            GoRoute(
+              path: 'donate',
+              builder: (context, state) => const DonateScreen(),
+            ),
+          ],
         ),
       ],
     ),

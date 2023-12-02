@@ -34,27 +34,33 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(membersCount) => "${membersCount} Members";
 
-  static String m6(username) => "${username} has prayed";
+  static String m6(url) =>
+      "Share your prayer requests, express your prayers, and offer your prayers for others on Prayer today! \n\n ${url}";
 
-  static String m7(membershipType) => "This group is ${membershipType}";
+  static String m7(username) => "${username} has prayed";
 
-  static String m8(membersCount) => "Invite ${membersCount} people?";
+  static String m8(membershipType) => "This group is ${membershipType}";
 
-  static String m9(name) => "Promote ${name}";
+  static String m9(membersCount) => "Invite ${membersCount} people?";
 
-  static String m10(fromDays, toDays) =>
+  static String m10(name) => "Promote ${name}";
+
+  static String m11(fromDays, toDays) =>
       "You will be notified on ${fromDays} at ${toDays}";
 
-  static String m11(version) => "Version: ${version}";
+  static String m12(version) => "Version: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept": MessageLookupByLibrary.simpleMessage("Accept"),
         "accepted": MessageLookupByLibrary.simpleMessage("Accepted"),
+        "account": MessageLookupByLibrary.simpleMessage("Account"),
         "admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "alertAcceptMember": m0,
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
             "1. All group members will be removed automatically.:2. Corporate prayers and their associated prayers will be deleted.:3. Any prayers posted in this group will be removed."),
+        "alertFeedbackSent":
+            MessageLookupByLibrary.simpleMessage("Feedback has sent"),
         "alertLeaveGroup": MessageLookupByLibrary.simpleMessage(
             "1. You need to be reaccepted to join the group.:2. You need to be repromoted to regain moderator status.:3. None of your prayers will be deleted."),
         "alertPrayWithName": MessageLookupByLibrary.simpleMessage(
@@ -94,14 +100,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "dayTue": MessageLookupByLibrary.simpleMessage("Tue"),
         "dayWen": MessageLookupByLibrary.simpleMessage("Wed"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteAccount":
+            MessageLookupByLibrary.simpleMessage("Delete an account"),
         "deleteGroup": MessageLookupByLibrary.simpleMessage("Delete a Group"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "descriptionDeleteAccount": MessageLookupByLibrary.simpleMessage(
+            "1. Users will be immediately deleted.:2. Users cannot recover once they are deleted.:3. Users must delete all the groups they own.:4. Users must leave all the groups to which they belong.:5. Users must not have any corporate prayers."),
         "descriptionDeleteCorporatePrayer":
             MessageLookupByLibrary.simpleMessage(
                 "All prayers in corporate prayers will not be deleted."),
+        "descriptionNeedDonation": MessageLookupByLibrary.simpleMessage(
+            "Join us in nurturing a community of faith and support. Our app offers a unique space for users to share and uplift through prayers, free from ads and without selling any data. We rely entirely on donations to keep this serene and safe platform running. Every contribution, big or small, makes a meaningful difference. Thank you for supporting this journey of fellowship and prayer."),
         "descriptionYourPrayerHasBeenReceived":
             MessageLookupByLibrary.simpleMessage(
                 "Let\'\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!"),
+        "donatePrayer": MessageLookupByLibrary.simpleMessage("Donate Now"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "endedAt": MessageLookupByLibrary.simpleMessage("Ended At"),
@@ -127,6 +140,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Unable to delete a group"),
         "errorDeletePray":
             MessageLookupByLibrary.simpleMessage("Failed to delete a pray"),
+        "errorDeleteUser": MessageLookupByLibrary.simpleMessage(
+            "Please follow all the steps before deleting a user."),
         "errorEditGroup":
             MessageLookupByLibrary.simpleMessage("Failed to edit a group"),
         "errorEmptyPrayer": MessageLookupByLibrary.simpleMessage(
@@ -234,6 +249,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "private": MessageLookupByLibrary.simpleMessage("Private"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "promote": MessageLookupByLibrary.simpleMessage("Promote"),
+        "ratePrayer": MessageLookupByLibrary.simpleMessage("Rate Prayer"),
         "reminder": MessageLookupByLibrary.simpleMessage("Reminder"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("Remove current photo"),
@@ -244,9 +260,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "restricted": MessageLookupByLibrary.simpleMessage("Restricted"),
         "revoke": MessageLookupByLibrary.simpleMessage("Revoke"),
         "revoked": MessageLookupByLibrary.simpleMessage("Revoked"),
+        "sendFeedback": MessageLookupByLibrary.simpleMessage("Send Feedback"),
         "sendInvitation":
             MessageLookupByLibrary.simpleMessage("Send Invitation"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "shareAppMessage": m6,
+        "sharePrayer": MessageLookupByLibrary.simpleMessage("Share Prayer"),
         "signInWithApple":
             MessageLookupByLibrary.simpleMessage("Continue with Apple"),
         "signInWithGoogle":
@@ -256,7 +275,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Rejoice always, pray continually, give thanks in all circumstances; for this is God’s will for you in Christ Jesus."),
         "signUpScreenBibleVerseBook": MessageLookupByLibrary.simpleMessage(
             "1 Thessalonians 5:16-18 (NIV)"),
-        "someoneHasPrayed": m6,
+        "someoneHasPrayed": m7,
         "startedAt": MessageLookupByLibrary.simpleMessage("Started At"),
         "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
@@ -265,14 +284,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "titleConfirmDeleteCorporatePrayer":
             MessageLookupByLibrary.simpleMessage(
                 "Are you sure you want to delete a corporate prayer?"),
+        "titleDeleteAccount": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete an account?"),
         "titleDeleteCorporatePrayer":
             MessageLookupByLibrary.simpleMessage("Delete Corporate Prayer"),
         "titleGroupDescription": MessageLookupByLibrary.simpleMessage(
             "Tell us a detail about your Group, such as its purpose or mission."),
-        "titleGroupType": m7,
+        "titleGroupType": m8,
         "titleHowToShareYourPrayer":
             MessageLookupByLibrary.simpleMessage("How to Share Your Prayer?"),
-        "titleInvitePeople": m8,
+        "titleInvitePeople": m9,
         "titleInvitePeopleDescription": MessageLookupByLibrary.simpleMessage(
             "Users will receive a notification and can join without approval. Admin or other moderators can revoke your invites"),
         "titleMemberCanPostOnly": MessageLookupByLibrary.simpleMessage(
@@ -289,8 +310,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Post Anonymously"),
         "titlePrayerPostPublicly":
             MessageLookupByLibrary.simpleMessage("Post Publicly"),
-        "titlePromoteUser": m9,
-        "titleReminderNotifyOn": m10,
+        "titlePromoteUser": m10,
+        "titleReminderNotifyOn": m11,
         "titleTimezoneWillBeUsed": MessageLookupByLibrary.simpleMessage(
             "Your timezone will be used to notify other members"),
         "titleWithName": MessageLookupByLibrary.simpleMessage(
@@ -299,7 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your prayer has been received"),
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "users": MessageLookupByLibrary.simpleMessage("Users"),
-        "versionText": m11,
+        "versionText": m12,
         "weekdays": MessageLookupByLibrary.simpleMessage("Weekdays"),
         "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
         "withName": MessageLookupByLibrary.simpleMessage("With Name")
