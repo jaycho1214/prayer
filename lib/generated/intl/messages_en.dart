@@ -178,7 +178,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "groupEstablishedAt": m4,
         "groupName": MessageLookupByLibrary.simpleMessage("Group Name"),
         "groups": MessageLookupByLibrary.simpleMessage("Groups"),
-        "home": MessageLookupByLibrary.simpleMessage("home"),
+        "home": MessageLookupByLibrary.simpleMessage("Home"),
         "introductionTitle": MessageLookupByLibrary.simpleMessage(
             "United in Prayer\\nStronger Together\\nCollective Faith"),
         "invitation": MessageLookupByLibrary.simpleMessage("Invitation"),
