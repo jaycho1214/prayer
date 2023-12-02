@@ -1133,7 +1133,7 @@ packages:
     source: hosted
     version: "7.13.2"
   share_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: share_plus
       sha256: f74fc3f1cbd99f39760182e176802f693fa0ec9625c045561cfad54681ea93dd

@@ -70,6 +70,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.1
+  share_plus: ^7.2.1
 
 dependency_overrides:
   font_awesome_flutter:
@@ -103,6 +104,7 @@ flutter:
     - assets/images/logo/apple.png
     - assets/images/logo/x.png
     - assets/images/logo/icon.png
+    - assets/images/praying.jpg
 
   generate: true
   # An image asset can refer to one or more resolution-specific "variants", see

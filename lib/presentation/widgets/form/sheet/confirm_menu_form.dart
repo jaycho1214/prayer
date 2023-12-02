@@ -65,8 +65,8 @@ class ConfirmMenuForm extends StatelessWidget {
                 fontWeight: FontWeight.w900,
                 fontSize: 20,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.fade,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             if (subtitle != null)
               Text(

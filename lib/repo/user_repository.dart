@@ -35,6 +35,11 @@ class UserRepository {
     });
   }
 
+  Future<void> deleteUser() async {
+    mixpanel.track("User Deleted");
+    await dio.delete('/v1/users');
+  }
+
   Future<PaginationResponse<PUser, String?>> fetchFollowers(String uid,
       {String? cursor, FollowersType type = FollowersType.followings}) async {
     try {
