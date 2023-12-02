@@ -18,7 +18,6 @@ class ShrinkingButton extends StatefulWidget {
 
 class _ShrinkingButtonState extends State<ShrinkingButton> {
   bool pressed = false;
-  bool tapping = false;
 
   void onTapUp(_) {
     setState(() {
@@ -29,7 +28,6 @@ class _ShrinkingButtonState extends State<ShrinkingButton> {
   void onTap() {
     setState(() {
       pressed = true;
-      tapping = true;
     });
     widget.onTap?.call();
   }
@@ -44,30 +42,14 @@ class _ShrinkingButtonState extends State<ShrinkingButton> {
       onTapDown: (_) => setState(() {
         pressed = true;
       }),
-      onLongPressDown: (_) => setState(() {
-        pressed = true;
-      }),
-      onLongPressStart: onTapUp,
-      onLongPressUp: () => setState(() {
-        pressed = false;
-      }),
-      onLongPressEnd: (_) => setState(() {
-        pressed = false;
-      }),
-      onLongPressCancel: () => setState(() {
-        pressed = false;
-      }),
       onTapCancel: () => setState(() {
         pressed = false;
       }),
       child: AnimatedScale(
         onEnd: () {
-          if (tapping) {
-            setState(() {
-              pressed = false;
-              tapping = false;
-            });
-          }
+          setState(() {
+            pressed = false;
+          });
         },
         scale: pressed ? 0.97 : 1.0,
         duration: widget.duration,
