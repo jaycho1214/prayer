@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -82,7 +83,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                             width: double.infinity,
                             child: Center(
                               child: Text(
-                                'Members',
+                                S.of(context).members,
                                 style: platformThemeData(
                                   context,
                                   material: (ThemeData data) =>
@@ -118,7 +119,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                                                       .refresh();
                                                 }
                                               },
-                                              title: 'Invite',
+                                              title: S.of(context).invite,
                                               icon: FontAwesomeIcons.envelope,
                                             ),
                                             if (group?.adminId ==
@@ -134,7 +135,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                                                         .refresh();
                                                   }
                                                 },
-                                                title: 'Promote',
+                                                title: S.of(context).promote,
                                                 icon:
                                                     FontAwesomeIcons.userShield,
                                               ),
@@ -157,14 +158,14 @@ class GroupMembersScreen extends HookConsumerWidget {
                         preferredSize: Size.fromHeight(60),
                         child: CustomTabBar(
                           tabs: [
-                            'Moderators',
-                            'Members',
+                            S.of(context).moderators,
+                            S.of(context).members,
                             if (group?.moderator != null &&
                                 group?.membershipType != 'open')
-                              'Requests',
+                              S.of(context).requests,
                             if (group?.moderator != null &&
                                 group?.membershipType != 'open')
-                              'Invites'
+                              S.of(context).invites
                           ],
                         ),
                       ),
@@ -172,7 +173,10 @@ class GroupMembersScreen extends HookConsumerWidget {
                   ),
                 ],
                 body: TabBarView(
-                  children: ['moderators', 'members', 'requests', 'invites']
+                  children: (group?.moderator != null &&
+                              group?.membershipType != 'open'
+                          ? ['moderators', 'members', 'requests', 'invites']
+                          : ['moderators', 'members'])
                       .map(
                         (e) => Builder(
                           builder: (context) => CustomScrollView(

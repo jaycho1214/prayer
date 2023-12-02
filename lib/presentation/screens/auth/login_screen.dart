@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/auth/login_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
@@ -32,7 +33,7 @@ class LoginScreen extends HookConsumerWidget {
           error: (_, __) {
             GlobalSnackBar.show(
               context,
-              message: "Failed to sign in. Please try again.",
+              message: S.of(context).errorSignIn,
             );
           },
           loading: () => null);
@@ -48,7 +49,7 @@ class LoginScreen extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "United in Prayer\nStronger Together\nCollective Faith",
+            S.of(context).introductionTitle,
             style: const TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 30,
@@ -63,7 +64,7 @@ class LoginScreen extends HookConsumerWidget {
                 LoginButton(
                     loading: lastPressed.value == 'apple' && loading,
                     iconPath: "assets/images/logo/apple.png",
-                    text: "Continue with Apple",
+                    text: S.of(context).signInWithApple,
                     onTap: () {
                       lastPressed.value = 'apple';
                       authProvider.signIn(AuthProvider.apple);
@@ -73,7 +74,7 @@ class LoginScreen extends HookConsumerWidget {
               LoginButton(
                   loading: lastPressed.value == 'google' && loading,
                   iconPath: "assets/images/logo/google.png",
-                  text: "Continue with Google",
+                  text: S.of(context).signInWithGoogle,
                   onTap: () {
                     lastPressed.value = 'google';
                     authProvider.signIn(AuthProvider.google);

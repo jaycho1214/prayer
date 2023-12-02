@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_slim_menu_form.dart';
@@ -45,8 +46,8 @@ class GroupMemberCard extends HookConsumerWidget {
       loading.value = true;
       final result = await ConfirmSlimMenuForm.show(
         context,
-        title: "Accept @${member.username}?",
-        description: "You cannot undo this action",
+        title: S.of(context).alertAcceptMember(member.username),
+        description: S.of(context).alertYouCannotUndoThisAction,
         icon: FontAwesomeIcons.check,
       );
       if (result == true) {
@@ -56,7 +57,7 @@ class GroupMemberCard extends HookConsumerWidget {
           accepted.value = true;
           onDone?.call(GroupMemberCardActionType.accept);
         }).catchError((_) {
-          GlobalSnackBar.show(context, message: "Failed to accept the user");
+          GlobalSnackBar.show(context, message: S.of(context).errorAcceptUser);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -68,8 +69,8 @@ class GroupMemberCard extends HookConsumerWidget {
       loading.value = true;
       final result = await ConfirmSlimMenuForm.show(
         context,
-        title: "Revoke an invitation of @${member.username}?",
-        description: "You cannot undo this action",
+        title: S.of(context).alertRevokeInvitation(member.username),
+        description: S.of(context).alertYouCannotUndoThisAction,
         icon: FontAwesomeIcons.check,
       );
       if (result == true) {
@@ -83,7 +84,8 @@ class GroupMemberCard extends HookConsumerWidget {
           revoked.value = true;
           onDone?.call(GroupMemberCardActionType.revoke);
         }).catchError((_) {
-          GlobalSnackBar.show(context, message: "Failed to revoke the invite");
+          GlobalSnackBar.show(context,
+              message: S.of(context).errorRevokeInvite);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -128,8 +130,8 @@ class GroupMemberCard extends HookConsumerWidget {
                             ),
                             child: Text(
                               group?.adminId == member.uid
-                                  ? 'Admin'
-                                  : 'Moderator',
+                                  ? S.of(context).admin
+                                  : S.of(context).moderator,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
@@ -151,7 +153,9 @@ class GroupMemberCard extends HookConsumerWidget {
                 loading.value
                     ? PlatformCircularProgressIndicator()
                     : PrimaryTextButton(
-                        text: accepted.value ? "Accepted" : 'Accept',
+                        text: accepted.value
+                            ? S.of(context).accepted
+                            : S.of(context).accept,
                         inverse: accepted.value,
                         onTap: accepted.value ? null : handleAccept,
                       ),
@@ -159,7 +163,9 @@ class GroupMemberCard extends HookConsumerWidget {
                 loading.value
                     ? PlatformCircularProgressIndicator()
                     : PrimaryTextButton(
-                        text: revoked.value ? "Revoked" : 'Revoke',
+                        text: revoked.value
+                            ? S.of(context).revoked
+                            : S.of(context).revoke,
                         inverse: revoked.value,
                         onTap: revoked.value ? null : handleRevoke,
                       ),

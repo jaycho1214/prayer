@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -126,7 +127,7 @@ class MemberPicker extends HookConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: SearchBar(
                   controller: queryController,
-                  hintText: "Search...",
+                  hintText: S.of(context).placeholderSearch,
                   backgroundColor:
                       const MaterialStatePropertyAll(MyTheme.primary),
                   hintStyle: const MaterialStatePropertyAll(
@@ -182,7 +183,7 @@ class MemberPicker extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Promote ${member?.name}?",
+                          S.of(context).titlePromoteUser(member?.name ?? ''),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -192,17 +193,17 @@ class MemberPicker extends HookConsumerWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 20),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  "1. Moderators have the ability to invite others or accept join requests."),
-                              const SizedBox(height: 10),
-                              Text("2. Moderators can post corporate prayers."),
-                              const SizedBox(height: 10),
-                              Text(
-                                  "3. Moderators can set notifications for prayer times."),
-                            ],
-                          ),
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: S
+                                  .of(context)
+                                  .moderatorsPrivileges
+                                  .split(':')
+                                  .map((text) => Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: Text(text),
+                                      ))
+                                  .toList()),
                         ),
                         const SizedBox(height: 50),
                         Padding(
@@ -242,7 +243,7 @@ class MemberPicker extends HookConsumerWidget {
                                       onError: () {
                                         GlobalSnackBar.show(context,
                                             message:
-                                                "Failed to promote the user");
+                                                S.of(context).errorPromoteUser);
                                       });
                                 },
                                 child: Container(

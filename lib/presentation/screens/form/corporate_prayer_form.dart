@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
@@ -151,7 +152,7 @@ class CorporatePrayerForm extends HookWidget {
                       children: [
                         const SizedBox(height: 20),
                         Text(
-                          "After they prayed, the place where they were meeting was shaken. And they were all filled with the Holy Spirit and spoke the word of God boldly.",
+                          S.of(context).bibleCorporatePrayerScreenVerse,
                           style: const TextStyle(
                             color: MyTheme.outline,
                             fontSize: 14,
@@ -160,7 +161,7 @@ class CorporatePrayerForm extends HookWidget {
                         ),
                         Center(
                           child: Text(
-                            "- Acts 4:31 (NIV)",
+                            S.of(context).bibleCorporatePrayerScreenVerseBook,
                             style: const TextStyle(
                               color: MyTheme.outline,
                               fontSize: 12,
@@ -171,15 +172,19 @@ class CorporatePrayerForm extends HookWidget {
                         const SizedBox(height: 20),
                         TextInputField(
                           name: 'title',
-                          labelText: 'Title',
+                          labelText: S.of(context).title,
                           maxLines: 1,
                           maxLength: 30,
                           validator: (value) {
                             if (value == null || value.trim() == '') {
-                              return 'Name must include at least one non-whitespace character';
+                              return S
+                                  .of(context)
+                                  .errorCorporatePrayerMustNotEmpty;
                             }
                             if (value.contains('@') || value.contains('#')) {
-                              return "Name must not include the '#' or the '@' symbol";
+                              return S
+                                  .of(context)
+                                  .errorCorporatePrayerHasSpecialCharacters;
                             }
                             return null;
                           },
@@ -187,13 +192,15 @@ class CorporatePrayerForm extends HookWidget {
                         const SizedBox(height: 20),
                         TextInputField(
                           name: 'description',
-                          labelText: 'Description',
+                          labelText: S.of(context).description,
                           maxLines: 5,
                           maxLength: 300,
                           counterText: '',
                           validator: (value) {
                             if ((value ?? "").trim() == '') {
-                              return "Please provide a description for the group";
+                              return S
+                                  .of(context)
+                                  .errorNeedCorporatePrayerDescription;
                             }
                             return null;
                           },
@@ -214,7 +221,7 @@ class CorporatePrayerForm extends HookWidget {
                               Expanded(
                                 child: TextInputField(
                                   name: "startedAt",
-                                  labelText: "Started At",
+                                  labelText: S.of(context).startedAt,
                                   keyboardType: TextInputType.none,
                                   onTap: () async {
                                     FocusScope.of(context)
@@ -247,7 +254,7 @@ class CorporatePrayerForm extends HookWidget {
                               Expanded(
                                 child: TextInputField(
                                   name: "endedAt",
-                                  labelText: "Ended At",
+                                  labelText: S.of(context).endedAt,
                                   keyboardType: TextInputType.none,
                                   onTap: () async {
                                     FocusScope.of(context)
@@ -288,7 +295,7 @@ class CorporatePrayerForm extends HookWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "After the duration of prayers has elapsed, they will be marked as concluded, and reminders will not be sent.",
+                          S.of(context).corporatePrayerReminderMesasge,
                           style: const TextStyle(
                             color: MyTheme.outline,
                           ),
@@ -299,7 +306,7 @@ class CorporatePrayerForm extends HookWidget {
                         Row(
                           children: [
                             Text(
-                              "Prayers",
+                              S.of(context).prayers,
                               style: const TextStyle(
                                 color: MyTheme.onPrimary,
                                 fontWeight: FontWeight.bold,
@@ -362,13 +369,15 @@ class CorporatePrayerForm extends HookWidget {
                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                             child: TextInputField(
                               name: 'prayers.${index}',
-                              labelText: 'Prayer ${index + 1}',
+                              labelText: '${S.of(context).prayer} ${index + 1}',
                               maxLines: 5,
                               maxLength: 200,
                               counterText: '',
                               validator: (value) {
                                 if ((value ?? "").trim() == '') {
-                                  return "Please provide a prayer for the group";
+                                  return S
+                                      .of(context)
+                                      .errorCorporatePrayerNeedPrayers;
                                 }
                                 return null;
                               },

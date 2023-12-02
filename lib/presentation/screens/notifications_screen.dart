@@ -7,6 +7,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/model/notification_model.dart';
@@ -62,7 +63,7 @@ class NotificationsScreen extends HookConsumerWidget {
                         Container(
                           width: double.infinity,
                           child: Text(
-                            "Notifications",
+                            S.of(context).notifications,
                             textAlign: TextAlign.center,
                             style: platformThemeData(
                               context,
@@ -87,7 +88,10 @@ class NotificationsScreen extends HookConsumerWidget {
                     bottom: PreferredSize(
                       preferredSize: Size.fromHeight(48),
                       child: CustomTabBar(
-                        tabs: ['Notification', 'Invitation'],
+                        tabs: [
+                          S.of(context).notifications,
+                          S.of(context).invitation
+                        ],
                       ),
                     ),
                   ),

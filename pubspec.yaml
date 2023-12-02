@@ -67,6 +67,9 @@ dependencies:
   wolt_modal_sheet: ^0.1.4
   shared_preferences: ^2.2.2
   synchronized: ^3.1.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.1
 
 dependency_overrides:
   font_awesome_flutter:
@@ -85,7 +88,6 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -100,14 +102,13 @@ flutter:
     - assets/images/logo/google.png
     - assets/images/logo/apple.png
     - assets/images/logo/x.png
-  #   - images/a_dot_ham.jpeg
+    - assets/images/logo/icon.png
 
+  generate: true
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -126,3 +127,5 @@ flutter_native_splash:
   color: "#000000"
   android_12:
     color: "#000000"
+flutter_intl:
+  enabled: true

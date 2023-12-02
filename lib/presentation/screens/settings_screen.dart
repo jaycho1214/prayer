@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -74,13 +75,13 @@ class SettingsScreen extends HookWidget {
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
         backgroundColor: MyTheme.surface,
-        title: Text("Settings"),
+        title: Text(S.of(context).settings),
       ),
       body: ListView(
         children: [
           _buildRow(
             icon: FontAwesomeIcons.lockOpen,
-            title: "Sign Out",
+            title: S.of(context).signOut,
             onTap: () {
               while (context.canPop()) {
                 context.pop();
@@ -91,7 +92,7 @@ class SettingsScreen extends HookWidget {
           ),
           _buildRow(
             icon: FontAwesomeIcons.blinds,
-            title: "Privacy Policy",
+            title: S.of(context).privacyPolicy,
             onTap: () {
               launchUrl(
                   Uri.parse('https://www.crosswand.com/app/prayer/privacy'));
@@ -99,7 +100,7 @@ class SettingsScreen extends HookWidget {
           ),
           _buildRow(
             icon: FontAwesomeIcons.file,
-            title: "Terms of Use",
+            title: S.of(context).termsOfUse,
             onTap: () {
               launchUrl(
                   Uri.parse('https://www.crosswand.com/app/prayer/terms'));
@@ -117,7 +118,7 @@ class SettingsScreen extends HookWidget {
                       : '${snapshot.data!.version}+${snapshot.data!.buildNumber}';
                 }
                 return Text(
-                  "Version: $text",
+                  S.of(context).versionText(text),
                   style: TextStyle(color: MyTheme.outline),
                 );
               },

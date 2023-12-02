@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
@@ -103,7 +104,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
       appBar: PlatformAppBar(
         backgroundColor: MyTheme.surface,
         leading: NavigateBackButton(),
-        title: Text("Corporate"),
+        title: Text(S.of(context).corporate),
         trailingActions: [
           if (snapshot.data?.userId == FirebaseAuth.instance.currentUser?.uid)
             PullDownButton(
@@ -341,11 +342,11 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                   checkingMember.value = false;
                   if (value == null) {
                     GlobalSnackBar.show(context,
-                        message: "Unknown error occured");
+                        message: S.of(context).errorUnknown);
                     return;
                   } else if (value.acceptedAt == null) {
                     GlobalSnackBar.show(context,
-                        message: "You have to be a member of the group");
+                        message: S.of(context).errorNeedPermissionToPost);
                     return;
                   }
                 });

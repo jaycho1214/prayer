@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
@@ -38,7 +39,7 @@ class GroupFormScreen extends HookWidget {
         if (form['banner'] == null) {
           loading.value = false;
           return GlobalSnackBar.show(context,
-              message: "Please upload a banner");
+              message: S.of(context).errorNeedGroupBanner);
         }
         GetIt.I<GroupRepository>()
             .createGroup(
@@ -54,7 +55,7 @@ class GroupFormScreen extends HookWidget {
           if (e is DioException) {
             talker.error("Failed to create a group: ${e.response}");
           }
-          GlobalSnackBar.show(context, message: "Failed to create a group");
+          GlobalSnackBar.show(context, message: S.of(context).errorCreateGroup);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -74,7 +75,7 @@ class GroupFormScreen extends HookWidget {
             (form['banner'] as String?)?.startsWith('https') == false) {
           loading.value = false;
           return GlobalSnackBar.show(context,
-              message: "Please upload a banner");
+              message: S.of(context).errorNeedGroupBanner);
         }
         GetIt.I<GroupRepository>()
             .updateGroup(
@@ -90,7 +91,7 @@ class GroupFormScreen extends HookWidget {
           if (e is DioException) {
             talker.error("Failed to edit a group: ${e.response}");
           }
-          GlobalSnackBar.show(context, message: "Failed to edit a group");
+          GlobalSnackBar.show(context, message: S.of(context).errorEditGroup);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -105,11 +106,13 @@ class GroupFormScreen extends HookWidget {
           backgroundColor: MyTheme.surface,
           automaticallyImplyLeading: true,
           leading: NavigateBackButton(result: false),
-          title: Text("Create a Group"),
+          title: Text(S.of(context).createGroup),
           trailingActions: [
             Center(
               child: PrimaryTextButton(
-                text: initialValue == null ? "Create" : "Edit",
+                text: initialValue == null
+                    ? S.of(context).create
+                    : S.of(context).edit,
                 onTap: initialValue == null ? onCreate : onEdit,
                 loading: loading.value,
               ),
@@ -142,15 +145,19 @@ class GroupFormScreen extends HookWidget {
                         const SizedBox(height: 20),
                         TextInputField(
                           name: 'name',
-                          labelText: 'Group Name',
+                          labelText: S.of(context).groupName,
                           maxLines: 1,
                           maxLength: 30,
                           validator: (value) {
                             if (value == null || value.trim() == '') {
-                              return 'Name must include at least one non-whitespace character';
+                              return S
+                                  .of(context)
+                                  .errorCorporatePrayerMustNotEmpty;
                             }
                             if (value.contains('@') || value.contains('#')) {
-                              return "Name must not include the '#' or the '@' symbol";
+                              return S
+                                  .of(context)
+                                  .errorCorporatePrayerHasSpecialCharacters;
                             }
                             if (value.startsWith(' ')) {
                               return "Name must not start with whitespace";
@@ -160,7 +167,7 @@ class GroupFormScreen extends HookWidget {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "Names must be less than 30 characters and do not include hashtag and or the '@' symbol.",
+                          S.of(context).errorNameLessThan30Characters,
                           style: const TextStyle(
                             color: MyTheme.outline,
                           ),
@@ -170,20 +177,20 @@ class GroupFormScreen extends HookWidget {
                         const SizedBox(height: 10),
                         TextInputField(
                           name: 'description',
-                          labelText: 'Group Description',
+                          labelText: S.of(context).groupDescription,
                           maxLines: 10,
                           maxLength: 300,
                           counterText: '',
                           validator: (value) {
                             if ((value ?? "").trim() == '') {
-                              return "Please provide a description for the group";
+                              return S.of(context).errorNeedGroupDescription;
                             }
                             return null;
                           },
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "Tell us a detail about your Group, such as its purpose or mission.",
+                          S.of(context).titleGroupDescription,
                           style: const TextStyle(
                             color: MyTheme.outline,
                           ),
@@ -194,19 +201,20 @@ class GroupFormScreen extends HookWidget {
                           loading.value
                               ? PlatformCircularProgressIndicator()
                               : PrimaryTextButton(
-                                  text: "Delete",
+                                  text: S.of(context).delete,
                                   onTap: () async {
                                     loading.value = true;
                                     if (await ConfirmMenuForm.show(
                                           context,
-                                          title: "Delete a Group",
-                                          subtitle:
-                                              "You cannot undo this action",
-                                          description: [
-                                            "\u{26A0} All group members will be removed automatically.",
-                                            "\u{26A0} Corporate prayers and their associated prayers will be deleted.",
-                                            "\u{26A0} Any prayers posted in this group will be removed.",
-                                          ],
+                                          title: S.of(context).deleteGroup,
+                                          subtitle: S
+                                              .of(context)
+                                              .alertYouCannotUndoThisAction,
+                                          description: S
+                                              .of(context)
+                                              .alertDeleteGroup
+                                              .split(":")
+                                              .toList(),
                                           icon: FontAwesomeIcons.lightTrash,
                                         ) ==
                                         true) {
@@ -218,7 +226,7 @@ class GroupFormScreen extends HookWidget {
                                       }).catchError((_) {
                                         GlobalSnackBar.show(context,
                                             message:
-                                                "Unable to delete a group");
+                                                S.of(context).errorDeleteGroup);
                                       }).whenComplete(() {
                                         loading.value = false;
                                       });
@@ -233,7 +241,7 @@ class GroupFormScreen extends HookWidget {
                           const Divider(color: MyTheme.disabled),
                           const SizedBox(height: 10),
                           Text(
-                            "Membership Type",
+                            S.of(context).membershipType,
                             style: const TextStyle(
                               color: MyTheme.onPrimary,
                               fontWeight: FontWeight.bold,
@@ -241,9 +249,9 @@ class GroupFormScreen extends HookWidget {
                             ),
                           ),
                           Text(
-                            "Tell us who can join this group. You cannot change this later.",
+                            S.of(context).titleMembershipType,
                             style: const TextStyle(
-                                color: MyTheme.disabled, fontSize: 12),
+                                color: MyTheme.placeholderText, fontSize: 12),
                           ),
                           const SizedBox(height: 10),
                           const MembershipTypeForm(),

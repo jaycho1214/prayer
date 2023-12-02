@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/screens/prayers/group_corporate_prayers_screen.dart';
@@ -43,7 +44,7 @@ class GroupScreen extends HookConsumerWidget {
       next.when(
         data: (value) {},
         error: (err, _) {
-          GlobalSnackBar.show(context, message: 'Unknown error occured');
+          GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
         },
         loading: () {},
       );
@@ -59,7 +60,7 @@ class GroupScreen extends HookConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Group"),
+            Text(S.of(context).group),
             const SizedBox(width: 10),
             PrimaryTextButton(
                 onTap: () {
@@ -68,9 +69,9 @@ class GroupScreen extends HookConsumerWidget {
                   }
                 },
                 text: switch (group.membershipType) {
-                  'restricted' => 'Restricted',
-                  'private' => 'Private',
-                  _ => 'Open',
+                  'restricted' => S.of(context).restricted,
+                  'private' => S.of(context).private,
+                  _ => S.of(context).open,
                 }),
           ],
         ),
@@ -83,7 +84,7 @@ class GroupScreen extends HookConsumerWidget {
                         onTap: () {
                           context.push('/groups/$groupId/members');
                         },
-                        title: "Members",
+                        title: S.of(context).members,
                         icon: FontAwesomeIcons.lightUsers,
                       ),
                       if (group.adminId ==
@@ -91,7 +92,7 @@ class GroupScreen extends HookConsumerWidget {
                         PullDownMenuItem(
                           onTap: () =>
                               context.push('/form/group', extra: group),
-                          title: "Edit",
+                          title: S.of(context).edit,
                           icon: FontAwesomeIcons.penToSquare,
                           enabled: group.adminId ==
                               FirebaseAuth.instance.currentUser?.uid,
@@ -170,11 +171,11 @@ class GroupScreen extends HookConsumerWidget {
                                       children: [
                                         StatisticsText(
                                             value: group.membersCount,
-                                            text: "Members"),
+                                            text: S.of(context).members),
                                         const SizedBox(width: 15),
                                         StatisticsText(
                                             value: group.prayersCount,
-                                            text: "Prayers"),
+                                            text: S.of(context).prayers),
                                         Spacer(),
                                         JoinButton(
                                           groupId: groupId,
@@ -191,7 +192,7 @@ class GroupScreen extends HookConsumerWidget {
                       SliverPersistentHeader(
                         pinned: true,
                         delegate: TabBarDelegate(
-                          tabs: ['Prayer', 'Corporate'],
+                          tabs: [S.of(context).prayer, S.of(context).corporate],
                         ),
                       ),
                     ],
@@ -205,7 +206,8 @@ class GroupScreen extends HookConsumerWidget {
                                   horizontal: 20,
                                 ),
                                 child: Text(
-                                  "This group is ${group.membershipType}.\nJoin to see the prayers",
+                                  S.of(context).errorNeedPermissionToView(
+                                      group.membershipType),
                                   textAlign: TextAlign.center,
                                 ),
                               )
@@ -248,7 +250,7 @@ class GroupScreen extends HookConsumerWidget {
                         if (group.moderator == null) {
                           GlobalSnackBar.show(context,
                               message:
-                                  "Only moderators are allowed to post corporate prayers.");
+                                  S.of(context).errorMustBeModeratorToPost);
                         } else {
                           final didSomething = await context.push(Uri(
                                   path: '/form/corporate',

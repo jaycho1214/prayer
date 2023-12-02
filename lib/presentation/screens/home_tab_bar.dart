@@ -48,6 +48,15 @@ class HomeTabBar extends HookConsumerWidget {
     final state = ref.watch(authNotifierProvider).value;
 
     useEffect(() {
+      // Jiffy.setLocale(Localizations.localeOf(context).languageCode)
+      //     .catchError((error) {
+      //   Jiffy.setLocale('en');
+      // });
+
+      return () => null;
+    }, []);
+
+    useEffect(() {
       FirebaseMessaging.instance
           .requestPermission(provisional: true)
           .then((value) async {

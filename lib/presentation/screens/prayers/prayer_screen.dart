@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/prayer_pray_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -49,7 +50,7 @@ class PrayerScreen extends HookConsumerWidget {
       appBar: PlatformAppBar(
         backgroundColor: MyTheme.surface,
         leading: NavigateBackButton(),
-        title: Text("Prayer"),
+        title: Text(S.of(context).prayer),
       ),
       body: Stack(
         children: [
@@ -156,7 +157,7 @@ class PrayerScreen extends HookConsumerWidget {
                                                   .add(prayerId);
                                               context.pop('deleted');
                                             },
-                                            title: "Delete",
+                                            title: S.of(context).delete,
                                             icon: FontAwesomeIcons.trash,
                                             isDestructive: true,
                                           ),
@@ -285,10 +286,11 @@ class PraysScreen extends HookConsumerWidget {
                 );
               } else {
                 GlobalSnackBar.show(context,
-                    message: "Failed to delete a pray");
+                    message: S.of(context).errorDeletePray);
               }
             }).catchError((e) {
-              GlobalSnackBar.show(context, message: "Failed to delete a pray");
+              GlobalSnackBar.show(context,
+                  message: S.of(context).errorDeletePray);
             });
           },
         ),

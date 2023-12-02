@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -115,7 +116,7 @@ class HomeScreen extends HookConsumerWidget {
                     bottom: PreferredSize(
                       preferredSize: Size.fromHeight(48),
                       child: CustomTabBar(
-                        tabs: ['Home', 'Group'],
+                        tabs: [S.of(context).home, S.of(context).groups],
                       ),
                     ),
                   ),

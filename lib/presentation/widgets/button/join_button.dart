@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/errors.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
@@ -44,9 +45,9 @@ class JoinButton extends HookConsumerWidget {
     };
 
     final text = switch (value) {
-      GroupJoinState.none => 'Join',
-      GroupJoinState.requested => 'Requested',
-      GroupJoinState.joined => 'Joined',
+      GroupJoinState.none => S.of(context).join,
+      GroupJoinState.requested => S.of(context).requested,
+      GroupJoinState.joined => S.of(context).joined,
     };
 
     return ShrinkingButton(
@@ -54,8 +55,8 @@ class JoinButton extends HookConsumerWidget {
         if (value == GroupJoinState.joined) {
           final result = await ConfirmMenuForm.show(
             context,
-            title: "Leave group",
-            subtitle: "You cannot undo this action",
+            title: S.of(context).leaveGroup,
+            subtitle: S.of(context).alertYouCannotUndoThisAction,
             description: [
               "\u{26A0} You need to be reaccepted to join the group.",
               "\u{26A0} You need to be repromoted to regain moderator status.",
@@ -71,13 +72,14 @@ class JoinButton extends HookConsumerWidget {
           if (e is AdminLeaveGroupException) {
             return GlobalSnackBar.show(
               context,
-              message: "Admin cannot leave the group",
+              message: S.of(context).errorAdminLeaveGroup,
             );
           }
           GlobalSnackBar.show(
             context,
-            message:
-                "Failed to ${value != GroupJoinState.joined ? 'join' : 'leave'} the group",
+            message: value != GroupJoinState.joined
+                ? S.of(context).errorJoinGroup
+                : S.of(context).errorLeaveGroup,
           );
         });
       },
@@ -93,7 +95,7 @@ class JoinButton extends HookConsumerWidget {
           ),
           child: Text(
             value == GroupJoinState.none && group?.invitedAt != null
-                ? 'Invited'
+                ? S.of(context).invited
                 : text,
             style: TextStyle(
               fontSize: 15,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 class PrayerVisibilityForm extends StatelessWidget {
@@ -115,7 +116,7 @@ class PrayerVisibilityForm extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "How to Share Your Prayer?",
+              S.of(context).titleHowToShareYourPrayer,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 18,
@@ -126,17 +127,16 @@ class PrayerVisibilityForm extends StatelessWidget {
             buildRow(
               context,
               icon: FontAwesomeIcons.lightUser,
-              title: 'With Name',
-              description: 'Your name will appear alongside your post.',
+              title: S.of(context).withName,
+              description: S.of(context).titleWithName,
               value: false,
             ),
             Divider(color: MyTheme.outline),
             buildRow(
               context,
               icon: FontAwesomeIcons.lightUserSlash,
-              title: 'Anonymously',
-              description:
-                  'Share your prayer without revealing your identity, keeping your name private.',
+              title: S.of(context).anonymously,
+              description: S.of(context).titleAnonymously,
               value: true,
             ),
             SizedBox(height: MediaQuery.of(context).padding.bottom),

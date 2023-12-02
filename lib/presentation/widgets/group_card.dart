@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
@@ -60,7 +61,7 @@ class GroupCard extends HookConsumerWidget {
                     ),
                     Spacer(),
                     Text(
-                      '${group.membersCount} Members',
+                      S.of(context).membersCount(group.membersCount),
                       style: TextStyle(
                         color: MyTheme.placeholderText,
                       ),
