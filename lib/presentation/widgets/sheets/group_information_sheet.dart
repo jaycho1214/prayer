@@ -55,7 +55,11 @@ class GroupInformationSheet extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              S.of(context).titleGroupType(group?.membershipType ?? 'Open'),
+              S.of(context).titleGroupType(switch (group?.membershipType) {
+                    'restricted' => S.of(context).restricted,
+                    'private' => S.of(context).private,
+                    _ => S.of(context).open,
+                  }),
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 20,

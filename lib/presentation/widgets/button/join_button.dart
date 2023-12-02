@@ -57,11 +57,7 @@ class JoinButton extends HookConsumerWidget {
             context,
             title: S.of(context).leaveGroup,
             subtitle: S.of(context).alertYouCannotUndoThisAction,
-            description: [
-              "\u{26A0} You need to be reaccepted to join the group.",
-              "\u{26A0} You need to be repromoted to regain moderator status.",
-              "\u{26A0} None of your prayers will be deleted.",
-            ],
+            description: S.of(context).alertLeaveGroup.split(':').toList(),
             icon: FontAwesomeIcons.rightFromBracket,
           );
           if (result != true) {

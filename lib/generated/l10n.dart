@@ -100,6 +100,16 @@ class S {
     );
   }
 
+  /// `1. You need to be reaccepted to join the group.:2. You need to be repromoted to regain moderator status.:3. None of your prayers will be deleted.`
+  String get alertLeaveGroup {
+    return Intl.message(
+      '1. You need to be reaccepted to join the group.:2. You need to be repromoted to regain moderator status.:3. None of your prayers will be deleted.',
+      name: 'alertLeaveGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Do you want to pray using your name? Please be aware that if you do, everyone will be able to see your prayer along with your name.`
   String get alertPrayWithName {
     return Intl.message(
