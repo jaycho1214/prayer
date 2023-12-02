@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:themed/themed.dart';
 
 class App extends ConsumerWidget {
@@ -25,10 +26,12 @@ class App extends ConsumerWidget {
           cupertinoDarkTheme: cupertinoDarkTheme,
           builder: (context) => PlatformApp.router(
             localizationsDelegates: const [
-              DefaultMaterialLocalizations.delegate,
-              DefaultWidgetsLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              S.delegate,
             ],
+            supportedLocales: S.delegate.supportedLocales,
             routerConfig: router,
             builder: (context, child) => Material(child: child),
           ),

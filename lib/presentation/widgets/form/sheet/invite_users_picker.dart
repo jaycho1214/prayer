@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -180,7 +181,7 @@ class InviteUsersPicker extends HookConsumerWidget {
                   onTap: () {
                     if (ref.read(inviteUsersPickerProvider).users.length == 0) {
                       GlobalSnackBar.show(context,
-                          message: "Please choose a user to invite");
+                          message: S.of(context).errorChooseUserToInvite);
                       return;
                     }
                     pageIndex.value += 1;
@@ -191,7 +192,7 @@ class InviteUsersPicker extends HookConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: SearchBar(
                   controller: queryController,
-                  hintText: "Search...",
+                  hintText: S.of(context).placeholderSearch,
                   backgroundColor:
                       const MaterialStatePropertyAll(MyTheme.primary),
                   hintStyle: const MaterialStatePropertyAll(
@@ -287,7 +288,7 @@ class InviteUsersPicker extends HookConsumerWidget {
               topBarTitle: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
                 child: Text(
-                  "Send Invitation",
+                  S.of(context).sendInvitation,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -314,14 +315,14 @@ class InviteUsersPicker extends HookConsumerWidget {
                           child: Column(
                             children: [
                               Text(
-                                "Invite ${member.length} people?",
+                                S.of(context).titleInvitePeople(member.length),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: 25,
                                 ),
                               ),
                               Text(
-                                "Users will receive a notification and can join without approval. Admin or other moderators can revoke your invites",
+                                S.of(context).titleInvitePeopleDescription,
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: MyTheme.placeholderText,

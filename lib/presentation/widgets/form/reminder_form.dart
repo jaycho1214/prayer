@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
@@ -85,7 +86,7 @@ class ReminderDatePickerForm extends HookWidget {
                 Row(
                   children: [
                     Text(
-                      "Reminder",
+                      S.of(context).reminder,
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
@@ -242,16 +243,18 @@ class ReminderDatePickerForm extends HookWidget {
                             TextInputField(
                               name: 'reminderText',
                               maxLength: 100,
-                              hintText: 'Let us pray...',
+                              hintText: S.of(context).placeholderReminder,
                               validator: (value) {
                                 if (formKey.currentState
                                         ?.instantValue['reminderActivated'] ==
                                     true) {
                                   if ((value ?? '').trim().length == 0) {
-                                    return 'Please provide a message to be sent';
+                                    return S
+                                        .of(context)
+                                        .errorProvideReminderMessage;
                                   }
                                   if (days.value.length == 0) {
-                                    return 'Please select a day to send';
+                                    return S.of(context).errorNeedDayReminder;
                                   }
                                 }
                                 return null;
@@ -259,7 +262,7 @@ class ReminderDatePickerForm extends HookWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              "Your timezone will be used to notify other members",
+                              S.of(context).titleTimezoneWillBeUsed,
                               style: TextStyle(
                                 color: MyTheme.placeholderText,
                               ),

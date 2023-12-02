@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/prayer_pray_model.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
@@ -39,7 +40,7 @@ class PrayCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   pray.value == null
-                      ? '${pray.user.username} has prayed'
+                      ? S.of(context).someoneHasPrayed(pray.user.username)
                       : pray.user.username,
                   maxLines: 1,
                 ),

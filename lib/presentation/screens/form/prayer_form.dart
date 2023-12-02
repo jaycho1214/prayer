@@ -11,6 +11,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/corporate_prayer_Form.dart';
@@ -71,7 +72,7 @@ class PrayerFormScreen extends HookConsumerWidget {
           Navigator.of(context).pop(true);
         }).catchError((e) {
           talker.error('Failed to post a prayer: $e', e);
-          GlobalSnackBar.show(context, message: "Unable to post a prayer");
+          GlobalSnackBar.show(context, message: S.of(context).errorPostPrayer);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -116,7 +117,9 @@ class PrayerFormScreen extends HookConsumerWidget {
                       ? PlatformCircularProgressIndicator()
                       : PrimaryTextButton(
                           onTap: submit,
-                          text: anon.value ? 'Pray as Anonymous' : 'Pray',
+                          text: anon.value
+                              ? S.of(context).prayAnonymoous
+                              : S.of(context).pray,
                         ),
                 ),
               ],
@@ -161,12 +164,12 @@ class PrayerFormScreen extends HookConsumerWidget {
                       autofocus: true,
                       validator: (value) {
                         if ((value ?? '').trim() == '') {
-                          return 'Prayer must include at least one non-whitespace character';
+                          return S.of(context).errorEmptyPrayer;
                         }
                         return null;
                       },
-                      decoration: const InputDecoration(
-                        hintText: "Write a prayer...",
+                      decoration: InputDecoration(
+                        hintText: S.of(context).placeholderPrayer,
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -269,8 +272,8 @@ class PrayerFormScreen extends HookConsumerWidget {
                               const SizedBox(width: 10),
                               Text(
                                 !anon.value
-                                    ? "Everyone can see your name"
-                                    : "Your prayer is anonymous",
+                                    ? S.of(context).titlePrayerPostPublicly
+                                    : S.of(context).titlePrayerPostAnonymously,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

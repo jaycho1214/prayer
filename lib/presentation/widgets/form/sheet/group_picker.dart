@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/presentation/screens/group/group_search_screen.dart';
@@ -39,7 +40,7 @@ class GroupPicker extends HookWidget {
           children: [
             const SizedBox(height: 20),
             Text(
-              "Choose a Group",
+              S.of(context).chooseGroup,
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
             ),
             const SizedBox(height: 10),
@@ -64,7 +65,7 @@ class GroupPicker extends HookWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        "Community",
+                        S.of(context).community,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

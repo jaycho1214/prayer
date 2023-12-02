@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/form/sheet/group_picker.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/providers/group/group_provider.dart';
@@ -80,7 +81,7 @@ class PlayerGroupFormInner extends HookConsumerWidget {
           child: Row(
             children: [
               Text(
-                groupId == null ? 'Community' : group?.name ?? '',
+                groupId == null ? S.of(context).community : group?.name ?? '',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),

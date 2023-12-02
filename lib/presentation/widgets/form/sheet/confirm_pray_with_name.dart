@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 class ConfirmPrayWithNameForm extends StatelessWidget {
@@ -40,7 +41,7 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Pray with name?",
+              S.of(context).prayWithName,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 20,
@@ -49,7 +50,7 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
               overflow: TextOverflow.fade,
             ),
             Text(
-              "Do you want to pray using your name? Please be aware that if you do, everyone will be able to see your prayer along with your name.",
+              S.of(context).alertPrayWithName,
               style: TextStyle(
                 color: MyTheme.disabled,
                 fontSize: 15,

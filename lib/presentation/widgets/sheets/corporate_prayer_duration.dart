@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 enum CorporatePrayerDurationStatus { preparing, praying, prayed }
@@ -61,10 +62,11 @@ class CorporatePrayerDuration extends StatelessWidget {
             Text(
               switch (status) {
                 CorporatePrayerDurationStatus.prayed =>
-                  'Heavenly Message Delivered!',
-                CorporatePrayerDurationStatus.praying => 'In Spiritual Sync!',
+                  S.of(context).corporatePrayerPrayed,
+                CorporatePrayerDurationStatus.praying =>
+                  S.of(context).corporatePrayerPraying,
                 CorporatePrayerDurationStatus.preparing =>
-                  'Prepare to Channle Grace!',
+                  S.of(context).corporatePrayerPreparing,
               },
               style: TextStyle(
                 fontWeight: FontWeight.w900,

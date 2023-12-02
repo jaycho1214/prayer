@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 
 class PrayWithWordForm extends HookWidget {
@@ -45,25 +46,25 @@ class PrayWithWordForm extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               PrimaryTextButton(
-                text: "Cancel",
+                text: S.of(context).cancel,
                 onTap: () => context.pop(null),
               ),
               PrimaryTextButton(
-                text: "Pray",
+                text: S.of(context).pray,
                 onTap: () => context.pop(controller.text),
               ),
             ],
           ),
           const SizedBox(height: 10),
           Text(
-            "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.",
+            S.of(context).prayWithWordFormBibleVerse,
             style: TextStyle(
               fontSize: 12,
             ),
             textAlign: TextAlign.center,
           ),
           Text(
-            "- James 5:16 (NIV)",
+            S.of(context).prayWithWordFormBible,
             style: TextStyle(
               color: MyTheme.outline,
               fontSize: 12,
@@ -76,7 +77,7 @@ class PrayWithWordForm extends HookWidget {
             controller: controller,
             autofocus: true,
             decoration: InputDecoration.collapsed(
-              hintText: "Amen",
+              hintText: S.of(context).amen,
               hintStyle: TextStyle(fontWeight: FontWeight.bold),
             ),
             maxLength: 200,

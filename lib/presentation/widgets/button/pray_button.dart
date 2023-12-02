@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/form/sheet/pray_with_word_form.dart';
 import 'package:prayer/presentation/widgets/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
@@ -78,7 +79,7 @@ class PrayButton extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        "Pray with Words",
+                        S.of(context).prayWithWords,
                         style: TextStyle(
                           fontSize: 15,
                           color:

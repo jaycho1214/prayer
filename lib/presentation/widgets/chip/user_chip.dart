@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -43,7 +44,7 @@ class UserChip extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  anon ? "Anonymous" : name ?? '',
+                  anon ? S.of(context).anonymous : name ?? '',
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,

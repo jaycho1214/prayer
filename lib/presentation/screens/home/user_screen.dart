@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/model/user_model.dart';
@@ -158,12 +159,12 @@ class UserScreen extends HookConsumerWidget {
                               children: [
                                 StatisticsText(
                                   value: user?.praysCount ?? 0,
-                                  text: "Prays",
+                                  text: S.of(context).prays,
                                 ),
                                 const SizedBox(width: 10),
                                 StatisticsText(
                                   value: user?.prayersCount ?? 0,
-                                  text: "Prayers",
+                                  text: S.of(context).prayers,
                                 ),
                               ],
                             ),
@@ -178,12 +179,12 @@ class UserScreen extends HookConsumerWidget {
                                 children: [
                                   StatisticsText(
                                     value: user?.followersCount ?? 0,
-                                    text: "Followers",
+                                    text: S.of(context).followers,
                                   ),
                                   const SizedBox(width: 10),
                                   StatisticsText(
                                     value: user?.followingsCount ?? 0,
-                                    text: "Followings",
+                                    text: S.of(context).followings,
                                   ),
                                 ],
                               ),
@@ -197,7 +198,11 @@ class UserScreen extends HookConsumerWidget {
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: TabBarDelegate(
-                      tabs: ['Prayers', 'Groups', 'Prays'],
+                      tabs: [
+                        S.of(context).prayers,
+                        S.of(context).groups,
+                        S.of(context).prays
+                      ],
                     ),
                   ),
                 ],

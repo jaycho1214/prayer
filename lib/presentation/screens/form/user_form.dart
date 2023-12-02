@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/sheet/image_form.dart';
@@ -54,7 +55,7 @@ class UserFormScreen extends HookConsumerWidget {
         }).catchError((e) {
           talker.error('Unable to update user: $e');
           GlobalSnackBar.show(context,
-              message: "Unable to update. Please try again later");
+              message: S.of(context).errorUnableToUpdate);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -83,11 +84,11 @@ class UserFormScreen extends HookConsumerWidget {
         appBar: PlatformAppBar(
           leading: NavigateBackButton(),
           backgroundColor: MyTheme.surface,
-          title: Text("Profile"),
+          title: Text(S.of(context).profile),
           trailingActions: [
             Center(
               child: PrimaryTextButton(
-                text: 'Done',
+                text: S.of(context).done,
                 onTap: onSubmit,
                 loading: loading.value,
               ),
@@ -132,21 +133,21 @@ class UserFormScreen extends HookConsumerWidget {
                           const SizedBox(height: 5),
                           TextInputField(
                             name: 'name',
-                            labelText: "Name",
+                            labelText: S.of(context).name,
                             maxLength: 30,
                             maxLines: 1,
                             keyboardType: TextInputType.name,
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
-                                return 'Please enter your name';
+                                return S.of(context).errorEnterName;
                               }
                               return null;
                             },
                           ),
                           const SizedBox(height: 10),
-                          const TextInputField(
+                          TextInputField(
                             name: 'bio',
-                            labelText: "Bio",
+                            labelText: S.of(context).bio,
                             maxLength: 200,
                             maxLines: 10,
                             minLines: 10,

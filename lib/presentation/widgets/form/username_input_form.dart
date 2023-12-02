@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/repo/user_repository.dart';
 
@@ -90,23 +91,23 @@ class UsernameInputForm extends HookWidget {
         username.value = newUsername;
         editedAt.value = DateTime.timestamp();
       },
-      labelText: "Username",
+      labelText: S.of(context).username,
       maxLength: 30,
       maxLines: 1,
       keyboardType: TextInputType.text,
       suffix: suffix,
       validator: (value) {
         if (value == null || value == '') {
-          return 'Username is requried';
+          return S.of(context).errorUsernameReqruied;
         }
         if (!RegExp(r'^[a-zA-Z0-9._]{1,30}$').hasMatch(value)) {
-          return 'You can only use alphabets, numbers, period, and underscore for the username';
+          return S.of(context).errorUsernameFormat;
         }
         if (valid.value == -1) {
-          return 'Username has already taken';
+          return S.of(context).errorUsernameTaken(value);
         }
         if (valid.value == -2) {
-          return 'Error while checking your username';
+          return S.of(context).errorCheckingUsernameExists;
         }
         return null;
       },

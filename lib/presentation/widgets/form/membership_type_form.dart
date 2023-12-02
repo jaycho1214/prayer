@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 class MembershipTypeForm extends StatelessWidget {
@@ -38,8 +39,8 @@ class MembershipTypeForm extends StatelessWidget {
                   ),
                   Text(
                     description,
-                    style:
-                        const TextStyle(fontSize: 12, color: MyTheme.disabled),
+                    style: const TextStyle(
+                        fontSize: 12, color: MyTheme.placeholderText),
                   ),
                 ],
               ),
@@ -64,7 +65,7 @@ class MembershipTypeForm extends StatelessWidget {
       initialValue: 'open',
       validator: (value) {
         if (value != 'open' && value != 'restricted' && value != 'private') {
-          return 'Please choose one of the type';
+          return S.of(context).errorNeedMembershipType;
         }
         return null;
       },
@@ -72,27 +73,24 @@ class MembershipTypeForm extends StatelessWidget {
         children: [
           _buildRow(
             name: 'open',
-            title: 'Open',
-            description:
-                'Anyone can freely view, join, and/or be invited to the group.',
+            title: S.of(context).open,
+            description: S.of(context).membershipTypeOpenDescription,
             value: state.value == 'open',
             onChanged: state.didChange,
           ),
           const SizedBox(height: 10),
           _buildRow(
             name: 'restricted',
-            title: 'Restricted',
-            description:
-                'People must ask or be invited to join the group; prayers are not visible to non-members',
+            title: S.of(context).restricted,
+            description: S.of(context).membershipTypeRestrictedDescription,
             value: state.value == 'restricted',
             onChanged: state.didChange,
           ),
           const SizedBox(height: 10),
           _buildRow(
             name: 'private',
-            title: 'Private',
-            description:
-                'Similar to restricted, but it is hidden from searches and exclusively for those who are invited',
+            title: S.of(context).private,
+            description: S.of(context).membershipTypePrivateDescription,
             value: state.value == 'private',
             onChanged: state.didChange,
           ),

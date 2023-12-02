@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 enum ImagePickerMenuType {
@@ -82,7 +83,7 @@ class ImagePickerForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _renderRow(
-              text: "Pick image from gallery",
+              text: S.of(context).pickImageFromGallery,
               icon: FontAwesomeIcons.photoFilm,
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               onTap: () {
@@ -93,7 +94,7 @@ class ImagePickerForm extends StatelessWidget {
             const Divider(color: MyTheme.outline),
             if (initialValue != null) ...[
               _renderRow(
-                text: "Reset to default",
+                text: S.of(context).resetToDefault,
                 icon: FontAwesomeIcons.rotateLeft,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -105,7 +106,7 @@ class ImagePickerForm extends StatelessWidget {
               const Divider(color: MyTheme.outline),
             ],
             _renderRow(
-                text: "Remove current photo",
+                text: S.of(context).removeCurrentPhoto,
                 icon: FontAwesomeIcons.trash,
                 color: MyTheme.error,
                 padding:

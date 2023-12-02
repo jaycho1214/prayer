@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/providers/group/group_provider.dart';
 
@@ -54,7 +55,7 @@ class GroupInformationSheet extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              "This group is ${group?.membershipType}",
+              S.of(context).titleGroupType(group?.membershipType ?? 'Open'),
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 20,
@@ -69,12 +70,10 @@ class GroupInformationSheet extends ConsumerWidget {
                 children: [
                   Text(
                     switch (group?.membershipType) {
-                      'open' =>
-                        '1. All prayers in the group are public, visible to everyone, and joining is unrestricted.',
+                      'open' => S.of(context).titleMembershipTypeOpen,
                       'restricted' =>
-                        '1. Joining the group requires approval, and only members can view prayers.',
-                      'private' =>
-                        "1. Group is unlisted in searches and its prayers are inaccessible to non-members.",
+                        S.of(context).titleMembershipTypeRestricted,
+                      'private' => S.of(context).titleMembershipTypePrivate,
                       _ => '1.',
                     },
                     style: TextStyle(
@@ -84,7 +83,7 @@ class GroupInformationSheet extends ConsumerWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "2. Only group members can post the prayer and participate in prayer activities",
+                    S.of(context).titleMemberCanPostOnly,
                     style: TextStyle(
                       color: MyTheme.placeholderText,
                       fontSize: 14,
@@ -93,7 +92,10 @@ class GroupInformationSheet extends ConsumerWidget {
                   const SizedBox(height: 10),
                   if (group?.createdAt != null)
                     Text(
-                      "3. This group was established at ${Jiffy.parseFromDateTime(group!.createdAt!).toLocal().yMMMd}",
+                      S.of(context).groupEstablishedAt(
+                          Jiffy.parseFromDateTime(group!.createdAt!)
+                              .toLocal()
+                              .yMMMd),
                       style: TextStyle(
                         color: MyTheme.placeholderText,
                         fontSize: 14,

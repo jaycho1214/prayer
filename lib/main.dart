@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:prayer/app.dart';
 import 'package:prayer/constants/mixpanel.dart';
@@ -41,6 +42,7 @@ Future<void> main() async {
   final pref = await (futureFns['sharedPref'] as Future<SharedPreferences>);
   GetIt.I.registerLazySingleton(() => pref);
   await Future.wait(futureFns.values.toList());
+  Intl.defaultLocale = Intl.systemLocale;
   if (kDebugMode) {
     runApp(ProviderScope(
       child: const App(),
