@@ -54,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "alertAcceptMember": m0,
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
             "1. 모든 그룹 멤버는 자동으로 탈퇴됩니다.:2. 중보기도문과 기도문이 삭제됩니다.:3. 이 그룹에 게시된 모든 기도가 삭제됩니다."),
+        "alertLeaveGroup": MessageLookupByLibrary.simpleMessage(
+            "1. 그룹에 가입하기 위해서는 다시 초대받거나 승인되어야 합니다:2. 현재 사역자일 경우 다시 임명 받아야합니다.:3. 그룹에 올린 기도문은 삭제되지 않습니다."),
         "alertPrayWithName": MessageLookupByLibrary.simpleMessage(
             "이 기도문은 모든 사람이 당신의 이름과 함께 볼 수 있습니다."),
         "alertRevokeInvitation": m1,

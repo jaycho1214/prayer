@@ -55,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "alertAcceptMember": m0,
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
             "1. All group members will be removed automatically.:2. Corporate prayers and their associated prayers will be deleted.:3. Any prayers posted in this group will be removed."),
+        "alertLeaveGroup": MessageLookupByLibrary.simpleMessage(
+            "1. You need to be reaccepted to join the group.:2. You need to be repromoted to regain moderator status.:3. None of your prayers will be deleted."),
         "alertPrayWithName": MessageLookupByLibrary.simpleMessage(
             "Do you want to pray using your name? Please be aware that if you do, everyone will be able to see your prayer along with your name."),
         "alertRevokeInvitation": m1,
