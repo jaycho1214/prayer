@@ -42,27 +42,28 @@ class CorporatePrayerScreen extends HookConsumerWidget {
     });
   }
 
-  String? getProgressText({Jiffy? startedAt, Jiffy? endedAt}) {
+  CorporatePrayerDurationStatus? getProgressStatus(
+      {Jiffy? startedAt, Jiffy? endedAt}) {
     final now = Jiffy.now().toLocal();
     if (startedAt == null && endedAt == null) {
       return null;
     } else if (startedAt == null) {
       if (now.isSameOrBefore(endedAt!, unit: Unit.day)) {
-        return 'Praying';
+        return CorporatePrayerDurationStatus.praying;
       }
-      return 'Prayed';
+      return CorporatePrayerDurationStatus.prayed;
     } else if (endedAt == null) {
       if (now.isSameOrAfter(startedAt, unit: Unit.day)) {
-        return 'Praying';
+        return CorporatePrayerDurationStatus.praying;
       }
-      return 'Preparing';
+      return CorporatePrayerDurationStatus.preparing;
     } else {
       if (now.isBetween(startedAt, endedAt.add(days: 1), unit: Unit.day)) {
-        return 'Praying';
+        return CorporatePrayerDurationStatus.praying;
       } else if (now.isBefore(startedAt, unit: Unit.day)) {
-        return 'Preparing';
+        return CorporatePrayerDurationStatus.preparing;
       }
-      return 'Prayed';
+      return CorporatePrayerDurationStatus.prayed;
     }
   }
 
@@ -87,17 +88,33 @@ class CorporatePrayerScreen extends HookConsumerWidget {
         : parseFromDateTime(snapshot.data!.endedAt!);
 
     final checkingMember = useState(false);
-    final text = useMemoized(
-        () => getProgressText(startedAt: startedAt, endedAt: endedAt),
+    final prayingStatus = useMemoized(
+        () => getProgressStatus(startedAt: startedAt, endedAt: endedAt),
         [snapshot.data, startedAt, endedAt]);
 
+    final text = useMemoized(
+        () => switch (prayingStatus) {
+              CorporatePrayerDurationStatus.prayed =>
+                S.of(context).corporatePrayerPrayed,
+              CorporatePrayerDurationStatus.praying =>
+                S.of(context).corporatePrayerPraying,
+              _ => S.of(context).corporatePrayerPreparing,
+            },
+        [prayingStatus]);
+
     final color = useMemoized(
-        () => switch (text) {
-              'Preparing' => [MyTheme.disabled, MyTheme.onPrimary],
-              'Praying' => [MyTheme.primary, MyTheme.onPrimary],
+        () => switch (prayingStatus) {
+              CorporatePrayerDurationStatus.preparing => [
+                  MyTheme.disabled,
+                  MyTheme.onPrimary
+                ],
+              CorporatePrayerDurationStatus.praying => [
+                  MyTheme.primary,
+                  MyTheme.onPrimary
+                ],
               _ => [MyTheme.onPrimary, MyTheme.surface],
             },
-        [text]);
+        [prayingStatus]);
 
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
@@ -122,20 +139,18 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                             }
                           }
                         },
-                        title: "Edit",
+                        title: S.of(context).edit,
                         icon: FontAwesomeIcons.penToSquare,
                       ),
                       PullDownMenuItem(
                         onTap: () async {
                           final response = await ConfirmMenuForm.show(
                             context,
-                            title: "Ready to say goodbye?",
+                            title: S.of(context).titleDeleteCorporatePrayer,
                             subtitle:
-                                "Here's a quick peek at the post-delete world:",
+                                S.of(context).titleConfirmDeleteCorporatePrayer,
                             description: [
-                              "Your corporate prayer will vanish into thin air",
-                              "But fear not, all individual prayers in the corporate section stay put",
-                              "Remember, there's no turning back from this",
+                              S.of(context).descriptionDeleteCorporatePrayer
                             ],
                             icon: FontAwesomeIcons.trash,
                           );
@@ -145,7 +160,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                             context.pop();
                           }
                         },
-                        title: "Delete",
+                        title: S.of(context).delete,
                         icon: FontAwesomeIcons.trash,
                         isDestructive: true,
                       ),
@@ -235,13 +250,14 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                         ),
                                       ),
                                     ),
-                                  if (text != null)
+                                  if (prayingStatus != null)
                                     ShrinkingButton(
                                       onTap: () {
                                         CorporatePrayerDuration.show(
                                           context,
-                                          status: CorporatePrayerDurationStatus
-                                              .praying,
+                                          status: getProgressStatus(
+                                              startedAt: startedAt,
+                                              endedAt: endedAt)!,
                                           startedAt: startedAt,
                                           endedAt: endedAt,
                                         );

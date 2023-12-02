@@ -69,7 +69,7 @@ class PrayCard extends StatelessWidget {
                         pray.user.uid == FirebaseAuth.instance.currentUser?.uid,
                     isDestructive: true,
                     onTap: onDelete,
-                    title: 'Delete',
+                    title: S.of(context).delete,
                     icon: FontAwesomeIcons.trash,
                   ),
                 ],
