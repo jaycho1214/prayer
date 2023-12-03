@@ -94,9 +94,11 @@ class CorporatePrayerScreen extends HookConsumerWidget {
 
     final text = useMemoized(
         () => switch (prayingStatus) {
-              CorporatePrayerDurationStatus.prayed => S.of(context).prayed,
-              CorporatePrayerDurationStatus.praying => S.of(context).praying,
-              _ => S.of(context).preparing,
+              CorporatePrayerDurationStatus.prayed =>
+                S.of(context).corporatePrayerPrayed,
+              CorporatePrayerDurationStatus.praying =>
+                S.of(context).corporatePrayerPraying,
+              _ => S.of(context).corporatePrayerPreparing,
             },
         [prayingStatus]);
 

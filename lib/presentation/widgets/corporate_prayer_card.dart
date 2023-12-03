@@ -7,7 +7,6 @@ import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/chip/text_chip.dart';
-import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/repo/prayer_repository.dart';

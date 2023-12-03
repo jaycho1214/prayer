@@ -82,12 +82,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseGroup": MessageLookupByLibrary.simpleMessage("Choose a Group"),
         "community": MessageLookupByLibrary.simpleMessage("Community"),
         "corporate": MessageLookupByLibrary.simpleMessage("Corporate"),
-        "corporatePrayerPrayed":
-            MessageLookupByLibrary.simpleMessage("Heavenly Message Delivered!"),
+        "corporatePrayerPrayed": MessageLookupByLibrary.simpleMessage("Prayed"),
         "corporatePrayerPraying":
-            MessageLookupByLibrary.simpleMessage("In Spiritual Sync!"),
+            MessageLookupByLibrary.simpleMessage("Praying"),
         "corporatePrayerPreparing":
-            MessageLookupByLibrary.simpleMessage("Prepare to Channel Grace!"),
+            MessageLookupByLibrary.simpleMessage("Preparing"),
         "corporatePrayerReminderMesasge": MessageLookupByLibrary.simpleMessage(
             "After the duration of prayers has elapsed, they will be marked as concluded, and reminders will not be sent."),
         "create": MessageLookupByLibrary.simpleMessage("Create"),
@@ -246,12 +245,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective."),
         "prayWithWords":
             MessageLookupByLibrary.simpleMessage("Pray with Words"),
-        "prayed": MessageLookupByLibrary.simpleMessage("Prayed"),
         "prayer": MessageLookupByLibrary.simpleMessage("Prayer"),
         "prayers": MessageLookupByLibrary.simpleMessage("Prayers"),
-        "praying": MessageLookupByLibrary.simpleMessage("Praying"),
         "prays": MessageLookupByLibrary.simpleMessage("Prays"),
-        "preparing": MessageLookupByLibrary.simpleMessage("Preparing"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "private": MessageLookupByLibrary.simpleMessage("Private"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),

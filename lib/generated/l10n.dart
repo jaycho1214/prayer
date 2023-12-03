@@ -270,30 +270,30 @@ class S {
     );
   }
 
-  /// `Heavenly Message Delivered!`
+  /// `Prayed`
   String get corporatePrayerPrayed {
     return Intl.message(
-      'Heavenly Message Delivered!',
+      'Prayed',
       name: 'corporatePrayerPrayed',
       desc: '',
       args: [],
     );
   }
 
-  /// `In Spiritual Sync!`
+  /// `Praying`
   String get corporatePrayerPraying {
     return Intl.message(
-      'In Spiritual Sync!',
+      'Praying',
       name: 'corporatePrayerPraying',
       desc: '',
       args: [],
     );
   }
 
-  /// `Prepare to Channel Grace!`
+  /// `Preparing`
   String get corporatePrayerPreparing {
     return Intl.message(
-      'Prepare to Channel Grace!',
+      'Preparing',
       name: 'corporatePrayerPreparing',
       desc: '',
       args: [],
@@ -1290,16 +1290,6 @@ class S {
     );
   }
 
-  /// `Prayed`
-  String get prayed {
-    return Intl.message(
-      'Prayed',
-      name: 'prayed',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Prayer`
   String get prayer {
     return Intl.message(
@@ -1320,31 +1310,11 @@ class S {
     );
   }
 
-  /// `Praying`
-  String get praying {
-    return Intl.message(
-      'Praying',
-      name: 'praying',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Prays`
   String get prays {
     return Intl.message(
       'Prays',
       name: 'prays',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Preparing`
-  String get preparing {
-    return Intl.message(
-      'Preparing',
-      name: 'preparing',
       desc: '',
       args: [],
     );
