@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/user_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -56,8 +57,10 @@ class UsersFollowScreen extends HookWidget {
                     leading: NavigateBackButton(),
                   ),
                   SliverPersistentHeader(
-                      delegate:
-                          TabBarDelegate(tabs: ['Followers', 'Followings'])),
+                      delegate: TabBarDelegate(tabs: [
+                    S.of(context).followers,
+                    S.of(context).followings
+                  ])),
                 ],
                 body: TabBarView(
                   children: [
