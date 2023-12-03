@@ -148,6 +148,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Prayer must include at least one non-whitespace character"),
         "errorEnterName":
             MessageLookupByLibrary.simpleMessage("Please enter your name"),
+        "errorFollowUser":
+            MessageLookupByLibrary.simpleMessage("Failed to follow the user"),
         "errorJoinGroup":
             MessageLookupByLibrary.simpleMessage("Failed to join the group"),
         "errorLeaveGroup":
@@ -190,7 +192,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Username is required"),
         "errorUsernameTaken": m3,
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
+        "follow": MessageLookupByLibrary.simpleMessage("Follow"),
         "followers": MessageLookupByLibrary.simpleMessage("Followers"),
+        "following": MessageLookupByLibrary.simpleMessage("Following"),
         "followings": MessageLookupByLibrary.simpleMessage("Followings"),
         "group": MessageLookupByLibrary.simpleMessage("Group"),
         "groupDescription":
