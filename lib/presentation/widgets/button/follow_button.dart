@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/user_repository.dart';
@@ -23,7 +24,9 @@ class FollowButton extends HookWidget {
     final colors = _followedAt.value == null
         ? [MyTheme.onPrimary, MyTheme.surface]
         : [MyTheme.surface, MyTheme.onPrimary];
-    final text = _followedAt.value == null ? 'Follow' : 'Followed';
+    final text = _followedAt.value == null
+        ? S.of(context).follow
+        : S.of(context).following;
 
     return ShrinkingButton(
       onTap: () async {
@@ -36,7 +39,7 @@ class FollowButton extends HookWidget {
           _followedAt.value = _followedAt.value == null ? DateTime.now() : null;
         }).catchError((e) {
           talker.error("Error while following $uid", e);
-          GlobalSnackBar.show(context, message: "Failed to follow the user");
+          GlobalSnackBar.show(context, message: S.of(context).errorFollowUser);
         });
       },
       child: Container(

@@ -140,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorEmptyPrayer": MessageLookupByLibrary.simpleMessage(
             "기도문은 최소한 하나의 공백이 아닌 문자를 포함해야 합니다"),
         "errorEnterName": MessageLookupByLibrary.simpleMessage("이름을 입력해주세요"),
+        "errorFollowUser": MessageLookupByLibrary.simpleMessage("팔로잉에 실패하였습니다"),
         "errorJoinGroup": MessageLookupByLibrary.simpleMessage("그룹 참가에 실패했습니다"),
         "errorLeaveGroup":
             MessageLookupByLibrary.simpleMessage("그룹 탈퇴에 실패했습니다"),
@@ -180,7 +181,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("아이디를 입력해주세요"),
         "errorUsernameTaken": m3,
         "everyday": MessageLookupByLibrary.simpleMessage("매일"),
+        "follow": MessageLookupByLibrary.simpleMessage("팔로우"),
         "followers": MessageLookupByLibrary.simpleMessage("팔로워"),
+        "following": MessageLookupByLibrary.simpleMessage("팔로잉"),
         "followings": MessageLookupByLibrary.simpleMessage("팔로잉"),
         "group": MessageLookupByLibrary.simpleMessage("그룹"),
         "groupDescription": MessageLookupByLibrary.simpleMessage("그룹 설명"),

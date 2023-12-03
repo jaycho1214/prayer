@@ -660,6 +660,16 @@ class S {
     );
   }
 
+  /// `Failed to follow the user`
+  String get errorFollowUser {
+    return Intl.message(
+      'Failed to follow the user',
+      name: 'errorFollowUser',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Failed to join the group`
   String get errorJoinGroup {
     return Intl.message(
@@ -880,11 +890,31 @@ class S {
     );
   }
 
+  /// `Follow`
+  String get follow {
+    return Intl.message(
+      'Follow',
+      name: 'follow',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Followers`
   String get followers {
     return Intl.message(
       'Followers',
       name: 'followers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Following`
+  String get following {
+    return Intl.message(
+      'Following',
+      name: 'following',
       desc: '',
       args: [],
     );
