@@ -9,6 +9,7 @@ import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/chip/text_chip.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -71,11 +72,10 @@ class CorporatePrayerCard extends HookWidget {
                       ],
                     ),
                   ),
-                  UserChip(
-                    uid: prayerSnapshot.data?.userId,
+                  const SizedBox(width: 10),
+                  UserProfileImage(
+                    size: 40,
                     profile: prayerSnapshot.data?.user?.profile,
-                    name: prayerSnapshot.data?.user?.name,
-                    username: prayerSnapshot.data?.user?.username,
                   ),
                 ],
               ),
