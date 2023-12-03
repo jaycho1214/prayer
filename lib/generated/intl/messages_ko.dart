@@ -234,12 +234,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "prayWithWordFormBibleVerse": MessageLookupByLibrary.simpleMessage(
             "그러므로 너희 죄를 서로 고백하며 병이 낫기를 위하여 서로 기도하라 의인의 간구는 역사하는 힘이 큼이니라"),
         "prayWithWords": MessageLookupByLibrary.simpleMessage("목소리로 기도하기"),
-        "prayed": MessageLookupByLibrary.simpleMessage("기도 완료"),
         "prayer": MessageLookupByLibrary.simpleMessage("기도문"),
         "prayers": MessageLookupByLibrary.simpleMessage("기도문"),
-        "praying": MessageLookupByLibrary.simpleMessage("기도 중"),
         "prays": MessageLookupByLibrary.simpleMessage("기도"),
-        "preparing": MessageLookupByLibrary.simpleMessage("기도 준비중"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("개인정보 처리방침"),
         "private": MessageLookupByLibrary.simpleMessage("비공개"),
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
