@@ -246,9 +246,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective."),
         "prayWithWords":
             MessageLookupByLibrary.simpleMessage("Pray with Words"),
+        "prayed": MessageLookupByLibrary.simpleMessage("Prayed"),
         "prayer": MessageLookupByLibrary.simpleMessage("Prayer"),
         "prayers": MessageLookupByLibrary.simpleMessage("Prayers"),
+        "praying": MessageLookupByLibrary.simpleMessage("Praying"),
         "prays": MessageLookupByLibrary.simpleMessage("Prays"),
+        "preparing": MessageLookupByLibrary.simpleMessage("Preparing"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "private": MessageLookupByLibrary.simpleMessage("Private"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),

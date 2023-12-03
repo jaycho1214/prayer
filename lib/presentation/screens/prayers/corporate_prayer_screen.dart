@@ -94,11 +94,9 @@ class CorporatePrayerScreen extends HookConsumerWidget {
 
     final text = useMemoized(
         () => switch (prayingStatus) {
-              CorporatePrayerDurationStatus.prayed =>
-                S.of(context).corporatePrayerPrayed,
-              CorporatePrayerDurationStatus.praying =>
-                S.of(context).corporatePrayerPraying,
-              _ => S.of(context).corporatePrayerPreparing,
+              CorporatePrayerDurationStatus.prayed => S.of(context).prayed,
+              CorporatePrayerDurationStatus.praying => S.of(context).praying,
+              _ => S.of(context).preparing,
             },
         [prayingStatus]);
 
@@ -130,10 +128,11 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                         onTap: () async {
                           if (snapshot.data != null) {
                             final resp = await context.push(
-                                Uri(path: '/form/corporate', queryParameters: {
-                                  'groupId': snapshot.data!.groupId,
-                                }).toString(),
-                                extra: snapshot.data);
+                              Uri(path: '/form/corporate', queryParameters: {
+                                'groupId': snapshot.data!.groupId,
+                              }).toString(),
+                              extra: snapshot.data,
+                            );
                             if (resp == true) {
                               refreshKey.value += 1;
                             }
@@ -256,8 +255,9 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                         CorporatePrayerDuration.show(
                                           context,
                                           status: getProgressStatus(
-                                              startedAt: startedAt,
-                                              endedAt: endedAt)!,
+                                            startedAt: startedAt,
+                                            endedAt: endedAt,
+                                          )!,
                                           startedAt: startedAt,
                                           endedAt: endedAt,
                                         );

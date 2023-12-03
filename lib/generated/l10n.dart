@@ -1290,6 +1290,16 @@ class S {
     );
   }
 
+  /// `Prayed`
+  String get prayed {
+    return Intl.message(
+      'Prayed',
+      name: 'prayed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Prayer`
   String get prayer {
     return Intl.message(
@@ -1310,11 +1320,31 @@ class S {
     );
   }
 
+  /// `Praying`
+  String get praying {
+    return Intl.message(
+      'Praying',
+      name: 'praying',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Prays`
   String get prays {
     return Intl.message(
       'Prays',
       name: 'prays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preparing`
+  String get preparing {
+    return Intl.message(
+      'Preparing',
+      name: 'preparing',
       desc: '',
       args: [],
     );
