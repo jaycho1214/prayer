@@ -56,60 +56,50 @@ class HomeScreen extends HookConsumerWidget {
                     surfaceTintColor: MyTheme.surface,
                     foregroundColor: MyTheme.surface,
                     backgroundColor: MyTheme.surface,
-                    automaticallyImplyLeading: false,
-                    title: Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          child: Text(
-                            "Prayer",
-                            textAlign: TextAlign.center,
-                            style: platformThemeData(
-                              context,
-                              material: (ThemeData data) => data
-                                  .textTheme.headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                              cupertino: (data) => data
-                                  .textTheme.navTitleTextStyle
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: -13,
-                          left: 0,
-                          child: Stack(
-                            children: [
-                              NavigateIconButton(
-                                icon: FontAwesomeIcons.bell,
-                                onPressed: () {
-                                  context.push('/notifications');
-                                },
-                              ),
-                              if (hasNewNotification)
-                                Positioned(
-                                  top: 14,
-                                  right: 14,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.solidCircle,
-                                    color: Colors.red,
-                                    size: 8,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: -13,
-                          right: 0,
-                          child: NavigateIconButton(
-                            icon: FontAwesomeIcons.gear,
+                    leading: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Stack(
+                        children: [
+                          NavigateIconButton(
+                            icon: FontAwesomeIcons.bell,
                             onPressed: () {
-                              context.push('/settings');
+                              context.push('/notifications');
                             },
                           ),
+                          if (hasNewNotification)
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: FaIcon(
+                                FontAwesomeIcons.solidCircle,
+                                color: Colors.red,
+                                size: 8,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: NavigateIconButton(
+                          icon: FontAwesomeIcons.gear,
+                          onPressed: () {
+                            context.push('/settings');
+                          },
                         ),
-                      ],
+                      ),
+                    ],
+                    automaticallyImplyLeading: false,
+                    title: Text(
+                      "Prayer",
+                      style: platformThemeData(
+                        context,
+                        material: (ThemeData data) =>
+                            data.textTheme.headlineSmall,
+                        cupertino: (data) => data.textTheme.navTitleTextStyle
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     floating: true,
                     pinned: true,
