@@ -13,6 +13,7 @@ import 'package:prayer/presentation/screens/group/group_members_screen.dart';
 import 'package:prayer/presentation/screens/group/group_screen.dart';
 import 'package:prayer/presentation/screens/home/user_screen.dart';
 import 'package:prayer/presentation/screens/home_tab_bar.dart';
+import 'package:prayer/presentation/screens/image_gallery_screen.dart';
 import 'package:prayer/presentation/screens/notifications_screen.dart';
 import 'package:prayer/presentation/screens/prayers/corporate_prayer_screen.dart';
 import 'package:prayer/presentation/screens/prayers/prayer_screen.dart';
@@ -160,12 +161,6 @@ class AppRouter {
             ),
           ),
         ),
-          builder: (context, state) => PrayerFormScreen(
-            groupId: state.uri.queryParameters['groupId'],
-            corporateId: state.uri.queryParameters['corporateId'],
-          ),
-        ),
-
         // SETTINGS
         GoRoute(
           path: 'settings',
@@ -181,6 +176,13 @@ class AppRouter {
             ),
           ],
         ),
+
+        // Image
+        GoRoute(
+          path: 'image',
+          builder: (context, state) =>
+              ImageGalleryScreen(url: state.uri.queryParameters['imageUrl']!),
+        )
       ],
     ),
   ];
