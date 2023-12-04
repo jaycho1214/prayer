@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
 class GroupBannerImage extends StatelessWidget {
   const GroupBannerImage({
@@ -22,12 +24,19 @@ class GroupBannerImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return banner != null
-        ? CachedNetworkImage(
-            imageUrl: banner!,
-            errorWidget: (context, url, error) => _buildPlaceholder(context),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width * 0.5,
-            fit: BoxFit.cover,
+        ? ShrinkingButton(
+            onTap: () {
+              context.push(
+                  Uri(path: '/image', queryParameters: {'imageUrl': banner})
+                      .toString());
+            },
+            child: CachedNetworkImage(
+              imageUrl: banner!,
+              errorWidget: (context, url, error) => _buildPlaceholder(context),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width * 0.5,
+              fit: BoxFit.cover,
+            ),
           )
         : _buildPlaceholder(context);
   }
@@ -52,12 +61,19 @@ class UserBannerImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return banner != null
-        ? CachedNetworkImage(
-            imageUrl: banner!,
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) => _buildPlaceholder(context),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width,
+        ? ShrinkingButton(
+            onTap: () {
+              context.push(
+                  Uri(path: '/image', queryParameters: {'imageUrl': banner})
+                      .toString());
+            },
+            child: CachedNetworkImage(
+              imageUrl: banner!,
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) => _buildPlaceholder(context),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
+            ),
           )
         : _buildPlaceholder(context);
   }
@@ -87,17 +103,24 @@ class UserProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (profile != null) {
-      return CachedNetworkImage(
-        imageUrl: profile!,
-        width: size,
-        height: size,
-        errorWidget: (context, url, error) => _buildPlaceholder(context),
-        imageBuilder: (context, imageProvider) => Container(
+      return ShrinkingButton(
+        onTap: () {
+          context.push(
+              Uri(path: '/image', queryParameters: {'imageUrl': profile})
+                  .toString());
+        },
+        child: CachedNetworkImage(
+          imageUrl: profile!,
           width: size,
           height: size,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: imageProvider),
-            shape: BoxShape.circle,
+          errorWidget: (context, url, error) => _buildPlaceholder(context),
+          imageBuilder: (context, imageProvider) => Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              image: DecorationImage(image: imageProvider),
+              shape: BoxShape.circle,
+            ),
           ),
         ),
       );
