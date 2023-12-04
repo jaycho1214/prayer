@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/presentation/widgets/form/sheet/image_picker_form.dart';
+import 'package:prayer/presentation/widgets/form/sheet/image_picker_type_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -16,13 +16,13 @@ void showPicker(
   double ratioX = 1.0,
   double ratioY = 1.0,
 }) {
-  ImagePickerForm.show(
+  ImagePickTypeForm.show(
     context,
     onTap: (menu) async {
-      if (menu == ImagePickerMenuType.delete) {
+      if (menu == ImagePickTypeMenuType.delete) {
         return onChange?.call(null);
       }
-      if (menu == ImagePickerMenuType.reset) {
+      if (menu == ImagePickTypeMenuType.reset) {
         return onChange?.call(initialValue);
       }
       final image = await ImagePicker().pickImage(

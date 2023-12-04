@@ -11,7 +11,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
-import 'package:prayer/presentation/widgets/form/sheet/image_form.dart';
+import 'package:prayer/presentation/widgets/form/sheet/user_image_form.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/upload_progress_bar.dart';
 import 'package:prayer/presentation/widgets/form/username_input_form.dart';
