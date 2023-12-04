@@ -4,29 +4,30 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
-enum ImagePickerMenuType {
+enum ImagePickTypeMenuType {
   pick,
   delete,
   reset,
 }
 
-class ImagePickerForm extends StatelessWidget {
-  const ImagePickerForm({
+class ImagePickTypeForm extends StatelessWidget {
+  const ImagePickTypeForm({
     super.key,
     this.onTap,
     this.initialValue,
   });
 
-  final void Function(ImagePickerMenuType menu)? onTap;
+  final void Function(ImagePickTypeMenuType menu)? onTap;
   final dynamic initialValue;
 
   static show(BuildContext context,
-      {void Function(ImagePickerMenuType menu)? onTap, dynamic initialValue}) {
+      {void Function(ImagePickTypeMenuType menu)? onTap,
+      dynamic initialValue}) {
     showModalBottomSheet(
       backgroundColor: MyTheme.sheetSurface,
       context: context,
       barrierColor: Colors.white.withAlpha(15),
-      builder: (context) => ImagePickerForm(
+      builder: (context) => ImagePickTypeForm(
         onTap: onTap,
         initialValue: initialValue,
       ),
@@ -88,7 +89,7 @@ class ImagePickerForm extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               onTap: () {
                 Navigator.pop(context);
-                onTap?.call(ImagePickerMenuType.pick);
+                onTap?.call(ImagePickTypeMenuType.pick);
               },
             ),
             const Divider(color: MyTheme.outline),
@@ -100,7 +101,7 @@ class ImagePickerForm extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 onTap: () {
                   Navigator.pop(context);
-                  onTap?.call(ImagePickerMenuType.reset);
+                  onTap?.call(ImagePickTypeMenuType.reset);
                 },
               ),
               const Divider(color: MyTheme.outline),
@@ -113,7 +114,7 @@ class ImagePickerForm extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 onTap: () {
                   Navigator.pop(context);
-                  onTap?.call(ImagePickerMenuType.delete);
+                  onTap?.call(ImagePickTypeMenuType.delete);
                 }),
           ],
         ),
