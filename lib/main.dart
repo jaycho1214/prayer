@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:prayer/app.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
         Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
     'sharedPref': SharedPreferences.getInstance(),
   };
+  PhotoManager.clearFileCache();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

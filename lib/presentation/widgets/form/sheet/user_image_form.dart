@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/presentation/screens/form/image_picker_form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/image_picker_type_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 
-void showPicker(
+Future<void> showPicker(
   BuildContext context, {
   void Function(String?)? onChange,
   dynamic initialValue,
   double ratioX = 1.0,
   double ratioY = 1.0,
 }) {
-  ImagePickTypeForm.show(
+  return ImagePickTypeForm.show(
     context,
     onTap: (menu) async {
       if (menu == ImagePickTypeMenuType.delete) {
@@ -25,15 +25,16 @@ void showPicker(
       if (menu == ImagePickTypeMenuType.reset) {
         return onChange?.call(initialValue);
       }
-      final image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
-      if (image == null) {
+      final image = await PrimaryImagePicker.show(context, maxLength: 1);
+      if ((image ?? []).length == 0) {
+        return;
+      }
+      final file = await image!.first.file;
+      if (file == null) {
         return;
       }
       final cropped = await ImageCropper().cropImage(
-        sourcePath: image.path,
+        sourcePath: file.path,
         aspectRatio: CropAspectRatio(
           ratioX: ratioX,
           ratioY: ratioY,
@@ -130,13 +131,16 @@ class BannerImageForm extends StatelessWidget {
           return Stack(
             children: [
               ShrinkingButton(
-                onTap: () => showPicker(
-                  context,
-                  onChange: field.didChange,
-                  initialValue: initialValue,
-                  ratioX: 1.0,
-                  ratioY: 1.0 * aspectRatio,
-                ),
+                onTap: () async {
+                  Focus.of(context).requestFocus();
+                  await showPicker(
+                    context,
+                    onChange: field.didChange,
+                    initialValue: initialValue,
+                    ratioX: 1.0,
+                    ratioY: 1.0 * aspectRatio,
+                  );
+                },
                 child: Container(
                   color: MyTheme.surfaceContainer,
                   width: _size,
