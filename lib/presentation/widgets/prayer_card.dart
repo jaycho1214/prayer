@@ -109,7 +109,7 @@ class PrayerCard extends ConsumerWidget {
                 child: ReadMoreText(
                   prayer.value?.value ?? '',
                   trimCollapsedText: S.of(context).readmore,
-                  trimLines: 10,
+                  trimLines: 5,
                   moreStyle: TextStyle(
                     color: MyTheme.placeholderText,
                   ),
