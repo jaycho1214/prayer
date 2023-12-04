@@ -115,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "endedAt": MessageLookupByLibrary.simpleMessage("종료"),
         "errorAcceptUser":
             MessageLookupByLibrary.simpleMessage("유저 승인에 실패했습니다"),
+        "errorAccessPhoto":
+            MessageLookupByLibrary.simpleMessage("사진 접근 권한을 허용해주세요."),
         "errorAdminLeaveGroup":
             MessageLookupByLibrary.simpleMessage("관리자는 그룹을 떠날 수 없습니다"),
         "errorCheckingUsernameExists":
@@ -144,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorJoinGroup": MessageLookupByLibrary.simpleMessage("그룹 참가에 실패했습니다"),
         "errorLeaveGroup":
             MessageLookupByLibrary.simpleMessage("그룹 탈퇴에 실패했습니다"),
+        "errorLoadImage":
+            MessageLookupByLibrary.simpleMessage("이미지 로딩에 실패하였습니다"),
         "errorMustBeModeratorToPost":
             MessageLookupByLibrary.simpleMessage("사역자들만 중보 기도문을 게시할 수 있습니다."),
         "errorNameLessThan30Characters": MessageLookupByLibrary.simpleMessage(

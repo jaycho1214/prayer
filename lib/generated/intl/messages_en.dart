@@ -119,6 +119,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "endedAt": MessageLookupByLibrary.simpleMessage("Ended At"),
         "errorAcceptUser":
             MessageLookupByLibrary.simpleMessage("Failed to accept the user"),
+        "errorAccessPhoto": MessageLookupByLibrary.simpleMessage(
+            "Prayers does not have an access to your photos."),
         "errorAdminLeaveGroup": MessageLookupByLibrary.simpleMessage(
             "Admin cannot leave the group"),
         "errorCheckingUsernameExists": MessageLookupByLibrary.simpleMessage(
@@ -153,6 +155,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Failed to join the group"),
         "errorLeaveGroup":
             MessageLookupByLibrary.simpleMessage("Failed to leave the group"),
+        "errorLoadImage":
+            MessageLookupByLibrary.simpleMessage("Failed to load an image"),
         "errorMustBeModeratorToPost": MessageLookupByLibrary.simpleMessage(
             "Only moderators are allowed to post corporate prayers."),
         "errorNameLessThan30Characters": MessageLookupByLibrary.simpleMessage(
@@ -203,7 +207,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "introductionTitle": MessageLookupByLibrary.simpleMessage(
-            "United in Prayer\\nStronger Together\\nCollective Faith"),
+            "United in Prayer \nStronger Together \nCollective Faith"),
         "invitation": MessageLookupByLibrary.simpleMessage("Invitation"),
         "invite": MessageLookupByLibrary.simpleMessage("Invite"),
         "invited": MessageLookupByLibrary.simpleMessage("Invited"),

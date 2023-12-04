@@ -46,7 +46,6 @@ dependencies:
   dio: ^5.3.3
   talker_flutter: ^3.5.2
   flutter_platform_widgets: ^6.0.2
-  image_picker: ^1.0.4
   image_cropper: ^5.0.0
   themed: ^5.0.0
   cached_network_image: ^3.3.0
@@ -71,7 +70,9 @@ dependencies:
     sdk: flutter
   intl: ^0.18.1
   share_plus: ^7.2.1
+  photo_manager: ^3.0.0-dev.4
   readmore: ^2.2.0
+  photo_manager_image_provider: ^2.1.0
 
 dependency_overrides:
   font_awesome_flutter:

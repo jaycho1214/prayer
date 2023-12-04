@@ -530,6 +530,16 @@ class S {
     );
   }
 
+  /// `Prayers does not have an access to your photos.`
+  String get errorAccessPhoto {
+    return Intl.message(
+      'Prayers does not have an access to your photos.',
+      name: 'errorAccessPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Admin cannot leave the group`
   String get errorAdminLeaveGroup {
     return Intl.message(
@@ -685,6 +695,16 @@ class S {
     return Intl.message(
       'Failed to leave the group',
       name: 'errorLeaveGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load an image`
+  String get errorLoadImage {
+    return Intl.message(
+      'Failed to load an image',
+      name: 'errorLoadImage',
       desc: '',
       args: [],
     );
@@ -990,10 +1010,10 @@ class S {
     );
   }
 
-  /// `United in Prayer\nStronger Together\nCollective Faith`
+  /// `United in Prayer \nStronger Together \nCollective Faith`
   String get introductionTitle {
     return Intl.message(
-      'United in Prayer\\nStronger Together\\nCollective Faith',
+      'United in Prayer \nStronger Together \nCollective Faith',
       name: 'introductionTitle',
       desc: '',
       args: [],
