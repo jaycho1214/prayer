@@ -242,6 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("프로필"),
         "promote": MessageLookupByLibrary.simpleMessage("임명"),
         "ratePrayer": MessageLookupByLibrary.simpleMessage("Prayer 리뷰 남기기"),
+        "readmore": MessageLookupByLibrary.simpleMessage("더보기"),
         "reminder": MessageLookupByLibrary.simpleMessage("알림"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("현재 사진 제거하기"),
