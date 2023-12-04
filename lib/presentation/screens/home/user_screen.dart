@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +35,6 @@ class UserScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final reloadKey = useState(0);
     final userValue = ref.watch(userProvider(
       uid: uid ??
           (username != null ? null : FirebaseAuth.instance.currentUser!.uid),
@@ -64,7 +62,6 @@ class UserScreen extends HookConsumerWidget {
           prayerPagingController.refresh();
           groupPagingController.refresh();
           prayPagingController.refresh();
-          reloadKey.value = reloadKey.value + 1;
           return ref.refresh(userProvider(
             uid: uid,
             username: username,
