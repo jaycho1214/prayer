@@ -71,8 +71,7 @@ class GroupFormScreen extends HookWidget {
         loading.value = true;
         talker.debug("Editing a group...");
         final form = formKey.currentState!.value;
-        if (form['banner'] == null ||
-            (form['banner'] as String?)?.startsWith('https') == false) {
+        if (form['banner'] == null) {
           loading.value = false;
           return GlobalSnackBar.show(context,
               message: S.of(context).errorNeedGroupBanner);
@@ -136,7 +135,10 @@ class GroupFormScreen extends HookWidget {
               ),
               ListView(
                 children: [
-                  const BannerImageForm(aspectRatio: 0.5),
+                  BannerImageForm(
+                    aspectRatio: 0.5,
+                    initialValue: initialValue?.banner,
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 50),
                     child: Column(
