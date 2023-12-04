@@ -1370,6 +1370,16 @@ class S {
     );
   }
 
+  /// `Read More`
+  String get readmore {
+    return Intl.message(
+      'Read More',
+      name: 'readmore',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Reminder`
   String get reminder {
     return Intl.message(

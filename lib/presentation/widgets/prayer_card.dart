@@ -11,6 +11,7 @@ import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/prayer/prayer_provider.dart';
 import 'package:prayer/utils/formatter.dart';
+import 'package:readmore/readmore.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PrayerCard extends ConsumerWidget {
@@ -104,13 +105,16 @@ class PrayerCard extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              Text(
-                prayer.value?.value ?? '',
-                style: const TextStyle(
-                  fontSize: 15,
+              AbsorbPointer(
+                child: ReadMoreText(
+                  prayer.value?.value ?? '',
+                  trimCollapsedText: S.of(context).readmore,
+                  trimLines: 10,
+                  moreStyle: TextStyle(
+                    color: MyTheme.placeholderText,
+                  ),
+                  trimMode: TrimMode.Line,
                 ),
-                maxLines: 10,
-                overflow: TextOverflow.ellipsis,
               ),
               if (prayer.value?.media != null)
                 Padding(

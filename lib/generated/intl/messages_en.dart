@@ -253,6 +253,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "promote": MessageLookupByLibrary.simpleMessage("Promote"),
         "ratePrayer": MessageLookupByLibrary.simpleMessage("Rate Prayer"),
+        "readmore": MessageLookupByLibrary.simpleMessage("Read More"),
         "reminder": MessageLookupByLibrary.simpleMessage("Reminder"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("Remove current photo"),
