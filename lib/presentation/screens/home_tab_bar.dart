@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -21,7 +22,7 @@ import 'package:prayer/presentation/widgets/notification_bar.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
 
-class HomeTabBar extends HookConsumerWidget {
+class HomeTabBar extends HookWidget {
   const HomeTabBar({super.key});
 
   handleNotification(BuildContext context, RemoteMessage? message) {
@@ -42,19 +43,9 @@ class HomeTabBar extends HookConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     useAutomaticKeepAlive();
     final index = useState(0);
-    final state = ref.watch(authNotifierProvider).value;
-
-    useEffect(() {
-      // Jiffy.setLocale(Localizations.localeOf(context).languageCode)
-      //     .catchError((error) {
-      //   Jiffy.setLocale('en');
-      // });
-
-      return () => null;
-    }, []);
 
     useEffect(() {
       FirebaseMessaging.instance
@@ -120,9 +111,11 @@ class HomeTabBar extends HookConsumerWidget {
               ),
             ],
           ),
-          FAB(onTap: () {
-            context.push('/form/prayer');
-          }),
+          FAB(
+            onTap: () {
+              context.push('/form/prayer');
+            },
+          ),
         ],
       ),
       bottomNavBar: PlatformNavBar(
@@ -156,26 +149,33 @@ class HomeTabBar extends HookConsumerWidget {
                 color: index.value == 1 ? MyTheme.onPrimary : MyTheme.disabled,
               )),
           BottomNavigationBarItem(
-              label: '',
-              icon: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color:
-                        index.value == 2 ? MyTheme.onPrimary : MyTheme.disabled,
+            label: '',
+            icon: Consumer(
+              builder: (context, ref, _) {
+                final state = ref.watch(authNotifierProvider).value;
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: index.value == 2
+                          ? MyTheme.onPrimary
+                          : MyTheme.disabled,
+                    ),
+                    shape: BoxShape.circle,
                   ),
-                  shape: BoxShape.circle,
-                ),
-                padding: EdgeInsets.all(state is AuthStateSignedUp
-                    ? state.user.profile == null
-                        ? 10
-                        : 2
-                    : 2),
-                child: UserTabButton(
-                  index: index.value,
-                  profile:
-                      state is AuthStateSignedUp ? state.user.profile : null,
-                ),
-              )),
+                  padding: EdgeInsets.all(state is AuthStateSignedUp
+                      ? state.user.profile == null
+                          ? 10
+                          : 2
+                      : 2),
+                  child: UserTabButton(
+                    index: index.value,
+                    profile:
+                        state is AuthStateSignedUp ? state.user.profile : null,
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
