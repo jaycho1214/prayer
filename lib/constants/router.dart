@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -145,6 +145,21 @@ class AppRouter {
         ),
         GoRoute(
           path: 'form/prayer',
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: PrayerFormScreen(
+              groupId: state.uri.queryParameters['groupId'],
+              corporateId: state.uri.queryParameters['corporateId'],
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    CupertinoFullscreenDialogTransition(
+              primaryRouteAnimation: animation,
+              secondaryRouteAnimation: secondaryAnimation,
+              child: child,
+              linearTransition: true,
+            ),
+          ),
+        ),
           builder: (context, state) => PrayerFormScreen(
             groupId: state.uri.queryParameters['groupId'],
             corporateId: state.uri.queryParameters['corporateId'],
