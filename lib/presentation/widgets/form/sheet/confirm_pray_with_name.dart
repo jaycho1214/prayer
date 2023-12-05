@@ -24,7 +24,6 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 220,
       color: Colors.transparent,
       margin: EdgeInsets.fromLTRB(
         10,
@@ -38,7 +37,8 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
           color: MyTheme.sheetSurface,
         ),
-        child: Column(
+        child: Wrap(
+          alignment: WrapAlignment.center,
           children: [
             Text(
               S.of(context).prayWithName,
@@ -52,53 +52,55 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
             Text(
               S.of(context).alertPrayWithName,
               style: TextStyle(
-                color: MyTheme.disabled,
+                color: MyTheme.placeholderText,
                 fontSize: 15,
               ),
               maxLines: 10,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: ShrinkingButton(
-                    onTap: () => Navigator.of(context).pop(false),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ShrinkingButton(
+                      onTap: () => Navigator.of(context).pop(false),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        height: 50,
+                        child: Icon(
+                          FontAwesomeIcons.xmark,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ShrinkingButton(
+                    onTap: () => Navigator.of(context).pop(true),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.red,
+                        shape: BoxShape.circle,
                       ),
-                      width: 60,
-                      height: 60,
-                      child: Icon(
-                        FontAwesomeIcons.xmark,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                ShrinkingButton(
-                  onTap: () => Navigator.of(context).pop(true),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    height: 60,
-                    width: 60,
-                    child: Center(
-                      child: Icon(
-                        FontAwesomeIcons.handsPraying,
-                        color: Colors.black,
+                      height: 50,
+                      width: 50,
+                      child: Center(
+                        child: FaIcon(
+                          FontAwesomeIcons.handsPraying,
+                          color: Colors.black,
+                          size: 15,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
