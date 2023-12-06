@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/presentation/screens/form/image_picker_form.dart';
+import 'package:prayer/presentation/widgets/form/sheet/image_picker_form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/image_picker_type_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:image_cropper/image_cropper.dart';
