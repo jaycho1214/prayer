@@ -43,7 +43,6 @@ class ConfirmMenuForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 400,
       color: Colors.transparent,
       margin: EdgeInsets.fromLTRB(
         10,
@@ -57,30 +56,37 @@ class ConfirmMenuForm extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
           color: MyTheme.sheetSurface,
         ),
-        child: Column(
+        child: Wrap(
+          alignment: WrapAlignment.center,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 20,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            if (subtitle != null)
-              Text(
-                subtitle!,
-                style: TextStyle(
-                  color: MyTheme.disabled,
-                  fontSize: 15,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 20,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            const SizedBox(height: 20),
-            Expanded(
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: TextStyle(
+                      color: MyTheme.placeholderText,
+                      fontSize: 15,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
+              ],
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: description
@@ -91,7 +97,6 @@ class ConfirmMenuForm extends StatelessWidget {
                     .toList(growable: false),
               ),
             ),
-            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -103,8 +108,8 @@ class ConfirmMenuForm extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      width: 60,
-                      height: 60,
+                      width: 50,
+                      height: 50,
                       child: Icon(
                         FontAwesomeIcons.xmark,
                         color: Colors.black,
@@ -120,12 +125,13 @@ class ConfirmMenuForm extends StatelessWidget {
                       color: Colors.red,
                       shape: BoxShape.circle,
                     ),
-                    height: 60,
-                    width: 60,
+                    height: 50,
+                    width: 50,
                     child: Center(
-                      child: Icon(
+                      child: FaIcon(
                         icon,
                         color: Colors.black,
+                        size: 20,
                       ),
                     ),
                   ),

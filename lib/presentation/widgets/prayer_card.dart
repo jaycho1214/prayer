@@ -116,17 +116,26 @@ class PrayerCard extends ConsumerWidget {
                   trimMode: TrimMode.Line,
                 ),
               ),
-              if (prayer.value?.media != null)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 80, 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: prayer.value!.media!,
+              if (prayer.value?.contents != null &&
+                  prayer.value!.contents.length > 0)
+                Container(
+                  height: 120,
+                  padding: const EdgeInsets.fromLTRB(5, 20, 10, 0),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: prayer.value!.contents.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CachedNetworkImage(
+                          imageUrl: prayer.value!.contents[index].path,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Expanded(

@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/group_member_model.dart';
@@ -56,7 +57,8 @@ class GroupMemberCard extends HookConsumerWidget {
             .then((value) {
           accepted.value = true;
           onDone?.call(GroupMemberCardActionType.accept);
-        }).catchError((_) {
+        }).catchError((err) {
+          talker.error(err);
           GlobalSnackBar.show(context, message: S.of(context).errorAcceptUser);
         }).whenComplete(() {
           loading.value = false;

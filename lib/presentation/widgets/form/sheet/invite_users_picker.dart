@@ -59,7 +59,8 @@ class InviteUsersPickerProvider extends ChangeNotifier {
           userIds: users.map((e) => e.uid).toList(),
         )
         .then((_) => onThen?.call())
-        .onError((_, __) {
+        .onError((err, __) {
+      talker.error("Error on inviting user", err);
       onError?.call();
     }).whenComplete(() {
       loading = false;

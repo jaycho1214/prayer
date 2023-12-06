@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -16,36 +15,42 @@ class PrayerRepository {
     String? groupId,
     String? corporateId,
     bool? anon,
-    String? media,
+    List<String>? media,
     void Function(double progress)? onSendProgress,
   }) async {
-    String? uploaded;
-    if (media != null) {
-      final urlResp =
-          await dio.get('/v1/uploads', queryParameters: {'fileName': media});
-      await dio.put(
-        urlResp.data['url'],
-        data: File(media).openRead(),
-        options: Options(
-          contentType: 'image/${media.split(".").last}',
-        ),
-        onSendProgress: (count, total) => onSendProgress?.call(count / total),
-      );
-      uploaded = urlResp.data['fileName'];
+    List<int> uploaded = [];
+    if (media != null && media.length > 0) {
+      final urlResp = await dio
+          .get('/v1/uploads/multiple', queryParameters: {'name': media});
+      await Future.wait((urlResp.data['data'] as List<dynamic>)
+          .asMap()
+          .entries
+          .map((d) => () async {
+                await dio.put(
+                  d.value['url'],
+                  data: File(media[d.key]).openRead(),
+                  options: Options(
+                    contentType: 'image/${media[d.key].split(".").last}',
+                  ),
+                  onSendProgress: (count, total) =>
+                      onSendProgress?.call(count / total),
+                );
+                uploaded.add(d.value['id']);
+              }()));
     }
     await dio.post('/v1/prayers', data: {
       'groupId': groupId,
       'corporateId': corporateId,
       'value': value,
       'anon': anon ?? false,
-      'media': uploaded,
+      'contents': uploaded,
     });
     mixpanel.track("Prayer Created", properties: {
       'groupId': groupId,
       'corporateId': corporateId,
       'value': value,
       'anon': anon ?? false,
-      'media': uploaded,
+      'contents': uploaded,
     });
     return true;
   }
@@ -70,7 +75,7 @@ class PrayerRepository {
       'description': description,
       'startedAt': startedAt?.toIso8601String(),
       'endedAt': endedAt?.toIso8601String(),
-      'prayers': prayers.length == 0 ? null : jsonEncode(prayers),
+      'prayers': prayers,
       'reminderTime': reminderTime?.toLocal() == null
           ? null
           : Jiffy.parseFromDateTime(reminderTime!.toLocal().copyWith(

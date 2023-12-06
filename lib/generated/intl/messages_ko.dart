@@ -231,8 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "placeholderSearch": MessageLookupByLibrary.simpleMessage("검색"),
         "pray": MessageLookupByLibrary.simpleMessage("기도"),
         "prayAnonymoous": MessageLookupByLibrary.simpleMessage("익명으로 기도"),
-        "prayWithName":
-            MessageLookupByLibrary.simpleMessage("\b공개적으로 기도하시겠습니까?"),
+        "prayWithName": MessageLookupByLibrary.simpleMessage("공개적으로 기도하시겠습니까?"),
         "prayWithWordFormBible":
             MessageLookupByLibrary.simpleMessage("- 야고보서 5:16 (개역개정)"),
         "prayWithWordFormBibleVerse": MessageLookupByLibrary.simpleMessage(

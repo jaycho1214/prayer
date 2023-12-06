@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:prayer/model/content_model.dart';
 import 'package:prayer/model/corporate_prayer_model.dart';
 import 'package:prayer/model/group_model.dart';
 import 'package:prayer/model/placeholder.dart';
@@ -17,7 +18,7 @@ class Prayer with _$Prayer {
     @JsonKey(name: 'group_id') String? groupId,
     bool? anon,
     required String value,
-    String? media,
+    @Default([]) List<Content> contents,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'corporate_id') String? corporateId,
     @Default(0) @JsonKey(name: 'prays_count') int praysCount,
