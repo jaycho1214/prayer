@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -11,9 +10,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/form/sheet/feedback_form.dart';
-import 'package:prayer/presentation/widgets/notification_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -115,19 +112,7 @@ class SettingsScreen extends HookWidget {
             icon: FontAwesomeIcons.comment,
             title: S.of(context).sendFeedback,
             onTap: () {
-              FeedbackForm.show(context).then((value) {
-                if ((value ?? '').trim() == '') {
-                  return;
-                }
-                Sentry.captureUserFeedback(SentryUserFeedback(
-                  eventId: SentryId.newId(),
-                  comments: value,
-                  name: FirebaseAuth.instance.currentUser?.uid,
-                )).then((_) {
-                  NotificationSnackBar.show(context,
-                      message: S.of(context).alertFeedbackSent);
-                });
-              });
+              FeedbackForm.show(context);
             },
           ),
           _buildRow(
