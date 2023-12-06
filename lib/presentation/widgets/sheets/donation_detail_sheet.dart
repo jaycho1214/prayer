@@ -69,41 +69,42 @@ class DonationDetailSheet extends HookWidget {
                         fontSize: 12,
                       ),
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SelectableText(
-                          "토스뱅크 1000-8509-8221",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                          onTap: () {
-                            Clipboard.setData(
-                                ClipboardData(text: '토스뱅크 1000-8509-8221'));
-                            HapticFeedback.mediumImpact();
-                            copied.value = true;
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () {
-                              copied.value = false;
-                            });
-                          },
-                        ),
-                        const SizedBox(width: 5),
-                        AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 500),
-                          crossFadeState: copied.value
-                              ? CrossFadeState.showSecond
-                              : CrossFadeState.showFirst,
-                          firstChild: FaIcon(
-                            FontAwesomeIcons.copy,
-                            size: 12,
-                            color: MyTheme.placeholderText,
+                    ShrinkingButton(
+                      onTap: () {
+                        Clipboard.setData(
+                            ClipboardData(text: '토스뱅크 1000-8509-8221'));
+                        HapticFeedback.mediumImpact();
+                        copied.value = true;
+                        Future.delayed(const Duration(milliseconds: 500), () {
+                          copied.value = false;
+                        });
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "토스뱅크 1000-8509-8221",
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          secondChild: FaIcon(
-                            FontAwesomeIcons.check,
-                            size: 12,
-                            color: MyTheme.placeholderText,
+                          const SizedBox(width: 5),
+                          AnimatedCrossFade(
+                            duration: const Duration(milliseconds: 500),
+                            crossFadeState: copied.value
+                                ? CrossFadeState.showSecond
+                                : CrossFadeState.showFirst,
+                            firstChild: FaIcon(
+                              FontAwesomeIcons.copy,
+                              size: 12,
+                              color: MyTheme.placeholderText,
+                            ),
+                            secondChild: FaIcon(
+                              FontAwesomeIcons.check,
+                              size: 12,
+                              color: MyTheme.placeholderText,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Text(

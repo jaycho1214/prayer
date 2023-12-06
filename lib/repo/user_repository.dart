@@ -105,19 +105,19 @@ class UserRepository {
     }
   }
 
-  Future<String> fetchUploadLinkAndUpload(
+  Future<int> fetchUploadLinkAndUpload(
     String path, {
     void Function(double progress)? onSendProgress,
   }) async {
     final urlResp =
-        await dio.get('/v1/uploads', queryParameters: {'fileName': path});
+        await dio.get('/v1/uploads', queryParameters: {'name': path});
     await dio.put(
       urlResp.data['url'],
       data: File(path).openRead(),
       onSendProgress: (count, total) => onSendProgress?.call(count / total),
       options: Options(contentType: 'image/${path.split(".").last}'),
     );
-    return urlResp.data['fileName'];
+    return urlResp.data['id'];
   }
 
   double calculateTotalProgress(double progress1, double progress2) {
@@ -144,7 +144,7 @@ class UserRepository {
     double profileProgress = profile == null ? -1 : 0;
     double bannerProgress = banner == null ? -1 : 0;
     Map<String, Future<Null>> tasks = {};
-    Map<String, String> urls = {};
+    Map<String, int> ids = {};
     if (profile != null && !profile.startsWith('https')) {
       tasks['profile'] = () async {
         final url = await fetchUploadLinkAndUpload(
@@ -155,7 +155,7 @@ class UserRepository {
                 ?.call(calculateTotalProgress(profileProgress, bannerProgress));
           },
         );
-        urls['profile'] = url;
+        ids['profile'] = url;
       }();
     }
     if (banner != null && !banner.startsWith('https')) {
@@ -168,7 +168,7 @@ class UserRepository {
                 ?.call(calculateTotalProgress(profileProgress, bannerProgress));
           },
         );
-        urls['banner'] = url;
+        ids['banner'] = url;
       }();
     }
     await Future.wait(List.from(tasks.values));
@@ -180,11 +180,11 @@ class UserRepository {
         'bio': bio,
         'profile': profile?.startsWith('https') == true
             ? profile
-            : urls['profile'] ?? '',
+            : ids['profile'] ?? -1,
         'banner':
-            banner?.startsWith('https') == true ? banner : urls['banner'] ?? '',
-      }..removeWhere((_, value) => value?.startsWith('https') == true),
-      options: Options(contentType: Headers.formUrlEncodedContentType),
+            banner?.startsWith('https') == true ? banner : ids['banner'] ?? -1,
+      }..removeWhere(
+          (_, value) => value?.toString().startsWith('https') == true),
     );
     if (resp.data['message'] != null) {
       throw resp.data['message'];

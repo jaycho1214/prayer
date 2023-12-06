@@ -27,7 +27,7 @@ mixin _$Prayer {
   String? get groupId => throw _privateConstructorUsedError;
   bool? get anon => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
-  String? get media => throw _privateConstructorUsedError;
+  List<Content> get contents => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'corporate_id')
@@ -57,7 +57,7 @@ abstract class $PrayerCopyWith<$Res> {
       @JsonKey(name: 'group_id') String? groupId,
       bool? anon,
       String value,
-      String? media,
+      List<Content> contents,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'corporate_id') String? corporateId,
       @JsonKey(name: 'prays_count') int praysCount,
@@ -91,7 +91,7 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
     Object? groupId = freezed,
     Object? anon = freezed,
     Object? value = null,
-    Object? media = freezed,
+    Object? contents = null,
     Object? createdAt = freezed,
     Object? corporateId = freezed,
     Object? praysCount = null,
@@ -122,10 +122,10 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      media: freezed == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as String?,
+      contents: null == contents
+          ? _value.contents
+          : contents // ignore: cast_nullable_to_non_nullable
+              as List<Content>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -223,7 +223,7 @@ abstract class _$$PrayerImplCopyWith<$Res> implements $PrayerCopyWith<$Res> {
       @JsonKey(name: 'group_id') String? groupId,
       bool? anon,
       String value,
-      String? media,
+      List<Content> contents,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'corporate_id') String? corporateId,
       @JsonKey(name: 'prays_count') int praysCount,
@@ -259,7 +259,7 @@ class __$$PrayerImplCopyWithImpl<$Res>
     Object? groupId = freezed,
     Object? anon = freezed,
     Object? value = null,
-    Object? media = freezed,
+    Object? contents = null,
     Object? createdAt = freezed,
     Object? corporateId = freezed,
     Object? praysCount = null,
@@ -290,10 +290,10 @@ class __$$PrayerImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      media: freezed == media
-          ? _value.media
-          : media // ignore: cast_nullable_to_non_nullable
-              as String?,
+      contents: null == contents
+          ? _value._contents
+          : contents // ignore: cast_nullable_to_non_nullable
+              as List<Content>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -340,7 +340,7 @@ class _$PrayerImpl implements _Prayer {
       @JsonKey(name: 'group_id') this.groupId,
       this.anon,
       required this.value,
-      this.media,
+      final List<Content> contents = const [],
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'corporate_id') this.corporateId,
       @JsonKey(name: 'prays_count') this.praysCount = 0,
@@ -348,7 +348,8 @@ class _$PrayerImpl implements _Prayer {
       this.user,
       this.pray,
       this.group,
-      this.corporate});
+      this.corporate})
+      : _contents = contents;
 
   factory _$PrayerImpl.fromJson(Map<String, dynamic> json) =>
       _$$PrayerImplFromJson(json);
@@ -365,8 +366,15 @@ class _$PrayerImpl implements _Prayer {
   final bool? anon;
   @override
   final String value;
+  final List<Content> _contents;
   @override
-  final String? media;
+  @JsonKey()
+  List<Content> get contents {
+    if (_contents is EqualUnmodifiableListView) return _contents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contents);
+  }
+
   @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
@@ -390,7 +398,7 @@ class _$PrayerImpl implements _Prayer {
 
   @override
   String toString() {
-    return 'Prayer(id: $id, userId: $userId, groupId: $groupId, anon: $anon, value: $value, media: $media, createdAt: $createdAt, corporateId: $corporateId, praysCount: $praysCount, hasPrayed: $hasPrayed, user: $user, pray: $pray, group: $group, corporate: $corporate)';
+    return 'Prayer(id: $id, userId: $userId, groupId: $groupId, anon: $anon, value: $value, contents: $contents, createdAt: $createdAt, corporateId: $corporateId, praysCount: $praysCount, hasPrayed: $hasPrayed, user: $user, pray: $pray, group: $group, corporate: $corporate)';
   }
 
   @override
@@ -403,7 +411,7 @@ class _$PrayerImpl implements _Prayer {
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
             (identical(other.anon, anon) || other.anon == anon) &&
             (identical(other.value, value) || other.value == value) &&
-            (identical(other.media, media) || other.media == media) &&
+            const DeepCollectionEquality().equals(other._contents, _contents) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.corporateId, corporateId) ||
@@ -428,7 +436,7 @@ class _$PrayerImpl implements _Prayer {
       groupId,
       anon,
       value,
-      media,
+      const DeepCollectionEquality().hash(_contents),
       createdAt,
       corporateId,
       praysCount,
@@ -459,7 +467,7 @@ abstract class _Prayer implements Prayer {
       @JsonKey(name: 'group_id') final String? groupId,
       final bool? anon,
       required final String value,
-      final String? media,
+      final List<Content> contents,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       @JsonKey(name: 'corporate_id') final String? corporateId,
       @JsonKey(name: 'prays_count') final int praysCount,
@@ -484,7 +492,7 @@ abstract class _Prayer implements Prayer {
   @override
   String get value;
   @override
-  String? get media;
+  List<Content> get contents;
   @override
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;

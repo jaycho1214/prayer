@@ -18,6 +18,7 @@ class PrayerNotifier extends _$PrayerNotifier {
       final data = await GetIt.I<PrayerRepository>().fetchPrayer(prayerId);
       return data;
     } catch (error, stackTrace) {
+      talker.error("Error while fetching prayer", error, stackTrace);
       Sentry.captureException(error, stackTrace: stackTrace);
       return null;
     }

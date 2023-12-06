@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,11 +5,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/presentation/screens/form/image_picker_form.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/corporate_prayer_Form.dart';
@@ -44,8 +42,12 @@ class PrayerFormScreen extends HookConsumerWidget {
     final anon = useState(false);
     final loading = useState(false);
     final _groupId = useState<String?>(groupId);
-    final media = useState<String?>(null);
+    final media = useState<List<AssetEntity>>([]);
     final focusNode = useFocusNode();
+    final mediaImages = useFuture(useMemoized(
+        () => Future.wait(media.value
+            .map((e) => e.thumbnailDataWithSize(ThumbnailSize.square(300)))),
+        [media.value]));
 
     final submit = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
@@ -59,13 +61,14 @@ class PrayerFormScreen extends HookConsumerWidget {
             return;
           }
         }
+        final files = await Future.wait(media.value.map((e) => e.file));
         GetIt.I<PrayerRepository>()
             .createPrayer(
           value: form['value'],
           groupId: form['groupId'],
           corporateId: form['corporateId'],
           anon: anon.value,
-          media: media.value,
+          media: files.map((file) => file?.path).whereType<String>().toList(),
         )
             .then((value) {
           talker.good('Prayer posted: $value');
@@ -80,26 +83,17 @@ class PrayerFormScreen extends HookConsumerWidget {
     }, []);
 
     final pickImage = useCallback(() async {
-      final image = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
+      final image = await PrimaryImagePicker.show(
+        context,
+        maxLength: 5,
+        initialIds: media.value.map((e) => e.id).toList(),
       );
+      focusNode.requestFocus();
       if (image == null) {
         return;
       }
-      final cropped = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        aspectRatio: CropAspectRatio(
-          ratioX: 1.0,
-          ratioY: 1.0,
-        ),
-        aspectRatioPresets: [CropAspectRatioPreset.square],
-      );
-      if (cropped == null) {
-        return;
-      }
-      media.value = cropped.path;
-    }, []);
+      media.value = image;
+    }, [media.value]);
 
     return FormBuilder(
       key: formKey,
@@ -130,9 +124,12 @@ class PrayerFormScreen extends HookConsumerWidget {
                   Row(
                     children: [
                       const SizedBox(width: 10),
-                      UserProfileImage(
-                        profile: user.profile,
-                        size: 40,
+                      AbsorbPointer(
+                        absorbing: true,
+                        child: UserProfileImage(
+                          profile: user.profile,
+                          size: 40,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       PrayerGroupForm(
@@ -159,8 +156,8 @@ class PrayerFormScreen extends HookConsumerWidget {
                     child: FormBuilderTextField(
                       focusNode: focusNode,
                       name: 'value',
-                      minLines: 7,
-                      maxLines: 7,
+                      minLines: 5,
+                      maxLines: 10,
                       autofocus: true,
                       validator: (value) {
                         if ((value ?? '').trim() == '') {
@@ -178,47 +175,58 @@ class PrayerFormScreen extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                  if (media.value != null) ...[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 10, 50, 0),
-                        child: ShrinkingButton(
-                          onTap: () {
-                            media.value = null;
-                          },
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.file(
-                                  File(media.value!),
-                                  alignment: Alignment.centerLeft,
+                  SizedBox(
+                    height: media.value.length > 0 ? 400 : 0,
+                    child: ListView.builder(
+                      cacheExtent: 5,
+                      itemCount: mediaImages.data?.length ?? 0,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => mediaImages
+                                  .data?[index] ==
+                              null
+                          ? const SizedBox()
+                          : Container(
+                              margin: const EdgeInsets.fromLTRB(20, 0, 0, 100),
+                              child: ShrinkingButton(
+                                onTap: () {
+                                  media.value = [
+                                    ...media.value..removeAt(index)
+                                  ];
+                                },
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.memory(
+                                        mediaImages.data![index]!,
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.centerLeft,
+                                        height: 200,
+                                        width: 150,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 10,
+                                      right: 10,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: MyTheme.primary,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        padding: const EdgeInsets.all(10),
+                                        child: FaIcon(
+                                          FontAwesomeIcons.xmark,
+                                          size: 15,
+                                          color: MyTheme.onPrimary,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              Positioned(
-                                top: 5,
-                                right: 5,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: MyTheme.primary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  child: FaIcon(
-                                    FontAwesomeIcons.xmark,
-                                    size: 15,
-                                    color: MyTheme.onPrimary,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                            ),
                     ),
-                    const SizedBox(height: 100),
-                  ],
+                  ),
                 ],
               ),
             ),

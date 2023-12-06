@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -27,10 +26,10 @@ class GroupRepository {
     String? banner,
     void Function(double progress)? onSendProgress,
   }) async {
-    String? uploadedBanner;
+    int? uploadedBanner;
     if (banner != null) {
       final urlResp =
-          await dio.get('/v1/uploads', queryParameters: {'fileName': banner});
+          await dio.get('/v1/uploads', queryParameters: {'name': banner});
       await dio.put(
         urlResp.data['url'],
         data: File(banner).openRead(),
@@ -39,7 +38,7 @@ class GroupRepository {
         ),
         onSendProgress: (count, total) => onSendProgress?.call(count / total),
       );
-      uploadedBanner = urlResp.data['fileName'];
+      uploadedBanner = urlResp.data['id'];
     }
     await dio.post(
       '/v1/groups',
@@ -62,10 +61,10 @@ class GroupRepository {
     String? banner,
     void Function(double progress)? onSendProgress,
   }) async {
-    String? uploadedBanner;
+    int? uploadedBanner;
     if (banner != null && !banner.startsWith('https')) {
       final urlResp =
-          await dio.get('/v1/uploads', queryParameters: {'fileName': banner});
+          await dio.get('/v1/uploads', queryParameters: {'name': banner});
       await dio.put(
         urlResp.data['url'],
         data: File(banner).openRead(),
@@ -74,15 +73,17 @@ class GroupRepository {
         ),
         onSendProgress: (count, total) => onSendProgress?.call(count / total),
       );
-      uploadedBanner = urlResp.data['fileName'];
+      uploadedBanner = urlResp.data['id'];
     }
     await dio.put(
       '/v1/groups/$groupId',
       data: {
         'name': name,
         'description': description,
-        'banner': uploadedBanner ?? '',
-      }..removeWhere((_, value) => value?.startsWith('https') == true),
+        'banner':
+            banner?.startsWith('https') == true ? banner : uploadedBanner ?? '',
+      }..removeWhere(
+          (_, value) => value?.toString().startsWith('https') == true),
     );
     mixpanel.track("Group Updated");
   }
@@ -155,8 +156,8 @@ class GroupRepository {
     required bool value,
   }) async {
     try {
-      final resp = await dio
-          .post('/v1/groups/$groupId/join', data: {'value': value.toString()});
+      final resp =
+          await dio.post('/v1/groups/$groupId/join', data: {'value': value});
       if (value) {
         mixpanel.track("Group Joined");
         return resp.data['data'];
@@ -181,18 +182,18 @@ class GroupRepository {
     try {
       if (value) {
         await dio.post('/v1/groups/$groupId/invite', data: {
-          'value': jsonEncode(userIds),
+          'value': userIds,
         });
         mixpanel.track("Users Invited");
       } else {
         await dio.delete('/v1/groups/$groupId/invite', data: {
-          'value': jsonEncode(userIds),
+          'value': userIds,
         });
         mixpanel.track("Users Invited Undo");
       }
     } on DioException catch (err) {
       if (err.response?.data['code'] == 'operation-not-allowed') {
-        throw AdminLeaveGroupException();
+        throw NeedPermissionException();
       }
       rethrow;
     } catch (err) {
@@ -249,7 +250,7 @@ class GroupRepository {
               .toList();
       return PaginationResponse(
         items: members,
-        cursor: resp.data['cursor'].toString(),
+        cursor: resp.data['cursor'],
       );
     } catch (err) {
       return PaginationResponse<GroupMember, String?>(
@@ -261,7 +262,8 @@ class GroupRepository {
 
   Future<void> acceptMember(
       {required String groupId, required String userId}) async {
-    await dio.post('/v1/groups/$groupId/requests', data: {'userId': userId});
+    await dio.post('/v1/groups/$groupId/requests',
+        data: {'userId': userId, 'value': true});
   }
 
   Future<void> promoteMember({

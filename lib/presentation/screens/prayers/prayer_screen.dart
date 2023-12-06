@@ -67,126 +67,161 @@ class PrayerScreen extends HookConsumerWidget {
                     enabled: prayer.isLoading ||
                         prayer.value == null ||
                         deletedPrayer,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        if (prayer.value?.group != null)
-                                          ShrinkingButton(
-                                            onTap: () {
-                                              context.push(
-                                                  '/groups/${prayer.value?.groupId}');
-                                            },
-                                            child: Row(
-                                              children: [
-                                                const SizedBox(width: 10),
-                                                FaIcon(
-                                                  FontAwesomeIcons.lightUsers,
-                                                  size: 13,
-                                                  color: MyTheme.onPrimary,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                    prayer.value?.group?.name ??
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            if (prayer.value?.group != null)
+                                              ShrinkingButton(
+                                                onTap: () {
+                                                  context.push(
+                                                      '/groups/${prayer.value?.groupId}');
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    const SizedBox(width: 10),
+                                                    FaIcon(
+                                                      FontAwesomeIcons
+                                                          .lightUsers,
+                                                      size: 13,
+                                                      color: MyTheme.onPrimary,
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Text(prayer.value?.group
+                                                            ?.name ??
                                                         ''),
-                                              ],
-                                            ),
-                                          ),
-                                        if (prayer.value?.corporate != null)
-                                          ShrinkingButton(
-                                            onTap: () {
-                                              context.push(
-                                                  '/prayers/corporate/${prayer.value?.corporateId}');
-                                            },
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                const SizedBox(width: 5),
-                                                FaIcon(
-                                                  FontAwesomeIcons.chevronRight,
-                                                  size: 10,
-                                                  color: MyTheme.onPrimary,
+                                                  ],
                                                 ),
-                                                const SizedBox(width: 5),
-                                                Text(prayer.value?.corporate
-                                                        ?.title ??
-                                                    ''),
-                                              ],
-                                            ),
-                                          ),
+                                              ),
+                                            if (prayer.value?.corporate != null)
+                                              ShrinkingButton(
+                                                onTap: () {
+                                                  context.push(
+                                                      '/prayers/corporate/${prayer.value?.corporateId}');
+                                                },
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    const SizedBox(width: 5),
+                                                    FaIcon(
+                                                      FontAwesomeIcons
+                                                          .chevronRight,
+                                                      size: 10,
+                                                      color: MyTheme.onPrimary,
+                                                    ),
+                                                    const SizedBox(width: 5),
+                                                    Text(prayer.value?.corporate
+                                                            ?.title ??
+                                                        ''),
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        UserChip(
+                                          uid: prayer.value?.userId,
+                                          name: prayer.value?.user?.name,
+                                          profile: prayer.value?.user?.profile,
+                                          username:
+                                              prayer.value?.user?.username,
+                                          anon: prayer.value?.anon ?? false,
+                                        ),
                                       ],
                                     ),
-                                    const SizedBox(height: 10),
-                                    UserChip(
-                                      uid: prayer.value?.userId,
-                                      name: prayer.value?.user?.name,
-                                      profile: prayer.value?.user?.profile,
-                                      username: prayer.value?.user?.username,
-                                      anon: prayer.value?.anon ?? false,
-                                    ),
-                                  ],
+                                  ),
+                                  if (prayer.value?.userId ==
+                                      FirebaseAuth.instance.currentUser?.uid)
+                                    PullDownButton(
+                                        itemBuilder: (context) => [
+                                              PullDownMenuItem(
+                                                onTap: () {
+                                                  GetIt.I<PrayerRepository>()
+                                                      .deletePrayer(
+                                                          prayerId: prayerId);
+                                                  ref
+                                                      .read(
+                                                          deletedPrayerNotifierProvider
+                                                              .notifier)
+                                                      .add(prayerId);
+                                                  context.pop('deleted');
+                                                },
+                                                title: S.of(context).delete,
+                                                icon: FontAwesomeIcons.trash,
+                                                isDestructive: true,
+                                              ),
+                                            ],
+                                        buttonBuilder: (context, showMenu) {
+                                          return NavigateIconButton(
+                                            onPressed: showMenu,
+                                            icon: FontAwesomeIcons
+                                                .ellipsisVertical,
+                                          );
+                                        })
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                prayer.value?.value ?? '',
+                                style: TextStyle(
+                                  fontSize: 15,
                                 ),
                               ),
-                              if (prayer.value?.userId ==
-                                  FirebaseAuth.instance.currentUser?.uid)
-                                PullDownButton(
-                                    itemBuilder: (context) => [
-                                          PullDownMenuItem(
-                                            onTap: () {
-                                              GetIt.I<PrayerRepository>()
-                                                  .deletePrayer(
-                                                      prayerId: prayerId);
-                                              ref
-                                                  .read(
-                                                      deletedPrayerNotifierProvider
-                                                          .notifier)
-                                                  .add(prayerId);
-                                              context.pop('deleted');
-                                            },
-                                            title: S.of(context).delete,
-                                            icon: FontAwesomeIcons.trash,
-                                            isDestructive: true,
-                                          ),
-                                        ],
-                                    buttonBuilder: (context, showMenu) {
-                                      return NavigateIconButton(
-                                        onPressed: showMenu,
-                                        icon: FontAwesomeIcons.ellipsisVertical,
-                                      );
-                                    })
+                              const SizedBox(height: 10),
                             ],
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            prayer.value?.value ?? '',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          if (prayer.value?.media != null)
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: CachedNetworkImage(
-                                imageUrl: prayer.value!.media!,
+                        ),
+                        if (prayer.value?.contents != null &&
+                            prayer.value!.contents.length > 0)
+                          Container(
+                            height: 300,
+                            padding: const EdgeInsets.fromLTRB(5, 20, 10, 0),
+                            child: ListView.builder(
+                              cacheExtent: 10000,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: prayer.value!.contents.length,
+                              itemBuilder: (context, index) => ShrinkingButton(
+                                onTap: () => context
+                                    .push(Uri(path: '/image', queryParameters: {
+                                  'imageUrl':
+                                      prayer.value!.contents[index].path,
+                                }).toString()),
+                                child: Hero(
+                                  tag: prayer.value!.contents[index].path,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            prayer.value!.contents[index].path,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   ),
                 ),
