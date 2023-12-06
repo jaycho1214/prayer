@@ -33,46 +33,31 @@ class PrayWithWordForm extends HookWidget {
 
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).viewInsets.bottom + 350,
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(
+          20, 20, 20, MediaQuery.of(context).viewInsets.bottom + 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(40),
         color: MyTheme.sheetSurface,
       ),
-      child: Column(
+      child: Wrap(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              PrimaryTextButton(
-                text: S.of(context).cancel,
-                onTap: () => context.pop(null),
-              ),
-              PrimaryTextButton(
-                text: S.of(context).pray,
-                onTap: () => context.pop(controller.text),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            S.of(context).prayWithWordFormBibleVerse,
-            style: TextStyle(
-              fontSize: 12,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PrimaryTextButton(
+                  text: S.of(context).cancel,
+                  onTap: () => context.pop(null),
+                ),
+                PrimaryTextButton(
+                  text: S.of(context).pray,
+                  onTap: () => context.pop(controller.text),
+                ),
+              ],
             ),
-            textAlign: TextAlign.center,
           ),
-          Text(
-            S.of(context).prayWithWordFormBible,
-            style: TextStyle(
-              color: MyTheme.outline,
-              fontSize: 12,
-            ),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.fade,
-          ),
-          const SizedBox(height: 10),
           TextField(
             controller: controller,
             autofocus: true,
@@ -82,10 +67,32 @@ class PrayWithWordForm extends HookWidget {
             ),
             maxLength: 200,
             minLines: 5,
-            maxLines: 7,
+            maxLines: 5,
           ),
-          const SizedBox(height: 20),
-          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  S.of(context).prayWithWordFormBibleVerse,
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  S.of(context).prayWithWordFormBible,
+                  style: TextStyle(
+                    color: MyTheme.placeholderText,
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
