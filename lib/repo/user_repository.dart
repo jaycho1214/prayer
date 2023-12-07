@@ -6,7 +6,7 @@ import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/errors.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/repo/response_types.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

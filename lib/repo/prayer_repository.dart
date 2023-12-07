@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/model/corporate_prayer_model.dart';
-import 'package:prayer/model/prayer_model.dart';
-import 'package:prayer/model/prayer_pray_model.dart';
+import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
+import 'package:prayer/model/prayer/prayer_model.dart';
+import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
 import 'package:prayer/repo/response_types.dart';
 
 class PrayerRepository {

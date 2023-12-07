@@ -7,7 +7,7 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/user/user_card.dart';

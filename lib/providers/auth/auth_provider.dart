@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/errors.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
 import 'package:prayer/repo/authentication_repository.dart';
 import 'package:prayer/repo/user_repository.dart';

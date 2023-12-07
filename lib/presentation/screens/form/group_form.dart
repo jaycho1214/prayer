@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
-import 'package:prayer/model/group_model.dart';
+import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';

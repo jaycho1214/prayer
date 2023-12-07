@@ -2,9 +2,9 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:prayer/model/group_model.dart';
-import 'package:prayer/model/reminder_model.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/group/group_model.dart';
+import 'package:prayer/model/reminder/reminder_model.dart';
+import 'package:prayer/model/user/user_model.dart';
 
 part 'corporate_prayer_model.freezed.dart';
 part 'corporate_prayer_model.g.dart';

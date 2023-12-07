@@ -13,7 +13,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
-import 'package:prayer/model/corporate_prayer_model.dart';
+import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/form/reminder_form.dart';
