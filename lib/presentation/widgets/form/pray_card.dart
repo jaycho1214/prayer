@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
-import 'package:prayer/model/prayer_pray_model.dart';
+import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/utils/formatter.dart';

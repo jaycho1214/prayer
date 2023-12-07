@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/model/group_model.dart';
+import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/presentation/widgets/group_card.dart';
 import 'package:prayer/repo/group_repository.dart';
 

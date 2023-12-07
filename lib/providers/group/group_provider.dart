@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/model/group_model.dart';
+import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';

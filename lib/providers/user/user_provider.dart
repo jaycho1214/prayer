@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:prayer/model/user_model.dart';
+import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/repo/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

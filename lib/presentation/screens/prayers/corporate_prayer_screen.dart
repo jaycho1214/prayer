@@ -10,7 +10,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/corporate_prayer_model.dart';
+import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/button/fab.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';

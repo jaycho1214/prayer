@@ -9,6 +9,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/presentation/widgets/form/sheet/bible_picker_Form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/image_picker_form.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
@@ -247,10 +248,21 @@ class PrayerFormScreen extends HookConsumerWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 30.0),
+                              child: ShrinkingButton(
+                                onTap: pickImage,
+                                child: FaIcon(
+                                  FontAwesomeIcons.image,
+                                  size: 20,
+                                  color: MyTheme.onPrimary,
+                                ),
+                              ),
+                            ),
                             ShrinkingButton(
-                              onTap: pickImage,
+                              onTap: () => BiblePicker.show(context),
                               child: FaIcon(
-                                FontAwesomeIcons.image,
+                                FontAwesomeIcons.solidBook,
                                 size: 20,
                                 color: MyTheme.onPrimary,
                               ),

@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/model/notification_model.dart';
+import 'package:prayer/model/notification/notification_model.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/utils/formatter.dart';
