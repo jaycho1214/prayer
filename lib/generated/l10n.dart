@@ -100,10 +100,10 @@ class S {
     );
   }
 
-  /// `1. All group members will be removed automatically.:2. Corporate prayers and their associated prayers will be deleted.:3. Any prayers posted in this group will be removed.`
+  /// `1. Deletion is irreversible and immediate.:2. All group members will be removed automatically.:3. All prayers, both corporate and individual, must be deleted to remove the group.`
   String get alertDeleteGroup {
     return Intl.message(
-      '1. All group members will be removed automatically.:2. Corporate prayers and their associated prayers will be deleted.:3. Any prayers posted in this group will be removed.',
+      '1. Deletion is irreversible and immediate.:2. All group members will be removed automatically.:3. All prayers, both corporate and individual, must be deleted to remove the group.',
       name: 'alertDeleteGroup',
       desc: '',
       args: [],
@@ -1205,6 +1205,16 @@ class S {
     return Intl.message(
       'Open',
       name: 'open',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick Image`
+  String get pickImage {
+    return Intl.message(
+      'Pick Image',
+      name: 'pickImage',
       desc: '',
       args: [],
     );

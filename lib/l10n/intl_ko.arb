@@ -116,6 +116,7 @@
   "name": "이름",
   "notifications": "알림",
   "open": "공개",
+  "pickImage": "이미지 선택",
   "pickImageFromGallery": "갤러리에서 사진 가져오기",
   "placeholderPrayer": "하늘에 계신 우리 아버지",
   "placeholderReminder": "기도 시간 입니다...",

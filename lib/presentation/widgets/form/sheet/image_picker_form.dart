@@ -252,7 +252,7 @@ class PrimaryImagePicker {
   }) {
     return WoltModalSheetPage.withSingleChild(
       topBarTitle: Text(
-        "Pick Image",
+        S.of(modalSheetContext).pickImage,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
