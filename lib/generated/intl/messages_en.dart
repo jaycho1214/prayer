@@ -58,7 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "alertAcceptMember": m0,
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
-            "1. All group members will be removed automatically.:2. Corporate prayers and their associated prayers will be deleted.:3. Any prayers posted in this group will be removed."),
+            "1. Deletion is irreversible and immediate.:2. All group members will be removed automatically.:3. All prayers, both corporate and individual, must be deleted to remove the group."),
         "alertFeedbackSent":
             MessageLookupByLibrary.simpleMessage("Feedback has sent"),
         "alertLeaveGroup": MessageLookupByLibrary.simpleMessage(
@@ -232,6 +232,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
+        "pickImage": MessageLookupByLibrary.simpleMessage("Pick Image"),
         "pickImageFromGallery":
             MessageLookupByLibrary.simpleMessage("Pick image from gallery"),
         "placeholderPrayer":

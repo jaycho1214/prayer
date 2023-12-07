@@ -57,7 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "admin": MessageLookupByLibrary.simpleMessage("관리자"),
         "alertAcceptMember": m0,
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
-            "1. 모든 그룹 멤버는 자동으로 탈퇴됩니다.:2. 중보기도문과 기도문이 삭제됩니다.:3. 이 그룹에 게시된 모든 기도가 삭제됩니다."),
+            "1. 삭제는 되돌릴 수 없으며 즉시 이루어집니다.:2. 모든 그룹 구성원은 자동으로 탈퇴됩니다.:3. 그룹을 삭제하기 위해서는 모든 기도 및 중보기도를 삭제해야 합니다."),
         "alertFeedbackSent":
             MessageLookupByLibrary.simpleMessage("피드백이 전송되었습니다"),
         "alertLeaveGroup": MessageLookupByLibrary.simpleMessage(
@@ -222,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("이름"),
         "notifications": MessageLookupByLibrary.simpleMessage("알림"),
         "open": MessageLookupByLibrary.simpleMessage("공개"),
+        "pickImage": MessageLookupByLibrary.simpleMessage("이미지 선택"),
         "pickImageFromGallery":
             MessageLookupByLibrary.simpleMessage("갤러리에서 사진 가져오기"),
         "placeholderPrayer":
