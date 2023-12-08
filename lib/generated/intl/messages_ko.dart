@@ -70,6 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amen": MessageLookupByLibrary.simpleMessage("아멘"),
         "anonymous": MessageLookupByLibrary.simpleMessage("익명"),
         "anonymously": MessageLookupByLibrary.simpleMessage("익명"),
+        "bible": MessageLookupByLibrary.simpleMessage("성경"),
         "bibleCorporatePrayerScreenVerse": MessageLookupByLibrary.simpleMessage(
             "빌기를 다하매 모인 곳이 진동하더니 무리가 다 성령이 충만하여 담대히 하나님의 말씀을 전하니라"),
         "bibleCorporatePrayerScreenVerseBook":

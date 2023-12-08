@@ -190,6 +190,16 @@ class S {
     );
   }
 
+  /// `Bible`
+  String get bible {
+    return Intl.message(
+      'Bible',
+      name: 'bible',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `After they prayed, the place where they were meeting was shaken. And they were all filled with the Holy Spirit and spoke the word of God boldly.`
   String get bibleCorporatePrayerScreenVerse {
     return Intl.message(
