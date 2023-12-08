@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amen": MessageLookupByLibrary.simpleMessage("Amen"),
         "anonymous": MessageLookupByLibrary.simpleMessage("Anonymous"),
         "anonymously": MessageLookupByLibrary.simpleMessage("Anonymously"),
+        "bible": MessageLookupByLibrary.simpleMessage("Bible"),
         "bibleCorporatePrayerScreenVerse": MessageLookupByLibrary.simpleMessage(
             "After they prayed, the place where they were meeting was shaken. And they were all filled with the Holy Spirit and spoke the word of God boldly."),
         "bibleCorporatePrayerScreenVerseBook":
