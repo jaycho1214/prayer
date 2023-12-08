@@ -318,6 +318,7 @@ class BiblePicker {
                   chapter: chapter!,
                   verse: index + 1,
                   value: snapshot.data?.data['data'][index]['value'],
+                  verseId: snapshot.data?.data['data'][index]['verse_id'],
                   translation: translation,
                 );
                 if (selected.indexWhere((element) =>
