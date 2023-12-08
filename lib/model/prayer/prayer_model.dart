@@ -19,6 +19,7 @@ class Prayer with _$Prayer {
     bool? anon,
     required String value,
     @Default([]) List<Content> contents,
+    @Default([]) List<int> verses,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'corporate_id') String? corporateId,
     @Default(0) @JsonKey(name: 'prays_count') int praysCount,
