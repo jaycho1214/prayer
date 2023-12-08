@@ -37,7 +37,7 @@ dependencies:
   go_router: ^12.0.0
   flutter_hooks: ^0.20.3
   font_awesome_flutter: ^10.6.0
-  google_sign_in: ^6.1.5
+  google_sign_in: ^6.1.6
   firebase_auth: ^4.11.1
   firebase_core: ^2.19.0
   freezed_annotation: ^2.4.1
@@ -59,7 +59,7 @@ dependencies:
   sentry_flutter: ^7.13.1
   url_launcher: ^6.2.1
   firebase_messaging: ^14.7.4
-  package_info_plus: ^4.2.0
+  package_info_plus: ^5.0.1
   hooks_riverpod: ^2.4.8
   riverpod_annotation: ^2.3.2
   get_it: ^7.6.4
