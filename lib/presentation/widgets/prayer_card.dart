@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/presentation/widgets/bibles/bible_card_list.dart';
 import 'package:prayer/presentation/widgets/chip/pray_chip.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
+import 'package:prayer/presentation/widgets/image_list.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/prayer/prayer_provider.dart';
@@ -106,34 +108,34 @@ class PrayerCard extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               AbsorbPointer(
-                child: ReadMoreText(
-                  prayer.value?.value ?? '',
-                  trimCollapsedText: S.of(context).readmore,
-                  trimLines: 5,
-                  moreStyle: TextStyle(
-                    color: MyTheme.placeholderText,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 40.0),
+                  child: ReadMoreText(
+                    prayer.value?.value ?? '',
+                    trimCollapsedText: S.of(context).readmore,
+                    trimLines: 5,
+                    moreStyle: TextStyle(
+                      color: MyTheme.placeholderText,
+                    ),
+                    trimMode: TrimMode.Line,
                   ),
-                  trimMode: TrimMode.Line,
                 ),
               ),
+              if (prayer.value?.verses != null &&
+                  prayer.value!.verses.length > 0)
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, top: 10.0),
+                  child: BibleCardList(
+                    verses: prayer.value?.verses ?? [],
+                  ),
+                ),
               if (prayer.value?.contents != null &&
                   prayer.value!.contents.length > 0)
                 Container(
-                  height: 120,
-                  padding: const EdgeInsets.fromLTRB(5, 20, 10, 0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: prayer.value!.contents.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: CachedNetworkImage(
-                          imageUrl: prayer.value!.contents[index].path,
-                        ),
-                      ),
-                    ),
-                  ),
+                  padding: const EdgeInsets.fromLTRB(40, 10, 10, 0),
+                  child: ImageList(
+                      images:
+                          prayer.value!.contents.map((e) => e.path).toList()),
                 ),
               const SizedBox(height: 10),
               Row(

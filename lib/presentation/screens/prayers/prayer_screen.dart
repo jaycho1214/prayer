@@ -13,10 +13,12 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
+import 'package:prayer/presentation/widgets/bibles/bible_card_list.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/pray_button.dart';
 import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/form/pray_card.dart';
+import 'package:prayer/presentation/widgets/image_list.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
@@ -189,37 +191,19 @@ class PrayerScreen extends HookConsumerWidget {
                             ],
                           ),
                         ),
+                        if (prayer.value?.verses != null &&
+                            prayer.value!.verses.length > 0)
+                          BibleCardList(verses: prayer.value!.verses),
                         if (prayer.value?.contents != null &&
                             prayer.value!.contents.length > 0)
-                          Container(
-                            height: 300,
-                            padding: const EdgeInsets.fromLTRB(5, 20, 10, 0),
-                            child: ListView.builder(
-                              cacheExtent: 10000,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: prayer.value!.contents.length,
-                              itemBuilder: (context, index) => ShrinkingButton(
-                                onTap: () => context
-                                    .push(Uri(path: '/image', queryParameters: {
-                                  'imageUrl':
-                                      prayer.value!.contents[index].path,
-                                }).toString()),
-                                child: Hero(
-                                  tag: prayer.value!.contents[index].path,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            prayer.value!.contents[index].path,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: ImageList(
+                                images: prayer.value?.contents
+                                        .map((e) => e.path)
+                                        .toList() ??
+                                    []),
                           ),
                       ],
                     ),
