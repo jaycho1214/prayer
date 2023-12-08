@@ -16,6 +16,7 @@ class PrayerRepository {
     String? corporateId,
     bool? anon,
     List<String>? media,
+    List<int>? verses,
     void Function(double progress)? onSendProgress,
   }) async {
     List<int> uploaded = [];
@@ -44,6 +45,7 @@ class PrayerRepository {
       'value': value,
       'anon': anon ?? false,
       'contents': uploaded,
+      'verses': verses,
     });
     mixpanel.track("Prayer Created", properties: {
       'groupId': groupId,
@@ -51,6 +53,7 @@ class PrayerRepository {
       'value': value,
       'anon': anon ?? false,
       'contents': uploaded,
+      'verses': verses,
     });
     return true;
   }

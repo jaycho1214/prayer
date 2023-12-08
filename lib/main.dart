@@ -15,6 +15,7 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/firebase_options.dart';
 import 'package:prayer/repo/authentication_repository.dart';
+import 'package:prayer/repo/bible_repository.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/notification_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
@@ -41,6 +42,7 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton(() => GroupRepository());
   GetIt.I.registerLazySingleton(() => NotificationRepository());
   GetIt.I.registerLazySingleton(() => PrayerRepository());
+  GetIt.I.registerLazySingleton(() => BibleRepository());
   final pref = await (futureFns['sharedPref'] as Future<SharedPreferences>);
   GetIt.I.registerLazySingleton(() => pref);
   await Future.wait(futureFns.values.toList());
