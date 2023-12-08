@@ -16,6 +16,9 @@ _$PrayerImpl _$$PrayerImplFromJson(Map<String, dynamic> json) => _$PrayerImpl(
               ?.map((e) => Content.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      verses:
+          (json['verses'] as List<dynamic>?)?.map((e) => e as int).toList() ??
+              const [],
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -46,6 +49,7 @@ Map<String, dynamic> _$$PrayerImplToJson(_$PrayerImpl instance) =>
       'anon': instance.anon,
       'value': instance.value,
       'contents': instance.contents.map((e) => e.toJson()).toList(),
+      'verses': instance.verses,
       'created_at': instance.createdAt?.toIso8601String(),
       'corporate_id': instance.corporateId,
       'prays_count': instance.praysCount,
