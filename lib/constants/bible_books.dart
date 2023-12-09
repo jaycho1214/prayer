@@ -384,7 +384,7 @@ Map<BibleBook, String> bible_books_korean = {
   BibleBook.leviticus: '레위기',
   BibleBook.numbers: '민수기',
   BibleBook.deuteronomy: '신명기',
-  BibleBook.joshua: '여호수아기',
+  BibleBook.joshua: '여호수아',
   BibleBook.judges: '사사기',
   BibleBook.ruth: '룻기',
   BibleBook.firstSamuel: '사무엘상',
