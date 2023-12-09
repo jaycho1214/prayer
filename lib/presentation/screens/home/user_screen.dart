@@ -93,7 +93,7 @@ class UserScreen extends HookConsumerWidget {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 30,
+                        horizontal: 20,
                         vertical: 0,
                       ),
                       child: Skeletonizer(
