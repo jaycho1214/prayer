@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "빌기를 다하매 모인 곳이 진동하더니 무리가 다 성령이 충만하여 담대히 하나님의 말씀을 전하니라"),
         "bibleCorporatePrayerScreenVerseBook":
             MessageLookupByLibrary.simpleMessage("- 사도행전 4:31 (개역개정)"),
+        "bibleVerse": MessageLookupByLibrary.simpleMessage("성경 구절"),
         "bio": MessageLookupByLibrary.simpleMessage("바이오"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "chooseCorporatePrayer":
@@ -226,6 +227,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pickImage": MessageLookupByLibrary.simpleMessage("이미지 선택"),
         "pickImageFromGallery":
             MessageLookupByLibrary.simpleMessage("갤러리에서 사진 가져오기"),
+        "placeholderBibleVerse":
+            MessageLookupByLibrary.simpleMessage("성경 구절을 고르세요"),
         "placeholderPrayer":
             MessageLookupByLibrary.simpleMessage("하늘에 계신 우리 아버지"),
         "placeholderReminder":
