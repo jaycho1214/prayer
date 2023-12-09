@@ -15,8 +15,8 @@ Future<void> showPicker(
   dynamic initialValue,
   double ratioX = 1.0,
   double ratioY = 1.0,
-}) {
-  return ImagePickTypeForm.show(
+}) async {
+  await ImagePickTypeForm.show(
     context,
     onTap: (menu) async {
       if (menu == ImagePickTypeMenuType.delete) {
