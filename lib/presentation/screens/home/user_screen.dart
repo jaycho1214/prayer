@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,7 +22,91 @@ import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/user/user_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
+import 'package:prayer/utils/utils.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+class SliverUserAppBarDelegate extends SliverPersistentHeaderDelegate {
+  SliverUserAppBarDelegate({
+    this.minHeight = 110,
+    required this.maxHeight,
+    this.user,
+  });
+
+  final double minHeight;
+  final double maxHeight;
+  final PUser? user;
+
+  @override
+  double get minExtent => minHeight;
+  @override
+  double get maxExtent => maxHeight + 60;
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    print(shrinkOffset);
+    return SizedBox(
+      height: maxHeight + 60,
+      child: Stack(
+        children: [
+          if (user?.uid != FirebaseAuth.instance.currentUser?.uid)
+            Positioned(
+              right: 20,
+              bottom: 10,
+              child: Container(
+                child: FollowButton(
+                  key: ObjectKey(user),
+                  uid: user?.uid,
+                  followedAt: user?.followedAt,
+                ),
+              ),
+            ),
+          Container(
+            height: maxHeight,
+            width: MediaQuery.of(context).size.width,
+            child: user?.banner == null
+                ? UserBannerImage(banner: user?.banner)
+                : ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: Utils.interpolate(
+                          shrinkOffset, [0, 360, 380], [0, 0, 5]),
+                      sigmaY: Utils.interpolate(
+                          shrinkOffset, [0, 360, 380], [0, 0, 5]),
+                    ),
+                    child: UserBannerImage(
+                      banner: user?.banner,
+                    ),
+                  ),
+          ),
+          Positioned(
+            left: 20,
+            bottom: Utils.interpolate(shrinkOffset, [0, 30], [10, -5]),
+            child: Opacity(
+              opacity: Utils.interpolate(shrinkOffset, [0, 60], [1.0, 0.0]),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: MyTheme.surface,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(5),
+                child: UserProfileImage(
+                  profile: user?.profile,
+                  size: Utils.interpolate(shrinkOffset, [0, 50], [80, 40]),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(SliverUserAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        user != oldDelegate.user;
+  }
+}
 
 class UserScreen extends HookConsumerWidget {
   const UserScreen({
@@ -74,60 +160,26 @@ class UserScreen extends HookConsumerWidget {
             children: [
               NestedScrollView(
                 headerSliverBuilder: (context, _) => [
-                  SliverAppBar(
-                    surfaceTintColor: MyTheme.surface,
-                    foregroundColor: MyTheme.surface,
-                    backgroundColor: MyTheme.surface,
+                  SliverPersistentHeader(
                     pinned: true,
-                    automaticallyImplyLeading: false,
-                    expandedHeight: user?.banner == null
-                        ? 100
-                        : MediaQuery.of(context).size.width,
-                    flexibleSpace: FlexibleSpaceBar(
-                      stretchModes: [StretchMode.fadeTitle],
-                      background: UserBannerImage(
-                        banner: user?.banner,
-                      ),
+                    delegate: SliverUserAppBarDelegate(
+                      maxHeight: user?.banner == null
+                          ? 200
+                          : MediaQuery.of(context).size.width,
+                      user: user,
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
-                        vertical: 0,
+                        vertical: 10,
                       ),
                       child: Skeletonizer(
                         enabled: userValue.value == null,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: MyTheme.surface,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(5),
-                                  child: UserProfileImage(
-                                    profile: user?.profile,
-                                    size: 60,
-                                  ),
-                                ),
-                                Spacer(),
-                                if (user?.uid !=
-                                    FirebaseAuth.instance.currentUser?.uid)
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: FollowButton(
-                                      key: ObjectKey(user),
-                                      uid: user?.uid,
-                                      followedAt: user?.followedAt,
-                                    ),
-                                  )
-                              ],
-                            ),
                             Text(
                               user?.name ?? '',
                               style: const TextStyle(
