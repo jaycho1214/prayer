@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -16,6 +15,7 @@ import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
+import 'package:prayer/presentation/widgets/form/duration_picker_form.dart';
 import 'package:prayer/presentation/widgets/form/reminder_form.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/upload_progress_bar.dart';
@@ -65,10 +65,10 @@ class CorporatePrayerForm extends HookWidget {
               .toList(),
           startedAt: form['startedAt'] == null
               ? null
-              : Jiffy.parse(form['startedAt'], pattern: 'yMMMd').dateTime,
+              : (form['startedAt'] as Jiffy).dateTime,
           endedAt: form['endedAt'] == null
               ? null
-              : Jiffy.parse(form['endedAt'], pattern: 'yMMMd').dateTime,
+              : (form['endedAt'] as Jiffy).dateTime,
         )
             .then((value) {
           context.pop(true);
@@ -98,11 +98,10 @@ class CorporatePrayerForm extends HookWidget {
       prayers.value = prayer.prayers?.length ?? 1;
       if (prayer.startedAt != null) {
         data['startedAt'] =
-            Jiffy.parseFromDateTime(prayer.startedAt!.toLocal()).yMMMd;
+            Jiffy.parseFromDateTime(prayer.startedAt!.toLocal());
       }
       if (prayer.endedAt != null) {
-        data['endedAt'] =
-            Jiffy.parseFromDateTime(prayer.endedAt!.toLocal()).yMMMd;
+        data['endedAt'] = Jiffy.parseFromDateTime(prayer.endedAt!.toLocal());
       }
       if (prayer.reminder != null) {
         data['reminderActivated'] = true;
@@ -216,82 +215,7 @@ class CorporatePrayerForm extends HookWidget {
                         const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextInputField(
-                                  name: "startedAt",
-                                  labelText: S.of(context).startedAt,
-                                  keyboardType: TextInputType.none,
-                                  onTap: () async {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    final date = await showPlatformDatePicker(
-                                      context: context,
-                                      initialDate:
-                                          DateUtils.dateOnly(DateTime.now()),
-                                      firstDate:
-                                          DateUtils.dateOnly(DateTime.now()),
-                                      lastDate: DateTime(9999),
-                                      cupertino: (context, platform) =>
-                                          CupertinoDatePickerData(
-                                        mode: CupertinoDatePickerMode.date,
-                                      ),
-                                    );
-                                    formKey.currentState?.fields['startedAt']
-                                        ?.didChange(date == null
-                                            ? null
-                                            : Jiffy.parseFromDateTime(date)
-                                                .yMMMd);
-                                    if (date == null) {
-                                      formKey.currentState?.fields['endedAt']
-                                          ?.didChange(null);
-                                    }
-                                  },
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Expanded(
-                                child: TextInputField(
-                                  name: "endedAt",
-                                  labelText: S.of(context).endedAt,
-                                  keyboardType: TextInputType.none,
-                                  onTap: () async {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    dynamic startedAt = formKey.currentState
-                                        ?.fields['startedAt']?.value as String?;
-                                    startedAt = startedAt == null
-                                        ? null
-                                        : Jiffy.parse(startedAt,
-                                                pattern: 'yMMMd')
-                                            .dateTime;
-                                    if (startedAt == null) {
-                                      return GlobalSnackBar.show(context,
-                                          message:
-                                              "Please specify started from first");
-                                    }
-                                    final date = await showPlatformDatePicker(
-                                      context: context,
-                                      initialDate:
-                                          DateUtils.dateOnly(startedAt),
-                                      firstDate: DateUtils.dateOnly(startedAt),
-                                      lastDate: DateTime(9999),
-                                      cupertino: (context, platform) =>
-                                          CupertinoDatePickerData(
-                                        mode: CupertinoDatePickerMode.date,
-                                      ),
-                                    );
-                                    formKey.currentState?.fields['endedAt']
-                                        ?.didChange(date == null
-                                            ? null
-                                            : Jiffy.parseFromDateTime(date)
-                                                .yMMMd);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                          child: DurationPickerForm(),
                         ),
                         const SizedBox(height: 10),
                         Text(
