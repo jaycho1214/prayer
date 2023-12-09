@@ -195,7 +195,14 @@ class InnerImagePicker extends HookConsumerWidget {
 
     useEffect(() {
       pagingController.addPageRequestListener(fetchPage);
-      PhotoManager.requestPermissionExtend().then((value) {
+      PhotoManager.requestPermissionExtend(
+        requestOption: const PermissionRequestOption(
+          androidPermission: AndroidPermission(
+            type: RequestType.image,
+            mediaLocation: false,
+          ),
+        ),
+      ).then((value) {
         hasPermission.value = value.hasAccess;
       });
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
