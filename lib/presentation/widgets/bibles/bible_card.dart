@@ -34,8 +34,11 @@ class BibleCard extends HookConsumerWidget {
         margin: margin,
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 30),
         decoration: BoxDecoration(
-          color: MyTheme.primary,
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: MyTheme.outline,
+            width: 0.5,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +69,7 @@ class BibleCard extends HookConsumerWidget {
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: MyTheme.surface,
+                      color: MyTheme.primary,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
