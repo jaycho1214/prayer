@@ -11,6 +11,7 @@ import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class ImagePickerProvider extends ChangeNotifier {
@@ -306,7 +307,21 @@ class PrimaryImagePicker {
   }
 
   static Future<List<AssetEntity>?> show(BuildContext context,
-      {int? maxLength, List<String>? initialIds}) {
+      {int? maxLength, List<String>? initialIds}) async {
+    final hasPermission = await PhotoManager.requestPermissionExtend(
+      requestOption: const PermissionRequestOption(
+        androidPermission: AndroidPermission(
+          type: RequestType.image,
+          mediaLocation: false,
+        ),
+      ),
+    );
+    if (!hasPermission.hasAccess) {
+      GlobalSnackBar.show(
+        context,
+        message: S.of(context).errorAccessPhoto,
+      );
+    }
     return WoltModalSheet.show<List<AssetEntity>>(
       context: context,
       pageListBuilder: (modalSheetContext) => [
