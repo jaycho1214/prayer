@@ -11,7 +11,6 @@ import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class ImagePickerProvider extends ChangeNotifier {
@@ -154,7 +153,7 @@ class InnerImagePicker extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hasPermission = useState<bool?>(null);
+    final permission = useState<PermissionState?>(null);
     final pagingController =
         usePagingController<int, AssetEntity>(firstPageKey: 0);
 
@@ -204,7 +203,7 @@ class InnerImagePicker extends HookConsumerWidget {
           ),
         ),
       ).then((value) {
-        hasPermission.value = value.hasAccess;
+        permission.value = value;
       });
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         ref.read(imagePickerProvider).reset();
@@ -215,37 +214,37 @@ class InnerImagePicker extends HookConsumerWidget {
       return () => pagingController.removePageRequestListener(fetchPage);
     }, []);
 
-    if (hasPermission.value == false) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height -
-            MediaQuery.of(context).padding.top,
-        child: Column(children: [
-          Text(S.of(context).errorAccessPhoto),
-          const SizedBox(height: 10),
-          PrimaryTextButton(
-            text: S.of(context).accept,
-            onTap: () => PhotoManager.openSetting(),
-          ),
-        ]),
+    if (permission.value == PermissionState.denied ||
+        permission.value == PermissionState.restricted ||
+        permission.value == PermissionState.notDetermined) {
+      return SliverToBoxAdapter(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top,
+          child: Column(children: [
+            Text(S.of(context).errorAccessPhoto),
+            const SizedBox(height: 10),
+            PrimaryTextButton(
+              text: S.of(context).accept,
+              onTap: () => PhotoManager.openSetting(),
+            ),
+          ]),
+        ),
       );
     }
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height -
-          MediaQuery.of(context).padding.top,
-      child: PagedGridView(
-        pagingController: pagingController,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          mainAxisExtent: MediaQuery.of(context).size.width / 3,
-          crossAxisCount: 3,
-        ),
-        builderDelegate: PagedChildBuilderDelegate<AssetEntity>(
-          itemBuilder: (context, item, index) => InnerImageCard(
-            imageId: item.id,
-            image: item,
-            onTap: onTap(item.id),
-            maxLength: maxLength,
-          ),
+    return PagedSliverGrid(
+      pagingController: pagingController,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        mainAxisExtent: MediaQuery.of(context).size.width / 3,
+        crossAxisCount: 3,
+      ),
+      builderDelegate: PagedChildBuilderDelegate<AssetEntity>(
+        itemBuilder: (context, item, index) => InnerImageCard(
+          imageId: item.id,
+          image: item,
+          onTap: onTap(item.id),
+          maxLength: maxLength,
         ),
       ),
     );
@@ -258,7 +257,7 @@ class PrimaryImagePicker {
     int? maxLength,
     List<String>? initialIds,
   }) {
-    return WoltModalSheetPage.withSingleChild(
+    return WoltModalSheetPage.withCustomSliverList(
       topBarTitle: Text(
         S.of(modalSheetContext).pickImage,
         style: TextStyle(
@@ -298,7 +297,8 @@ class PrimaryImagePicker {
           ),
         ),
       ),
-      child: InnerImagePicker(
+      forceMaxHeight: true,
+      sliverList: InnerImagePicker(
         maxLength: maxLength,
         initialIds: initialIds,
       ),
@@ -308,7 +308,7 @@ class PrimaryImagePicker {
 
   static Future<List<AssetEntity>?> show(BuildContext context,
       {int? maxLength, List<String>? initialIds}) async {
-    final hasPermission = await PhotoManager.requestPermissionExtend(
+    await PhotoManager.requestPermissionExtend(
       requestOption: const PermissionRequestOption(
         androidPermission: AndroidPermission(
           type: RequestType.image,
@@ -316,12 +316,6 @@ class PrimaryImagePicker {
         ),
       ),
     );
-    if (!hasPermission.hasAccess) {
-      GlobalSnackBar.show(
-        context,
-        message: S.of(context).errorAccessPhoto,
-      );
-    }
     return WoltModalSheet.show<List<AssetEntity>>(
       context: context,
       pageListBuilder: (modalSheetContext) => [
