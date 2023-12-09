@@ -81,6 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseCorporatePrayer":
             MessageLookupByLibrary.simpleMessage("중보기도 선택"),
         "chooseGroup": MessageLookupByLibrary.simpleMessage("그룹 선택"),
+        "chooseTranslation": MessageLookupByLibrary.simpleMessage("성경 선택"),
         "community": MessageLookupByLibrary.simpleMessage("커뮤니티"),
         "corporate": MessageLookupByLibrary.simpleMessage("중보기도"),
         "corporatePrayerPrayed": MessageLookupByLibrary.simpleMessage("기도 완료"),
