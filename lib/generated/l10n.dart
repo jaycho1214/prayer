@@ -270,6 +270,16 @@ class S {
     );
   }
 
+  /// `Choose a translation`
+  String get chooseTranslation {
+    return Intl.message(
+      'Choose a translation',
+      name: 'chooseTranslation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Community`
   String get community {
     return Intl.message(

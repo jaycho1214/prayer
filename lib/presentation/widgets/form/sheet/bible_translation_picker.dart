@@ -35,7 +35,7 @@ class BibleTranslationPicker extends HookWidget {
           children: [
             const SizedBox(height: 20),
             Text(
-              S.of(context).chooseGroup,
+              S.of(context).chooseTranslation,
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
             ),
             const SizedBox(height: 10),
