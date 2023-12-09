@@ -277,7 +277,7 @@ class PrimaryImagePicker {
                 onTap: () async {
                   final selected = ref.read(imagePickerProvider).selected;
                   if (selected.length == 0) {
-                    context.pop(null);
+                    return context.pop(null);
                   }
                   final assets = await Future.wait(
                       selected.map((e) => AssetEntity.fromId(e)));
