@@ -166,7 +166,7 @@ class InviteUsersPicker extends HookConsumerWidget {
     }, [fetchPage]);
 
     final usersPage = useCallback(
-        (BuildContext context) => WoltModalSheetPage.withSingleChild(
+        (BuildContext context) => WoltModalSheetPage.withCustomSliverList(
               backgroundColor: Colors.black,
               hasSabGradient: false,
               hasTopBarLayer: true,
@@ -201,57 +201,63 @@ class InviteUsersPicker extends HookConsumerWidget {
                   ),
                 ),
               ),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.9,
-                child: PagedListView<String?, PUser>(
-                  padding: const EdgeInsets.only(bottom: 200),
-                  pagingController: pagingController,
-                  builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, item, index) =>
-                        Consumer(builder: (context, ref, _) {
-                      final checked = ref
-                              .watch(inviteUsersPickerProvider)
-                              .users
-                              .indexWhere(
-                                  (element) => element.uid == item.uid) !=
-                          -1;
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: UserCard(
-                              uid: item.uid,
-                              name: item.name,
-                              username: item.username,
-                              profile: item.profile,
-                              onTap: () {
-                                if (checked) {
-                                  ref
-                                      .read(inviteUsersPickerProvider)
-                                      .remove(item);
-                                } else {
-                                  ref.read(inviteUsersPickerProvider).add(item);
-                                }
-                              },
-                            ),
-                          ),
-                          if (checked)
-                            Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.green,
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.check,
-                                size: 12,
-                                color: MyTheme.onPrimary,
+              forceMaxHeight: true,
+              sliverList: PagedSliverList<String?, PUser>(
+                pagingController: pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (context, item, index) => Padding(
+                    padding: EdgeInsets.only(
+                        bottom: index + 1 == pagingController.itemList?.length
+                            ? 200
+                            : 0),
+                    child: Consumer(
+                      builder: (context, ref, _) {
+                        final checked = ref
+                                .watch(inviteUsersPickerProvider)
+                                .users
+                                .indexWhere(
+                                    (element) => element.uid == item.uid) !=
+                            -1;
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: UserCard(
+                                uid: item.uid,
+                                name: item.name,
+                                username: item.username,
+                                profile: item.profile,
+                                onTap: () {
+                                  if (checked) {
+                                    ref
+                                        .read(inviteUsersPickerProvider)
+                                        .remove(item);
+                                  } else {
+                                    ref
+                                        .read(inviteUsersPickerProvider)
+                                        .add(item);
+                                  }
+                                },
                               ),
                             ),
-                        ],
-                      );
-                    }),
+                            if (checked)
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.green,
+                                ),
+                                child: FaIcon(
+                                  FontAwesomeIcons.check,
+                                  size: 12,
+                                  color: MyTheme.onPrimary,
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
