@@ -76,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "After they prayed, the place where they were meeting was shaken. And they were all filled with the Holy Spirit and spoke the word of God boldly."),
         "bibleCorporatePrayerScreenVerseBook":
             MessageLookupByLibrary.simpleMessage("- Acts 4:31 (NIV)"),
+        "bibleVerse": MessageLookupByLibrary.simpleMessage("Bible Verse"),
         "bio": MessageLookupByLibrary.simpleMessage("Bio"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "chooseCorporatePrayer":
@@ -236,6 +237,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pickImage": MessageLookupByLibrary.simpleMessage("Pick Image"),
         "pickImageFromGallery":
             MessageLookupByLibrary.simpleMessage("Pick image from gallery"),
+        "placeholderBibleVerse":
+            MessageLookupByLibrary.simpleMessage("Pick your bible verse"),
         "placeholderPrayer":
             MessageLookupByLibrary.simpleMessage("Our father in heaven"),
         "placeholderReminder":

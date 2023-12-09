@@ -220,6 +220,16 @@ class S {
     );
   }
 
+  /// `Bible Verse`
+  String get bibleVerse {
+    return Intl.message(
+      'Bible Verse',
+      name: 'bibleVerse',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Bio`
   String get bio {
     return Intl.message(
@@ -1235,6 +1245,16 @@ class S {
     return Intl.message(
       'Pick image from gallery',
       name: 'pickImageFromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick your bible verse`
+  String get placeholderBibleVerse {
+    return Intl.message(
+      'Pick your bible verse',
+      name: 'placeholderBibleVerse',
       desc: '',
       args: [],
     );
