@@ -197,7 +197,8 @@ class GroupScreen extends HookConsumerWidget {
                       ),
                     ],
                     body: data.value == null
-                        ? const CircularProgressIndicator.adaptive()
+                        ? Center(
+                            child: const CircularProgressIndicator.adaptive())
                         : group.membershipType != 'open' &&
                                 group.acceptedAt == null
                             ? Padding(
