@@ -58,7 +58,8 @@ class CorporatePrayerScreen extends HookConsumerWidget {
       }
       return CorporatePrayerDurationStatus.preparing;
     } else {
-      if (now.isBetween(startedAt, endedAt.add(days: 1), unit: Unit.day)) {
+      if (now.isBetween(startedAt.subtract(days: 1), endedAt.add(days: 1),
+          unit: Unit.day)) {
         return CorporatePrayerDurationStatus.praying;
       } else if (now.isBefore(startedAt, unit: Unit.day)) {
         return CorporatePrayerDurationStatus.preparing;
