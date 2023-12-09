@@ -20,7 +20,8 @@ class DurationPickerForm extends StatelessWidget {
     FocusScope.of(context).requestFocus(FocusNode());
     final date = await showPlatformDatePicker(
       context: context,
-      initialDate: DateUtils.dateOnly(DateTime.now()),
+      initialDate:
+          DateUtils.dateOnly(startedAtField.value?.dateTime ?? DateTime.now()),
       firstDate: DateUtils.dateOnly(DateTime.now()),
       lastDate: DateTime(9999),
       cupertino: (context, platform) => CupertinoDatePickerData(
@@ -41,14 +42,14 @@ class DurationPickerForm extends StatelessWidget {
   }) async {
     FocusScope.of(context).requestFocus(FocusNode());
     DateTime? startedAt = startedAtField.value?.dateTime;
-    startedAt = startedAt == null ? null : startedAt;
     if (startedAt == null) {
       return GlobalSnackBar.show(context,
           message: "Please specify started from first");
     }
     final date = await showPlatformDatePicker(
       context: context,
-      initialDate: DateUtils.dateOnly(startedAt),
+      initialDate:
+          DateUtils.dateOnly(endedAtField.value?.dateTime ?? startedAt),
       firstDate: DateUtils.dateOnly(startedAt),
       lastDate: DateTime(9999),
       cupertino: (context, platform) => CupertinoDatePickerData(
