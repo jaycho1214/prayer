@@ -139,6 +139,7 @@ class UserRepository {
     String? bio,
     String? profile,
     String? banner,
+    int? verseId,
     void Function(double progress)? onSendProgress,
   }) async {
     double profileProgress = profile == null ? -1 : 0;
@@ -183,6 +184,7 @@ class UserRepository {
             : ids['profile'] ?? -1,
         'banner':
             banner?.startsWith('https') == true ? banner : ids['banner'] ?? -1,
+        'verseId': verseId,
       }..removeWhere(
           (_, value) => value?.toString().startsWith('https') == true),
     );

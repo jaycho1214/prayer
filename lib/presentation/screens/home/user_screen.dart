@@ -11,6 +11,7 @@ import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/presentation/screens/group/groups_screen.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
+import 'package:prayer/presentation/widgets/bibles/bible_card.dart';
 import 'package:prayer/presentation/widgets/button/follow_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
@@ -96,9 +97,7 @@ class UserScreen extends HookConsumerWidget {
                         vertical: 0,
                       ),
                       child: Skeletonizer(
-                        enabled: userValue.value == null ||
-                            userValue.isLoading ||
-                            userValue.hasError,
+                        enabled: userValue.value == null,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -151,6 +150,12 @@ class UserScreen extends HookConsumerWidget {
                                 ),
                               ),
                             ],
+                            if (user?.verseId != null)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: BibleCard(verseId: user!.verseId!),
+                              ),
                             const SizedBox(height: 10),
                             Row(
                               children: [

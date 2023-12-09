@@ -11,6 +11,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
+import 'package:prayer/presentation/widgets/form/profile_bible_verse_form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/user_image_form.dart';
 import 'package:prayer/presentation/widgets/form/text_input_form.dart';
 import 'package:prayer/presentation/widgets/form/upload_progress_bar.dart';
@@ -44,6 +45,7 @@ class UserFormScreen extends HookConsumerWidget {
           bio: values['bio'],
           profile: values['profile'],
           banner: values['banner'],
+          verseId: values['verseId'],
           onSendProgress: (newProgress) => progress.value = newProgress,
         )
             .then((value) {
@@ -126,7 +128,10 @@ class UserFormScreen extends HookConsumerWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       padding: const EdgeInsets.all(10),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          ProfileBibleVerseForm(),
+                          const SizedBox(height: 20),
                           UsernameInputForm(
                             initialValue: oldUser.username,
                           ),

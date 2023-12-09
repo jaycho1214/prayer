@@ -143,7 +143,9 @@ class BiblePicker {
       sliverList: HookConsumer(
         builder: (context, ref, _) {
           useEffect(() {
-            ref.read(biblePickerProvider.notifier).set(initialIds ?? []);
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              ref.read(biblePickerProvider.notifier).set(initialIds ?? []);
+            });
             return () => null;
           }, []);
           final controllers = useMemoized(
