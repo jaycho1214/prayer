@@ -142,66 +142,80 @@ class BiblePicker {
       ),
       sliverList: HookConsumer(
         builder: (context, ref, _) {
+          final expanded = useState(-1);
           useEffect(() {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               ref.read(biblePickerProvider.notifier).set(initialIds ?? []);
             });
             return () => null;
           }, []);
-          final controllers = useMemoized(
-              () => List.generate(
-                  bible_books.length, (index) => ExpansionTileController()),
-              []);
           return SliverList.builder(
             itemCount: bible_books.length,
-            itemBuilder: (context, bookIndex) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: bible_books.length == bookIndex + 1 ? 200 : 0),
-              child: ExpansionTile(
-                onExpansionChanged: (value) {
-                  if (value) {
-                    List.generate(bible_books.length, (index) => index)
-                        .forEach((key) {
-                      if (key != bookIndex) {
-                        controllers[key].collapse();
-                      }
-                    });
-                  }
-                },
-                controller: controllers[bookIndex],
-                title: Text(
-                  toLocaleBibleBook(context, bible_books[bookIndex]['key']) ??
-                      '',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                children: [
-                  GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 5),
-                    itemCount: bible_books[bookIndex]['page'] as int,
-                    itemBuilder: (context, verseIndex) => ShrinkingButton(
-                      onTap: () {
-                        ref.read(biblePickerProvider.notifier).setPage(
-                              bible_books[bookIndex]['key'] as BibleBook,
-                              verseIndex + 1,
-                            );
-                        pageNotifier.value = 1;
+            itemBuilder: (context, bookIndex) => HookBuilder(
+              builder: (context) {
+                final controller = useExpansionTileController();
+                useEffect(() {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    if (expanded.value != bookIndex && controller.isExpanded) {
+                      controller.collapse();
+                    }
+                  });
+                  return () => null;
+                }, [bookIndex, expanded.value]);
+                return Padding(
+                  padding: EdgeInsets.only(
+                      bottom: bible_books.length == bookIndex + 1 ? 200 : 0),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        listTileTheme:
+                            ListTileTheme.of(context).copyWith(dense: true)),
+                    child: ExpansionTile(
+                      childrenPadding: const EdgeInsets.only(bottom: 10),
+                      onExpansionChanged: (value) {
+                        if (value) {
+                          expanded.value = bookIndex;
+                        }
                       },
-                      child: Container(
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: MyTheme.primary,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text("${verseIndex + 1}"),
+                      controller: controller,
+                      title: Text(
+                        toLocaleBibleBook(
+                                context, bible_books[bookIndex]['key']) ??
+                            '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
                       ),
+                      children: [
+                        GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 7),
+                          itemCount: bible_books[bookIndex]['page'] as int,
+                          itemBuilder: (context, verseIndex) => ShrinkingButton(
+                            onTap: () {
+                              ref.read(biblePickerProvider.notifier).setPage(
+                                    bible_books[bookIndex]['key'] as BibleBook,
+                                    verseIndex + 1,
+                                  );
+                              pageNotifier.value = 1;
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: MyTheme.primary,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text("${verseIndex + 1}"),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
           );
         },
