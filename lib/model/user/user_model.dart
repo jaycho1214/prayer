@@ -20,6 +20,7 @@ sealed class PUser with _$PUser {
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
     @JsonKey(name: 'followed_at') DateTime? followedAt,
+    @JsonKey(name: 'verse_id') int? verseId,
     @Default(0) @JsonKey(name: 'followings_count') int followingsCount,
     @Default(0) @JsonKey(name: 'followers_count') int followersCount,
     @Default(0) @JsonKey(name: 'prayers_count') int prayersCount,
