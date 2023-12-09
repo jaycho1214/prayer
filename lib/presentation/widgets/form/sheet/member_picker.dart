@@ -114,7 +114,7 @@ class MemberPicker extends HookConsumerWidget {
     }, [fetchPage]);
 
     final usersPage = useCallback(
-        (BuildContext context) => WoltModalSheetPage.withSingleChild(
+        (BuildContext context) => WoltModalSheetPage.withCustomSliverList(
               backgroundColor: Colors.black,
               hasSabGradient: false,
               hasTopBarLayer: true,
@@ -135,13 +135,16 @@ class MemberPicker extends HookConsumerWidget {
                   ),
                 ),
               ),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.9,
-                child: PagedListView<String?, GroupMember>(
-                  padding: const EdgeInsets.all(0),
-                  pagingController: pagingController,
-                  builderDelegate: PagedChildBuilderDelegate(
-                    itemBuilder: (context, item, index) => UserCard(
+              forceMaxHeight: true,
+              sliverList: PagedSliverList<String?, GroupMember>(
+                pagingController: pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (context, item, index) => Padding(
+                    padding: EdgeInsets.only(
+                        bottom: index + 1 == pagingController.itemList?.length
+                            ? 200
+                            : 0),
+                    child: UserCard(
                       uid: item.uid,
                       name: item.name,
                       username: item.username,
