@@ -64,7 +64,7 @@ class DurationPickerForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          S.of(context).startedAt,
+          S.of(context).prayDuration,
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
