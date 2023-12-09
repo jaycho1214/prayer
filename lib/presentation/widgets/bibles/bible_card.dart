@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/model/placeholder.dart';
 import 'package:prayer/presentation/widgets/form/sheet/bible_translation_picker.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
-import 'package:prayer/repo/bible_repository.dart';
+import 'package:prayer/providers/bible/bible_verse_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class BibleCard extends HookWidget {
+class BibleCard extends HookConsumerWidget {
   const BibleCard({
     super.key,
     required this.verseId,
@@ -22,15 +23,13 @@ class BibleCard extends HookWidget {
   final EdgeInsets? margin;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final translation = useState(BibleTranslation.preference());
-    final verse = useFuture(useMemoized(
-        () => GetIt.I<BibleRepository>()
-            .fetchVerse(verseId, translationId: translation.value.id),
-        [translation.value.id]));
+    final verse = ref.watch(bibleVerseNotifierProvider(verseId,
+        translationId: translation.value.id));
 
     return Skeletonizer(
-      enabled: verse.data == null,
+      enabled: verse.value == null,
       child: Container(
         margin: margin,
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 30),
@@ -45,9 +44,9 @@ class BibleCard extends HookWidget {
               children: [
                 Expanded(
                   child: Text(
-                    verse.data == null
+                    verse.value == null
                         ? 'PLACEHOLDER'
-                        : '${toLocaleBibleBook(context, verse.data!.book)!} ${verse.data!.chapter}:${verse.data!.verse}',
+                        : '${toLocaleBibleBook(context, verse.value!.book)!} ${verse.value!.chapter}:${verse.value!.verse}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -80,7 +79,7 @@ class BibleCard extends HookWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              verse.data == null ? LoremIpsum : verse.data!.value!,
+              verse.value == null ? LoremIpsum : verse.value!.value!,
             ),
           ],
         ),

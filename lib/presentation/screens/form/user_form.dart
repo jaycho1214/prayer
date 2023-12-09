@@ -75,6 +75,7 @@ class UserFormScreen extends HookConsumerWidget {
           "bio": oldUser.bio,
           "profile": oldUser.profile,
           "banner": oldUser.banner,
+          "verseId": oldUser.verseId,
         });
       });
       return () {};
