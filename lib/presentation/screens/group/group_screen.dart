@@ -17,6 +17,7 @@ import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/sheets/group_information_sheet.dart';
+import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/statistics_text.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
@@ -169,9 +170,13 @@ class GroupScreen extends HookConsumerWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        StatisticsText(
-                                            value: group.membersCount,
-                                            text: S.of(context).members),
+                                        ShrinkingButton(
+                                          onTap: () => context
+                                              .push('/groups/$groupId/members'),
+                                          child: StatisticsText(
+                                              value: group.membersCount,
+                                              text: S.of(context).members),
+                                        ),
                                         const SizedBox(width: 15),
                                         StatisticsText(
                                             value: group.prayersCount,
