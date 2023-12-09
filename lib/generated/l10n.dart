@@ -1310,6 +1310,16 @@ class S {
     );
   }
 
+  /// `Duration`
+  String get prayDuration {
+    return Intl.message(
+      'Duration',
+      name: 'prayDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pray with name?`
   String get prayWithName {
     return Intl.message(

@@ -247,6 +247,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pray": MessageLookupByLibrary.simpleMessage("Pray"),
         "prayAnonymoous":
             MessageLookupByLibrary.simpleMessage("Pray as Anonymous"),
+        "prayDuration": MessageLookupByLibrary.simpleMessage("Duration"),
         "prayWithName": MessageLookupByLibrary.simpleMessage("Pray with name?"),
         "prayWithWordFormBible":
             MessageLookupByLibrary.simpleMessage("- James 5:16 (NIV)"),
