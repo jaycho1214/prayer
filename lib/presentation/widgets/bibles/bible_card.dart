@@ -36,8 +36,8 @@ class BibleCard extends HookConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: MyTheme.outline,
-            width: 0.5,
+            color: MyTheme.disabled,
+            width: 1,
           ),
         ),
         child: Column(

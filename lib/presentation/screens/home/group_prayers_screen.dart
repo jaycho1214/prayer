@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -52,17 +54,17 @@ class GroupPrayersScreen extends HookWidget {
               pinned: false,
               snap: true,
               flexibleSpace: Container(
-                height: 20,
+                height: 40,
                 margin: EdgeInsets.fromLTRB(
-                  10,
-                  MediaQuery.of(context).padding.top + 10,
-                  10,
-                  10,
-                ),
+                    10, MediaQuery.of(context).padding.top, 10, 0),
                 width: MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
-                    Center(
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      alignment: Platform.isIOS
+                          ? Alignment.center
+                          : Alignment.centerLeft,
                       child: Text(
                         S.of(context).group,
                         style: platformThemeData(
