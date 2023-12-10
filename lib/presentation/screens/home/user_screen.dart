@@ -48,7 +48,6 @@ class SliverUserAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    print('$offset ${Utils.interpolate(offset, [-200, 0, 200], [3, 1, 1])}');
     return SizedBox(
       height: maxHeight + 60,
       child: Stack(
