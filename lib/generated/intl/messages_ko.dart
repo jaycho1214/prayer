@@ -115,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "donatePrayer": MessageLookupByLibrary.simpleMessage("Prayer 후원하기"),
         "done": MessageLookupByLibrary.simpleMessage("완료"),
         "edit": MessageLookupByLibrary.simpleMessage("수정"),
+        "emptyGroupDescription": MessageLookupByLibrary.simpleMessage(
+            "함께 연결되고 나누어 중보기도의 힘을 경험하세요. 다른 이들과 신앙 안에서 하나가 되어 놀라운 일을 목격하세요."),
         "endedAt": MessageLookupByLibrary.simpleMessage("종료"),
         "errorAcceptUser":
             MessageLookupByLibrary.simpleMessage("유저 승인에 실패했습니다"),
@@ -239,6 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "prayAnonymoous": MessageLookupByLibrary.simpleMessage("익명으로 기도"),
         "prayDuration": MessageLookupByLibrary.simpleMessage("기도 기간"),
         "prayWithName": MessageLookupByLibrary.simpleMessage("공개적으로 기도하시겠습니까?"),
+        "prayWithOthers": MessageLookupByLibrary.simpleMessage("다른 사람과 기도해보세요"),
         "prayWithWordFormBible":
             MessageLookupByLibrary.simpleMessage("- 야고보서 5:16 (개역개정)"),
         "prayWithWordFormBibleVerse": MessageLookupByLibrary.simpleMessage(
@@ -262,6 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "restricted": MessageLookupByLibrary.simpleMessage("제한됨"),
         "revoke": MessageLookupByLibrary.simpleMessage("철회"),
         "revoked": MessageLookupByLibrary.simpleMessage("철회됨"),
+        "searchGroup": MessageLookupByLibrary.simpleMessage("그룹 찾기"),
         "sendFeedback": MessageLookupByLibrary.simpleMessage("피드백 보내기"),
         "sendInvitation": MessageLookupByLibrary.simpleMessage("초대하기"),
         "settings": MessageLookupByLibrary.simpleMessage("설정"),

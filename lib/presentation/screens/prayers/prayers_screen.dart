@@ -17,6 +17,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
     this.onTap,
     this.physics,
     this.sliver = false,
+    this.noItemsFoundIndicatorBuilder,
   });
 
   final Future<PaginationResponse<String, CursorType?>> Function(
@@ -26,6 +27,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
   final void Function(String)? onTap;
   final ScrollPhysics? physics;
   final bool sliver;
+  final Widget Function(BuildContext)? noItemsFoundIndicatorBuilder;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,6 +67,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
       return PagedSliverList<CursorType?, String>.separated(
         pagingController: pagingController,
         builderDelegate: PagedChildBuilderDelegate(
+          noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
           animateTransitions: true,
           itemBuilder: (context, item, index) => Padding(
             padding: EdgeInsets.only(
@@ -89,6 +92,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 150),
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
+        noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
         itemBuilder: (context, item, index) => PrayerCard(
           prayerId: item,
           onTap: () => onTap?.call(item),

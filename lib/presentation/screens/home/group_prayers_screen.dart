@@ -8,6 +8,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
+import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
@@ -45,6 +46,8 @@ class GroupPrayersScreen extends HookWidget {
             SliverAppBar(
               toolbarHeight: 40,
               backgroundColor: MyTheme.surface,
+              surfaceTintColor: MyTheme.surface,
+              foregroundColor: MyTheme.surface,
               floating: true,
               pinned: false,
               snap: true,
@@ -128,6 +131,33 @@ class GroupPrayersScreen extends HookWidget {
               fetchFn: (cursor) => GetIt.I<PrayerRepository>()
                   .fetchGroupPrayersFromUser(cursor: cursor),
               pagingController: pagingController,
+              noItemsFoundIndicatorBuilder: (p0) => Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).prayWithOthers,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 30,
+                      ),
+                    ),
+                    Text(
+                      S.of(context).emptyGroupDescription,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: MyTheme.placeholderText,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    PrimaryTextButton(
+                      text: S.of(context).searchGroup,
+                      onTap: () => context.push('/search'),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
