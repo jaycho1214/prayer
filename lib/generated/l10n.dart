@@ -540,6 +540,16 @@ class S {
     );
   }
 
+  /// `Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary.`
+  String get emptyGroupDescription {
+    return Intl.message(
+      'Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary.',
+      name: 'emptyGroupDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Ended At`
   String get endedAt {
     return Intl.message(
@@ -1340,6 +1350,16 @@ class S {
     );
   }
 
+  /// `Pray with Others`
+  String get prayWithOthers {
+    return Intl.message(
+      'Pray with Others',
+      name: 'prayWithOthers',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `- James 5:16 (NIV)`
   String get prayWithWordFormBible {
     return Intl.message(
@@ -1535,6 +1555,16 @@ class S {
     return Intl.message(
       'Revoked',
       name: 'revoked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search a group `
+  String get searchGroup {
+    return Intl.message(
+      'Search a group ',
+      name: 'searchGroup',
       desc: '',
       args: [],
     );

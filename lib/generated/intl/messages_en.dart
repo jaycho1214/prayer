@@ -120,6 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "donatePrayer": MessageLookupByLibrary.simpleMessage("Donate Now"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "emptyGroupDescription": MessageLookupByLibrary.simpleMessage(
+            "Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary."),
         "endedAt": MessageLookupByLibrary.simpleMessage("Ended At"),
         "errorAcceptUser":
             MessageLookupByLibrary.simpleMessage("Failed to accept the user"),
@@ -251,6 +253,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pray as Anonymous"),
         "prayDuration": MessageLookupByLibrary.simpleMessage("Duration"),
         "prayWithName": MessageLookupByLibrary.simpleMessage("Pray with name?"),
+        "prayWithOthers":
+            MessageLookupByLibrary.simpleMessage("Pray with Others"),
         "prayWithWordFormBible":
             MessageLookupByLibrary.simpleMessage("- James 5:16 (NIV)"),
         "prayWithWordFormBibleVerse": MessageLookupByLibrary.simpleMessage(
@@ -276,6 +280,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "restricted": MessageLookupByLibrary.simpleMessage("Restricted"),
         "revoke": MessageLookupByLibrary.simpleMessage("Revoke"),
         "revoked": MessageLookupByLibrary.simpleMessage("Revoked"),
+        "searchGroup": MessageLookupByLibrary.simpleMessage("Search a group "),
         "sendFeedback": MessageLookupByLibrary.simpleMessage("Send Feedback"),
         "sendInvitation":
             MessageLookupByLibrary.simpleMessage("Send Invitation"),
