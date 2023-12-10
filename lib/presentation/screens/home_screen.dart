@@ -32,7 +32,8 @@ class HomeScreen extends HookConsumerWidget {
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
       body: RefreshIndicator(
-        notificationPredicate: (notification) => notification.depth == 2,
+        edgeOffset: 100,
+        notificationPredicate: (notification) => notification.depth == 0,
         onRefresh: () async {
           ref.invalidate(notificationNotifierProvider);
           homePagingController.refresh();
