@@ -52,12 +52,18 @@ class PrayerCard extends ConsumerWidget {
                         children: [
                           const SizedBox(width: 10),
                           FaIcon(
-                            FontAwesomeIcons.lightUsers,
+                            FontAwesomeIcons.userGroupSimple,
                             size: 13,
-                            color: MyTheme.onPrimary,
+                            color: MyTheme.placeholderText,
                           ),
                           const SizedBox(width: 5),
-                          Text(prayer.value?.group?.name ?? ''),
+                          Text(
+                            prayer.value?.group?.name ?? '',
+                            style: TextStyle(
+                              color: MyTheme.placeholderText,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -70,14 +76,22 @@ class PrayerCard extends ConsumerWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(width: 5),
-                            FaIcon(
-                              FontAwesomeIcons.chevronRight,
-                              size: 10,
-                              color: MyTheme.onPrimary,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: FaIcon(
+                                FontAwesomeIcons.solidChevronRight,
+                                size: 10,
+                                color: MyTheme.placeholderText,
+                              ),
                             ),
-                            const SizedBox(width: 5),
-                            Text(prayer.value?.corporate?.title ?? ''),
+                            Text(
+                              prayer.value?.corporate?.title ?? '',
+                              style: TextStyle(
+                                color: MyTheme.placeholderText,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                       ),
