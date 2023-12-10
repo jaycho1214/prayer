@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -9,7 +7,7 @@ import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/presentation/screens/group/group_search_screen.dart';
 import 'package:prayer/presentation/screens/users/users_screen.dart';
-import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/tab_bar.dart';
 
 class SearchScreen extends HookWidget {
@@ -52,9 +50,10 @@ class SearchScreen extends HookWidget {
               },
               child: Scaffold(
                 appBar: AppBar(
+                  automaticallyImplyLeading: false,
                   flexibleSpace: Container(
                     margin: EdgeInsets.fromLTRB(
-                      20,
+                      10,
                       MediaQuery.of(context).padding.top,
                       20,
                       10,
@@ -62,6 +61,8 @@ class SearchScreen extends HookWidget {
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       children: [
+                        NavigateBackButton(),
+                        const SizedBox(width: 0),
                         Expanded(
                           child: SearchBar(
                             controller: queryController,
@@ -69,20 +70,6 @@ class SearchScreen extends HookWidget {
                             hintStyle: const MaterialStatePropertyAll(
                               TextStyle(color: MyTheme.placeholderText),
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        ShrinkingButton(
-                          onTap: () async {
-                            final didAdd = await context.push('/form/group');
-                            if (didAdd == true) {
-                              groupsPagingController.refresh();
-                            }
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.userPlus,
-                            color: MyTheme.onPrimary,
-                            size: 20,
                           ),
                         ),
                       ],

@@ -14,10 +14,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/presentation/screens/home/search_screen.dart';
+import 'package:prayer/presentation/screens/home/group_prayers_screen.dart';
 import 'package:prayer/presentation/screens/home/user_screen.dart';
 import 'package:prayer/presentation/screens/home_screen.dart';
 import 'package:prayer/presentation/widgets/button/fab.dart';
+import 'package:prayer/presentation/widgets/form/sheet/group_picker.dart';
 import 'package:prayer/presentation/widgets/notification_bar.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
@@ -104,7 +105,7 @@ class HomeTabBar extends HookWidget {
             index: index.value,
             children: [
               HomeScreen(),
-              SearchScreen(),
+              GroupPrayersScreen(),
               UserScreen(
                 uid: FirebaseAuth.instance.currentUser!.uid,
                 canPop: false,
@@ -112,8 +113,18 @@ class HomeTabBar extends HookWidget {
             ],
           ),
           FAB(
-            onTap: () {
-              context.push('/form/prayer');
+            onTap: () async {
+              if (index.value == 1) {
+                final groupId = await GroupPicker.show(context);
+                if (groupId != null) {
+                  context.push(Uri(
+                    path: '/form/prayer',
+                    queryParameters: {'groupId': groupId},
+                  ).toString());
+                }
+              } else {
+                context.push('/form/prayer');
+              }
             },
           ),
         ],
@@ -137,14 +148,18 @@ class HomeTabBar extends HookWidget {
               backgroundColor: MyTheme.surface,
               label: '',
               icon: FaIcon(
-                FontAwesomeIcons.house,
+                index.value == 0
+                    ? FontAwesomeIcons.houseChimneyHeart
+                    : FontAwesomeIcons.lightHouseChimneyHeart,
                 size: 20,
                 color: index.value == 0 ? MyTheme.onPrimary : MyTheme.disabled,
               )),
           BottomNavigationBarItem(
               label: '',
               icon: FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
+                index.value == 1
+                    ? FontAwesomeIcons.solidUserGroupSimple
+                    : FontAwesomeIcons.userGroupSimple,
                 size: 20,
                 color: index.value == 1 ? MyTheme.onPrimary : MyTheme.disabled,
               )),
@@ -159,6 +174,7 @@ class HomeTabBar extends HookWidget {
                       color: index.value == 2
                           ? MyTheme.onPrimary
                           : MyTheme.disabled,
+                      width: index.value == 2 ? 1 : 0.5,
                     ),
                     shape: BoxShape.circle,
                   ),

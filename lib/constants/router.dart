@@ -11,6 +11,7 @@ import 'package:prayer/presentation/screens/form/prayer_form.dart';
 import 'package:prayer/presentation/screens/form/user_form.dart';
 import 'package:prayer/presentation/screens/group/group_members_screen.dart';
 import 'package:prayer/presentation/screens/group/group_screen.dart';
+import 'package:prayer/presentation/screens/home/search_screen.dart';
 import 'package:prayer/presentation/screens/home/user_screen.dart';
 import 'package:prayer/presentation/screens/home_tab_bar.dart';
 import 'package:prayer/presentation/screens/image_gallery_screen.dart';
@@ -76,6 +77,12 @@ class AppRouter {
       path: '/',
       builder: (context, state) => const HomeTabBar(),
       routes: [
+        //SEARCH
+        GoRoute(
+          path: 'search',
+          builder: (context, state) => const SearchScreen(),
+        ),
+
         //NOTIFICATONS
         GoRoute(
           path: 'notifications',
