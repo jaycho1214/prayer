@@ -53,14 +53,17 @@ class GroupsScreen<CursorType> extends HookWidget {
 
     return PagedListView<CursorType, Group>(
       scrollController: scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       physics: physics,
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
-        itemBuilder: (context, item, index) => GroupCard(
-          group: item,
-          onTap: onTap != null ? () => onTap?.call(item.id) : null,
+        itemBuilder: (context, item, index) => Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: GroupCard(
+            group: item,
+            onTap: onTap != null ? () => onTap?.call(item.id) : null,
+          ),
         ),
       ),
     );

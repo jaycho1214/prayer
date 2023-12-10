@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/group/group_model.dart';
-import 'package:prayer/presentation/widgets/chip/user_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/user/user_image.dart';
 
 class GroupCard extends HookConsumerWidget {
   const GroupCard({
@@ -48,37 +48,62 @@ class GroupCard extends HookConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Row(
-                  children: [
-                    UserChip(
-                      uid: group.adminId,
-                      profile: group.admin?.profile,
-                      name: group.admin?.name,
-                      username: group.admin?.username,
-                    ),
-                    Spacer(),
-                    Text(
-                      S.of(context).membersCount(group.membersCount),
-                      style: TextStyle(
-                        color: MyTheme.placeholderText,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              group.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 21,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.userGroupSimple,
+                                size: 12,
+                                color: MyTheme.placeholderText,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                '${group.membersCount}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: MyTheme.placeholderText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    group.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 20,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                      if ((group.description ?? '') != '')
+                        Text(
+                          group.description ?? '',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: MyTheme.placeholderText,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
                   ),
+                ),
+                const SizedBox(width: 10),
+                UserProfileImage(
+                  profile: group.admin?.profile,
+                  size: 35,
                 ),
               ],
             ),
