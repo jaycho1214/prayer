@@ -347,7 +347,9 @@ class PrayerFormScreen extends HookConsumerWidget {
                                   context,
                                   initialIds: verses.value,
                                 );
-                                verses.value = newVerses ?? [];
+                                if (newVerses != null) {
+                                  verses.value = newVerses;
+                                }
                                 focusNode.requestFocus();
                               },
                               child: FaIcon(
