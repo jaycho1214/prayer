@@ -60,8 +60,8 @@ class PrayButton extends HookConsumerWidget {
         []);
 
     return Container(
-      height: 65,
-      width: 160,
+      height: 60,
+      width: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
         color: MyTheme.surfaceDim,
@@ -74,11 +74,13 @@ class PrayButton extends HookConsumerWidget {
                 onTap: onTap(true),
                 child: Container(
                   alignment: Alignment.center,
-                  height: 65,
-                  width: 100,
+                  height: 60,
+                  width: 85,
                   child: FaIcon(
-                    FontAwesomeIcons.handHoldingHeart,
-                    color: MyTheme.onPrimary,
+                    hasPrayed
+                        ? FontAwesomeIcons.solidFireFlameCurved
+                        : FontAwesomeIcons.fireFlameCurved,
+                    color: hasPrayed ? Colors.red : Colors.white,
                   ),
                 ),
               ),
