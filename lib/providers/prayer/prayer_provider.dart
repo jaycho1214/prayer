@@ -26,6 +26,7 @@ class PrayerNotifier extends _$PrayerNotifier {
 
   void prayForUser({
     String? value,
+    void Function()? onPrayed,
     void Function()? onError,
     void Function()? onNeedWait,
   }) async {
@@ -44,6 +45,7 @@ class PrayerNotifier extends _$PrayerNotifier {
           state = AsyncValue.data(backup);
           onNeedWait?.call();
         }
+        onPrayed?.call();
       } catch (error, stackTrace) {
         Sentry.captureException(error, stackTrace: stackTrace);
         talker.error("Error while praying for the post", error);
