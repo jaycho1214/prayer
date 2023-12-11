@@ -68,7 +68,7 @@ class PrayerRepository {
     DateTime? endedAt,
     DateTime? reminderTime,
     String? reminderText,
-    String? reminderDays,
+    List<int>? reminderDays,
     void Function(double progress)? onSendProgress,
   }) async {
     await dio.post('/v1/prayers/corporate', data: {
