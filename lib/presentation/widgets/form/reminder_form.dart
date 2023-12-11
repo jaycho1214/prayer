@@ -79,10 +79,11 @@ class ReminderDatePickerForm extends HookWidget {
       builder: (FormFieldState<DateTime?> reminderTimeField) {
         return FormBuilderField(
           name: 'reminder',
-          validator: (value) {
+          validator: (String? value) {
             if (formKey.currentState?.instantValue['reminderActivated'] ==
                     true &&
-                List<int>.from(jsonDecode(value ?? '[]')).length == 0) {
+                (value == null ||
+                    List<int>.from(jsonDecode(value)).length == 0)) {
               return 'Please select a day to send reminders';
             }
             return null;
