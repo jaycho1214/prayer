@@ -42,51 +42,25 @@ class PrayerCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (prayer.value?.group != null) ...[
-                Row(
-                  children: [
-                    ShrinkingButton(
-                      onTap: () {
-                        context.push('/groups/${prayer.value?.groupId}');
-                      },
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 10),
-                          FaIcon(
-                            FontAwesomeIcons.userGroupSimple,
-                            size: 13,
-                            color: MyTheme.placeholderText,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            prayer.value?.group?.name ?? '',
-                            style: TextStyle(
-                              color: MyTheme.placeholderText,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (prayer.value?.corporate != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    children: [
                       ShrinkingButton(
                         onTap: () {
-                          context.push(
-                              '/prayers/corporate/${prayer.value?.corporateId}');
+                          context.push('/groups/${prayer.value?.groupId}');
                         },
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              child: FaIcon(
-                                FontAwesomeIcons.solidChevronRight,
-                                size: 10,
-                                color: MyTheme.placeholderText,
-                              ),
+                            const SizedBox(width: 10),
+                            FaIcon(
+                              FontAwesomeIcons.userGroupSimple,
+                              size: 13,
+                              color: MyTheme.placeholderText,
                             ),
+                            const SizedBox(width: 5),
                             Text(
-                              prayer.value?.corporate?.title ?? '',
+                              prayer.value?.group?.name ?? '',
                               style: TextStyle(
                                 color: MyTheme.placeholderText,
                                 fontWeight: FontWeight.bold,
@@ -95,7 +69,36 @@ class PrayerCard extends ConsumerWidget {
                           ],
                         ),
                       ),
-                  ],
+                      if (prayer.value?.corporate != null)
+                        ShrinkingButton(
+                          onTap: () {
+                            context.push(
+                                '/prayers/corporate/${prayer.value?.corporateId}');
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                child: FaIcon(
+                                  FontAwesomeIcons.solidChevronRight,
+                                  size: 10,
+                                  color: MyTheme.placeholderText,
+                                ),
+                              ),
+                              Text(
+                                prayer.value?.corporate?.title ?? '',
+                                style: TextStyle(
+                                  color: MyTheme.placeholderText,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
               ],
