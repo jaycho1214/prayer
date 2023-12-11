@@ -1670,10 +1670,10 @@ class S {
     );
   }
 
-  /// `{username} has prayed`
+  /// `{username} prayed`
   String someoneHasPrayed(Object username) {
     return Intl.message(
-      '$username has prayed',
+      '$username prayed',
       name: 'someoneHasPrayed',
       desc: '',
       args: [username],

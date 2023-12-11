@@ -37,7 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m6(url) =>
       "Share your prayer requests, express your prayers, and offer your prayers for others on Prayer today! \n\n ${url}";
 
-  static String m7(username) => "${username} has prayed";
+  static String m7(username) => "${username} prayed";
 
   static String m8(membershipType) => "This group is ${membershipType}";
 
