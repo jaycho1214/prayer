@@ -79,6 +79,14 @@ class ReminderDatePickerForm extends HookWidget {
       builder: (FormFieldState<DateTime?> reminderTimeField) {
         return FormBuilderField(
           name: 'reminder',
+          validator: (value) {
+            if (formKey.currentState?.instantValue['reminderActivated'] ==
+                    true &&
+                List<int>.from(jsonDecode(value ?? '[]')).length == 0) {
+              return 'Please select a day to send reminders';
+            }
+            return null;
+          },
           builder: (FormFieldState<String?> reminderField) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,19 +108,14 @@ class ReminderDatePickerForm extends HookWidget {
                                 reminderActivatedField.didChange(value);
                                 if (value) {
                                   dayAnimController.forward();
-                                  if (days.value.length > 0) {
-                                    if (time.value == null) {
-                                      reminderTimeField.didChange(
-                                          DateTime.now().toLocal().copyWith(
-                                                hour: 9,
-                                                minute: 0,
-                                              ));
-                                      time.value =
-                                          TimeOfDay(hour: 9, minute: 0);
-                                    }
+                                  if (time.value == null) {
+                                    reminderTimeField.didChange(
+                                        DateTime.now().toLocal().copyWith(
+                                              hour: 9,
+                                              minute: 0,
+                                            ));
+                                    time.value = TimeOfDay(hour: 9, minute: 0);
                                   }
-                                } else {
-                                  dayAnimController.animateBack(0.0);
                                 }
                               });
                         }),
