@@ -116,7 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Join us in nurturing a community of faith and support. Our app offers a unique space for users to share and uplift through prayers, free from ads and without selling any data. We rely entirely on donations to keep this serene and safe platform running. Every contribution, big or small, makes a meaningful difference. Thank you for supporting this journey of fellowship and prayer."),
         "descriptionYourPrayerHasBeenReceived":
             MessageLookupByLibrary.simpleMessage(
-                "Let\'\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!"),
+                "Let\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!"),
         "donatePrayer": MessageLookupByLibrary.simpleMessage("Donate Now"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
