@@ -52,8 +52,9 @@ class CorporatePrayerForm extends HookWidget {
           groupId: groupId,
           title: form['title'],
           description: form['description'],
-          reminderDays:
-              form['reminderActivated'] == true ? form['reminder'] : null,
+          reminderDays: form['reminderActivated'] == true
+              ? List<int>.from(jsonDecode(form['reminder']))
+              : null,
           reminderText:
               form['reminderActivated'] == true ? form['reminderText'] : null,
           reminderTime:
