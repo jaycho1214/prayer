@@ -243,9 +243,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "prayWithName": MessageLookupByLibrary.simpleMessage("공개적으로 기도하시겠습니까?"),
         "prayWithOthers": MessageLookupByLibrary.simpleMessage("다른 사람과 기도해보세요"),
         "prayWithWordFormBible":
-            MessageLookupByLibrary.simpleMessage("- 야고보서 5:16 (개역개정)"),
+            MessageLookupByLibrary.simpleMessage("- 마태복음 22:39 (개역개정)"),
         "prayWithWordFormBibleVerse": MessageLookupByLibrary.simpleMessage(
-            "그러므로 너희 죄를 서로 고백하며 병이 낫기를 위하여 서로 기도하라 의인의 간구는 역사하는 힘이 큼이니라"),
+            "둘째도 그와 같으니 네 이웃을 네 자신 같이 사랑하라 하셨으니"),
         "prayWithWords": MessageLookupByLibrary.simpleMessage("목소리로 기도하기"),
         "prayer": MessageLookupByLibrary.simpleMessage("기도문"),
         "prayers": MessageLookupByLibrary.simpleMessage("기도문"),

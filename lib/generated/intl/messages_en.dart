@@ -256,9 +256,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "prayWithOthers":
             MessageLookupByLibrary.simpleMessage("Pray with Others"),
         "prayWithWordFormBible":
-            MessageLookupByLibrary.simpleMessage("- James 5:16 (NIV)"),
+            MessageLookupByLibrary.simpleMessage("- Matthew 22:39 (NIV)"),
         "prayWithWordFormBibleVerse": MessageLookupByLibrary.simpleMessage(
-            "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective."),
+            "And the second is like it: ‘Love your neighbor as yourself.’"),
         "prayWithWords":
             MessageLookupByLibrary.simpleMessage("Pray with Words"),
         "prayer": MessageLookupByLibrary.simpleMessage("Prayer"),
