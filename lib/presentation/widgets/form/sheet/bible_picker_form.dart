@@ -204,7 +204,7 @@ class BiblePicker {
                               margin: const EdgeInsets.all(2),
                               decoration: BoxDecoration(
                                 color: MyTheme.primary,
-                                borderRadius: BorderRadius.circular(10),
+                                shape: BoxShape.circle,
                               ),
                               alignment: Alignment.center,
                               child: Text("${verseIndex + 1}"),
