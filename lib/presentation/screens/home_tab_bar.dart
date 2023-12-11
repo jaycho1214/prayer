@@ -130,7 +130,7 @@ class HomeTabBar extends HookWidget {
         ],
       ),
       bottomNavBar: PlatformNavBar(
-        height: 60,
+        height: 50,
         material3: (context, platform) => MaterialNavigationBarData(
           surfaceTintColor: MyTheme.surface,
           indicatorColor: MyTheme.surface,
