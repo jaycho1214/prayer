@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,18 +10,15 @@ import 'package:prayer/presentation/widgets/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/prayer/prayer_provider.dart';
-import 'package:prayer/utils/formatter.dart';
 
-class PrayButton extends ConsumerWidget {
+class PrayButton extends HookConsumerWidget {
   const PrayButton({
     super.key,
     required this.prayerId,
-    this.silent = false,
     this.onPrayed,
   });
 
   final String prayerId;
-  final bool silent;
   final void Function()? onPrayed;
 
   Widget buildIndicator(BuildContext context, bool hasPrayed) {
@@ -38,69 +36,72 @@ class PrayButton extends ConsumerWidget {
     final prayerNotifier = ref.watch(prayerNotifierProvider(prayerId).notifier);
     final hasPrayed = prayer.value?.hasPrayed != null;
 
-    return ShrinkingButton(
-      onTap: () async {
-        String? value;
-        if (!silent) {
-          value = await PrayWithWordForm.show(context, prayerId: prayerId);
-          if (value == null) {
-            return;
-          }
-        }
-        prayerNotifier.prayForUser(
-            value: value,
-            onPrayed: onPrayed,
-            onError: () {
-              GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
+    final onTap = useCallback(
+        (bool silent) => () async {
+              String? value;
+              if (!silent) {
+                value =
+                    await PrayWithWordForm.show(context, prayerId: prayerId);
+                if (value == null) {
+                  return;
+                }
+              }
+              prayerNotifier.prayForUser(
+                  value: value,
+                  onPrayed: onPrayed,
+                  onError: () {
+                    GlobalSnackBar.show(context,
+                        message: S.of(context).errorUnknown);
+                  },
+                  onNeedWait: () {
+                    TooManyPraySheet.show(context);
+                  });
             },
-            onNeedWait: () {
-              TooManyPraySheet.show(context);
-            });
-      },
-      child: Container(
-        padding:
-            EdgeInsets.symmetric(horizontal: 25, vertical: silent ? 18 : 15),
-        decoration: BoxDecoration(
-          color: hasPrayed ? MyTheme.onPrimary : MyTheme.surfaceDim,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: prayer.isLoading
-            ? buildIndicator(context, hasPrayed)
-            : silent
-                ? FaIcon(
-                    FontAwesomeIcons.lightHandsPraying,
-                    color: hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
-                    size: 15,
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.personPraying,
-                        color: hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
-                        size: 15,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        S.of(context).prayWithWords,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color:
-                              hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        Formatter.formatNumber(prayer.value?.praysCount ?? 0),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color:
-                              hasPrayed ? MyTheme.surface : MyTheme.onPrimary,
-                        ),
-                      ),
-                    ],
+        []);
+
+    return Container(
+      height: 65,
+      width: 160,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: MyTheme.surfaceDim,
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              ShrinkingButton(
+                onTap: onTap(true),
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 65,
+                  width: 100,
+                  child: FaIcon(
+                    FontAwesomeIcons.handHoldingHeart,
+                    color: MyTheme.onPrimary,
                   ),
+                ),
+              ),
+              ShrinkingButton(
+                onTap: onTap(false),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: MyTheme.onPrimary,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  width: 50,
+                  height: 50,
+                  child: FaIcon(
+                    FontAwesomeIcons.messageHeart,
+                    size: 20,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -23,6 +24,7 @@ import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
 import 'package:prayer/providers/prayer/prayer_provider.dart';
 import 'package:prayer/repo/prayer_repository.dart';
+import 'package:prayer/utils/formatter.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -183,27 +185,63 @@ class PrayerScreen extends HookConsumerWidget {
                                 ),
                               ),
                               const SizedBox(height: 10),
+                              if (prayer.value?.verses != null &&
+                                  prayer.value!.verses.length > 0)
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child: BibleCardList(
+                                      verses: prayer.value!.verses),
+                                ),
+                              if (prayer.value?.contents != null &&
+                                  prayer.value!.contents.length > 0)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: ImageList(
+                                      images: prayer.value?.contents
+                                              .map((e) => e.path)
+                                              .toList() ??
+                                          []),
+                                ),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if (prayer.value?.createdAt != null)
+                                    Text(
+                                      Jiffy.parseFromDateTime(
+                                              prayer.value!.createdAt!)
+                                          .yMMMdjm,
+                                      style: TextStyle(
+                                        color: MyTheme.placeholderText,
+                                      ),
+                                    ),
+                                  Spacer(),
+                                  RichText(
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text:
+                                            '${Formatter.formatNumber(prayer.value?.praysCount ?? 0)} ',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: S.of(context).prays,
+                                        style: TextStyle(
+                                          color: MyTheme.placeholderText,
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
-                        if (prayer.value?.verses != null &&
-                            prayer.value!.verses.length > 0)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            child: BibleCardList(verses: prayer.value!.verses),
-                          ),
-                        if (prayer.value?.contents != null &&
-                            prayer.value!.contents.length > 0)
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: ImageList(
-                                images: prayer.value?.contents
-                                        .map((e) => e.path)
-                                        .toList() ??
-                                    []),
-                          ),
+                        const Divider(color: MyTheme.disabled),
                       ],
                     ),
                   ),
@@ -218,26 +256,13 @@ class PrayerScreen extends HookConsumerWidget {
             ),
           ),
           Positioned(
-            left: 0,
             right: 0,
             bottom: MediaQuery.of(context).padding.bottom,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PrayButton(
-                      prayerId: prayerId,
-                      onPrayed: () => pagingController.refresh(),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  PrayButton(
-                    prayerId: prayerId,
-                    silent: true,
-                    onPrayed: () => pagingController.refresh(),
-                  ),
-                ],
+              child: PrayButton(
+                prayerId: prayerId,
+                onPrayed: () => pagingController.refresh(),
               ),
             ),
           ),
@@ -287,7 +312,7 @@ class PraysScreen extends HookConsumerWidget {
     return PagedListView<int?, PrayerPray>(
       physics: const NeverScrollableScrollPhysics(),
       pagingController: pagingController,
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 200),
+      padding: const EdgeInsets.only(bottom: 200),
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
         itemBuilder: (context, item, index) => PrayCard(
