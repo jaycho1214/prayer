@@ -90,6 +90,7 @@ dev_dependencies:
   json_serializable: ^6.7.1
   riverpod_generator: ^2.3.8
   riverpod_lint: ^2.3.6
+  sentry_dart_plugin: ^1.6.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -133,5 +134,11 @@ flutter_native_splash:
   color: "#000000"
   android_12:
     color: "#000000"
+
 flutter_intl:
   enabled: true
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  upload_sources: true
