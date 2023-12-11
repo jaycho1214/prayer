@@ -51,7 +51,7 @@ class PrayButton extends ConsumerWidget {
             value: value,
             onPrayed: onPrayed,
             onError: () {
-              GlobalSnackBar.show(context, message: "Failed to ");
+              GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
             },
             onNeedWait: () {
               TooManyPraySheet.show(context);
