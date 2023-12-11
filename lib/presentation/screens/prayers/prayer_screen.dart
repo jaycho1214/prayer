@@ -42,10 +42,6 @@ class PrayerScreen extends HookConsumerWidget {
     final pagingController =
         usePagingController<int?, PrayerPray>(firstPageKey: null);
 
-    ref.listen(prayerNotifierProvider(prayerId), (_, next) {
-      pagingController.refresh();
-    });
-
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
@@ -228,12 +224,14 @@ class PrayerScreen extends HookConsumerWidget {
                   Expanded(
                     child: PrayButton(
                       prayerId: prayerId,
+                      onPrayed: () => pagingController.refresh(),
                     ),
                   ),
                   const SizedBox(width: 20),
                   PrayButton(
                     prayerId: prayerId,
                     silent: true,
+                    onPrayed: () => pagingController.refresh(),
                   ),
                 ],
               ),

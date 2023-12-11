@@ -16,10 +16,12 @@ class PrayButton extends ConsumerWidget {
     super.key,
     required this.prayerId,
     this.silent = false,
+    this.onPrayed,
   });
 
   final String prayerId;
   final bool silent;
+  final void Function()? onPrayed;
 
   Widget buildIndicator(BuildContext context, bool hasPrayed) {
     return Center(
@@ -47,6 +49,7 @@ class PrayButton extends ConsumerWidget {
         }
         prayerNotifier.prayForUser(
             value: value,
+            onPrayed: onPrayed,
             onError: () {
               GlobalSnackBar.show(context, message: "Failed to ");
             },
