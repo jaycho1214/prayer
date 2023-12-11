@@ -188,7 +188,11 @@ class PrayerScreen extends HookConsumerWidget {
                         ),
                         if (prayer.value?.verses != null &&
                             prayer.value!.verses.length > 0)
-                          BibleCardList(verses: prayer.value!.verses),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 10.0),
+                            child: BibleCardList(verses: prayer.value!.verses),
+                          ),
                         if (prayer.value?.contents != null &&
                             prayer.value!.contents.length > 0)
                           Padding(
