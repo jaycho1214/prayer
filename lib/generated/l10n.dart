@@ -500,10 +500,10 @@ class S {
     );
   }
 
-  /// `Let''s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!`
+  /// `Let's give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!`
   String get descriptionYourPrayerHasBeenReceived {
     return Intl.message(
-      'Let\'\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!',
+      'Let\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!',
       name: 'descriptionYourPrayerHasBeenReceived',
       desc: '',
       args: [],
