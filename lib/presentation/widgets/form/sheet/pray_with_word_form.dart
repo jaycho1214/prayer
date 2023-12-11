@@ -72,7 +72,7 @@ class PrayWithWordForm extends HookWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   S.of(context).prayWithWordFormBibleVerse,
