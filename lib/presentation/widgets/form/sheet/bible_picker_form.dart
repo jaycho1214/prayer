@@ -110,6 +110,84 @@ class StickyActionBar extends ConsumerWidget {
   }
 }
 
+class BibleBookTile extends HookConsumerWidget {
+  const BibleBookTile({
+    super.key,
+    required this.expanded,
+    this.onExpanded,
+    required this.title,
+    required this.chapterCount,
+    this.onTap,
+    this.last = false,
+  });
+
+  final bool expanded;
+  final void Function()? onExpanded;
+  final String title;
+  final int chapterCount;
+  final void Function(int verse)? onTap;
+  final bool last;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = useExpansionTileController();
+    final mounted = useIsMounted();
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        if (!expanded && mounted()) {
+          controller.collapse();
+        }
+      });
+      return () => null;
+    }, [expanded]);
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: last ? 200 : 0),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+            listTileTheme: ListTileTheme.of(context).copyWith(dense: true)),
+        child: ExpansionTile(
+          initiallyExpanded: expanded,
+          childrenPadding: const EdgeInsets.only(bottom: 10),
+          onExpansionChanged: (value) {
+            if (value) {
+              onExpanded?.call();
+            }
+          },
+          controller: controller,
+          title: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          children: [
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
+              itemCount: chapterCount,
+              itemBuilder: (context, verseIndex) => ShrinkingButton(
+                onTap: () {
+                  onTap?.call(verseIndex);
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: MyTheme.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text("${verseIndex + 1}"),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class BiblePicker {
   static WoltModalSheetPage bookPage(
     BuildContext modalSheetContext, {
@@ -142,7 +220,7 @@ class BiblePicker {
       ),
       sliverList: HookConsumer(
         builder: (context, ref, _) {
-          final expanded = useState(-1);
+          final expanded = useValueListenable(bookNotifier);
           useEffect(() {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               ref.read(biblePickerProvider.notifier).set(initialIds ?? []);
@@ -151,70 +229,22 @@ class BiblePicker {
           }, []);
           return SliverList.builder(
             itemCount: bible_books.length,
-            itemBuilder: (context, bookIndex) => HookBuilder(
-              builder: (context) {
-                final controller = useExpansionTileController();
-                useEffect(() {
-                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    if (expanded.value != bookIndex && controller.isExpanded) {
-                      controller.collapse();
-                    }
-                  });
-                  return () => null;
-                }, [bookIndex, expanded.value]);
-                return Padding(
-                  padding: EdgeInsets.only(
-                      bottom: bible_books.length == bookIndex + 1 ? 200 : 0),
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        listTileTheme:
-                            ListTileTheme.of(context).copyWith(dense: true)),
-                    child: ExpansionTile(
-                      childrenPadding: const EdgeInsets.only(bottom: 10),
-                      onExpansionChanged: (value) {
-                        if (value) {
-                          expanded.value = bookIndex;
-                        }
-                      },
-                      controller: controller,
-                      title: Text(
-                        toLocaleBibleBook(
-                                context, bible_books[bookIndex]['key']) ??
-                            '',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
-                      ),
-                      children: [
-                        GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 7),
-                          itemCount: bible_books[bookIndex]['page'] as int,
-                          itemBuilder: (context, verseIndex) => ShrinkingButton(
-                            onTap: () {
-                              ref.read(biblePickerProvider.notifier).setPage(
-                                    bible_books[bookIndex]['key'] as BibleBook,
-                                    verseIndex + 1,
-                                  );
-                              pageNotifier.value = 1;
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                color: MyTheme.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              alignment: Alignment.center,
-                              child: Text("${verseIndex + 1}"),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+            itemBuilder: (context, bookIndex) => BibleBookTile(
+              expanded: expanded == bookIndex,
+              title:
+                  toLocaleBibleBook(context, bible_books[bookIndex]['key']) ??
+                      '',
+              chapterCount: bible_books[bookIndex]['page'] as int,
+              onExpanded: () {
+                bookNotifier.value = bookIndex;
+              },
+              last: bible_books.length == bookIndex + 1,
+              onTap: (verseIndex) {
+                ref.read(biblePickerProvider.notifier).setPage(
+                      bible_books[bookIndex]['key'] as BibleBook,
+                      verseIndex + 1,
+                    );
+                pageNotifier.value = 1;
               },
             ),
           );
@@ -401,10 +431,12 @@ class BiblePicker {
   }
 
   static final pageNotifier = ValueNotifier<int>(0);
+  static final bookNotifier = ValueNotifier<int>(-1);
 
   static Future<List<BibleVerse>?> show(BuildContext context,
       {int maxLength = 5, List<BibleVerse>? initialIds}) {
     pageNotifier.value = 0;
+    bookNotifier.value = 0;
     return WoltModalSheet.show<List<BibleVerse>>(
       pageIndexNotifier: pageNotifier,
       context: context,
