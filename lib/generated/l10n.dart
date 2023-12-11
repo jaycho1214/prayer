@@ -1360,20 +1360,20 @@ class S {
     );
   }
 
-  /// `- James 5:16 (NIV)`
+  /// `- Matthew 22:39 (NIV)`
   String get prayWithWordFormBible {
     return Intl.message(
-      '- James 5:16 (NIV)',
+      '- Matthew 22:39 (NIV)',
       name: 'prayWithWordFormBible',
       desc: '',
       args: [],
     );
   }
 
-  /// `Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.`
+  /// `And the second is like it: ‘Love your neighbor as yourself.’`
   String get prayWithWordFormBibleVerse {
     return Intl.message(
-      'Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.',
+      'And the second is like it: ‘Love your neighbor as yourself.’',
       name: 'prayWithWordFormBibleVerse',
       desc: '',
       args: [],
