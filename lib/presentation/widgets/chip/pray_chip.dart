@@ -27,7 +27,7 @@ class PrayChip extends ConsumerWidget {
         });
       },
       loading: prayer.isLoading,
-      icon: FontAwesomeIcons.lightHandsPraying,
+      icon: FontAwesomeIcons.handHoldingHeart,
       inverted: prayer.value?.hasPrayed != null,
       value: prayer.value?.praysCount ?? 0,
     );
