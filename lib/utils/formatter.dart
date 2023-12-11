@@ -26,9 +26,12 @@ class Formatter {
     } else if (number < 1000000) {
       double result = number / 1000;
       return result.toStringAsFixed(1) + 'k';
-    } else {
+    } else if (number < 1000000000) {
       double result = number / 1000000;
       return result.toStringAsFixed(1) + 'M';
+    } else {
+      double result = number / 1000000000;
+      return result.toStringAsFixed(1) + 'B';
     }
   }
 }
