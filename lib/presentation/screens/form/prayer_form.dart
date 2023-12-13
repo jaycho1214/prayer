@@ -1,4 +1,3 @@
-import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,13 +6,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/presentation/widgets/form/sheet/bible_picker_Form.dart';
-import 'package:prayer/presentation/widgets/form/sheet/confirm_slim_menu_form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/image_picker_form.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
@@ -21,7 +18,7 @@ import 'package:prayer/presentation/widgets/form/corporate_prayer_Form.dart';
 import 'package:prayer/presentation/widgets/form/prayer_group_form.dart';
 import 'package:prayer/presentation/widgets/form/sheet/confirm_pray_with_name.dart';
 import 'package:prayer/presentation/widgets/form/sheet/prayer_visibility_form.dart';
-import 'package:prayer/presentation/widgets/page_indicator.dart';
+import 'package:prayer/presentation/widgets/form/verses_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
@@ -51,7 +48,6 @@ class PrayerFormScreen extends HookConsumerWidget {
     final media = useState<List<AssetEntity>>([]);
     final focusNode = useFocusNode();
     final verses = useState<List<BibleVerse>>([]);
-    final pageController = usePageController();
     final mediaImages = useFuture(useMemoized(
         () => Future.wait(media.value
             .map((e) => e.thumbnailDataWithSize(ThumbnailSize.square(300)))),
@@ -59,35 +55,38 @@ class PrayerFormScreen extends HookConsumerWidget {
 
     final submit = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
-        loading.value = true;
-        final form = formKey.currentState!.value;
-        if (!anon.value) {
-          final resp = await ConfirmPrayWithNameForm.show(context);
-          if (resp != true) {
-            loading.value = false;
-            focusNode.requestFocus();
-            return;
+        try {
+          loading.value = true;
+          final form = formKey.currentState!.value;
+          if (!anon.value) {
+            final resp = await ConfirmPrayWithNameForm.show(context);
+            if (resp != true) {
+              loading.value = false;
+              focusNode.requestFocus();
+              return;
+            }
           }
-        }
-        final files = await Future.wait(media.value.map((e) => e.file));
-        GetIt.I<PrayerRepository>()
-            .createPrayer(
-          value: form['value'],
-          groupId: form['groupId'],
-          corporateId: form['corporateId'],
-          anon: anon.value,
-          media: files.map((file) => file?.path).whereType<String>().toList(),
-          verses: verses.value.map((e) => e.verseId!).toList(),
-        )
-            .then((value) {
+          print(form);
+          final files = await Future.wait(media.value.map((e) => e.file));
+          final value = await GetIt.I<PrayerRepository>().createPrayer(
+            value: form['value'],
+            groupId: form['groupId'],
+            corporateId: form['corporateId'],
+            anon: anon.value,
+            media: files.map((file) => file?.path).whereType<String>().toList(),
+            verses: form['verses'] == null
+                ? null
+                : List<int>.from(
+                    form['verses']!.map((e) => e.verseId!).toList()),
+          );
           talker.good('Prayer posted: $value');
           Navigator.of(context).pop(true);
-        }).catchError((e) {
-          talker.error('Failed to post a prayer: $e', e);
+        } catch (err) {
+          talker.error('Failed to post a prayer', err);
           GlobalSnackBar.show(context, message: S.of(context).errorPostPrayer);
-        }).whenComplete(() {
+        } finally {
           loading.value = false;
-        });
+        }
       }
     }, []);
 
@@ -184,79 +183,9 @@ class PrayerFormScreen extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                  if (verses.value.length > 0)
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(40, 10, 10, 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: MyTheme.primary,
-                      ),
-                      child: ShrinkingButton(
-                        onTap: () async {
-                          final resp = await ConfirmSlimMenuForm.show(
-                            context,
-                            title: S.of(context).delete,
-                            icon: FontAwesomeIcons.trash,
-                          );
-                          if (resp == true) {
-                            verses.value = [];
-                          }
-                          focusNode.requestFocus();
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
-                              child: ExpandablePageView.builder(
-                                controller: pageController,
-                                itemCount: verses.value.length,
-                                itemBuilder: (context, index) => Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              '${toLocaleBibleBook(context, verses.value[index].book)} ${verses.value[index].chapter}:${verses.value[index].verse}',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                          if (verses.value[index].translation
-                                                  ?.abbreviation !=
-                                              null)
-                                            Text(
-                                              verses.value[index].translation!
-                                                  .abbreviation,
-                                            ),
-                                        ],
-                                      ),
-                                      Text(verses.value[index].value ?? ''),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: PageIndicator(
-                                  itemCount: verses.value.length,
-                                  controller: pageController,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  VersesForm(
+                    onChange: () => focusNode.requestFocus(),
+                  ),
                   SizedBox(
                     height: media.value.length > 0 ? 400 : 0,
                     child: ListView.builder(
@@ -347,10 +276,11 @@ class PrayerFormScreen extends HookConsumerWidget {
                                   context,
                                   initialIds: verses.value,
                                 );
-                                if (newVerses != null) {
-                                  verses.value = newVerses;
-                                }
                                 focusNode.requestFocus();
+                                if (newVerses != null) {
+                                  formKey.currentState?.fields['verses']
+                                      ?.didChange([...newVerses]);
+                                }
                               },
                               child: FaIcon(
                                 FontAwesomeIcons.solidBook,
