@@ -133,6 +133,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Error while checking your username"),
         "errorChooseUserToInvite": MessageLookupByLibrary.simpleMessage(
             "Please choose a user to invite"),
+        "errorConnection":
+            MessageLookupByLibrary.simpleMessage("Connection Error"),
+        "errorConnectionDescription": MessageLookupByLibrary.simpleMessage(
+            "We\'re experiencing a temporary issue connecting you to our prayer community. Please retry shortly. May your faith remain strong during this brief interruption."),
         "errorCorporatePrayerHasSpecialCharacters":
             MessageLookupByLibrary.simpleMessage(
                 "Name must not include the \'#\' or the \'@\' symbol"),
@@ -270,6 +274,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "promote": MessageLookupByLibrary.simpleMessage("Promote"),
         "ratePrayer": MessageLookupByLibrary.simpleMessage("Rate Prayer"),
         "readmore": MessageLookupByLibrary.simpleMessage("Read More"),
+        "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "reminder": MessageLookupByLibrary.simpleMessage("Reminder"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("Remove current photo"),

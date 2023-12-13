@@ -610,6 +610,26 @@ class S {
     );
   }
 
+  /// `Connection Error`
+  String get errorConnection {
+    return Intl.message(
+      'Connection Error',
+      name: 'errorConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're experiencing a temporary issue connecting you to our prayer community. Please retry shortly. May your faith remain strong during this brief interruption.`
+  String get errorConnectionDescription {
+    return Intl.message(
+      'We\'re experiencing a temporary issue connecting you to our prayer community. Please retry shortly. May your faith remain strong during this brief interruption.',
+      name: 'errorConnectionDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Name must not include the '#' or the '@' symbol`
   String get errorCorporatePrayerHasSpecialCharacters {
     return Intl.message(
@@ -1475,6 +1495,16 @@ class S {
     return Intl.message(
       'Read More',
       name: 'readmore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get refresh {
+    return Intl.message(
+      'Refresh',
+      name: 'refresh',
       desc: '',
       args: [],
     );

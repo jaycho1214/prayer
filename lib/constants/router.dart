@@ -47,6 +47,9 @@ class AppRouter {
         if (authState.isLoading) {
           return null;
         }
+        if (authState.hasError) {
+          return '/';
+        }
         if (authState.value is AuthStateSignedIn) {
           return '/auth/signUp';
         } else if (authState.value is AuthStateSignedUp) {
