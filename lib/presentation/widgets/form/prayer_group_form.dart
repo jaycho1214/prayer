@@ -70,7 +70,9 @@ class PlayerGroupFormInner extends HookConsumerWidget {
       child: ShrinkingButton(
         onTap: () async {
           final groupId = await GroupPicker.show(context);
-          onChange?.call(groupId);
+          if (groupId != null) {
+            onChange?.call(groupId == '' ? null : groupId);
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(10),
