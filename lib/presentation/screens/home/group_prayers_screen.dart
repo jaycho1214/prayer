@@ -38,7 +38,7 @@ class GroupPrayersScreen extends HookWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: RefreshIndicator(
-        notificationPredicate: (notification) => notification.depth == 1,
+        notificationPredicate: (notification) => notification.depth == 0,
         onRefresh: () async {
           pagingController.refresh();
         },
