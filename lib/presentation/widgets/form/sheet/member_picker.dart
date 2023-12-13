@@ -114,7 +114,7 @@ class MemberPicker extends HookConsumerWidget {
     }, [fetchPage]);
 
     final usersPage = useCallback(
-        (BuildContext context) => WoltModalSheetPage.withCustomSliverList(
+        (BuildContext context) => SliverWoltModalSheetPage(
               backgroundColor: Colors.black,
               hasSabGradient: false,
               hasTopBarLayer: true,
@@ -136,32 +136,34 @@ class MemberPicker extends HookConsumerWidget {
                 ),
               ),
               forceMaxHeight: true,
-              sliverList: PagedSliverList<String?, GroupMember>(
-                pagingController: pagingController,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) => Padding(
-                    padding: EdgeInsets.only(
-                        bottom: index + 1 == pagingController.itemList?.length
-                            ? 200
-                            : 0),
-                    child: UserCard(
-                      uid: item.uid,
-                      name: item.name,
-                      username: item.username,
-                      profile: item.profile,
-                      onTap: () {
-                        ref.read(memberPickerProvider).update(item);
-                        pageIndex.value += 1;
-                      },
+              mainContentSlivers: [
+                PagedSliverList<String?, GroupMember>(
+                  pagingController: pagingController,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, item, index) => Padding(
+                      padding: EdgeInsets.only(
+                          bottom: index + 1 == pagingController.itemList?.length
+                              ? 200
+                              : 0),
+                      child: UserCard(
+                        uid: item.uid,
+                        name: item.name,
+                        username: item.username,
+                        profile: item.profile,
+                        onTap: () {
+                          ref.read(memberPickerProvider).update(item);
+                          pageIndex.value += 1;
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
         []);
 
     final confirmPage = useCallback(
-        (BuildContext) => WoltModalSheetPage.withSingleChild(
+        (BuildContext) => WoltModalSheetPage(
               backgroundColor: Colors.black,
               hasSabGradient: false,
               hasTopBarLayer: true,

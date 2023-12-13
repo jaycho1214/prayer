@@ -252,12 +252,12 @@ class InnerImagePicker extends HookConsumerWidget {
 }
 
 class PrimaryImagePicker {
-  static WoltModalSheetPage page(
+  static SliverWoltModalSheetPage page(
     BuildContext modalSheetContext, {
     int? maxLength,
     List<String>? initialIds,
   }) {
-    return WoltModalSheetPage.withCustomSliverList(
+    return SliverWoltModalSheetPage(
       topBarTitle: Text(
         S.of(modalSheetContext).pickImage,
         style: TextStyle(
@@ -298,10 +298,12 @@ class PrimaryImagePicker {
         ),
       ),
       forceMaxHeight: true,
-      sliverList: InnerImagePicker(
-        maxLength: maxLength,
-        initialIds: initialIds,
-      ),
+      mainContentSlivers: [
+        InnerImagePicker(
+          maxLength: maxLength,
+          initialIds: initialIds,
+        ),
+      ],
       isTopBarLayerAlwaysVisible: true,
     );
   }
