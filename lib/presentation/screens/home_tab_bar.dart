@@ -14,6 +14,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/presentation/screens/error_screen.dart';
 import 'package:prayer/presentation/screens/home/group_prayers_screen.dart';
 import 'package:prayer/presentation/screens/home/user_screen.dart';
 import 'package:prayer/presentation/screens/home_screen.dart';
@@ -23,7 +24,7 @@ import 'package:prayer/presentation/widgets/notification_bar.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
 
-class HomeTabBar extends HookWidget {
+class HomeTabBar extends HookConsumerWidget {
   const HomeTabBar({super.key});
 
   handleNotification(BuildContext context, RemoteMessage? message) {
@@ -44,9 +45,11 @@ class HomeTabBar extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     useAutomaticKeepAlive();
     final index = useState(0);
+    final authState = ref.watch(authNotifierProvider);
+    final authStateValue = ref.watch(authNotifierProvider).valueOrNull;
 
     useEffect(() {
       FirebaseMessaging.instance
@@ -99,36 +102,38 @@ class HomeTabBar extends HookWidget {
 
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
-      body: Stack(
-        children: [
-          IndexedStack(
-            index: index.value,
-            children: [
-              HomeScreen(),
-              GroupPrayersScreen(),
-              UserScreen(
-                uid: FirebaseAuth.instance.currentUser!.uid,
-                canPop: false,
-              ),
-            ],
-          ),
-          FAB(
-            onTap: () async {
-              if (index.value == 1) {
-                final groupId = await GroupPicker.show(context);
-                if (groupId != null) {
-                  context.push(Uri(
-                    path: '/form/prayer',
-                    queryParameters: {'groupId': groupId},
-                  ).toString());
-                }
-              } else {
-                context.push('/form/prayer');
-              }
-            },
-          ),
-        ],
-      ),
+      body: authState.hasError
+          ? ErrorScreen()
+          : Stack(
+              children: [
+                IndexedStack(
+                  index: index.value,
+                  children: [
+                    HomeScreen(),
+                    GroupPrayersScreen(),
+                    UserScreen(
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                      canPop: false,
+                    ),
+                  ],
+                ),
+                FAB(
+                  onTap: () async {
+                    if (index.value == 1) {
+                      final groupId = await GroupPicker.show(context);
+                      if (groupId != null) {
+                        context.push(Uri(
+                          path: '/form/prayer',
+                          queryParameters: {'groupId': groupId},
+                        ).toString());
+                      }
+                    } else {
+                      context.push('/form/prayer');
+                    }
+                  },
+                ),
+              ],
+            ),
       bottomNavBar: PlatformNavBar(
         height: 50,
         material3: (context, platform) => MaterialNavigationBarData(
@@ -165,31 +170,26 @@ class HomeTabBar extends HookWidget {
               )),
           BottomNavigationBarItem(
             label: '',
-            icon: Consumer(
-              builder: (context, ref, _) {
-                final state = ref.watch(authNotifierProvider).value;
-                return Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: index.value == 2
-                          ? MyTheme.onPrimary
-                          : MyTheme.disabled,
-                      width: index.value == 2 ? 1 : 0.5,
-                    ),
-                    shape: BoxShape.circle,
-                  ),
-                  padding: EdgeInsets.all(state is AuthStateSignedUp
-                      ? state.user.profile == null
-                          ? 10
-                          : 2
-                      : 2),
-                  child: UserTabButton(
-                    index: index.value,
-                    profile:
-                        state is AuthStateSignedUp ? state.user.profile : null,
-                  ),
-                );
-              },
+            icon: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color:
+                      index.value == 2 ? MyTheme.onPrimary : MyTheme.disabled,
+                  width: index.value == 2 ? 1 : 0.5,
+                ),
+                shape: BoxShape.circle,
+              ),
+              padding: EdgeInsets.all(authStateValue is AuthStateSignedUp
+                  ? authStateValue.user.profile == null
+                      ? 10
+                      : 2
+                  : 10),
+              child: UserTabButton(
+                index: index.value,
+                profile: authStateValue is AuthStateSignedUp
+                    ? authStateValue.user.profile
+                    : null,
+              ),
             ),
           ),
         ],

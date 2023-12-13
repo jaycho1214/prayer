@@ -128,6 +128,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("오류가 발생했습니다"),
         "errorChooseUserToInvite":
             MessageLookupByLibrary.simpleMessage("초대할 사용자를 선택해 주세요"),
+        "errorConnection": MessageLookupByLibrary.simpleMessage("연결 오류"),
+        "errorConnectionDescription": MessageLookupByLibrary.simpleMessage(
+            "우리 기도 커뮤니티에 연결하는 데 일시적인 문제가 발생했습니다. 잠시 후에 다시 시도해 주세요."),
         "errorCorporatePrayerHasSpecialCharacters":
             MessageLookupByLibrary.simpleMessage(
                 "이름에는 \'#\' 또는 \'@\' 기호를 포함할 수 없습니다"),
@@ -256,6 +259,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "promote": MessageLookupByLibrary.simpleMessage("임명"),
         "ratePrayer": MessageLookupByLibrary.simpleMessage("Prayer 리뷰 남기기"),
         "readmore": MessageLookupByLibrary.simpleMessage("더보기"),
+        "refresh": MessageLookupByLibrary.simpleMessage("새로고침"),
         "reminder": MessageLookupByLibrary.simpleMessage("알림"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("현재 사진 제거하기"),
