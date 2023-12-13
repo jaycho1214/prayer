@@ -63,7 +63,7 @@ dependencies:
   hooks_riverpod: ^2.4.8
   riverpod_annotation: ^2.3.2
   get_it: ^7.6.4
-  wolt_modal_sheet: ^0.1.4
+  wolt_modal_sheet: ^0.2.0
   shared_preferences: ^2.2.2
   synchronized: ^3.1.0
   flutter_localizations:

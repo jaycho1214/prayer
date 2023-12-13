@@ -166,7 +166,7 @@ class InviteUsersPicker extends HookConsumerWidget {
     }, [fetchPage]);
 
     final usersPage = useCallback(
-        (BuildContext context) => WoltModalSheetPage.withCustomSliverList(
+        (BuildContext context) => SliverWoltModalSheetPage(
               backgroundColor: Colors.black,
               hasSabGradient: false,
               hasTopBarLayer: true,
@@ -202,70 +202,72 @@ class InviteUsersPicker extends HookConsumerWidget {
                 ),
               ),
               forceMaxHeight: true,
-              sliverList: PagedSliverList<String?, PUser>(
-                pagingController: pagingController,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) => Padding(
-                    padding: EdgeInsets.only(
-                        bottom: index + 1 == pagingController.itemList?.length
-                            ? 200
-                            : 0),
-                    child: Consumer(
-                      builder: (context, ref, _) {
-                        final checked = ref
-                                .watch(inviteUsersPickerProvider)
-                                .users
-                                .indexWhere(
-                                    (element) => element.uid == item.uid) !=
-                            -1;
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: UserCard(
-                                uid: item.uid,
-                                name: item.name,
-                                username: item.username,
-                                profile: item.profile,
-                                onTap: () {
-                                  if (checked) {
-                                    ref
-                                        .read(inviteUsersPickerProvider)
-                                        .remove(item);
-                                  } else {
-                                    ref
-                                        .read(inviteUsersPickerProvider)
-                                        .add(item);
-                                  }
-                                },
-                              ),
-                            ),
-                            if (checked)
-                              Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.green,
-                                ),
-                                child: FaIcon(
-                                  FontAwesomeIcons.check,
-                                  size: 12,
-                                  color: MyTheme.onPrimary,
+              mainContentSlivers: [
+                PagedSliverList<String?, PUser>(
+                  pagingController: pagingController,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    itemBuilder: (context, item, index) => Padding(
+                      padding: EdgeInsets.only(
+                          bottom: index + 1 == pagingController.itemList?.length
+                              ? 200
+                              : 0),
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          final checked = ref
+                                  .watch(inviteUsersPickerProvider)
+                                  .users
+                                  .indexWhere(
+                                      (element) => element.uid == item.uid) !=
+                              -1;
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: UserCard(
+                                  uid: item.uid,
+                                  name: item.name,
+                                  username: item.username,
+                                  profile: item.profile,
+                                  onTap: () {
+                                    if (checked) {
+                                      ref
+                                          .read(inviteUsersPickerProvider)
+                                          .remove(item);
+                                    } else {
+                                      ref
+                                          .read(inviteUsersPickerProvider)
+                                          .add(item);
+                                    }
+                                  },
                                 ),
                               ),
-                          ],
-                        );
-                      },
+                              if (checked)
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.green,
+                                  ),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.check,
+                                    size: 12,
+                                    color: MyTheme.onPrimary,
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
         []);
 
     final confirmPage = useCallback(
-        (BuildContext context) => WoltModalSheetPage.withSingleChild(
+        (BuildContext context) => WoltModalSheetPage(
               backgroundColor: Colors.black,
               hasSabGradient: false,
               hasTopBarLayer: true,

@@ -189,12 +189,12 @@ class BibleBookTile extends HookConsumerWidget {
 }
 
 class BiblePicker {
-  static WoltModalSheetPage bookPage(
+  static SliverWoltModalSheetPage bookPage(
     BuildContext modalSheetContext, {
     required int maxLength,
     List<BibleVerse>? initialIds,
   }) {
-    return WoltModalSheetPage.withCustomSliverList(
+    return SliverWoltModalSheetPage(
       topBarTitle: Text(
         S.of(modalSheetContext).bible,
         style: TextStyle(
@@ -218,49 +218,51 @@ class BiblePicker {
           ),
         ),
       ),
-      sliverList: HookConsumer(
-        builder: (context, ref, _) {
-          final expanded = useValueListenable(bookNotifier);
-          useEffect(() {
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              ref.read(biblePickerProvider.notifier).set(initialIds ?? []);
-            });
-            return () => null;
-          }, []);
-          return SliverList.builder(
-            itemCount: bible_books.length,
-            itemBuilder: (context, bookIndex) => BibleBookTile(
-              expanded: expanded == bookIndex,
-              title:
-                  toLocaleBibleBook(context, bible_books[bookIndex]['key']) ??
-                      '',
-              chapterCount: bible_books[bookIndex]['page'] as int,
-              onExpanded: () {
-                bookNotifier.value = bookIndex;
-              },
-              last: bible_books.length == bookIndex + 1,
-              onTap: (verseIndex) {
-                ref.read(biblePickerProvider.notifier).setPage(
-                      bible_books[bookIndex]['key'] as BibleBook,
-                      verseIndex + 1,
-                    );
-                pageNotifier.value = 1;
-              },
-            ),
-          );
-        },
-      ),
+      mainContentSlivers: [
+        HookConsumer(
+          builder: (context, ref, _) {
+            final expanded = useValueListenable(bookNotifier);
+            useEffect(() {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                ref.read(biblePickerProvider.notifier).set(initialIds ?? []);
+              });
+              return () => null;
+            }, []);
+            return SliverList.builder(
+              itemCount: bible_books.length,
+              itemBuilder: (context, bookIndex) => BibleBookTile(
+                expanded: expanded == bookIndex,
+                title:
+                    toLocaleBibleBook(context, bible_books[bookIndex]['key']) ??
+                        '',
+                chapterCount: bible_books[bookIndex]['page'] as int,
+                onExpanded: () {
+                  bookNotifier.value = bookIndex;
+                },
+                last: bible_books.length == bookIndex + 1,
+                onTap: (verseIndex) {
+                  ref.read(biblePickerProvider.notifier).setPage(
+                        bible_books[bookIndex]['key'] as BibleBook,
+                        verseIndex + 1,
+                      );
+                  pageNotifier.value = 1;
+                },
+              ),
+            );
+          },
+        ),
+      ],
       isTopBarLayerAlwaysVisible: true,
       stickyActionBar: StickyActionBar(maxLength: maxLength),
     );
   }
 
-  static WoltModalSheetPage versePage(
+  static SliverWoltModalSheetPage versePage(
     BuildContext modalSheetContext, {
     required int maxLength,
     List<BibleVerse>? initialIds,
   }) {
-    return WoltModalSheetPage.withCustomSliverList(
+    return SliverWoltModalSheetPage(
       leadingNavBarWidget: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -329,102 +331,105 @@ class BiblePicker {
           ),
         ),
       ),
-      sliverList: HookConsumer(
-        builder: (context, ref, _) {
-          final book = ref.watch(biblePickerProvider).currentBook;
-          final chapter = ref.watch(biblePickerProvider).currentChapter;
-          final translation = ref.watch(biblePickerProvider).currentTranslation;
-          final snapshot = useFuture(
-            useMemoized(
-                () => dio.get(
-                    '/v1/bibles/books/${bible_books.firstWhere((element) => element['key'] == book)['name']}/chapters/$chapter',
-                    queryParameters: {'translationId': translation.id}),
-                [translation.id]),
-            preserveState: false,
-          );
-          final data = snapshot.data?.data['data'];
-          if (data == null) {
-            return SliverFillRemaining(
-              child: Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+      mainContentSlivers: [
+        HookConsumer(
+          builder: (context, ref, _) {
+            final book = ref.watch(biblePickerProvider).currentBook;
+            final chapter = ref.watch(biblePickerProvider).currentChapter;
+            final translation =
+                ref.watch(biblePickerProvider).currentTranslation;
+            final snapshot = useFuture(
+              useMemoized(
+                  () => dio.get(
+                      '/v1/bibles/books/${bible_books.firstWhere((element) => element['key'] == book)['name']}/chapters/$chapter',
+                      queryParameters: {'translationId': translation.id}),
+                  [translation.id]),
+              preserveState: false,
             );
-          }
-          return SliverList.builder(
-            itemCount: data == null ? 10 : (data as List<dynamic>).length,
-            itemBuilder: (context, index) => ShrinkingButton(
-              onTap: () {
-                final selected = ref.read(biblePickerProvider).selected;
-                if (selected.length >= maxLength) {
-                  return;
-                }
-                final current = BibleVerse(
-                  id: snapshot.data?.data['data'][index]['id'],
-                  book: book!,
-                  chapter: chapter!,
-                  verse: index + 1,
-                  value: snapshot.data?.data['data'][index]['value'],
-                  verseId: snapshot.data?.data['data'][index]['verse_id'],
-                  translation: translation,
-                );
-                if (selected.indexWhere((element) =>
-                        element.book == book &&
-                        element.chapter == chapter &&
-                        element.verse == index + 1) ==
-                    -1) {
-                  ref.read(biblePickerProvider.notifier).add(current);
-                } else {
-                  ref.read(biblePickerProvider.notifier).remove(current);
-                }
-              },
-              child: Consumer(
-                builder: (context, ref, _) {
-                  final selected = ref.watch(biblePickerProvider).selected;
-                  final chosen = selected.indexWhere((element) =>
+            final data = snapshot.data?.data['data'];
+            if (data == null) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+              );
+            }
+            return SliverList.builder(
+              itemCount: data == null ? 10 : (data as List<dynamic>).length,
+              itemBuilder: (context, index) => ShrinkingButton(
+                onTap: () {
+                  final selected = ref.read(biblePickerProvider).selected;
+                  if (selected.length >= maxLength) {
+                    return;
+                  }
+                  final current = BibleVerse(
+                    id: snapshot.data?.data['data'][index]['id'],
+                    book: book!,
+                    chapter: chapter!,
+                    verse: index + 1,
+                    value: snapshot.data?.data['data'][index]['value'],
+                    verseId: snapshot.data?.data['data'][index]['verse_id'],
+                    translation: translation,
+                  );
+                  if (selected.indexWhere((element) =>
                           element.book == book &&
                           element.chapter == chapter &&
-                          element.verse == index + 1) !=
-                      -1;
-                  return Container(
-                    padding: EdgeInsets.fromLTRB(
-                        10,
-                        5,
-                        10,
-                        5 +
-                            (index + 1 == (data as List<dynamic>).length
-                                ? 100
-                                : 0)),
-                    child: RichText(
-                      text: TextSpan(
-                        text: '${index + 1}. ',
-                        style: TextStyle(color: MyTheme.placeholderText),
-                        children: [
-                          TextSpan(
-                            text:
-                                '${snapshot.data?.data['data'][index]['value']}',
-                            style: TextStyle(
-                              decorationColor: MyTheme.onPrimary,
-                              fontWeight: FontWeight.w300,
-                              decoration:
-                                  chosen ? TextDecoration.underline : null,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              color: (selected.length == maxLength && !chosen)
-                                  ? MyTheme.disabled
-                                  : MyTheme.onPrimary,
-                              fontSize: 15,
-                              height: 2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                          element.verse == index + 1) ==
+                      -1) {
+                    ref.read(biblePickerProvider.notifier).add(current);
+                  } else {
+                    ref.read(biblePickerProvider.notifier).remove(current);
+                  }
                 },
+                child: Consumer(
+                  builder: (context, ref, _) {
+                    final selected = ref.watch(biblePickerProvider).selected;
+                    final chosen = selected.indexWhere((element) =>
+                            element.book == book &&
+                            element.chapter == chapter &&
+                            element.verse == index + 1) !=
+                        -1;
+                    return Container(
+                      padding: EdgeInsets.fromLTRB(
+                          10,
+                          5,
+                          10,
+                          5 +
+                              (index + 1 == (data as List<dynamic>).length
+                                  ? 100
+                                  : 0)),
+                      child: RichText(
+                        text: TextSpan(
+                          text: '${index + 1}. ',
+                          style: TextStyle(color: MyTheme.placeholderText),
+                          children: [
+                            TextSpan(
+                              text:
+                                  '${snapshot.data?.data['data'][index]['value']}',
+                              style: TextStyle(
+                                decorationColor: MyTheme.onPrimary,
+                                fontWeight: FontWeight.w300,
+                                decoration:
+                                    chosen ? TextDecoration.underline : null,
+                                decorationStyle: TextDecorationStyle.dashed,
+                                color: (selected.length == maxLength && !chosen)
+                                    ? MyTheme.disabled
+                                    : MyTheme.onPrimary,
+                                fontSize: 15,
+                                height: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        ),
+      ],
       isTopBarLayerAlwaysVisible: true,
       stickyActionBar: StickyActionBar(maxLength: maxLength),
     );
