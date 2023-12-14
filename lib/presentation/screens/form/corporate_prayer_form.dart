@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -41,10 +40,10 @@ class CorporatePrayerForm extends HookWidget {
     final onClick = useCallback(() {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
-        talker.debug(initialValue == null
-            ? "Creating a corporate prayer..."
-            : "Updating a corporate prayer");
         final form = formKey.currentState!.value;
+        talker.debug(initialValue == null
+            ? "[CorporatePrayer] Creating: $form"
+            : "[CorporatePrayer] Updating: $form");
         loading.value = false;
         GetIt.I<PrayerRepository>()
             .createOrUpdateCorporatePrayer(
@@ -74,15 +73,10 @@ class CorporatePrayerForm extends HookWidget {
             .then((value) {
           context.pop(true);
           talker.good(
-              "Successfully ${initialValue == null ? 'created' : 'updated'} a corporate prayer");
-        }).catchError((e) {
-          if (e is DioException) {
-            talker.error(
-                "Failed to ${initialValue == null ? 'create' : 'update'} a corporate prayer: ${e.error}");
-          } else {
-            talker.error(
-                "Failed to ${initialValue == null ? 'create' : 'update'} a corporate prayer: ${e}");
-          }
+              "[CorporatePrayer] ${initialValue == null ? 'Created' : 'Updated'}");
+        }).catchError((e, st) {
+          talker.handle(e, st,
+              "[CorporatePrayer] Failed to ${initialValue == null ? 'create' : 'update'}");
           GlobalSnackBar.show(context,
               message: "Failed to create a corporate prayer");
         }).whenComplete(() {

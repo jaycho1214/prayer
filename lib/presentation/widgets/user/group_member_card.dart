@@ -56,9 +56,12 @@ class GroupMemberCard extends HookConsumerWidget {
             .acceptMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
+          talker.good(
+              '[GroupMember] Member Accepted: (groupId: $groupId, uid: ${member.uid})');
           onDone?.call(GroupMemberCardActionType.accept);
-        }).catchError((err) {
-          talker.error(err);
+        }).catchError((e, st) {
+          talker.handle(e, st,
+              '[GroupMember] Failed to accept member: (groupId: $groupId, uid: ${member.uid})');
           GlobalSnackBar.show(context, message: S.of(context).errorAcceptUser);
         }).whenComplete(() {
           loading.value = false;

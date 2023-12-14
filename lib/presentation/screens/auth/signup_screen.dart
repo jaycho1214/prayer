@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
@@ -14,7 +13,6 @@ import 'package:prayer/presentation/widgets/form/username_input_form.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
-import 'package:prayer/repo/user_repository.dart';
 
 class SignUpScreen extends HookConsumerWidget {
   const SignUpScreen({super.key});
@@ -30,28 +28,24 @@ class SignUpScreen extends HookConsumerWidget {
     final loading = useState(false);
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
 
-    final onSubmit = useCallback(() {
+    final onSubmit = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
         final form = formKey.currentState!.value;
-        GetIt.I<UserRepository>()
-            .createUser(
-          username: form['username'],
-          name: form['name'],
-          bio: form['bio'],
-        )
-            .then((value) {
-          ref.read(authNotifierProvider.notifier).updateUser(value);
-        }).catchError((e) {
-          if (e is DuplicatedUsernameException) {
-            GlobalSnackBar.show(context,
-                message: S.of(context).errorUsernameTaken(form['username']));
-            return;
-          }
+        try {
+          await ref.read(authNotifierProvider.notifier).createUser(
+                username: form['username'],
+                name: form['name'],
+                bio: form['bio'],
+              );
+        } on DuplicatedUsernameException catch (_) {
+          GlobalSnackBar.show(context,
+              message: S.of(context).errorUsernameTaken(form['username']));
+        } catch (e) {
           GlobalSnackBar.show(context, message: e.toString());
-        }).whenComplete(() {
+        } finally {
           loading.value = false;
-        });
+        }
       }
     }, [
       context,

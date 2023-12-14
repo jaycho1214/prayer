@@ -1150,6 +1150,16 @@ class S {
     );
   }
 
+  /// `Member Promoted`
+  String get memberPromoted {
+    return Intl.message(
+      'Member Promoted',
+      name: 'memberPromoted',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Members`
   String get members {
     return Intl.message(

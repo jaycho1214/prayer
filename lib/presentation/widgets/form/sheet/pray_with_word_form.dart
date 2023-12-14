@@ -6,7 +6,10 @@ import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 
 class PrayWithWordForm extends HookWidget {
-  const PrayWithWordForm({super.key, required this.prayerId});
+  const PrayWithWordForm({
+    super.key,
+    required this.prayerId,
+  });
 
   final String prayerId;
 

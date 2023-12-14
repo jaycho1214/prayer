@@ -40,8 +40,8 @@ class GroupsScreen<CursorType> extends HookWidget {
         } else {
           pagingController.appendPage(newGroups, newCursor);
         }
-      }).catchError((e) {
-        talker.error("Error on fetching next page of groups: $e");
+      }).catchError((e, st) {
+        talker.handle(e, st, "[GroupsScreen] Failed to fetch groups");
         pagingController.error = e;
       });
     }, []);

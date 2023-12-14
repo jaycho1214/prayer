@@ -59,6 +59,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<void> signIn(AuthProvider provider) async {
     try {
+      talker.debug("Sign In Initiated");
       mixpanel.timeEvent("Sign In");
       state = AsyncValue.loading();
       final authRepo = GetIt.I<AuthenticationRepository>();
@@ -68,44 +69,78 @@ class AuthNotifier extends _$AuthNotifier {
         _ => authRepo.signInWithTwitter(),
       };
       if (credential.user == null) {
-        state = AsyncValue.error(MissingUidError(), StackTrace.current);
-        mixpanel.track("Sign In", properties: {'status': false});
-        return;
+        throw MissingUidError();
       }
       final data =
           await GetIt.I<UserRepository>().fetchUser(uid: credential.user!.uid);
-      talker.info(
-          'User (${credential.user!.uid}) data fetched: ${data?.toJson()}');
       mixpanel.track("Sign In", properties: {'provider': provider.name});
       state = AsyncValue.data(
           data == null ? AuthStateSignedIn() : AuthStateSignedUp(data));
+      talker.good('Sign In Success: ${data?.toJson()}');
     } catch (error, stackTrace) {
-      talker.error("Error while logging in", error, stackTrace);
-      if (error is FirebaseAuthException) {
-        if (error.code == 'canceled') {
-          state = AsyncValue.data(AuthStateSignedOut());
-          return;
-        }
+      if ((error is FirebaseAuthException && error.code == 'unknown') ||
+          error is SignInCancelled) {
+        talker.debug("Sign In Cancelled");
+        state = AsyncValue.data(AuthStateSignedOut());
+        return;
       }
+      talker.handle(
+          error,
+          stackTrace,
+          generateLogMessage("Sign In Error", data: {
+            'provider': provider.name,
+          }));
       mixpanel.track("Sign In", properties: {'status': false});
-      Sentry.captureException(error, stackTrace: stackTrace);
       state = AsyncValue.error(error, stackTrace);
     }
   }
 
-  void updateUser(PUser? user) {
-    assert(user == null || user.uid == FirebaseAuth.instance.currentUser?.uid);
-    state = AsyncValue.data(
-        user == null ? AuthStateSignedOut() : AuthStateSignedUp(user));
+  Future<void> createUser({
+    required String username,
+    required String name,
+    String? bio,
+  }) async {
+    try {
+      final user = await GetIt.I<UserRepository>().createUser(
+        username: username,
+        name: name,
+        bio: bio,
+      );
+      if (user == null) {
+        throw MissingUidError();
+      }
+      state = AsyncValue.data(AuthStateSignedUp(user));
+    } catch (error, stackTrace) {
+      if (!(error is DuplicatedUsernameException)) {
+        talker.handle(
+            error,
+            stackTrace,
+            generateLogMessage("Sign Up Failed", data: {
+              'username': username,
+              'name': name,
+              'bio': bio,
+            }));
+      }
+      rethrow;
+    }
+  }
+
+  void setUser(PUser? user) {
+    if (user == null) {
+      state = AsyncValue.data(AuthStateSignedOut());
+    } else {
+      state = AsyncValue.data(AuthStateSignedUp(user));
+    }
   }
 
   Function() _subscribe() {
     final authSubscription =
         FirebaseAuth.instance.authStateChanges().listen((user) {
-      talker.debug("Auth states changed");
       if (user == null) {
+        talker.debug("[FirebaseAuth] User Signed Out");
         state = AsyncValue.data(AuthStateSignedOut());
       } else {
+        talker.debug("[FirebaseAuth] User Signed In");
         mixpanel.identify(user.uid);
       }
     });

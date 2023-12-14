@@ -39,8 +39,9 @@ class GroupCorporatePrayersScreen extends HookWidget {
         } else {
           pagingController.appendPage(data.items ?? [], data.cursor);
         }
-      }).catchError((e) {
-        talker.error("Error on fetching next page of groups: $e");
+      }).catchError((e, st) {
+        talker.handle(e, st,
+            "[CorporatePrayer] Failed to fetch next page of corporate prayers: (groupId: $groupId, cursor: $cursor)");
         pagingController.error = e;
       });
     }, [pagingController]);

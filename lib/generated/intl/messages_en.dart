@@ -225,6 +225,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("Join"),
         "joined": MessageLookupByLibrary.simpleMessage("Joined"),
         "leaveGroup": MessageLookupByLibrary.simpleMessage("Leave group"),
+        "memberPromoted":
+            MessageLookupByLibrary.simpleMessage("Member Promoted"),
         "members": MessageLookupByLibrary.simpleMessage("Members"),
         "membersCount": m5,
         "membershipType":

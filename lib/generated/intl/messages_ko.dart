@@ -212,6 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("가입"),
         "joined": MessageLookupByLibrary.simpleMessage("가입됨"),
         "leaveGroup": MessageLookupByLibrary.simpleMessage("그룹 탈퇴"),
+        "memberPromoted": MessageLookupByLibrary.simpleMessage("멤버를 임명했습니다"),
         "members": MessageLookupByLibrary.simpleMessage("멤버들"),
         "membersCount": m5,
         "membershipType": MessageLookupByLibrary.simpleMessage("가입 조건"),

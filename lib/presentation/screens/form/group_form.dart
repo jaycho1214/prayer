@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -31,69 +30,63 @@ class GroupFormScreen extends HookWidget {
     final loading = useState(false);
     final initialValue = GoRouterState.of(context).extra as Group?;
 
-    final onCreate = useCallback(() {
+    final onCreate = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
-        loading.value = true;
-        talker.debug("Creating a group...");
-        final form = formKey.currentState!.value;
-        if (form['banner'] == null) {
-          loading.value = false;
-          return GlobalSnackBar.show(context,
-              message: S.of(context).errorNeedGroupBanner);
-        }
-        GetIt.I<GroupRepository>()
-            .createGroup(
-          name: form['name'],
-          description: form['description'],
-          membershipType: form['membershipType'],
-          banner: form['banner'],
-        )
-            .then((value) {
-          context.pop(true);
-          talker.good("Successfully created a group");
-        }).catchError((e) {
-          if (e is DioException) {
-            talker.error("Failed to create a group: ${e.response}");
+        try {
+          loading.value = true;
+          final form = formKey.currentState!.value;
+          talker.debug("[Group] Creating: $form");
+          if (form['banner'] == null) {
+            loading.value = false;
+            return GlobalSnackBar.show(context,
+                message: S.of(context).errorNeedGroupBanner);
           }
+          await GetIt.I<GroupRepository>().createGroup(
+            name: form['name'],
+            description: form['description'],
+            membershipType: form['membershipType'],
+            banner: form['banner'],
+          );
+          context.pop(true);
+          talker.good("[Group] Created");
+        } catch (e, st) {
+          talker.handle(e, st, "[Group] Failed to create");
           GlobalSnackBar.show(context, message: S.of(context).errorCreateGroup);
-        }).whenComplete(() {
+        } finally {
           loading.value = false;
-        });
+        }
       }
     }, []);
 
-    final onEdit = useCallback(() {
-      if (initialValue == null) {
-        GlobalSnackBar.show(context, message: "Failed to edit a group");
-        return;
-      }
-      if (formKey.currentState?.saveAndValidate() == true) {
-        loading.value = true;
-        talker.debug("Editing a group...");
-        final form = formKey.currentState!.value;
-        if (form['banner'] == null) {
-          loading.value = false;
-          return GlobalSnackBar.show(context,
-              message: S.of(context).errorNeedGroupBanner);
-        }
-        GetIt.I<GroupRepository>()
-            .updateGroup(
-          groupId: initialValue.id,
-          name: form['name'],
-          description: form['description'],
-          banner: form['banner'],
-        )
-            .then((value) {
-          context.pop(true);
-          talker.good("Successfully edited a group");
-        }).catchError((e) {
-          if (e is DioException) {
-            talker.error("Failed to edit a group: ${e.response}");
-          }
+    final onEdit = useCallback(() async {
+      try {
+        if (initialValue == null) {
           GlobalSnackBar.show(context, message: S.of(context).errorEditGroup);
-        }).whenComplete(() {
-          loading.value = false;
-        });
+          return;
+        }
+        if (formKey.currentState?.saveAndValidate() == true) {
+          loading.value = true;
+          final form = formKey.currentState!.value;
+          talker.debug("[Group] Editing: $form");
+          if (form['banner'] == null) {
+            loading.value = false;
+            return GlobalSnackBar.show(context,
+                message: S.of(context).errorNeedGroupBanner);
+          }
+          await GetIt.I<GroupRepository>().updateGroup(
+            groupId: initialValue.id,
+            name: form['name'],
+            description: form['description'],
+            banner: form['banner'],
+          );
+          context.pop(true);
+          talker.good("[Group] Edited");
+        }
+      } catch (e, st) {
+        talker.handle(e, st, "[Group] Failed to edit");
+        GlobalSnackBar.show(context, message: S.of(context).errorEditGroup);
+      } finally {
+        loading.value = false;
       }
     }, []);
 

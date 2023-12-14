@@ -4,11 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/constants/talker.dart';
 import 'package:prayer/errors.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/repo/response_types.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 enum FollowersType { followings, followers }
 
@@ -93,14 +91,12 @@ class UserRepository {
         options: Options(contentType: Headers.formUrlEncodedContentType),
       );
       return fetchUser(uid: FirebaseAuth.instance.currentUser!.uid);
-    } on DioException catch (err, stackTrace) {
+    } on DioException catch (err) {
       if (err.response?.data['code'] == 'username-already-exists') {
         throw DuplicatedUsernameException();
       }
-      Sentry.captureException(err, stackTrace: stackTrace);
       rethrow;
-    } catch (err, stackTrace) {
-      Sentry.captureException(err, stackTrace: stackTrace);
+    } catch (err) {
       rethrow;
     }
   }
@@ -199,35 +195,19 @@ class UserRepository {
     String? cursor,
     String? excludeGroupId,
   }) async {
-    try {
-      final resp = await dio.get('/v1/users', queryParameters: {
-        'query': query,
-        'cursor': cursor,
-        'excludeGroupId': excludeGroupId,
-      });
-      return PaginationResponse<PUser, String?>(
-        items: resp.data['data'] != null
-            ? List<Map<String, Object?>>.from(resp.data['data'])
-                .map((e) => PUser.fromJson(e))
-                .toList()
-            : <PUser>[],
-        cursor: resp.data['cursor'],
-        error: null,
-      );
-    } on DioException catch (e) {
-      talker.error(e);
-      return PaginationResponse<PUser, String?>(
-        items: null,
-        cursor: null,
-        error: e.response?.data['message'] ?? e.toString(),
-      );
-    } catch (e) {
-      talker.error(e);
-      return PaginationResponse<PUser, String?>(
-        items: null,
-        cursor: null,
-        error: e.toString(),
-      );
-    }
+    final resp = await dio.get('/v1/users', queryParameters: {
+      'query': query,
+      'cursor': cursor,
+      'excludeGroupId': excludeGroupId,
+    });
+    return PaginationResponse<PUser, String?>(
+      items: resp.data['data'] != null
+          ? List<Map<String, Object?>>.from(resp.data['data'])
+              .map((e) => PUser.fromJson(e))
+              .toList()
+          : <PUser>[],
+      cursor: resp.data['cursor'],
+      error: null,
+    );
   }
 }

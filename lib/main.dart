@@ -11,7 +11,6 @@ import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:prayer/app.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/firebase_options.dart';
 import 'package:prayer/repo/authentication_repository.dart';
@@ -58,16 +57,14 @@ Future<void> main() async {
         options.tracesSampleRate = 0.5;
       },
       appRunner: () => runApp(ProviderScope(
-        child: const App(),
+        child: SentryUserInteractionWidget(child: const App()),
       )),
     );
   }
 }
 
 @pragma('vm:entry-point')
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  talker.debug("Message fetched on background $message");
-}
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 Future<void> initialize() async {
   await dotenv.load();

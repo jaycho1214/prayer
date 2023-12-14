@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
@@ -21,7 +22,7 @@ class PrayChip extends ConsumerWidget {
     return StatisticsChip(
       onTap: () {
         prayerNotifier.prayForUser(onError: () {
-          GlobalSnackBar.show(context, message: "Failed to pray for the user");
+          GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
         }, onNeedWait: () {
           TooManyPraySheet.show(context);
         });

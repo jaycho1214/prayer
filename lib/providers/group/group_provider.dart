@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
+import 'package:prayer/errors.dart';
 import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:synchronized/synchronized.dart';
 
 part 'group_provider.g.dart';
@@ -18,7 +18,12 @@ class GroupNotifier extends _$GroupNotifier {
       final data = await GetIt.I<GroupRepository>().fetchGroup(groupId);
       return data;
     } catch (error, stackTrace) {
-      Sentry.captureException(error, stackTrace: stackTrace);
+      talker.handle(
+          error,
+          stackTrace,
+          generateLogMessage('[Group] Failed to fetch', data: {
+            'groupId': groupId,
+          }));
       return null;
     }
   }
@@ -28,7 +33,7 @@ class GroupNotifier extends _$GroupNotifier {
       final backup = state.value;
       try {
         if (backup == null) {
-          return;
+          throw ActionBeforeFetchedException();
         }
         state = AsyncValue.data(backup.copyWith(
           joinedAt: value ? DateTime.now() : null,
@@ -56,9 +61,13 @@ class GroupNotifier extends _$GroupNotifier {
           }
         }
       } catch (error, stackTrace) {
-        talker.error("Error while joining the group", error);
+        talker.handle(
+            error,
+            stackTrace,
+            generateLogMessage('[Group] Failed to join the group', data: {
+              'groupId': groupId,
+            }));
         state = AsyncValue.data(backup);
-        Sentry.captureException(error, stackTrace: stackTrace);
         rethrow;
       }
     });

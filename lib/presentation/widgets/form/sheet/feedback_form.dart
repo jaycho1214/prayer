@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
 import 'package:prayer/presentation/widgets/notification_bar.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:sentry/sentry.dart';
 
 class FeedbackForm extends HookWidget {
   const FeedbackForm({super.key});
@@ -28,23 +29,28 @@ class FeedbackForm extends HookWidget {
     final controller = useTextEditingController();
     final loading = useState(false);
     final onTap = useCallback(() async {
-      if (controller.text.trim().isEmpty) {
-        context.pop();
-        return;
-      }
-      loading.value = true;
-      Sentry.captureUserFeedback(SentryUserFeedback(
-        eventId: SentryId.newId(),
-        comments: controller.text,
-        name: FirebaseAuth.instance.currentUser?.uid,
-        email: FirebaseAuth.instance.currentUser?.email,
-      )).then((_) {
+      try {
+        if (controller.text.trim().isEmpty) {
+          context.pop();
+          return;
+        }
+        loading.value = true;
+        await Sentry.captureUserFeedback(SentryUserFeedback(
+          eventId: Sentry.lastEventId == SentryId.empty()
+              ? SentryId.newId()
+              : Sentry.lastEventId,
+          comments: controller.text,
+          name: FirebaseAuth.instance.currentUser?.uid,
+          email: FirebaseAuth.instance.currentUser?.email,
+        ));
         context.pop();
         NotificationSnackBar.show(context,
             message: S.of(context).alertFeedbackSent);
-      }).whenComplete(() {
+      } catch (e, st) {
+        talker.handle(e, st, "[Feedback] Failed to send a feedback");
+      } finally {
         loading.value = false;
-      });
+      }
     }, []);
 
     return Container(

@@ -107,15 +107,17 @@ class FollowsPage extends HookWidget {
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
     final fetchPage = useCallback((String? cursor) async {
-      final data = await fetchFn(cursor);
-      if (data.error != null) {
-        talker
-            .error('Error while fetching members of the group: ${data.error}');
-        pagingController.error = data.error;
-      } else if (data.cursor != null) {
-        pagingController.appendPage(data.items!, data.cursor);
-      } else {
-        pagingController.appendLastPage(data.items!);
+      try {
+        final data = await fetchFn(cursor);
+        if (data.cursor != null) {
+          pagingController.appendPage(data.items!, data.cursor);
+        } else {
+          pagingController.appendLastPage(data.items!);
+        }
+      } catch (e, st) {
+        talker.handle(
+            e, st, '[FollowsPage] Failed to fetch members of the group');
+        pagingController.error = e;
       }
     }, []);
 

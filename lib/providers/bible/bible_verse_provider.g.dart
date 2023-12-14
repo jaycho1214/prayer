@@ -7,7 +7,7 @@ part of 'bible_verse_provider.dart';
 // **************************************************************************
 
 String _$bibleVerseNotifierHash() =>
-    r'6484d73346576e85f923c8537223412b25ba3bcc';
+    r'1a98c62f3fedd75d259fb87f03e6e27026880196';
 
 /// Copied from Dart SDK
 class _SystemHash {
