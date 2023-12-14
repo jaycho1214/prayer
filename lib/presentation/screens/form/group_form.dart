@@ -5,6 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -48,6 +49,7 @@ class GroupFormScreen extends HookWidget {
             banner: form['banner'],
           );
           context.pop(true);
+          mixpanel.track('Group Created');
           talker.good("[Group] Created");
         } catch (e, st) {
           talker.handle(e, st, "[Group] Failed to create");
@@ -79,6 +81,7 @@ class GroupFormScreen extends HookWidget {
             description: form['description'],
             banner: form['banner'],
           );
+          mixpanel.track('Group Edited');
           context.pop(true);
           talker.good("[Group] Edited");
         }

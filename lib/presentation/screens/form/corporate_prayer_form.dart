@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -72,6 +73,8 @@ class CorporatePrayerForm extends HookWidget {
         )
             .then((value) {
           context.pop(true);
+          mixpanel.track(
+              'Corproate Prayer ${initialValue == null ? 'Created' : 'Updated'}');
           talker.good(
               "[CorporatePrayer] ${initialValue == null ? 'Created' : 'Updated'}");
         }).catchError((e, st) {

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/form/sheet/pray_with_word_form.dart';
@@ -48,12 +49,16 @@ class PrayButton extends HookConsumerWidget {
               }
               prayerNotifier.prayForUser(
                   value: value,
-                  onPrayed: onPrayed,
+                  onPrayed: () {
+                    onPrayed?.call();
+                    mixpanel.track("Pray Sent");
+                  },
                   onError: () {
                     GlobalSnackBar.show(context,
                         message: S.of(context).errorUnknown);
                   },
                   onNeedWait: () {
+                    mixpanel.track("Pray Need Wait");
                     TooManyPraySheet.show(context);
                   });
             },

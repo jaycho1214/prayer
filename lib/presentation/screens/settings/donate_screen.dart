@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
@@ -45,6 +46,7 @@ class DonateScreen extends StatelessWidget {
           ),
           ShrinkingButton(
             onTap: () {
+              mixpanel.track("Donate Clicked");
               if (Localizations.localeOf(context).languageCode == 'ko') {
                 DonationDetailSheet.show(context);
               } else {
