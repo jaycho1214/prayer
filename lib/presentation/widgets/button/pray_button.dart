@@ -79,8 +79,8 @@ class PrayButton extends HookConsumerWidget {
                   child: FaIcon(
                     hasPrayed
                         ? FontAwesomeIcons.solidFireFlameCurved
-                        : FontAwesomeIcons.fireFlameCurved,
-                    color: hasPrayed ? Colors.red : Colors.white,
+                        : FontAwesomeIcons.lightFireFlameCurved,
+                    color: hasPrayed ? Colors.red : MyTheme.placeholderText,
                   ),
                 ),
               ),
