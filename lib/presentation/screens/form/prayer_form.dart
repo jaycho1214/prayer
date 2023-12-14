@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -79,6 +80,10 @@ class PrayerFormScreen extends HookConsumerWidget {
                 : List<int>.from(
                     form['verses']!.map((e) => e.verseId!).toList()),
           );
+          mixpanel.track('Prayer Posted', properties: {
+            'groupId': form['groupId'],
+            'corporateId': form['corporateId'],
+          });
           talker.good('[Prayer] Posted: $value');
           Navigator.of(context).pop(true);
         } catch (err, st) {

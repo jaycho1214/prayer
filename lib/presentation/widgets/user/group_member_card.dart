@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -56,6 +57,7 @@ class GroupMemberCard extends HookConsumerWidget {
             .acceptMember(groupId: groupId, userId: member.uid)
             .then((value) {
           accepted.value = true;
+          mixpanel.track("Member Accepted");
           talker.good(
               '[GroupMember] Member Accepted: (groupId: $groupId, uid: ${member.uid})');
           onDone?.call(GroupMemberCardActionType.accept);
@@ -86,6 +88,7 @@ class GroupMemberCard extends HookConsumerWidget {
           value: false,
         )
             .then((value) {
+          mixpanel.track("Member Invitation Revoked");
           revoked.value = true;
           onDone?.call(GroupMemberCardActionType.revoke);
         }).catchError((_) {

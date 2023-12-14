@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -43,6 +44,8 @@ class FeedbackForm extends HookWidget {
           name: FirebaseAuth.instance.currentUser?.uid,
           email: FirebaseAuth.instance.currentUser?.email,
         ));
+        mixpanel
+            .track("Feedback Sent", properties: {'feedback': controller.text});
         context.pop();
         NotificationSnackBar.show(context,
             message: S.of(context).alertFeedbackSent);
