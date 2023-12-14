@@ -142,8 +142,11 @@ class NotificationsListScreen extends HookWidget {
         } else {
           pagingController.appendPage(notifications, newCursor);
         }
-      }).catchError((e) {
-        talker.error("Error on fetching next page of notifications: $e");
+        talker.good(
+            "[NotificationsListScreen] Next Page Fetched (Cursor: $cursor)");
+      }).catchError((e, st) {
+        talker.handle(e, st,
+            "[NotificationsListScreen] Failed to fetch next page (Cursor: $cursor)");
         pagingController.error = e;
       });
     }, []);

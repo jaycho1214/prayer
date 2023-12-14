@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'prayer_provider.dart';
+part of 'corporate_prayer_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$prayerNotifierHash() => r'a6cf708a8cdf1420bf58b53ed60a3dfd438f2a77';
+String _$corporatePrayerHash() => r'ec950db329a2c3ffeb0a6e660ac2dd2736f3b4f7';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,36 +29,27 @@ class _SystemHash {
   }
 }
 
-abstract class _$PrayerNotifier
-    extends BuildlessAutoDisposeAsyncNotifier<Prayer?> {
-  late final String prayerId;
+/// See also [corporatePrayer].
+@ProviderFor(corporatePrayer)
+const corporatePrayerProvider = CorporatePrayerFamily();
 
-  FutureOr<Prayer?> build(
-    String prayerId,
-  );
-}
+/// See also [corporatePrayer].
+class CorporatePrayerFamily extends Family<AsyncValue<CorporatePrayer?>> {
+  /// See also [corporatePrayer].
+  const CorporatePrayerFamily();
 
-/// See also [PrayerNotifier].
-@ProviderFor(PrayerNotifier)
-const prayerNotifierProvider = PrayerNotifierFamily();
-
-/// See also [PrayerNotifier].
-class PrayerNotifierFamily extends Family<AsyncValue<Prayer?>> {
-  /// See also [PrayerNotifier].
-  const PrayerNotifierFamily();
-
-  /// See also [PrayerNotifier].
-  PrayerNotifierProvider call(
+  /// See also [corporatePrayer].
+  CorporatePrayerProvider call(
     String prayerId,
   ) {
-    return PrayerNotifierProvider(
+    return CorporatePrayerProvider(
       prayerId,
     );
   }
 
   @override
-  PrayerNotifierProvider getProviderOverride(
-    covariant PrayerNotifierProvider provider,
+  CorporatePrayerProvider getProviderOverride(
+    covariant CorporatePrayerProvider provider,
   ) {
     return call(
       provider.prayerId,
@@ -77,30 +68,33 @@ class PrayerNotifierFamily extends Family<AsyncValue<Prayer?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'prayerNotifierProvider';
+  String? get name => r'corporatePrayerProvider';
 }
 
-/// See also [PrayerNotifier].
-class PrayerNotifierProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<PrayerNotifier, Prayer?> {
-  /// See also [PrayerNotifier].
-  PrayerNotifierProvider(
+/// See also [corporatePrayer].
+class CorporatePrayerProvider
+    extends AutoDisposeFutureProvider<CorporatePrayer?> {
+  /// See also [corporatePrayer].
+  CorporatePrayerProvider(
     String prayerId,
   ) : this._internal(
-          () => PrayerNotifier()..prayerId = prayerId,
-          from: prayerNotifierProvider,
-          name: r'prayerNotifierProvider',
+          (ref) => corporatePrayer(
+            ref as CorporatePrayerRef,
+            prayerId,
+          ),
+          from: corporatePrayerProvider,
+          name: r'corporatePrayerProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$prayerNotifierHash,
-          dependencies: PrayerNotifierFamily._dependencies,
+                  : _$corporatePrayerHash,
+          dependencies: CorporatePrayerFamily._dependencies,
           allTransitiveDependencies:
-              PrayerNotifierFamily._allTransitiveDependencies,
+              CorporatePrayerFamily._allTransitiveDependencies,
           prayerId: prayerId,
         );
 
-  PrayerNotifierProvider._internal(
+  CorporatePrayerProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -113,20 +107,13 @@ class PrayerNotifierProvider
   final String prayerId;
 
   @override
-  FutureOr<Prayer?> runNotifierBuild(
-    covariant PrayerNotifier notifier,
+  Override overrideWith(
+    FutureOr<CorporatePrayer?> Function(CorporatePrayerRef provider) create,
   ) {
-    return notifier.build(
-      prayerId,
-    );
-  }
-
-  @override
-  Override overrideWith(PrayerNotifier Function() create) {
     return ProviderOverride(
       origin: this,
-      override: PrayerNotifierProvider._internal(
-        () => create()..prayerId = prayerId,
+      override: CorporatePrayerProvider._internal(
+        (ref) => create(ref as CorporatePrayerRef),
         from: from,
         name: null,
         dependencies: null,
@@ -138,14 +125,13 @@ class PrayerNotifierProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<PrayerNotifier, Prayer?>
-      createElement() {
-    return _PrayerNotifierProviderElement(this);
+  AutoDisposeFutureProviderElement<CorporatePrayer?> createElement() {
+    return _CorporatePrayerProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is PrayerNotifierProvider && other.prayerId == prayerId;
+    return other is CorporatePrayerProvider && other.prayerId == prayerId;
   }
 
   @override
@@ -157,18 +143,18 @@ class PrayerNotifierProvider
   }
 }
 
-mixin PrayerNotifierRef on AutoDisposeAsyncNotifierProviderRef<Prayer?> {
+mixin CorporatePrayerRef on AutoDisposeFutureProviderRef<CorporatePrayer?> {
   /// The parameter `prayerId` of this provider.
   String get prayerId;
 }
 
-class _PrayerNotifierProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<PrayerNotifier, Prayer?>
-    with PrayerNotifierRef {
-  _PrayerNotifierProviderElement(super.provider);
+class _CorporatePrayerProviderElement
+    extends AutoDisposeFutureProviderElement<CorporatePrayer?>
+    with CorporatePrayerRef {
+  _CorporatePrayerProviderElement(super.provider);
 
   @override
-  String get prayerId => (origin as PrayerNotifierProvider).prayerId;
+  String get prayerId => (origin as CorporatePrayerProvider).prayerId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

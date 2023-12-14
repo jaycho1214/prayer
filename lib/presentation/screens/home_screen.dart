@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
@@ -22,11 +21,7 @@ class HomeScreen extends HookConsumerWidget {
     final hasNewNotification = ref.watch(notificationNotifierProvider).when(
           data: (v) => v,
           loading: () => false,
-          error: (err, __) {
-            talker.error(
-                "Error while fetching latest notification status", err);
-            return false;
-          },
+          error: (_, __) => false,
         );
 
     return PlatformScaffold(

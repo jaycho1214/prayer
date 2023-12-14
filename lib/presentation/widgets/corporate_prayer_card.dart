@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/chip/statistics_chip.dart';
 import 'package:prayer/presentation/widgets/chip/text_chip.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
-import 'package:prayer/repo/prayer_repository.dart';
+import 'package:prayer/providers/prayer/corporate_prayer_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class CorporatePrayerCard extends HookWidget {
+class CorporatePrayerCard extends ConsumerWidget {
   const CorporatePrayerCard({
     super.key,
     required this.prayerId,
@@ -23,12 +22,11 @@ class CorporatePrayerCard extends HookWidget {
   final String prayerId;
 
   @override
-  Widget build(BuildContext context) {
-    final prayerSnapshot = useFuture(useMemoized(
-        () => GetIt.I<PrayerRepository>().fetchCorporatePrayer(prayerId)));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prayer = ref.watch(corporatePrayerProvider(prayerId));
 
     return Skeletonizer(
-      enabled: prayerSnapshot.connectionState == ConnectionState.waiting,
+      enabled: prayer.isLoading || prayer.hasError || prayer.value == null,
       child: ShrinkingButton(
         onTap: () {
           if (onTap == null) {
@@ -53,7 +51,7 @@ class CorporatePrayerCard extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          prayerSnapshot.data?.title ?? '',
+                          prayer.value?.title ?? '',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -61,7 +59,7 @@ class CorporatePrayerCard extends HookWidget {
                           maxLines: 1,
                         ),
                         Text(
-                          prayerSnapshot.data?.description ?? '',
+                          prayer.value?.description ?? '',
                           style: const TextStyle(
                             color: MyTheme.outline,
                             fontSize: 15,
@@ -74,22 +72,22 @@ class CorporatePrayerCard extends HookWidget {
                   const SizedBox(width: 10),
                   UserProfileImage(
                     size: 40,
-                    profile: prayerSnapshot.data?.user?.profile,
+                    profile: prayer.value?.user?.profile,
                   ),
                 ],
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  if (prayerSnapshot.data?.startedAt != null)
+                  if (prayer.value?.startedAt != null)
                     TextChip(
                         icon: FontAwesomeIcons.calendarDays,
                         value:
-                            '${Jiffy.parseFromDateTime(prayerSnapshot.data!.startedAt!.toLocal()).yMMMd}${prayerSnapshot.data?.endedAt == null ? "" : "-${Jiffy.parseFromDateTime(prayerSnapshot.data!.endedAt!.toLocal()).yMMMd}"}'),
+                            '${Jiffy.parseFromDateTime(prayer.value!.startedAt!.toLocal()).yMMMd}${prayer.value?.endedAt == null ? "" : "-${Jiffy.parseFromDateTime(prayer.value!.endedAt!.toLocal()).yMMMd}"}'),
                   Spacer(),
                   StatisticsChip(
                     icon: FontAwesomeIcons.personPraying,
-                    value: prayerSnapshot.data?.prayersCount ?? 0,
+                    value: prayer.value?.prayersCount ?? 0,
                   ),
                 ],
               ),

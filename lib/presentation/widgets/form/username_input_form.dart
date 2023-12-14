@@ -71,8 +71,11 @@ class UsernameInputForm extends HookWidget {
             GetIt.I<UserRepository>().fetchUser(username: input).then((value) {
               valid.value = value == null ? 2 : -1;
             }).catchError((error, stackTrace) {
-              talker.error("Error while checking if username has already taken",
-                  error, stackTrace);
+              talker.handle(
+                error,
+                stackTrace,
+                "[UserInputForm] Failed to check username",
+              );
               valid.value = -2;
             });
           } else {

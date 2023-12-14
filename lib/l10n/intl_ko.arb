@@ -110,6 +110,7 @@
   "join": "가입",
   "joined": "가입됨",
   "leaveGroup": "그룹 탈퇴",
+  "memberPromoted": "멤버를 임명했습니다",
   "members": "멤버들",
   "membersCount": "{membersCount} 멤버들",
   "membershipType": "가입 조건",

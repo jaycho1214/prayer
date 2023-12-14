@@ -58,6 +58,7 @@ class PrayerFormScreen extends HookConsumerWidget {
         try {
           loading.value = true;
           final form = formKey.currentState!.value;
+          talker.debug('[Prayer] Posting: $form');
           if (!anon.value) {
             final resp = await ConfirmPrayWithNameForm.show(context);
             if (resp != true) {
@@ -66,7 +67,6 @@ class PrayerFormScreen extends HookConsumerWidget {
               return;
             }
           }
-          print(form);
           final files = await Future.wait(media.value.map((e) => e.file));
           final value = await GetIt.I<PrayerRepository>().createPrayer(
             value: form['value'],
@@ -79,10 +79,10 @@ class PrayerFormScreen extends HookConsumerWidget {
                 : List<int>.from(
                     form['verses']!.map((e) => e.verseId!).toList()),
           );
-          talker.good('Prayer posted: $value');
+          talker.good('[Prayer] Posted: $value');
           Navigator.of(context).pop(true);
-        } catch (err) {
-          talker.error('Failed to post a prayer', err);
+        } catch (err, st) {
+          talker.handle(err, st, '[Prayer] Failed to post');
           GlobalSnackBar.show(context, message: S.of(context).errorPostPrayer);
         } finally {
           loading.value = false;

@@ -28,17 +28,19 @@ class UsersScreen extends HookWidget {
       if (hideOnEmptyQuery && query == '') {
         return pagingController.appendLastPage([]);
       }
-      final data = await GetIt.I<UserRepository>().fetchUsers(
-        query: query,
-        cursor: cursor,
-      );
-      if (data.error != null) {
-        talker.error('Error while searching users: ${data.error}');
-        pagingController.error = data.error;
-      } else if (data.cursor != null) {
-        pagingController.appendPage(data.items!, data.cursor);
-      } else {
-        pagingController.appendLastPage(data.items!);
+      try {
+        final data = await GetIt.I<UserRepository>().fetchUsers(
+          query: query,
+          cursor: cursor,
+        );
+        if (data.cursor != null) {
+          pagingController.appendPage(data.items!, data.cursor);
+        } else {
+          pagingController.appendLastPage(data.items!);
+        }
+      } catch (e, st) {
+        talker.handle(e, st, '[UsersScreen] Failed to search users');
+        pagingController.error = e;
       }
     }, [query]);
 

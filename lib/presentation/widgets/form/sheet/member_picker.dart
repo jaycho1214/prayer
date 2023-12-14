@@ -11,6 +11,7 @@ import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group_member/group_member_model.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
+import 'package:prayer/presentation/widgets/notification_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/user/user_card.dart';
@@ -43,9 +44,19 @@ class MemberPickerProvider extends ChangeNotifier {
       value: true,
     )
         .then((value) {
+      talker.good(generateLogMessage("[GroupMember] Member Promoted", data: {
+        'groupId': groupId,
+        'member': member!.uid,
+      }));
       onThen?.call(member!.uid);
-    }).catchError((e) {
-      talker.error("Failed on promoting a user", e);
+    }).catchError((e, st) {
+      talker.handle(
+          e,
+          st,
+          generateLogMessage("[GroupMember] Failed to promote", data: {
+            'groupId': groupId,
+            'member': member!.uid,
+          }));
       onError?.call();
     }).whenComplete(() {
       loading = false;
@@ -244,6 +255,10 @@ class MemberPicker extends HookConsumerWidget {
                                             .update(null);
                                         pageIndex.value = 0;
                                         context.pop(uid);
+                                        NotificationSnackBar.show(
+                                          context,
+                                          message: S.of(context).memberPromoted,
+                                        );
                                       },
                                       onError: () {
                                         GlobalSnackBar.show(context,

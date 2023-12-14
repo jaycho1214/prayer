@@ -51,33 +51,32 @@ class HomeTabBar extends HookConsumerWidget {
     final authState = ref.watch(authNotifierProvider);
     final authStateValue = ref.watch(authNotifierProvider).valueOrNull;
 
-    useEffect(() {
-      FirebaseMessaging.instance
-          .requestPermission(provisional: true)
-          .then((value) async {
-        talker.debug("Notification settings updated: $value");
+    final updateFcmToken = useCallback(() async {
+      try {
+        final permission = await FirebaseMessaging.instance
+            .requestPermission(provisional: true);
+        talker.debug(
+            generateLogMessage("[Notification] Permission updated", data: {
+          "status": permission.authorizationStatus.toString(),
+        }));
         final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
         if (Platform.isIOS && apnsToken != null || Platform.isAndroid) {
           final fcmToken = await FirebaseMessaging.instance.getToken();
           if (fcmToken != null) {
-            talker.debug('Fcm token refreshed: $fcmToken');
-            dio.post('/v1/users/fcmToken', data: {'value': fcmToken});
+            talker.debug(generateLogMessage(
+                "[Notification] Fcm Token Refreshed",
+                data: {"fcmToken": fcmToken}));
+            await dio.post('/v1/users/fcmToken', data: {'value': fcmToken});
+            talker.good('[Notification] Fcm Token Updated');
           }
         }
-      }).catchError((e) {
-        talker.error(
-            "Error occured while updating notification settings: $e", e);
-      });
-      return () {};
+      } catch (e, st) {
+        talker.handle(e, st, "[Notification] Failed to update");
+      }
     }, []);
 
     useEffect(() {
       List<StreamSubscription<dynamic>> subscriptions = [];
-      subscriptions
-          .add(FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-        talker.debug('Fcm token refreshed: $fcmToken');
-        dio.post('/v1/users/fcmToken', data: {'value': fcmToken});
-      }));
       subscriptions.add(FirebaseMessaging.onMessage.listen((initialMessage) {
         if (initialMessage.notification?.body != null) {
           NotificationSnackBar.show(
@@ -95,6 +94,7 @@ class HomeTabBar extends HookConsumerWidget {
     }, []);
 
     useEffect(() {
+      updateFcmToken();
       FirebaseMessaging.instance.getInitialMessage().then(
           (initialMessage) => handleNotification(context, initialMessage));
       return () => null;

@@ -110,6 +110,7 @@
   "join": "Join",
   "joined": "Joined",
   "leaveGroup": "Leave group",
+  "memberPromoted": "Member Promoted",
   "members": "Members",
   "membersCount": "{membersCount} Members",
   "membershipType": "Membership Type",

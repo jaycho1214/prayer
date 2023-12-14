@@ -52,8 +52,9 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
         } else {
           pagingController.appendPage(data.items ?? [], data.cursor);
         }
-      }).catchError((e) {
-        talker.error("Error on fetching next page of group prayers: $e");
+      }).catchError((e, st) {
+        talker.handle(e, st,
+            "[PrayersScreen] Failed to fetch next page of group prayers");
         pagingController.error = e;
       });
     }, [pagingController]);

@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
+import 'package:prayer/constants/talker.dart';
 import 'package:prayer/presentation/screens/auth/login_screen.dart';
 import 'package:prayer/presentation/screens/auth/signup_screen.dart';
 import 'package:prayer/presentation/screens/form/corporate_prayer_form.dart';
@@ -26,6 +27,7 @@ import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class AppRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -42,6 +44,7 @@ class AppRouter {
       observers: [
         MixpanelNavigatorObserver(),
         SentryNavigatorObserver(),
+        TalkerRouteObserver(talker),
       ],
       redirect: (context, state) {
         if (authState.isLoading) {

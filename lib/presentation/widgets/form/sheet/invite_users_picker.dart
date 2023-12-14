@@ -55,12 +55,22 @@ class InviteUsersPickerProvider extends ChangeNotifier {
     notifyListeners();
     GetIt.I<GroupRepository>()
         .inviteUserToGroup(
-          groupId: groupId,
-          userIds: users.map((e) => e.uid).toList(),
-        )
-        .then((_) => onThen?.call())
-        .onError((err, __) {
-      talker.error("Error on inviting user", err);
+      groupId: groupId,
+      userIds: users.map((e) => e.uid).toList(),
+    )
+        .then((_) {
+      talker.good('[InviteUserPicker] User Invited');
+      onThen?.call();
+    }).onError((e, st) {
+      if (e != null) {
+        talker.handle(
+            e,
+            st,
+            generateLogMessage('[InviteUserPicker] Failed to invite user',
+                data: {
+                  'groupId': groupId,
+                }));
+      }
       onError?.call();
     }).whenComplete(() {
       loading = false;
@@ -144,18 +154,20 @@ class InviteUsersPicker extends HookConsumerWidget {
     }, [query.value]);
 
     final fetchPage = useCallback((String? cursor) async {
-      final data = await GetIt.I<UserRepository>().fetchUsers(
-        cursor: cursor,
-        query: query.value,
-        excludeGroupId: groupId,
-      );
-      if (data.error != null) {
-        talker.error('Error while searching users: ${data.error}');
-        pagingController.error = data.error;
-      } else if (data.cursor != null) {
-        pagingController.appendPage(data.items!, data.cursor);
-      } else {
-        pagingController.appendLastPage(data.items!);
+      try {
+        final data = await GetIt.I<UserRepository>().fetchUsers(
+          cursor: cursor,
+          query: query.value,
+          excludeGroupId: groupId,
+        );
+        if (data.cursor != null) {
+          pagingController.appendPage(data.items!, data.cursor);
+        } else {
+          pagingController.appendLastPage(data.items!);
+        }
+      } catch (e, st) {
+        talker.handle(e, st, '[InviteUserPicker] Failed to search users');
+        pagingController.error = e;
       }
     }, [groupId, query.value]);
 

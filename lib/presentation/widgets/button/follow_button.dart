@@ -37,8 +37,8 @@ class FollowButton extends HookWidget {
             .followUser(uid: uid!, value: _followedAt.value == null)
             .then((value) {
           _followedAt.value = _followedAt.value == null ? DateTime.now() : null;
-        }).catchError((e) {
-          talker.error("Error while following $uid", e);
+        }).catchError((e, st) {
+          talker.handle(e, st, "[FollowButton] Failed to follow $uid");
           GlobalSnackBar.show(context, message: S.of(context).errorFollowUser);
         });
       },

@@ -54,8 +54,8 @@ class UserFormScreen extends HookConsumerWidget {
                 userProvider(uid: FirebaseAuth.instance.currentUser!.uid));
             context.pop('updated');
           }
-        }).catchError((e) {
-          talker.error('Unable to update user: $e');
+        }).catchError((e, st) {
+          talker.handle(e, st, '[UserForm] Failed to update: $values');
           GlobalSnackBar.show(context,
               message: S.of(context).errorUnableToUpdate);
         }).whenComplete(() {
