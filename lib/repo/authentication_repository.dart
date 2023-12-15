@@ -25,7 +25,9 @@ class AuthenticationRepository {
   }
 
   Future<UserCredential> signInWithApple() async {
-    final appleProvider = AppleAuthProvider().addScope('email');
+    final appleProvider = AppleAuthProvider();
+    appleProvider.addScope('email');
+    appleProvider.addScope('name');
     return FirebaseAuth.instance.signInWithProvider(appleProvider);
   }
 
