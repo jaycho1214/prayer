@@ -52,8 +52,6 @@
 	<string>https://postbacks-app.com</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We require access to your photo library to enable you to upload and share inspirational images within our Christian community</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Our app uses tracking to personalize your prayer sharing experience and improve community engagement</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
