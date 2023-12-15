@@ -45,12 +45,15 @@ class DonateScreen extends StatelessWidget {
             ),
           ),
           ShrinkingButton(
-            onTap: () {
+            onTap: () async {
               mixpanel.track("Donate Clicked");
               if (Localizations.localeOf(context).languageCode == 'ko') {
                 DonationDetailSheet.show(context);
               } else {
-                launchUrl(Uri.parse('https://paypal.me/PrayerOfficial'));
+                launchUrl(
+                  Uri.parse('https://paypal.me/PrayerOfficial'),
+                  mode: LaunchMode.externalApplication,
+                );
               }
             },
             child: Container(

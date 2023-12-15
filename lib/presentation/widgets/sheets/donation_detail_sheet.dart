@@ -119,7 +119,9 @@ class DonationDetailSheet extends HookWidget {
                       style: TextStyle(fontWeight: FontWeight.bold),
                       onTap: () {
                         launchUrl(
-                            Uri.parse('https://paypal.me/PrayerOfficial'));
+                          Uri.parse('https://paypal.me/PrayerOfficial'),
+                          mode: LaunchMode.externalApplication,
+                        );
                       },
                     ),
                   ],
