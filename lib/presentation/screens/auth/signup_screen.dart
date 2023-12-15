@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -35,7 +36,7 @@ class SignUpScreen extends HookConsumerWidget {
         try {
           await ref.read(authNotifierProvider.notifier).createUser(
                 username: form['username'],
-                name: form['name'],
+                name: FirebaseAuth.instance.currentUser?.displayName ?? '',
                 bio: form['bio'],
               );
         } on DuplicatedUsernameException catch (_) {
@@ -110,20 +111,6 @@ class SignUpScreen extends HookConsumerWidget {
                     children: [
                       const UsernameInputForm(),
                       const SizedBox(height: 5),
-                      TextInputField(
-                        name: 'name',
-                        labelText: S.of(context).name,
-                        maxLength: 30,
-                        maxLines: 1,
-                        keyboardType: TextInputType.name,
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return S.of(context).errorEnterName;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
                       TextInputField(
                         name: 'bio',
                         labelText: S.of(context).bio,
