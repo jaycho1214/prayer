@@ -78,7 +78,8 @@ class AuthNotifier extends _$AuthNotifier {
           data == null ? AuthStateSignedIn() : AuthStateSignedUp(data));
       talker.good('Sign In Success: ${data?.toJson()}');
     } catch (error, stackTrace) {
-      if ((error is FirebaseAuthException && error.code == 'unknown') ||
+      if ((error is FirebaseAuthException &&
+              (error.code == 'unknown' || error.code == 'canceled')) ||
           error is SignInCancelled) {
         talker.debug("Sign In Cancelled");
         state = AsyncValue.data(AuthStateSignedOut());
