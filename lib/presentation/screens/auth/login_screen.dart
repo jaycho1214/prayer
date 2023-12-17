@@ -12,7 +12,12 @@ import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
 
 class LoginScreen extends HookConsumerWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({
+    super.key,
+    this.needSignOut = false,
+  });
+
+  final bool needSignOut;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,23 +26,33 @@ class LoginScreen extends HookConsumerWidget {
     final lastPressed = useState<String?>(null);
 
     ref.listen(authNotifierProvider, (_, next) {
-      if (next.error != null) {}
       next.when(
-          data: (state) {
-            if (state is AuthStateSignedIn) {
-              context.go('/auth/signUp');
-            } else if (state is AuthStateSignedUp) {
-              context.go('/');
-            }
-          },
-          error: (_, __) {
-            GlobalSnackBar.show(
-              context,
-              message: S.of(context).errorSignIn,
-            );
-          },
-          loading: () => null);
+        data: (state) {
+          if (state is AuthStateSignedIn) {
+            context.go('/auth/signUp');
+          } else if (state is AuthStateSignedUp) {
+            context.go('/');
+          }
+        },
+        error: (_, __) {
+          GlobalSnackBar.show(
+            context,
+            message: S.of(context).errorSignIn,
+          );
+        },
+        loading: () => null,
+      );
     });
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        if (needSignOut) {
+          ref.read(authNotifierProvider.notifier).signOut();
+        }
+      });
+
+      return () => null;
+    }, [needSignOut]);
 
     return Container(
       color: MyTheme.surface,

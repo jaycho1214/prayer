@@ -56,6 +56,11 @@ class ErrorScreen extends ConsumerWidget {
                 text: S.of(context).refresh,
                 onTap: () => ref.refresh(authNotifierProvider.future),
               ),
+              SizedBox(height: 10),
+              PrimaryTextButton(
+                text: S.of(context).signOut,
+                onTap: () => ref.read(authNotifierProvider.notifier).signOut(),
+              ),
             ],
           ),
         ),

@@ -134,6 +134,11 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
+  void signOut() {
+    state = AsyncValue.data(AuthStateSignedOut());
+    FirebaseAuth.instance.signOut();
+  }
+
   Function() _subscribe() {
     final authSubscription =
         FirebaseAuth.instance.authStateChanges().listen((user) {

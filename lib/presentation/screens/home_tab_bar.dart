@@ -46,10 +46,10 @@ class HomeTabBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useAutomaticKeepAlive();
     final index = useState(0);
     final authState = ref.watch(authNotifierProvider);
     final authStateValue = ref.watch(authNotifierProvider).valueOrNull;
+    useAutomaticKeepAlive(wantKeepAlive: authState is AuthStateSignedUp);
 
     final updateFcmToken = useCallback(() async {
       try {
@@ -102,7 +102,7 @@ class HomeTabBar extends HookConsumerWidget {
 
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
-      body: authState.hasError
+      body: authState.hasError || authState.valueOrNull is AuthStateSignedOut
           ? ErrorScreen()
           : Stack(
               children: [

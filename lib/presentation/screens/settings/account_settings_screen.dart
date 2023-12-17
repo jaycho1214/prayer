@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -15,7 +14,7 @@ import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/repo/user_repository.dart';
 
-class AccountSettingsScreen extends HookWidget {
+class AccountSettingsScreen extends StatelessWidget {
   const AccountSettingsScreen({super.key});
 
   Widget _buildRow({
@@ -95,11 +94,10 @@ class AccountSettingsScreen extends HookWidget {
                 icon: FontAwesomeIcons.lockOpen,
               );
               if (resp == true) {
-                FirebaseAuth.instance.signOut();
                 while (context.canPop()) {
                   context.pop();
                 }
-                context.replace('/auth/signIn');
+                context.go('/auth/signIn', extra: {'needSignOut': true});
               }
             },
           ),
@@ -126,7 +124,7 @@ class AccountSettingsScreen extends HookWidget {
                     while (context.canPop()) {
                       context.pop();
                     }
-                    context.replace('/auth/signIn');
+                    context.go('/auth/signIn', extra: {'needSignOut': true});
                   }).catchError((err) {
                     if (err is DioException &&
                         err.response?.data['code'] == 'not-empty-resource') {

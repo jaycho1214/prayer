@@ -56,9 +56,6 @@ class AppRouter {
         if (authState.value is AuthStateSignedIn) {
           return '/auth/signUp';
         } else if (authState.value is AuthStateSignedUp) {
-          if (state.path?.startsWith('/auth') == true) {
-            return '/';
-          }
           return null;
         }
         return '/auth/signIn';
@@ -71,7 +68,10 @@ class AppRouter {
     // AUTH
     GoRoute(
       path: '/auth/signIn',
-      builder: (context, state) => const LoginScreen(),
+      builder: (context, state) => LoginScreen(
+        needSignOut:
+            (state.extra as Map<String, bool>?)?['needSignOut'] ?? false,
+      ),
     ),
     GoRoute(
       path: '/auth/signUp',
