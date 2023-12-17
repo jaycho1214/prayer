@@ -138,11 +138,8 @@ class GroupScreen extends HookConsumerWidget {
                               data.hasError,
                           child: Column(
                             children: [
-                              Hero(
-                                tag: 'group.$groupId.banner',
-                                child: GroupBannerImage(
-                                  banner: group.banner,
-                                ),
+                              GroupBannerImage(
+                                banner: group.banner,
                               ),
                               Padding(
                                 padding:

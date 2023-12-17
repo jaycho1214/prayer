@@ -35,15 +35,12 @@ class InnerImageCard extends HookWidget {
           color: Colors.white,
           borderRadius: borderRadius,
         ),
-        child: Hero(
-          tag: image,
-          child: CachedNetworkImage(
-            imageUrl: image,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Skeletonizer(
-              enabled: true,
-              child: SizedBox.expand(),
-            ),
+        child: CachedNetworkImage(
+          imageUrl: image,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => Skeletonizer(
+            enabled: true,
+            child: SizedBox.expand(),
           ),
         ),
       ),

@@ -32,19 +32,16 @@ class GroupCard extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Hero(
-            tag: 'group.${group.id}.banner',
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width * 0.5,
-              color: MyTheme.placeholder,
-              child: group.banner != null
-                  ? CachedNetworkImage(
-                      imageUrl: group.banner!,
-                      fit: BoxFit.cover,
-                    )
-                  : null,
-            ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.width * 0.5,
+            color: MyTheme.placeholder,
+            child: group.banner != null
+                ? CachedNetworkImage(
+                    imageUrl: group.banner!,
+                    fit: BoxFit.cover,
+                  )
+                : null,
           ),
           Padding(
             padding: const EdgeInsets.all(10),

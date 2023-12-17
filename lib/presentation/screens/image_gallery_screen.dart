@@ -39,13 +39,10 @@ class ImageGalleryScreen extends HookWidget {
               transformationController: controller,
               minScale: 0.5,
               maxScale: 5.0,
-              child: Hero(
-                tag: url,
-                child: CachedNetworkImage(
-                  imageUrl: url,
-                  errorWidget: (context, url, error) => Center(
-                    child: Text(S.of(context).errorLoadImage),
-                  ),
+              child: CachedNetworkImage(
+                imageUrl: url,
+                errorWidget: (context, url, error) => Center(
+                  child: Text(S.of(context).errorLoadImage),
                 ),
               ),
             ),
