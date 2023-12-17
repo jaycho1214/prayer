@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,7 @@ import 'package:prayer/presentation/widgets/auth/login_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:prayer/providers/auth/auth_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends HookConsumerWidget {
   const LoginScreen({
@@ -77,23 +79,55 @@ class LoginScreen extends HookConsumerWidget {
               if (Platform.isIOS) ...[
                 const SizedBox(height: 10),
                 LoginButton(
-                    loading: lastPressed.value == 'apple' && loading,
-                    iconPath: "assets/images/logo/apple.png",
-                    text: S.of(context).signInWithApple,
-                    onTap: () {
-                      lastPressed.value = 'apple';
-                      authProvider.signIn(AuthProvider.apple);
-                    }),
+                  loading: lastPressed.value == 'apple' && loading,
+                  iconPath: "assets/images/logo/apple.png",
+                  text: S.of(context).signInWithApple,
+                  onTap: () {
+                    lastPressed.value = 'apple';
+                    authProvider.signIn(AuthProvider.apple);
+                  },
+                ),
               ],
               const SizedBox(height: 10),
               LoginButton(
-                  loading: lastPressed.value == 'google' && loading,
-                  iconPath: "assets/images/logo/google.png",
-                  text: S.of(context).signInWithGoogle,
-                  onTap: () {
-                    lastPressed.value = 'google';
-                    authProvider.signIn(AuthProvider.google);
-                  }),
+                loading: lastPressed.value == 'google' && loading,
+                iconPath: "assets/images/logo/google.png",
+                text: S.of(context).signInWithGoogle,
+                onTap: () {
+                  lastPressed.value = 'google';
+                  authProvider.signIn(AuthProvider.google);
+                },
+              ),
+              const SizedBox(height: 40),
+              Text.rich(
+                TextSpan(
+                  style: TextStyle(color: MyTheme.placeholderText),
+                  children: [
+                    TextSpan(text: "By signing up, you agree to our "),
+                    TextSpan(
+                      text: "Terms of Service",
+                      style: TextStyle(decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          launchUrl(Uri.parse(
+                              'https://www.crosswand.com/app/prayer/terms'));
+                        },
+                    ),
+                    TextSpan(text: " and acknowledge that our "),
+                    TextSpan(
+                      text: "Privacy Policy",
+                      style: TextStyle(decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          launchUrl(Uri.parse(
+                              'https://www.crosswand.com/app/prayer/privacy'));
+                        },
+                    ),
+                    TextSpan(text: " applies to you."),
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ],
