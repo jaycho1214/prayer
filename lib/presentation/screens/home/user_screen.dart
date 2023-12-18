@@ -56,11 +56,14 @@ class SliverUserAppBarDelegate extends SliverPersistentHeaderDelegate {
             Positioned(
               right: 20,
               bottom: 10,
-              child: Container(
-                child: FollowButton(
-                  key: ObjectKey(user),
-                  uid: user?.uid,
-                  followedAt: user?.followedAt,
+              child: Transform.translate(
+                offset: Offset(0, -offset),
+                child: Container(
+                  child: FollowButton(
+                    key: ObjectKey(user),
+                    uid: user?.uid,
+                    followedAt: user?.followedAt,
+                  ),
                 ),
               ),
             ),
