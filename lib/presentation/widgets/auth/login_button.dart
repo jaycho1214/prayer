@@ -18,7 +18,7 @@ class LoginButton extends StatelessWidget {
   final String text;
   final bool loading;
 
-  handleTap() {
+  void handleTap() {
     HapticFeedback.lightImpact();
     onTap?.call();
   }

@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/presentation/widgets/corporate_prayer_card.dart';
+import 'package:prayer/presentation/widgets/prayer/corporate_prayer_card.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
 class GroupCorporatePrayersScreen extends HookWidget {

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 final dio = Dio(BaseOptions(
   baseUrl: kDebugMode
-      ? 'https://4808-121-167-40-227.ngrok-free.app'
+      ? 'https://7b69-121-167-40-227.ngrok-free.app'
       : 'https://api-prayer.crosswand.com',
 ))
   ..interceptors.add(InterceptorsWrapper(

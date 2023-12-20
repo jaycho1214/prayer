@@ -24,30 +24,38 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(username) => "@${username}의 초대를 취소하시겠습니까?";
 
-  static String m2(membershipType) =>
+  static String m2(username) => "${username} 차단";
+
+  static String m3(membershipType) =>
       "이 그룹은 ${membershipType} 입니다.\n멤버만 볼 수 있습니다.";
 
-  static String m3(username) => "${username}이 이미 사용중 입니다";
+  static String m4(username) => "${username}이 이미 사용중 입니다";
 
-  static String m4(establishedAt) => "3. 이 그룹은 ${establishedAt}애 창설되었습니다";
+  static String m5(username) => "${username} 팔로우";
 
-  static String m5(membersCount) => "${membersCount} 멤버들";
+  static String m6(establishedAt) => "3. 이 그룹은 ${establishedAt}애 창설되었습니다";
 
-  static String m6(url) =>
+  static String m7(membersCount) => "${membersCount} 멤버들";
+
+  static String m8(url) =>
       "지금 \'Prayer\' 앱에서 서로의 기도를 나누고, 기도 요청을 올리고 다른 사람들을 위해 기도해주세요.\n\n ${url}";
 
-  static String m7(username) => "${username}이 기도했습니다";
+  static String m9(username) => "${username}이 기도했습니다";
 
-  static String m8(membershipType) => "이 그룹은 ${membershipType}입니다";
+  static String m10(membershipType) => "이 그룹은 ${membershipType}입니다";
 
-  static String m9(membersCount) => "${membersCount}명의 사람을 초대하시겠습니까?";
+  static String m11(membersCount) => "${membersCount}명의 사람을 초대하시겠습니까?";
 
-  static String m10(name) => "${name}을 임명하시겠습니까?";
+  static String m12(name) => "${name}을 임명하시겠습니까?";
 
-  static String m11(fromDays, toDays) =>
+  static String m13(fromDays, toDays) =>
       "이 알림은 ${fromDays}부터 ${toDays}까지 전송됩니다";
 
-  static String m12(version) => "버전: ${version}";
+  static String m14(username) => "${username} 차단 해제";
+
+  static String m15(username) => "${username} 언팔로우";
+
+  static String m16(version) => "버전: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -77,6 +85,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("- 사도행전 4:31 (개역개정)"),
         "bibleVerse": MessageLookupByLibrary.simpleMessage("성경 구절"),
         "bio": MessageLookupByLibrary.simpleMessage("바이오"),
+        "blockUser": m2,
+        "blockUserDescription": MessageLookupByLibrary.simpleMessage(
+            "1. 사용자가 당신을 차단했다는 사실을 모를 거예요.: 2. 사용자는 당신의 기도, 그룹, 프로필을 볼 수 없게 됩니다.: 3. 사용자는 당신을 검색 할 수 없습니다."),
+        "blocked": MessageLookupByLibrary.simpleMessage("차단"),
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "chooseCorporatePrayer":
             MessageLookupByLibrary.simpleMessage("중보기도 선택"),
@@ -172,7 +184,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("유형 중 하나를 선택해 주세요"),
         "errorNeedPermissionToPost":
             MessageLookupByLibrary.simpleMessage("그룹 멤버만 작성할 수 있습니다"),
-        "errorNeedPermissionToView": m2,
+        "errorNeedPermissionToView": m3,
         "errorPostPrayer":
             MessageLookupByLibrary.simpleMessage("기도문 게시에 실패하였습니다"),
         "errorPromoteUser":
@@ -191,15 +203,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "아이디는 알파벳, 숫자, 마침표, 밑줄만 사용가능합니다"),
         "errorUsernameReqruied":
             MessageLookupByLibrary.simpleMessage("아이디를 입력해주세요"),
-        "errorUsernameTaken": m3,
+        "errorUsernameTaken": m4,
         "everyday": MessageLookupByLibrary.simpleMessage("매일"),
         "follow": MessageLookupByLibrary.simpleMessage("팔로우"),
+        "followUser": m5,
         "followers": MessageLookupByLibrary.simpleMessage("팔로워"),
         "following": MessageLookupByLibrary.simpleMessage("팔로잉"),
         "followings": MessageLookupByLibrary.simpleMessage("팔로잉"),
         "group": MessageLookupByLibrary.simpleMessage("그룹"),
         "groupDescription": MessageLookupByLibrary.simpleMessage("그룹 설명"),
-        "groupEstablishedAt": m4,
+        "groupEstablishedAt": m6,
         "groupName": MessageLookupByLibrary.simpleMessage("그룹 이름"),
         "groups": MessageLookupByLibrary.simpleMessage("그룹"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
@@ -214,7 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "leaveGroup": MessageLookupByLibrary.simpleMessage("그룹 탈퇴"),
         "memberPromoted": MessageLookupByLibrary.simpleMessage("멤버를 임명했습니다"),
         "members": MessageLookupByLibrary.simpleMessage("멤버들"),
-        "membersCount": m5,
+        "membersCount": m7,
         "membershipType": MessageLookupByLibrary.simpleMessage("가입 조건"),
         "membershipTypeOpenDescription": MessageLookupByLibrary.simpleMessage(
             "누구나 자유롭게 그룹내 기도문을 보고, 가입할 수 있습니다."),
@@ -229,6 +242,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "moderatorsPrivileges": MessageLookupByLibrary.simpleMessage(
             "1. 사역자는 다른 사람을 초대하거나 가입 요청을 수락할 수 있습니다:2. 사역자는 중보 기도문을 게시할 수 있습니다.:3. 사역자는 기도 시간에 대한 알림을 설정할 수 있습니다."),
         "name": MessageLookupByLibrary.simpleMessage("이름"),
+        "neighbor": MessageLookupByLibrary.simpleMessage("이웃들"),
         "notifications": MessageLookupByLibrary.simpleMessage("알림"),
         "open": MessageLookupByLibrary.simpleMessage("공개"),
         "pickImage": MessageLookupByLibrary.simpleMessage("이미지 선택"),
@@ -264,6 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "reminder": MessageLookupByLibrary.simpleMessage("알림"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("현재 사진 제거하기"),
+        "report": MessageLookupByLibrary.simpleMessage("신고하기"),
         "requested": MessageLookupByLibrary.simpleMessage("요청됨"),
         "requests": MessageLookupByLibrary.simpleMessage("가입 요청"),
         "resetToDefault": MessageLookupByLibrary.simpleMessage("기본값으로 초기화"),
@@ -274,7 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sendFeedback": MessageLookupByLibrary.simpleMessage("피드백 보내기"),
         "sendInvitation": MessageLookupByLibrary.simpleMessage("초대하기"),
         "settings": MessageLookupByLibrary.simpleMessage("설정"),
-        "shareAppMessage": m6,
+        "shareAppMessage": m8,
         "sharePrayer": MessageLookupByLibrary.simpleMessage("Prayer 공유하기"),
         "signInWithApple": MessageLookupByLibrary.simpleMessage("애플로 로그인하기"),
         "signInWithGoogle": MessageLookupByLibrary.simpleMessage("구글로 로그인하기"),
@@ -283,7 +298,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "항상 기뻐하라, 쉬지 말고 기도하라, 범사에 감사하라 이것이 그리스도 예수 안에서 너희를 향하신 하나님의 뜻이라"),
         "signUpScreenBibleVerseBook":
             MessageLookupByLibrary.simpleMessage("데살로니가전서 5:16-18 (개역개정)"),
-        "someoneHasPrayed": m7,
+        "someoneHasPrayed": m9,
         "startedAt": MessageLookupByLibrary.simpleMessage("시작"),
         "termsOfUse": MessageLookupByLibrary.simpleMessage("이용약관"),
         "title": MessageLookupByLibrary.simpleMessage("제목"),
@@ -297,10 +312,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("중보기도 삭제"),
         "titleGroupDescription": MessageLookupByLibrary.simpleMessage(
             "이 그룹이 어떤 그룹인지 알려주세요. 예) 목적, 미션, 기도제목"),
-        "titleGroupType": m8,
+        "titleGroupType": m10,
         "titleHowToShareYourPrayer":
             MessageLookupByLibrary.simpleMessage("어떻게 기도문을 공유하시겠습니까?"),
-        "titleInvitePeople": m9,
+        "titleInvitePeople": m11,
         "titleInvitePeopleDescription": MessageLookupByLibrary.simpleMessage(
             "초대받은 사용자는 알림을 받고 관리자의 승인 없이 그룹에 가입할 수 있습니다. 다른 관리자가 이 초대를 철회할 수 도 있습니다."),
         "titleMemberCanPostOnly": MessageLookupByLibrary.simpleMessage(
@@ -317,17 +332,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("익명으로 공유하기"),
         "titlePrayerPostPublicly":
             MessageLookupByLibrary.simpleMessage("공개적으로 공유하기"),
-        "titlePromoteUser": m10,
-        "titleReminderNotifyOn": m11,
+        "titlePromoteUser": m12,
+        "titleReminderNotifyOn": m13,
         "titleTimezoneWillBeUsed": MessageLookupByLibrary.simpleMessage(
             "내 시간대를 기준으로 다른 사람에게 알림이 전송됩니다"),
         "titleWithName": MessageLookupByLibrary.simpleMessage(
             "사용자들이 당신의 기도문과 당신의 이름을 볼 수 있습니다"),
         "titleYourPrayerHasBeenReceived":
             MessageLookupByLibrary.simpleMessage("이미 기도하신 제목입니다"),
+        "unblockUser": m14,
+        "unfollow": MessageLookupByLibrary.simpleMessage("언팔로우"),
+        "unfollowUser": m15,
         "username": MessageLookupByLibrary.simpleMessage("아이디"),
         "users": MessageLookupByLibrary.simpleMessage("유저"),
-        "versionText": m12,
+        "versionText": m16,
         "weekdays": MessageLookupByLibrary.simpleMessage("주중"),
         "weekend": MessageLookupByLibrary.simpleMessage("주말"),
         "withName": MessageLookupByLibrary.simpleMessage("공개")

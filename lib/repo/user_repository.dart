@@ -33,6 +33,16 @@ class UserRepository {
     });
   }
 
+  Future<void> blockUser({
+    required String uid,
+    required bool value,
+  }) async {
+    mixpanel.track("User Blocked");
+    await dio.post('/v1/users/$uid/blocks', data: {
+      'value': value,
+    });
+  }
+
   Future<void> deleteUser() async {
     mixpanel.track("User Deleted");
     await dio.delete('/v1/users');

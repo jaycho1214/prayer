@@ -9,6 +9,7 @@ import 'package:prayer/presentation/screens/auth/signup_screen.dart';
 import 'package:prayer/presentation/screens/form/corporate_prayer_form.dart';
 import 'package:prayer/presentation/screens/form/group_form.dart';
 import 'package:prayer/presentation/screens/form/prayer_form.dart';
+import 'package:prayer/presentation/screens/form/report_form.dart';
 import 'package:prayer/presentation/screens/form/user_form.dart';
 import 'package:prayer/presentation/screens/group/group_members_screen.dart';
 import 'package:prayer/presentation/screens/group/group_screen.dart';
@@ -83,6 +84,17 @@ class AppRouter {
       path: '/',
       builder: (context, state) => const HomeTabBar(),
       routes: [
+        //REPORT
+        GoRoute(
+          path: 'report',
+          builder: (context, state) => ReportScreen(
+            userId: state.uri.queryParameters['userId'],
+            prayId: state.uri.queryParameters['prayId'],
+            groupId: state.uri.queryParameters['groupId'],
+            prayerId: state.uri.queryParameters['prayerId'],
+          ),
+        ),
+
         //SEARCH
         GoRoute(
           path: 'search',

@@ -47,9 +47,8 @@ class PrayerCard extends ConsumerWidget {
                   child: Row(
                     children: [
                       ShrinkingButton(
-                        onTap: () {
-                          context.push('/groups/${prayer.value?.groupId}');
-                        },
+                        onTap: () =>
+                            context.push('/groups/${prayer.value?.groupId}'),
                         child: Row(
                           children: [
                             const SizedBox(width: 10),

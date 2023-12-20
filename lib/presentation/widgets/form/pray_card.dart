@@ -33,10 +33,7 @@ class PrayCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              UserProfileImage(
-                profile: pray.user.profile,
-                size: 30,
-              ),
+              UserProfileImage(profile: pray.user.profile, size: 30),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -58,12 +55,24 @@ class PrayCard extends StatelessWidget {
                 itemBuilder: (context) => [
                   PullDownMenuHeader(
                     leading: UserProfileImage(profile: pray.user.profile),
+                    icon: FontAwesomeIcons.circleUser,
                     title: '@${pray.user.username}',
                     onTap: () => context.push(Uri(
                         path: '/users',
                         queryParameters: {'uid': pray.user.uid}).toString()),
                   ),
                   PullDownMenuDivider.large(),
+                  PullDownMenuItem(
+                    onTap: () {
+                      context.push(Uri(
+                              path: '/report',
+                              queryParameters: {'prayId': pray.id.toString()})
+                          .toString());
+                    },
+                    title: S.of(context).report,
+                    icon: FontAwesomeIcons.flag,
+                    isDestructive: true,
+                  ),
                   PullDownMenuItem(
                     enabled:
                         pray.user.uid == FirebaseAuth.instance.currentUser?.uid,

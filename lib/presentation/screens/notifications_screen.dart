@@ -13,7 +13,7 @@ import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/model/notification/notification_model.dart';
 import 'package:prayer/presentation/screens/group/groups_screen.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
-import 'package:prayer/presentation/widgets/notification_card.dart';
+import 'package:prayer/presentation/widgets/notification/notification_card.dart';
 import 'package:prayer/presentation/widgets/tab_bar.dart';
 import 'package:prayer/providers/notification/notification_provider.dart';
 import 'package:prayer/repo/group_repository.dart';

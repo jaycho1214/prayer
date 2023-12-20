@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 
@@ -81,30 +80,14 @@ class ConfirmSlimMenuForm extends StatelessWidget {
               ),
             ),
             ShrinkingButton(
-              onTap: () => Navigator.of(context).pop(false),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                width: 60,
-                height: 60,
-                child: Icon(
-                  FontAwesomeIcons.xmark,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            const SizedBox(width: 5),
-            ShrinkingButton(
               onTap: () => Navigator.of(context).pop(true),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(100),
                 ),
-                width: 60,
-                height: 60,
+                width: 50,
+                height: 50,
                 child: Center(
                   child: Icon(
                     icon,
@@ -113,7 +96,7 @@ class ConfirmSlimMenuForm extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: 10),
           ],
         ),
       ),

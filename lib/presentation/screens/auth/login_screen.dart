@@ -21,6 +21,38 @@ class LoginScreen extends HookConsumerWidget {
 
   final bool needSignOut;
 
+  Widget _buildDisclaimer() {
+    return Text.rich(
+      TextSpan(
+        style: TextStyle(color: MyTheme.placeholderText),
+        children: [
+          TextSpan(text: "By signing up, you agree to our "),
+          TextSpan(
+            text: "Terms of Service",
+            style: TextStyle(decoration: TextDecoration.underline),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchUrl(
+                    Uri.parse('https://www.crosswand.com/app/prayer/terms'));
+              },
+          ),
+          TextSpan(text: " and acknowledge that our "),
+          TextSpan(
+            text: "Privacy Policy",
+            style: TextStyle(decoration: TextDecoration.underline),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launchUrl(
+                    Uri.parse('https://www.crosswand.com/app/prayer/privacy'));
+              },
+          ),
+          TextSpan(text: " applies to you."),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authProvider = ref.watch(authNotifierProvider.notifier);
@@ -99,35 +131,7 @@ class LoginScreen extends HookConsumerWidget {
                 },
               ),
               const SizedBox(height: 40),
-              Text.rich(
-                TextSpan(
-                  style: TextStyle(color: MyTheme.placeholderText),
-                  children: [
-                    TextSpan(text: "By signing up, you agree to our "),
-                    TextSpan(
-                      text: "Terms of Service",
-                      style: TextStyle(decoration: TextDecoration.underline),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          launchUrl(Uri.parse(
-                              'https://www.crosswand.com/app/prayer/terms'));
-                        },
-                    ),
-                    TextSpan(text: " and acknowledge that our "),
-                    TextSpan(
-                      text: "Privacy Policy",
-                      style: TextStyle(decoration: TextDecoration.underline),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          launchUrl(Uri.parse(
-                              'https://www.crosswand.com/app/prayer/privacy'));
-                        },
-                    ),
-                    TextSpan(text: " applies to you."),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
+              _buildDisclaimer(),
             ],
           ),
         ],

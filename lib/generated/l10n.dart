@@ -240,6 +240,36 @@ class S {
     );
   }
 
+  /// `Block {username}`
+  String blockUser(Object username) {
+    return Intl.message(
+      'Block $username',
+      name: 'blockUser',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `1. The user will not be aware that you have blocked them.:2. The user will not be able to view your prayers, group, or profile.:3. The user will be unable to search for you.`
+  String get blockUserDescription {
+    return Intl.message(
+      '1. The user will not be aware that you have blocked them.:2. The user will not be able to view your prayers, group, or profile.:3. The user will be unable to search for you.',
+      name: 'blockUserDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blocked`
+  String get blocked {
+    return Intl.message(
+      'Blocked',
+      name: 'blocked',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cancel`
   String get cancel {
     return Intl.message(
@@ -980,6 +1010,16 @@ class S {
     );
   }
 
+  /// `Follow {username}`
+  String followUser(Object username) {
+    return Intl.message(
+      'Follow $username',
+      name: 'followUser',
+      desc: '',
+      args: [username],
+    );
+  }
+
   /// `Followers`
   String get followers {
     return Intl.message(
@@ -1260,6 +1300,16 @@ class S {
     );
   }
 
+  /// `Neighbor`
+  String get neighbor {
+    return Intl.message(
+      'Neighbor',
+      name: 'neighbor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Notifications`
   String get notifications {
     return Intl.message(
@@ -1535,6 +1585,16 @@ class S {
     return Intl.message(
       'Remove current photo',
       name: 'removeCurrentPhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report`
+  String get report {
+    return Intl.message(
+      'Report',
+      name: 'report',
       desc: '',
       args: [],
     );
@@ -1957,6 +2017,36 @@ class S {
       name: 'titleYourPrayerHasBeenReceived',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Unblock {username}`
+  String unblockUser(Object username) {
+    return Intl.message(
+      'Unblock $username',
+      name: 'unblockUser',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `Unfollow`
+  String get unfollow {
+    return Intl.message(
+      'Unfollow',
+      name: 'unfollow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unfollow {username}`
+  String unfollowUser(Object username) {
+    return Intl.message(
+      'Unfollow $username',
+      name: 'unfollowUser',
+      desc: '',
+      args: [username],
     );
   }
 

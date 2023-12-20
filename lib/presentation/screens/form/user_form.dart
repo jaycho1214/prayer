@@ -51,8 +51,8 @@ class UserFormScreen extends HookConsumerWidget {
             .then((value) {
           if (value == 'success') {
             talker.good('[UserForm] User Updated');
-            ref.invalidate(
-                userProvider(uid: FirebaseAuth.instance.currentUser!.uid));
+            ref.invalidate(userNotifierProvider(
+                uid: FirebaseAuth.instance.currentUser!.uid));
             context.pop('updated');
           }
         }).catchError((e, st) {

@@ -176,6 +176,16 @@ class PrayerRepository {
     return fetchPrayerPagination('/v1/prayers', cursor);
   }
 
+  Future<PaginationResponse<String, String?>> fetchFollowersPrayers(
+      {String? cursor}) async {
+    return fetchPrayerPagination('/v1/prayers/followers', cursor);
+  }
+
+  Future<PaginationResponse<String, String?>> fetchNeighborPrayers(
+      {String? cursor}) async {
+    return fetchPrayerPagination('/v1/prayers/neighbor', cursor);
+  }
+
   Future<PaginationResponse<String, String?>> fetchUserPrayers(
       {required String userId, String? cursor}) async {
     return fetchPrayerPagination('/v1/prayers/by/user/$userId', cursor);

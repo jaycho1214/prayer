@@ -5,14 +5,17 @@ class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
     super.key,
     required this.tabs,
+    this.controller,
   });
 
+  final TabController? controller;
   final List<String> tabs;
 
   @override
   Widget build(BuildContext context) {
     final isScrollable = tabs.length > 3;
     return TabBar(
+      controller: controller,
       isScrollable: isScrollable,
       indicatorSize: TabBarIndicatorSize.label,
       tabAlignment: isScrollable ? TabAlignment.start : null,

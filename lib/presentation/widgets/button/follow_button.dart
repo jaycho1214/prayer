@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
-import 'package:prayer/repo/user_repository.dart';
+import 'package:prayer/providers/user/user_provider.dart';
 
-class FollowButton extends HookWidget {
+class FollowButton extends ConsumerWidget {
   const FollowButton({
     super.key,
     required this.uid,
@@ -19,37 +18,54 @@ class FollowButton extends HookWidget {
   final DateTime? followedAt;
 
   @override
-  Widget build(BuildContext context) {
-    final _followedAt = useState(followedAt);
-    final colors = _followedAt.value == null
-        ? [MyTheme.onPrimary, MyTheme.surface]
-        : [MyTheme.surface, MyTheme.onPrimary];
-    final text = _followedAt.value == null
-        ? S.of(context).follow
-        : S.of(context).following;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(userNotifierProvider(uid: uid));
+    final blockedAt = user.valueOrNull?.blockedAt;
+    final followedAt = user.valueOrNull?.followedAt;
+    final colors = blockedAt != null
+        ? [Colors.transparent, MyTheme.onPrimary]
+        : followedAt == null
+            ? [MyTheme.onPrimary, MyTheme.surface]
+            : [MyTheme.surface, MyTheme.onPrimary];
+    final text = blockedAt != null
+        ? S.of(context).blocked
+        : followedAt == null
+            ? S.of(context).follow
+            : S.of(context).following;
 
     return ShrinkingButton(
       onTap: () async {
-        if (uid == null) {
+        if (blockedAt != null) {
+          try {
+            await ref
+                .read(userNotifierProvider(uid: uid).notifier)
+                .blockUser(false);
+          } catch (e, st) {
+            talker.handle(e, st, "[FollowButton] Failed to block $uid");
+            GlobalSnackBar.show(context,
+                message: S.of(context).errorFollowUser);
+          }
           return;
         }
-        GetIt.I<UserRepository>()
-            .followUser(uid: uid!, value: _followedAt.value == null)
-            .then((value) {
-          _followedAt.value = _followedAt.value == null ? DateTime.now() : null;
-        }).catchError((e, st) {
+        try {
+          await ref
+              .read(userNotifierProvider(uid: uid).notifier)
+              .followUser(followedAt == null);
+        } catch (e, st) {
           talker.handle(e, st, "[FollowButton] Failed to follow $uid");
           GlobalSnackBar.show(context, message: S.of(context).errorFollowUser);
-        });
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
           color: colors[0],
           borderRadius: BorderRadius.circular(10),
-          border: _followedAt.value != null
-              ? Border.all(color: MyTheme.outline)
-              : null,
+          border: blockedAt != null
+              ? Border.all(color: MyTheme.error)
+              : followedAt != null
+                  ? Border.all(color: MyTheme.outline)
+                  : null,
         ),
         child: Text(
           text,

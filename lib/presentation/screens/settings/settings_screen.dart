@@ -1,20 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/form/sheet/feedback_form.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/user/account_ban_card.dart';
+import 'package:prayer/providers/auth/auth_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsScreen extends HookWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   Widget _buildRow({
@@ -73,7 +75,13 @@ class SettingsScreen extends HookWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bannedAt = ref.watch(authNotifierProvider).valueOrNull?.when(
+          signedOut: () => null,
+          signedIn: () => null,
+          signedUp: (user) => user.bannedAt,
+        );
+
     return PlatformScaffold(
       backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
@@ -83,6 +91,7 @@ class SettingsScreen extends HookWidget {
       ),
       body: ListView(
         children: [
+          if (bannedAt != null) AccountBanCard(),
           _buildRow(
             icon: FontAwesomeIcons.boxHeart,
             title: S.of(context).donatePrayer,

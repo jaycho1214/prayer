@@ -10,20 +10,21 @@ class StatisticsText extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Row(
+    return Text.rich(TextSpan(
       children: [
-        Text(
-          "${Formatter.formatNumber(value)}",
+        TextSpan(
+          text: Formatter.formatNumber(value),
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(width: 5),
-        Text(
-          text,
-          style: TextStyle(color: MyTheme.placeholderText),
+        TextSpan(
+          text: ' $text',
+          style: TextStyle(
+            color: MyTheme.placeholderText,
+          ),
         ),
       ],
-    );
+    ));
   }
 }

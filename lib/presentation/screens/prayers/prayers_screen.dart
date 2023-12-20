@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/presentation/widgets/prayer_card.dart';
+import 'package:prayer/presentation/widgets/prayer/prayer_card.dart';
 import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
 import 'package:prayer/repo/response_types.dart';
 

@@ -21,6 +21,7 @@ import 'package:prayer/presentation/widgets/form/pray_card.dart';
 import 'package:prayer/presentation/widgets/image_list.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
 import 'package:prayer/presentation/widgets/snackbar.dart';
+import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/prayer/deleted_prayer_provider.dart';
 import 'package:prayer/providers/prayer/prayer_provider.dart';
 import 'package:prayer/repo/prayer_repository.dart';
@@ -147,10 +148,26 @@ class PrayerScreen extends HookConsumerWidget {
                                       ],
                                     ),
                                   ),
-                                  if (prayer.value?.userId ==
-                                      FirebaseAuth.instance.currentUser?.uid)
-                                    PullDownButton(
-                                        itemBuilder: (context) => [
+                                  PullDownButton(
+                                      itemBuilder: (context) => [
+                                            PullDownMenuHeader(
+                                              leading: UserProfileImage(
+                                                  profile: prayer
+                                                      .value?.user?.profile),
+                                              title:
+                                                  '@${prayer.value?.user?.username}',
+                                              icon: FontAwesomeIcons.circleUser,
+                                              onTap: () => context.push(Uri(
+                                                  path: '/users',
+                                                  queryParameters: {
+                                                    'uid': prayer
+                                                        .value?.user?.profile
+                                                  }).toString()),
+                                            ),
+                                            PullDownMenuDivider.large(),
+                                            if (prayer.value?.userId ==
+                                                FirebaseAuth
+                                                    .instance.currentUser?.uid)
                                               PullDownMenuItem(
                                                 onTap: () {
                                                   GetIt.I<PrayerRepository>()
@@ -167,14 +184,26 @@ class PrayerScreen extends HookConsumerWidget {
                                                 icon: FontAwesomeIcons.trash,
                                                 isDestructive: true,
                                               ),
-                                            ],
-                                        buttonBuilder: (context, showMenu) {
-                                          return NavigateIconButton(
-                                            onPressed: showMenu,
-                                            icon: FontAwesomeIcons
-                                                .ellipsisVertical,
-                                          );
-                                        })
+                                            PullDownMenuItem(
+                                              onTap: () {
+                                                context.push(Uri(
+                                                    path: '/report',
+                                                    queryParameters: {
+                                                      'prayerId': prayerId
+                                                    }).toString());
+                                              },
+                                              title: S.of(context).report,
+                                              icon: FontAwesomeIcons.flag,
+                                              isDestructive: true,
+                                            ),
+                                          ],
+                                      buttonBuilder: (context, showMenu) {
+                                        return NavigateIconButton(
+                                          onPressed: showMenu,
+                                          icon:
+                                              FontAwesomeIcons.ellipsisVertical,
+                                        );
+                                      })
                                 ],
                               ),
                               const SizedBox(height: 10),

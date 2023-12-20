@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
+import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -18,14 +19,18 @@ import 'package:prayer/presentation/screens/group/groups_screen.dart';
 import 'package:prayer/presentation/screens/prayers/prayers_screen.dart';
 import 'package:prayer/presentation/widgets/bibles/bible_card.dart';
 import 'package:prayer/presentation/widgets/button/follow_button.dart';
+import 'package:prayer/presentation/widgets/form/sheet/confirm_menu_form.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
+import 'package:prayer/presentation/widgets/notification_bar.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
+import 'package:prayer/presentation/widgets/snackbar.dart';
 import 'package:prayer/presentation/widgets/statistics_text.dart';
 import 'package:prayer/presentation/widgets/user/user_image.dart';
 import 'package:prayer/providers/user/user_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:prayer/utils/utils.dart';
+import 'package:pull_down_button/pull_down_button.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class SliverUserAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -141,7 +146,7 @@ class UserScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userValue = ref.watch(userProvider(
+    final userValue = ref.watch(userNotifierProvider(
       uid: uid ??
           (username != null ? null : FirebaseAuth.instance.currentUser!.uid),
       username: username,
@@ -178,7 +183,7 @@ class UserScreen extends HookConsumerWidget {
                 : notification.depth == 0,
             onRefresh: () async {
               final index = DefaultTabController.of(context).index;
-              final state = ref.refresh(userProvider(
+              final state = ref.refresh(userNotifierProvider(
                 uid: uid,
                 username: username,
               ).future);
@@ -417,6 +422,102 @@ class UserScreen extends HookConsumerWidget {
                             size: 12,
                           ),
                         ),
+                      ),
+                    ),
+                  if (user?.uid != FirebaseAuth.instance.currentUser?.uid)
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + 10,
+                      right: 20,
+                      child: PullDownButton(
+                        itemBuilder: (context) => [
+                          PullDownMenuItem(
+                            onTap: () {
+                              if (user?.uid == null) {
+                                return;
+                              }
+                              ref
+                                  .read(userNotifierProvider(uid: user!.uid)
+                                      .notifier)
+                                  .followUser(user.followedAt == null);
+                            },
+                            title: user?.followedAt == null
+                                ? S.of(context).followUser('@${user?.username}')
+                                : S
+                                    .of(context)
+                                    .unfollowUser('@${user?.username}'),
+                            icon: FontAwesomeIcons.userPlus,
+                          ),
+                          PullDownMenuItem(
+                            onTap: () async {
+                              if (user?.uid == null) {
+                                return;
+                              }
+                              final resp = await ConfirmMenuForm.show(
+                                context,
+                                title: S
+                                    .of(context)
+                                    .blockUser('@${user?.username}'),
+                                icon: FontAwesomeIcons.userSlash,
+                                description: S
+                                    .of(context)
+                                    .blockUserDescription
+                                    .split(':'),
+                              );
+                              if (resp == true) {
+                                try {
+                                  ref
+                                      .read(userNotifierProvider(uid: user!.uid)
+                                          .notifier)
+                                      .blockUser(user.blockedAt == null);
+                                  NotificationSnackBar.show(context,
+                                      message: S.of(context).blocked);
+                                } catch (e, st) {
+                                  talker.handle(e, st,
+                                      '[UserScreen] Failed to block a user');
+                                  GlobalSnackBar.show(context,
+                                      message: "Failed to block a user");
+                                }
+                              }
+                            },
+                            title: user?.blockedAt == null
+                                ? S.of(context).blockUser('@${user?.username}')
+                                : S
+                                    .of(context)
+                                    .unblockUser('@${user?.username}'),
+                            icon: FontAwesomeIcons.userSlash,
+                            isDestructive: true,
+                          ),
+                          PullDownMenuItem(
+                            onTap: () {
+                              context.push(Uri(
+                                      path: '/report',
+                                      queryParameters: {'userId': user?.uid})
+                                  .toString());
+                            },
+                            title: S.of(context).report,
+                            icon: FontAwesomeIcons.flag,
+                            isDestructive: true,
+                          ),
+                        ],
+                        buttonBuilder: (context, showMenu) {
+                          return ShrinkingButton(
+                            onTap: showMenu,
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(0, 0, 0, 0.5),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const FaIcon(
+                                FontAwesomeIcons.ellipsis,
+                                color: MyTheme.onPrimary,
+                                size: 12,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                 ],

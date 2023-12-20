@@ -15,6 +15,7 @@ import 'package:prayer/presentation/widgets/button/fab.dart';
 import 'package:prayer/presentation/widgets/button/join_button.dart';
 import 'package:prayer/presentation/widgets/button/navigate_button.dart';
 import 'package:prayer/presentation/widgets/button/text_button.dart';
+import 'package:prayer/presentation/widgets/group/group_ban_card.dart';
 import 'package:prayer/presentation/widgets/nested_scroll_tab_bar.dart';
 import 'package:prayer/presentation/widgets/sheets/group_information_sheet.dart';
 import 'package:prayer/presentation/widgets/shrinking_button.dart';
@@ -80,32 +81,41 @@ class GroupScreen extends HookConsumerWidget {
         trailingActions: [
           Center(
             child: PullDownButton(
-                itemBuilder: (context) => [
-                      PullDownMenuItem(
-                        onTap: () {
-                          context.push('/groups/$groupId/members');
-                        },
-                        title: S.of(context).members,
-                        icon: FontAwesomeIcons.lightUsers,
-                      ),
-                      if (group.adminId ==
-                          FirebaseAuth.instance.currentUser?.uid)
-                        PullDownMenuItem(
-                          onTap: () =>
-                              context.push('/form/group', extra: group),
-                          title: S.of(context).edit,
-                          icon: FontAwesomeIcons.penToSquare,
-                          enabled: group.adminId ==
-                              FirebaseAuth.instance.currentUser?.uid,
-                          isDestructive: true,
-                        ),
-                    ],
-                buttonBuilder: (context, showMenu) {
-                  return NavigateIconButton(
-                    onPressed: showMenu,
-                    icon: FontAwesomeIcons.solidEllipsisVertical,
-                  );
-                }),
+              itemBuilder: (context) => [
+                PullDownMenuItem(
+                  onTap: () {
+                    context.push('/groups/$groupId/members');
+                  },
+                  title: S.of(context).members,
+                  icon: FontAwesomeIcons.lightUsers,
+                ),
+                PullDownMenuItem(
+                  onTap: () {
+                    context.push(Uri(
+                        path: '/report',
+                        queryParameters: {'groupId': groupId}).toString());
+                  },
+                  title: S.of(context).report,
+                  icon: FontAwesomeIcons.flag,
+                  isDestructive: true,
+                ),
+                if (group.adminId == FirebaseAuth.instance.currentUser?.uid)
+                  PullDownMenuItem(
+                    onTap: () => context.push('/form/group', extra: group),
+                    title: S.of(context).edit,
+                    icon: FontAwesomeIcons.penToSquare,
+                    enabled:
+                        group.adminId == FirebaseAuth.instance.currentUser?.uid,
+                    isDestructive: true,
+                  ),
+              ],
+              buttonBuilder: (context, showMenu) {
+                return NavigateIconButton(
+                  onPressed: showMenu,
+                  icon: FontAwesomeIcons.solidEllipsisVertical,
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -141,6 +151,7 @@ class GroupScreen extends HookConsumerWidget {
                               GroupBannerImage(
                                 banner: group.banner,
                               ),
+                              if (data.value?.bannedAt != null) GroupBanCard(),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),

@@ -9,25 +9,48 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'user_provider.g.dart';
 
 @riverpod
-Future<PUser?> user(UserRef ref, {String? uid, String? username}) async {
-  try {
-    final data = await GetIt.I<UserRepository>().fetchUser(
-      uid: uid,
-      username: username,
-    );
-    if (data?.uid == FirebaseAuth.instance.currentUser?.uid) {
-      ref.watch(authNotifierProvider.notifier).setUser(data);
+class UserNotifier extends _$UserNotifier {
+  @override
+  FutureOr<PUser?> build({String? uid, String? username}) async {
+    try {
+      final data = await GetIt.I<UserRepository>().fetchUser(
+        uid: uid,
+        username: username,
+      );
+      if (data?.uid == FirebaseAuth.instance.currentUser?.uid) {
+        ref.watch(authNotifierProvider.notifier).setUser(data);
+      }
+      return data;
+    } catch (e, st) {
+      talker.handle(
+        e,
+        st,
+        generateLogMessage("[User] Failed to fetch user", data: {
+          'uid': uid,
+          'username': username,
+        }),
+      );
+      return null;
     }
-    return data;
-  } catch (e, st) {
-    talker.handle(
-      e,
-      st,
-      generateLogMessage("[User] Failed to fetch user", data: {
-        'uid': uid,
-        'username': username,
-      }),
-    );
-    return null;
+  }
+
+  Future<void> followUser(bool value) async {
+    if (state.value?.uid == null) {
+      return;
+    }
+    await GetIt.I<UserRepository>()
+        .followUser(uid: state.value!.uid, value: value);
+    state = AsyncValue.data(
+        state.value?.copyWith(followedAt: value ? DateTime.now() : null));
+  }
+
+  Future<void> blockUser(bool value) async {
+    if (state.value?.uid == null) {
+      return;
+    }
+    await GetIt.I<UserRepository>()
+        .blockUser(uid: state.value!.uid, value: value);
+    state = AsyncValue.data(
+        state.value?.copyWith(blockedAt: value ? DateTime.now() : null));
   }
 }

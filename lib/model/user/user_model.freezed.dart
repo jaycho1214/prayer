@@ -33,6 +33,10 @@ mixin _$PUser {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'followed_at')
   DateTime? get followedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'banned_at')
+  DateTime? get bannedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'blocked_at')
+  DateTime? get blockedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'verse_id')
   int? get verseId => throw _privateConstructorUsedError;
   @JsonKey(name: 'followings_count')
@@ -65,6 +69,8 @@ abstract class $PUserCopyWith<$Res> {
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       @JsonKey(name: 'followed_at') DateTime? followedAt,
+      @JsonKey(name: 'banned_at') DateTime? bannedAt,
+      @JsonKey(name: 'blocked_at') DateTime? blockedAt,
       @JsonKey(name: 'verse_id') int? verseId,
       @JsonKey(name: 'followings_count') int followingsCount,
       @JsonKey(name: 'followers_count') int followersCount,
@@ -95,6 +101,8 @@ class _$PUserCopyWithImpl<$Res, $Val extends PUser>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? followedAt = freezed,
+    Object? bannedAt = freezed,
+    Object? blockedAt = freezed,
     Object? verseId = freezed,
     Object? followingsCount = null,
     Object? followersCount = null,
@@ -142,6 +150,14 @@ class _$PUserCopyWithImpl<$Res, $Val extends PUser>
           ? _value.followedAt
           : followedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      bannedAt: freezed == bannedAt
+          ? _value.bannedAt
+          : bannedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      blockedAt: freezed == blockedAt
+          ? _value.blockedAt
+          : blockedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       verseId: freezed == verseId
           ? _value.verseId
           : verseId // ignore: cast_nullable_to_non_nullable
@@ -184,6 +200,8 @@ abstract class _$$PUserImplCopyWith<$Res> implements $PUserCopyWith<$Res> {
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       @JsonKey(name: 'followed_at') DateTime? followedAt,
+      @JsonKey(name: 'banned_at') DateTime? bannedAt,
+      @JsonKey(name: 'blocked_at') DateTime? blockedAt,
       @JsonKey(name: 'verse_id') int? verseId,
       @JsonKey(name: 'followings_count') int followingsCount,
       @JsonKey(name: 'followers_count') int followersCount,
@@ -212,6 +230,8 @@ class __$$PUserImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? followedAt = freezed,
+    Object? bannedAt = freezed,
+    Object? blockedAt = freezed,
     Object? verseId = freezed,
     Object? followingsCount = null,
     Object? followersCount = null,
@@ -259,6 +279,14 @@ class __$$PUserImplCopyWithImpl<$Res>
           ? _value.followedAt
           : followedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      bannedAt: freezed == bannedAt
+          ? _value.bannedAt
+          : bannedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      blockedAt: freezed == blockedAt
+          ? _value.blockedAt
+          : blockedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       verseId: freezed == verseId
           ? _value.verseId
           : verseId // ignore: cast_nullable_to_non_nullable
@@ -297,6 +325,8 @@ class _$PUserImpl extends _PUser {
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt,
       @JsonKey(name: 'followed_at') this.followedAt,
+      @JsonKey(name: 'banned_at') this.bannedAt,
+      @JsonKey(name: 'blocked_at') this.blockedAt,
       @JsonKey(name: 'verse_id') this.verseId,
       @JsonKey(name: 'followings_count') this.followingsCount = 0,
       @JsonKey(name: 'followers_count') this.followersCount = 0,
@@ -331,6 +361,12 @@ class _$PUserImpl extends _PUser {
   @JsonKey(name: 'followed_at')
   final DateTime? followedAt;
   @override
+  @JsonKey(name: 'banned_at')
+  final DateTime? bannedAt;
+  @override
+  @JsonKey(name: 'blocked_at')
+  final DateTime? blockedAt;
+  @override
   @JsonKey(name: 'verse_id')
   final int? verseId;
   @override
@@ -348,7 +384,7 @@ class _$PUserImpl extends _PUser {
 
   @override
   String toString() {
-    return 'PUser(uid: $uid, email: $email, username: $username, name: $name, bio: $bio, profile: $profile, banner: $banner, createdAt: $createdAt, updatedAt: $updatedAt, followedAt: $followedAt, verseId: $verseId, followingsCount: $followingsCount, followersCount: $followersCount, prayersCount: $prayersCount, praysCount: $praysCount)';
+    return 'PUser(uid: $uid, email: $email, username: $username, name: $name, bio: $bio, profile: $profile, banner: $banner, createdAt: $createdAt, updatedAt: $updatedAt, followedAt: $followedAt, bannedAt: $bannedAt, blockedAt: $blockedAt, verseId: $verseId, followingsCount: $followingsCount, followersCount: $followersCount, prayersCount: $prayersCount, praysCount: $praysCount)';
   }
 
   @override
@@ -370,6 +406,10 @@ class _$PUserImpl extends _PUser {
                 other.updatedAt == updatedAt) &&
             (identical(other.followedAt, followedAt) ||
                 other.followedAt == followedAt) &&
+            (identical(other.bannedAt, bannedAt) ||
+                other.bannedAt == bannedAt) &&
+            (identical(other.blockedAt, blockedAt) ||
+                other.blockedAt == blockedAt) &&
             (identical(other.verseId, verseId) || other.verseId == verseId) &&
             (identical(other.followingsCount, followingsCount) ||
                 other.followingsCount == followingsCount) &&
@@ -395,6 +435,8 @@ class _$PUserImpl extends _PUser {
       createdAt,
       updatedAt,
       followedAt,
+      bannedAt,
+      blockedAt,
       verseId,
       followingsCount,
       followersCount,
@@ -427,6 +469,8 @@ abstract class _PUser extends PUser {
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       @JsonKey(name: 'updated_at') final DateTime? updatedAt,
       @JsonKey(name: 'followed_at') final DateTime? followedAt,
+      @JsonKey(name: 'banned_at') final DateTime? bannedAt,
+      @JsonKey(name: 'blocked_at') final DateTime? blockedAt,
       @JsonKey(name: 'verse_id') final int? verseId,
       @JsonKey(name: 'followings_count') final int followingsCount,
       @JsonKey(name: 'followers_count') final int followersCount,
@@ -459,6 +503,12 @@ abstract class _PUser extends PUser {
   @override
   @JsonKey(name: 'followed_at')
   DateTime? get followedAt;
+  @override
+  @JsonKey(name: 'banned_at')
+  DateTime? get bannedAt;
+  @override
+  @JsonKey(name: 'blocked_at')
+  DateTime? get blockedAt;
   @override
   @JsonKey(name: 'verse_id')
   int? get verseId;

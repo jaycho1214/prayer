@@ -50,6 +50,7 @@ class PrayerNotifier extends _$PrayerNotifier {
         }
         onPrayed?.call();
       } catch (error, stackTrace) {
+        state = AsyncValue.data(backup);
         talker.handle(
             error,
             stackTrace,
