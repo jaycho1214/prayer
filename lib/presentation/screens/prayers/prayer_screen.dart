@@ -160,8 +160,8 @@ class PrayerScreen extends HookConsumerWidget {
                                               onTap: () => context.push(Uri(
                                                   path: '/users',
                                                   queryParameters: {
-                                                    'uid': prayer
-                                                        .value?.user?.profile
+                                                    'uid':
+                                                        prayer.value?.user?.uid
                                                   }).toString()),
                                             ),
                                             PullDownMenuDivider.large(),
