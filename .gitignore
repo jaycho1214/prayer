@@ -54,3 +54,4 @@ assets/dependencies/
 .env*
 GoogleService-Info.plist
 google-services.json
+lib/firebase_options.dart
