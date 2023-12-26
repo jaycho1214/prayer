@@ -257,6 +257,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "neighbor": MessageLookupByLibrary.simpleMessage("Neighbor"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "onlyVisibleToYou":
+            MessageLookupByLibrary.simpleMessage("Only visible to you"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "pickImage": MessageLookupByLibrary.simpleMessage("Pick Image"),
         "pickImageFromGallery":

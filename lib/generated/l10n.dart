@@ -1320,6 +1320,16 @@ class S {
     );
   }
 
+  /// `Only visible to you`
+  String get onlyVisibleToYou {
+    return Intl.message(
+      'Only visible to you',
+      name: 'onlyVisibleToYou',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Open`
   String get open {
     return Intl.message(

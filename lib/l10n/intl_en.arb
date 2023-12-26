@@ -127,6 +127,7 @@
   "name": "Name",
   "neighbor": "Neighbor",
   "notifications": "Notifications",
+  "onlyVisibleToYou": "Only visible to you",
   "open": "Open",
   "pickImage": "Pick Image",
   "pickImageFromGallery": "Pick image from gallery",

@@ -127,6 +127,7 @@
   "name": "이름",
   "neighbor": "이웃들",
   "notifications": "알림",
+  "onlyVisibleToYou": "나한테만 보임",
   "open": "공개",
   "pickImage": "이미지 선택",
   "pickImageFromGallery": "갤러리에서 사진 가져오기",

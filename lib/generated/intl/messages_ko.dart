@@ -244,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("이름"),
         "neighbor": MessageLookupByLibrary.simpleMessage("이웃들"),
         "notifications": MessageLookupByLibrary.simpleMessage("알림"),
+        "onlyVisibleToYou": MessageLookupByLibrary.simpleMessage("나한테만 보임"),
         "open": MessageLookupByLibrary.simpleMessage("공개"),
         "pickImage": MessageLookupByLibrary.simpleMessage("이미지 선택"),
         "pickImageFromGallery":
