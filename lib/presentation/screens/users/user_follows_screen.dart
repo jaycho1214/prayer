@@ -18,9 +18,11 @@ class UsersFollowScreen extends HookWidget {
   const UsersFollowScreen({
     super.key,
     required this.uid,
+    this.showFollowings,
   });
 
   final String uid;
+  final bool? showFollowings;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class UsersFollowScreen extends HookWidget {
         usePagingController<String?, PUser>(firstPageKey: null);
 
     return DefaultTabController(
+      initialIndex: showFollowings == true ? 1 : 0,
       length: 2,
       child: Builder(
         builder: (context) {

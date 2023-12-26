@@ -272,26 +272,38 @@ class UserScreen extends HookConsumerWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 5),
-                                ShrinkingButton(
-                                  onTap: () {
-                                    if (user?.uid != null) {
-                                      context
-                                          .push('/users/${user!.uid}/follows');
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      StatisticsText(
+                                Row(
+                                  children: [
+                                    ShrinkingButton(
+                                      onTap: () {
+                                        if (user?.uid != null) {
+                                          context.push(
+                                              '/users/${user!.uid}/follows');
+                                        }
+                                      },
+                                      child: StatisticsText(
                                         value: user?.followersCount ?? 0,
                                         text: S.of(context).followers,
                                       ),
-                                      const SizedBox(width: 10),
-                                      StatisticsText(
+                                    ),
+                                    const SizedBox(width: 10),
+                                    ShrinkingButton(
+                                      onTap: () {
+                                        if (user?.uid != null) {
+                                          context.push(Uri(
+                                              path:
+                                                  '/users/${user!.uid}/follows',
+                                              queryParameters: {
+                                                'showFollowings': 'true'
+                                              }).toString());
+                                        }
+                                      },
+                                      child: StatisticsText(
                                         value: user?.followingsCount ?? 0,
                                         text: S.of(context).followings,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(height: 10),
                               ],

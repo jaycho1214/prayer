@@ -119,6 +119,8 @@ class AppRouter {
               path: ':uid/follows',
               builder: (context, state) => UsersFollowScreen(
                 uid: state.pathParameters['uid']!,
+                showFollowings:
+                    state.uri.queryParameters['showFollowings'] == 'true',
               ),
             ),
           ],
