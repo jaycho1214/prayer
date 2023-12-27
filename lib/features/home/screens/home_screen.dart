@@ -117,7 +117,7 @@ class HomeScreen extends HookConsumerWidget {
           OverlapAbsorberPlus(
             sliver: SliverPersistentHeader(
               pinned: false,
-              floating: true,
+              floating: false,
               delegate: TabBarDelegate(
                 controller: tabController,
                 tabs: [
