@@ -8,6 +8,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
+import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
 import 'package:prayer/features/prayer/widgets/prayer_option_button.dart';
@@ -109,7 +110,7 @@ class PrayerScreen extends HookConsumerWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(
+                              ParseableText(
                                 prayer.value?.value ?? '',
                                 style: TextStyle(
                                   fontSize: 15,

@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -168,11 +169,12 @@ class GroupScreen extends HookConsumerWidget {
                                           fontSize: 20),
                                     ),
                                     if (group.description != null)
-                                      Text(
+                                      ParseableText(
                                         group.description!,
                                         style: TextStyle(
-                                            color: MyTheme.placeholderText,
-                                            fontSize: 13),
+                                          color: MyTheme.placeholderText,
+                                          fontSize: 13,
+                                        ),
                                       ),
                                     Row(
                                       crossAxisAlignment:

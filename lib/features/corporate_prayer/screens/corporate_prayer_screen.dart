@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
@@ -292,7 +293,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                           ),
                           if (snapshot.data == null ||
                               snapshot.data?.description != null)
-                            Text(
+                            ParseableText(
                               snapshot.data?.description ?? '',
                               style: TextStyle(
                                 fontSize: 15,

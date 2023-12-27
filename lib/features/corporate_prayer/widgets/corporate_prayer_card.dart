@@ -7,6 +7,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/chips/statistics_chip.dart';
 import 'package:prayer/features/common/widgets/chips/text_chip.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
+import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
 import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -58,13 +59,13 @@ class CorporatePrayerCard extends ConsumerWidget {
                           ),
                           maxLines: 1,
                         ),
-                        Text(
+                        ParseableText(
                           prayer.value?.description ?? '',
                           style: const TextStyle(
                             color: MyTheme.outline,
                             fontSize: 15,
                           ),
-                          maxLines: 2,
+                          trimLines: 2,
                         ),
                       ],
                     ),

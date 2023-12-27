@@ -71,10 +71,10 @@ dependencies:
   intl: ^0.18.1
   share_plus: ^7.2.1
   photo_manager: ^3.0.0-dev.4
-  readmore: ^2.2.0
   photo_manager_image_provider: ^2.1.0
   expandable_page_view: ^1.0.17
   nested_scroll_view_plus: ^1.0.2
+  flutter_linkify: ^6.0.0
 
 dependency_overrides:
   font_awesome_flutter:

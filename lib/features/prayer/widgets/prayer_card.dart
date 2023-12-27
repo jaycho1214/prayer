@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
+import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
@@ -14,7 +15,6 @@ import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
 import 'package:prayer/features/prayer/providers/prayer_provider.dart';
 import 'package:prayer/utils/formatter.dart';
-import 'package:readmore/readmore.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PrayerCard extends ConsumerWidget {
@@ -47,6 +47,7 @@ class PrayerCard extends ConsumerWidget {
           Text(
             Formatter.fromNow(prayer.pray!.createdAt!),
             style: TextStyle(
+              fontSize: 12,
               color: MyTheme.outline,
             ),
           ),
@@ -119,18 +120,12 @@ class PrayerCard extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              AbsorbPointer(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: ReadMoreText(
-                    prayer.value?.value ?? '',
-                    trimCollapsedText: S.of(context).readmore,
-                    trimLines: 5,
-                    moreStyle: TextStyle(
-                      color: MyTheme.placeholderText,
-                    ),
-                    trimMode: TrimMode.Line,
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40.0),
+                child: ParseableText(
+                  prayer.value?.value ?? '',
+                  trimCollapsedText: S.of(context).readmore,
+                  trimLines: 5,
                 ),
               ),
               if (prayer.value?.verses != null &&
