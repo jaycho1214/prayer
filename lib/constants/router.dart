@@ -116,11 +116,17 @@ class AppRouter {
           ),
           routes: [
             GoRoute(
-              path: ':uid/follows',
+              path: ':uid/followers',
               builder: (context, state) => UsersFollowScreen(
                 uid: state.pathParameters['uid']!,
-                showFollowings:
-                    state.uri.queryParameters['showFollowings'] == 'true',
+                initialScreen: UsersFollowScreenPage.followers,
+              ),
+            ),
+            GoRoute(
+              path: ':uid/followings',
+              builder: (context, state) => UsersFollowScreen(
+                uid: state.pathParameters['uid']!,
+                initialScreen: UsersFollowScreenPage.followings,
               ),
             ),
           ],
