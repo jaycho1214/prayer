@@ -54,7 +54,7 @@ class HomeTabBar extends HookConsumerWidget {
     final updateFcmToken = useCallback(() async {
       try {
         final permission = await FirebaseMessaging.instance
-            .requestPermission(provisional: true);
+            .requestPermission(provisional: false);
         talker.debug(
             generateLogMessage("[Notification] Permission updated", data: {
           "status": permission.authorizationStatus.toString(),
