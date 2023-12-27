@@ -79,15 +79,23 @@ class UserBannerImage extends StatelessWidget {
   }
 }
 
+enum UserProfileImageClickActionType { profile, picture }
+
 class UserProfileImage extends StatelessWidget {
   const UserProfileImage({
     super.key,
     this.profile,
+    this.uid,
     this.size = 100,
-  });
+    this.clickActionType = UserProfileImageClickActionType.picture,
+  }) : assert((clickActionType == UserProfileImageClickActionType.profile &&
+                uid != null) ||
+            clickActionType == UserProfileImageClickActionType.picture);
 
   final String? profile;
+  final String? uid;
   final double size;
+  final UserProfileImageClickActionType clickActionType;
 
   Widget _buildPlaceholder(BuildContext context) {
     return Container(
@@ -105,9 +113,14 @@ class UserProfileImage extends StatelessWidget {
     if (profile != null) {
       return ShrinkingButton(
         onTap: () {
-          context.push(
-              Uri(path: '/image', queryParameters: {'imageUrl': profile})
-                  .toString());
+          if (clickActionType == UserProfileImageClickActionType.picture) {
+            context.push(
+                Uri(path: '/image', queryParameters: {'imageUrl': profile})
+                    .toString());
+          } else {
+            context.push(
+                Uri(path: '/users', queryParameters: {'uid': uid}).toString());
+          }
         },
         child: CachedNetworkImage(
           imageUrl: profile!,
