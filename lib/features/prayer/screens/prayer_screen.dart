@@ -11,6 +11,7 @@ import 'package:prayer/features/common/widgets/image_list.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
+import 'package:prayer/features/prayer/widgets/open_graph_card.dart';
 import 'package:prayer/features/prayer/widgets/prayer_option_button.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -136,6 +137,7 @@ class PrayerScreen extends HookConsumerWidget {
                                               .toList() ??
                                           []),
                                 ),
+                              OpenGraphCard(text: prayer.value?.value ?? ''),
                               const SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment:
