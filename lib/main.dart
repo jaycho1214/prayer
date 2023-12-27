@@ -46,21 +46,15 @@ Future<void> main() async {
   GetIt.I.registerLazySingleton(() => pref);
   await Future.wait(futureFns.values.toList());
   Intl.defaultLocale = Intl.systemLocale;
-  if (kDebugMode) {
-    runApp(ProviderScope(
-      child: const App(),
-    ));
-  } else {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = dotenv.env['SENTRY_DSN'];
-        options.tracesSampleRate = 0.5;
-      },
-      appRunner: () => runApp(ProviderScope(
-        child: SentryUserInteractionWidget(child: const App()),
-      )),
-    );
-  }
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = kDebugMode ? '' : dotenv.env['SENTRY_DSN'];
+      options.tracesSampleRate = 0.5;
+    },
+    appRunner: () => runApp(ProviderScope(
+      child: SentryUserInteractionWidget(child: const App()),
+    )),
+  );
 }
 
 @pragma('vm:entry-point')
