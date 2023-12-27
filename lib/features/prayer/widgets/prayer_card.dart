@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
+import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
+import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/bible/widgets/bible_card_list.dart';
 import 'package:prayer/features/pray/widgets/pray_chip.dart';
@@ -20,67 +21,9 @@ class PrayerCard extends ConsumerWidget {
   const PrayerCard({
     super.key,
     required this.prayerId,
-    this.onTap,
   });
 
-  final void Function()? onTap;
   final String prayerId;
-
-  Widget _buildGroupLabel(
-    BuildContext context, {
-    required Prayer prayer,
-  }) =>
-      ShrinkingButton(
-        onTap: () => context.push('/groups/${prayer.groupId}'),
-        child: Row(
-          children: [
-            const SizedBox(width: 10),
-            FaIcon(
-              FontAwesomeIcons.userGroupSimple,
-              size: 13,
-              color: MyTheme.placeholderText,
-            ),
-            const SizedBox(width: 5),
-            Text(
-              prayer.group?.name ?? '',
-              style: TextStyle(
-                color: MyTheme.placeholderText,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      );
-
-  Widget _buildCorporateLabel(
-    BuildContext context, {
-    required Prayer prayer,
-  }) =>
-      ShrinkingButton(
-        onTap: () {
-          context.push('/prayers/corporate/${prayer.corporateId}');
-        },
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: FaIcon(
-                FontAwesomeIcons.solidChevronRight,
-                size: 10,
-                color: MyTheme.placeholderText,
-              ),
-            ),
-            Text(
-              prayer.corporate?.title ?? '',
-              style: TextStyle(
-                color: MyTheme.placeholderText,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      );
 
   Widget _buidlFooterLatestPray(BuildContext context, {Prayer? prayer}) {
     if (prayer?.pray == null) {
@@ -119,10 +62,7 @@ class PrayerCard extends ConsumerWidget {
     return Skeletonizer(
       enabled: prayer.isLoading || prayer.value == null,
       child: ShrinkingButton(
-        onTap: () {
-          context.push('/prayers/$prayerId');
-          onTap?.call();
-        },
+        onTap: () => context.push('/prayers/$prayerId'),
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -133,9 +73,9 @@ class PrayerCard extends ConsumerWidget {
                   padding: const EdgeInsets.only(left: 30.0, bottom: 5),
                   child: Row(
                     children: [
-                      _buildGroupLabel(context, prayer: prayer.value!),
+                      GroupLabel(prayer: prayer.value!),
                       if (prayer.value?.corporate != null)
-                        _buildCorporateLabel(context, prayer: prayer.value!),
+                        CorporateLabel(prayer: prayer.value!),
                     ],
                   ),
                 ),

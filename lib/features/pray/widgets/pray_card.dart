@@ -33,7 +33,12 @@ class PrayCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              UserProfileImage(profile: pray.user.profile, size: 30),
+              UserProfileImage(
+                profile: pray.user.profile,
+                uid: pray.user.uid,
+                clickActionType: UserProfileImageClickActionType.profile,
+                size: 30,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(

@@ -74,10 +74,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
             padding: EdgeInsets.only(
                 bottom:
                     pagingController.itemList?.length == index + 1 ? 100 : 0),
-            child: PrayerCard(
-              prayerId: item,
-              onTap: () => onTap?.call(item),
-            ),
+            child: PrayerCard(prayerId: item),
           ),
         ),
         separatorBuilder: (context, index) =>
@@ -94,10 +91,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
         noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
-        itemBuilder: (context, item, index) => PrayerCard(
-          prayerId: item,
-          onTap: () => onTap?.call(item),
-        ),
+        itemBuilder: (context, item, index) => PrayerCard(prayerId: item),
       ),
       separatorBuilder: (context, index) =>
           const Divider(color: MyTheme.disabled),
