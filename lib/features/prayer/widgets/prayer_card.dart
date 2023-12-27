@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
+import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
@@ -89,6 +91,25 @@ class PrayerCard extends ConsumerWidget {
                     name: prayer.value?.user?.name,
                     username: prayer.value?.user?.username,
                   ),
+                  if (prayer.value?.group?.moderator != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 3, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: MyTheme.primary,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        prayer.value?.userId == prayer.value?.group?.adminId
+                            ? S.of(context).admin
+                            : S.of(context).moderator,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: MyTheme.onPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   Spacer(),
                   const SizedBox(width: 10),
                   Text(
