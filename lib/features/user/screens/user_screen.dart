@@ -278,7 +278,7 @@ class UserScreen extends HookConsumerWidget {
                                       onTap: () {
                                         if (user?.uid != null) {
                                           context.push(
-                                              '/users/${user!.uid}/follows');
+                                              '/users/${user!.uid}/followers');
                                         }
                                       },
                                       child: StatisticsText(
@@ -292,7 +292,7 @@ class UserScreen extends HookConsumerWidget {
                                         if (user?.uid != null) {
                                           context.push(Uri(
                                               path:
-                                                  '/users/${user!.uid}/follows',
+                                                  '/users/${user!.uid}/followings',
                                               queryParameters: {
                                                 'showFollowings': 'true'
                                               }).toString());

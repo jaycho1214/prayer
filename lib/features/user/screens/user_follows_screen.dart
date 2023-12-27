@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/user/providers/user_provider.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/user/user_model.dart';
@@ -14,83 +16,88 @@ import 'package:prayer/features/user/widgets/user_card.dart';
 import 'package:prayer/repo/response_types.dart';
 import 'package:prayer/repo/user_repository.dart';
 
-class UsersFollowScreen extends HookWidget {
+enum UsersFollowScreenPage { followings, followers }
+
+class UsersFollowScreen extends HookConsumerWidget {
   const UsersFollowScreen({
     super.key,
     required this.uid,
-    this.showFollowings,
+    this.initialScreen,
   });
 
   final String uid;
-  final bool? showFollowings;
+  final UsersFollowScreenPage? initialScreen;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tabController = useTabController(
+      initialLength: 2,
+      initialIndex: initialScreen == UsersFollowScreenPage.followings ? 1 : 0,
+    );
+    final user = ref.watch(userNotifierProvider(uid: uid));
     final followersPageController =
         usePagingController<String?, PUser>(firstPageKey: null);
     final followingsPageController =
         usePagingController<String?, PUser>(firstPageKey: null);
 
-    return DefaultTabController(
-      initialIndex: showFollowings == true ? 1 : 0,
-      length: 2,
-      child: Builder(
-        builder: (context) {
-          return PlatformScaffold(
-            backgroundColor: MyTheme.surface,
-            body: RefreshIndicator(
-              notificationPredicate: (notification) => notification.depth == 2,
-              onRefresh: () async {
-                switch (DefaultTabController.of(context).index) {
-                  case 0:
-                    followersPageController.refresh();
-                    break;
-                  case 1:
-                    followingsPageController.refresh();
-                    break;
-                }
-                return null;
-              },
-              child: NestedScrollView(
-                headerSliverBuilder: (context, _) => [
-                  SliverAppBar(
-                    surfaceTintColor: MyTheme.surface,
-                    pinned: true,
-                    backgroundColor: MyTheme.surface,
-                    leading: NavigateBackButton(),
-                  ),
-                  SliverPersistentHeader(
-                      delegate: TabBarDelegate(tabs: [
-                    S.of(context).followers,
-                    S.of(context).followings
-                  ])),
-                ],
-                body: TabBarView(
-                  children: [
-                    FollowsPage(
-                      pagingController: followersPageController,
-                      fetchFn: (cursor) =>
-                          GetIt.I<UserRepository>().fetchFollowers(
-                        uid,
-                        cursor: cursor,
-                        type: FollowersType.followers,
-                      ),
-                    ),
-                    FollowsPage(
-                      pagingController: followingsPageController,
-                      fetchFn: (cursor) =>
-                          GetIt.I<UserRepository>().fetchFollowers(
-                        uid,
-                        cursor: cursor,
-                        type: FollowersType.followings,
-                      ),
-                    ),
-                  ],
+    return PlatformScaffold(
+      backgroundColor: MyTheme.surface,
+      body: RefreshIndicator(
+        notificationPredicate: (notification) => notification.depth == 2,
+        onRefresh: () async {
+          switch (tabController.index) {
+            case 0:
+              return followersPageController.refresh();
+            case 1:
+              return followingsPageController.refresh();
+          }
+        },
+        child: NestedScrollView(
+          headerSliverBuilder: (context, _) => [
+            SliverAppBar(
+              surfaceTintColor: MyTheme.surface,
+              pinned: true,
+              backgroundColor: MyTheme.surface,
+              leading: NavigateBackButton(),
+              title: Text(
+                user.valueOrNull?.username ?? '',
+                style: platformThemeData(
+                  context,
+                  material: (ThemeData data) => data.textTheme.headlineSmall,
+                  cupertino: (data) => data.textTheme.navTitleTextStyle
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-          );
-        },
+            SliverPersistentHeader(
+              delegate: TabBarDelegate(
+                controller: tabController,
+                tabs: [S.of(context).followers, S.of(context).followings],
+              ),
+            ),
+          ],
+          body: TabBarView(
+            controller: tabController,
+            children: [
+              FollowsPage(
+                pagingController: followersPageController,
+                fetchFn: (cursor) => GetIt.I<UserRepository>().fetchFollowers(
+                  uid,
+                  cursor: cursor,
+                  type: FollowersType.followers,
+                ),
+              ),
+              FollowsPage(
+                pagingController: followingsPageController,
+                fetchFn: (cursor) => GetIt.I<UserRepository>().fetchFollowers(
+                  uid,
+                  cursor: cursor,
+                  type: FollowersType.followings,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
