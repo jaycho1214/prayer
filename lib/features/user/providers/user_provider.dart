@@ -13,6 +13,9 @@ class UserNotifier extends _$UserNotifier {
   @override
   FutureOr<PUser?> build({String? uid, String? username}) async {
     try {
+      if (uid == null && username == null) {
+        return null;
+      }
       final data = await GetIt.I<UserRepository>().fetchUser(
         uid: uid,
         username: username,
