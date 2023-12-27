@@ -119,7 +119,12 @@ class ParseableText extends StatelessWidget {
           linkLongerThanLine = true;
         }
 
-        final commonOptions = LinkifyOptions(humanize: false);
+        final commonOptions = LinkifyOptions(
+          humanize: false,
+          removeWww: false,
+          looseUrl: true,
+          excludeLastPeriod: true,
+        );
         final linkifiers = [UrlLinkifier()];
 
         late final TextSpan textSpan;
