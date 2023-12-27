@@ -38,9 +38,11 @@ class UserChip extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                UserProfileImage(
-                  profile: anon ? null : profile,
-                  size: 30,
+                AbsorbPointer(
+                  child: UserProfileImage(
+                    profile: anon ? null : profile,
+                    size: 30,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Text(
