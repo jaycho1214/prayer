@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
-import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
