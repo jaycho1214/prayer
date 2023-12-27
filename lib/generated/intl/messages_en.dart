@@ -130,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Let\'s give it a 5-minute grace period to soar high. How about a quick stretch or a moment of quiet reflection? Ready for your next prayer in a jiffy!"),
         "donatePrayer": MessageLookupByLibrary.simpleMessage("Donate Now"),
+        "donatePrayerDescription": MessageLookupByLibrary.simpleMessage(
+            "Help us spread the love of Jesus Christ."),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "emptyGroupDescription": MessageLookupByLibrary.simpleMessage(
@@ -238,6 +240,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("Join"),
         "joined": MessageLookupByLibrary.simpleMessage("Joined"),
         "leaveGroup": MessageLookupByLibrary.simpleMessage("Leave group"),
+        "legal": MessageLookupByLibrary.simpleMessage("Legal"),
         "memberPromoted":
             MessageLookupByLibrary.simpleMessage("Member Promoted"),
         "members": MessageLookupByLibrary.simpleMessage("Members"),
@@ -322,6 +325,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "1 Thessalonians 5:16-18 (NIV)"),
         "someoneHasPrayed": m9,
         "startedAt": MessageLookupByLibrary.simpleMessage("Started At"),
+        "support": MessageLookupByLibrary.simpleMessage("Support"),
         "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "titleAnonymously": MessageLookupByLibrary.simpleMessage(

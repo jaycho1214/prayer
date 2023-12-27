@@ -25,7 +25,7 @@ class DonateScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/praying.jpg',
+            'assets/images/jesus.png',
             width: double.infinity,
             height: 200,
             fit: BoxFit.cover,

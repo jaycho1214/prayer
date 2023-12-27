@@ -550,6 +550,16 @@ class S {
     );
   }
 
+  /// `Help us spread the love of Jesus Christ.`
+  String get donatePrayerDescription {
+    return Intl.message(
+      'Help us spread the love of Jesus Christ.',
+      name: 'donatePrayerDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Done`
   String get done {
     return Intl.message(
@@ -1190,6 +1200,16 @@ class S {
     );
   }
 
+  /// `Legal`
+  String get legal {
+    return Intl.message(
+      'Legal',
+      name: 'legal',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Member Promoted`
   String get memberPromoted {
     return Intl.message(
@@ -1795,6 +1815,16 @@ class S {
     return Intl.message(
       'Started At',
       name: 'startedAt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support`
+  String get support {
+    return Intl.message(
+      'Support',
+      name: 'support',
       desc: '',
       args: [],
     );

@@ -6,71 +6,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/settings/widgets/settings_row_card.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/sheets/confirm_menu_form.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
-import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/repo/user_repository.dart';
 
 class AccountSettingsScreen extends StatelessWidget {
   const AccountSettingsScreen({super.key});
-
-  Widget _buildRow({
-    required IconData icon,
-    required String title,
-    String? description,
-    void Function()? onTap,
-  }) {
-    return ShrinkingButton(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 20,
-              child: FaIcon(
-                icon,
-                color: MyTheme.placeholderText,
-                size: 15,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
-                  if (description != null)
-                    Text(
-                      description,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: MyTheme.placeholderText,
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 20),
-            FaIcon(
-              FontAwesomeIcons.chevronRight,
-              color: MyTheme.onPrimary,
-              size: 15,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,64 +26,69 @@ class AccountSettingsScreen extends StatelessWidget {
         backgroundColor: MyTheme.surface,
         title: Text(S.of(context).account),
       ),
-      body: ListView(
-        children: [
-          _buildRow(
-            icon: FontAwesomeIcons.lockOpen,
-            title: S.of(context).signOut,
-            onTap: () async {
-              final resp = await ConfirmSlimMenuForm.show(
-                context,
-                title: S.of(context).signOut,
-                description: S.of(context).alertYouCannotUndoThisAction,
-                icon: FontAwesomeIcons.lockOpen,
-              );
-              if (resp == true) {
-                while (context.canPop()) {
-                  context.pop();
-                }
-                context.go('/auth/signIn', extra: {'needSignOut': true});
-              }
-            },
-          ),
-          _buildRow(
-            icon: FontAwesomeIcons.userSlash,
-            title: S.of(context).deleteAccount,
-            onTap: () async {
-              final resp = await ConfirmMenuForm.show(
-                context,
-                title: S.of(context).titleDeleteAccount,
-                icon: FontAwesomeIcons.userSlash,
-                description: S.of(context).descriptionDeleteAccount.split(':'),
-              );
-              if (resp == true) {
-                final confirmResp = await ConfirmSlimMenuForm.show(
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          children: [
+            SettingsRowCard(
+              icon: FontAwesomeIcons.lockOpen,
+              title: S.of(context).signOut,
+              onTap: () async {
+                final resp = await ConfirmSlimMenuForm.show(
                   context,
-                  title: S.of(context).deleteAccount,
+                  title: S.of(context).signOut,
                   description: S.of(context).alertYouCannotUndoThisAction,
-                  icon: FontAwesomeIcons.userSlash,
+                  icon: FontAwesomeIcons.lockOpen,
                 );
-                if (confirmResp == true) {
-                  GetIt.I<UserRepository>().deleteUser().then((_) {
-                    FirebaseAuth.instance.signOut();
-                    while (context.canPop()) {
-                      context.pop();
-                    }
-                    context.go('/auth/signIn', extra: {'needSignOut': true});
-                  }).catchError((err) {
-                    if (err is DioException &&
-                        err.response?.data['code'] == 'not-empty-resource') {
-                      return GlobalSnackBar.show(context,
-                          message: S.of(context).errorDeleteUser);
-                    }
-                    GlobalSnackBar.show(context,
-                        message: S.of(context).errorUnknown);
-                  });
+                if (resp == true) {
+                  while (context.canPop()) {
+                    context.pop();
+                  }
+                  context.go('/auth/signIn', extra: {'needSignOut': true});
                 }
-              }
-            },
-          ),
-        ],
+              },
+            ),
+            const Divider(color: MyTheme.disabled),
+            SettingsRowCard(
+              icon: FontAwesomeIcons.userSlash,
+              title: S.of(context).deleteAccount,
+              onTap: () async {
+                final resp = await ConfirmMenuForm.show(
+                  context,
+                  title: S.of(context).titleDeleteAccount,
+                  icon: FontAwesomeIcons.userSlash,
+                  description:
+                      S.of(context).descriptionDeleteAccount.split(':'),
+                );
+                if (resp == true) {
+                  final confirmResp = await ConfirmSlimMenuForm.show(
+                    context,
+                    title: S.of(context).deleteAccount,
+                    description: S.of(context).alertYouCannotUndoThisAction,
+                    icon: FontAwesomeIcons.userSlash,
+                  );
+                  if (confirmResp == true) {
+                    GetIt.I<UserRepository>().deleteUser().then((_) {
+                      FirebaseAuth.instance.signOut();
+                      while (context.canPop()) {
+                        context.pop();
+                      }
+                      context.go('/auth/signIn', extra: {'needSignOut': true});
+                    }).catchError((err) {
+                      if (err is DioException &&
+                          err.response?.data['code'] == 'not-empty-resource') {
+                        return GlobalSnackBar.show(context,
+                            message: S.of(context).errorDeleteUser);
+                      }
+                      GlobalSnackBar.show(context,
+                          message: S.of(context).errorUnknown);
+                    });
+                  }
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

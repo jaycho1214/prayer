@@ -125,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "다음 기도는 5분 뒤에 할 수 있습니다. 잠시 스트레칭을 하거나 조용히 묵상하는 시간은 어떨까요?"),
         "donatePrayer": MessageLookupByLibrary.simpleMessage("Prayer 후원하기"),
+        "donatePrayerDescription": MessageLookupByLibrary.simpleMessage(
+            "저희가 예수님의 사랑을 널리 퍼뜨릴 수 있도록 도와주세요."),
         "done": MessageLookupByLibrary.simpleMessage("완료"),
         "edit": MessageLookupByLibrary.simpleMessage("수정"),
         "emptyGroupDescription": MessageLookupByLibrary.simpleMessage(
@@ -225,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "join": MessageLookupByLibrary.simpleMessage("가입"),
         "joined": MessageLookupByLibrary.simpleMessage("가입됨"),
         "leaveGroup": MessageLookupByLibrary.simpleMessage("그룹 탈퇴"),
+        "legal": MessageLookupByLibrary.simpleMessage("법률"),
         "memberPromoted": MessageLookupByLibrary.simpleMessage("멤버를 임명했습니다"),
         "members": MessageLookupByLibrary.simpleMessage("멤버들"),
         "membersCount": m7,
@@ -301,6 +304,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("데살로니가전서 5:16-18 (개역개정)"),
         "someoneHasPrayed": m9,
         "startedAt": MessageLookupByLibrary.simpleMessage("시작"),
+        "support": MessageLookupByLibrary.simpleMessage("지원"),
         "termsOfUse": MessageLookupByLibrary.simpleMessage("이용약관"),
         "title": MessageLookupByLibrary.simpleMessage("제목"),
         "titleAnonymously":

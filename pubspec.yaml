@@ -109,7 +109,7 @@ flutter:
     - assets/images/logo/apple.png
     - assets/images/logo/x.png
     - assets/images/logo/icon.png
-    - assets/images/praying.jpg
+    - assets/images/jesus.png
 
   # generate: true
   # An image asset can refer to one or more resolution-specific "variants", see
