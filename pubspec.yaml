@@ -74,6 +74,7 @@ dependencies:
   photo_manager_image_provider: ^2.1.0
   expandable_page_view: ^1.0.17
   nested_scroll_view_plus: ^1.0.2
+  app_links: ^3.5.0
   flutter_linkify: ^6.0.0
 
 dependency_overrides:

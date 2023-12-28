@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app_links/app_links.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -23,6 +24,7 @@ import 'package:prayer/features/group/widgets/forms/group_picker.dart';
 import 'package:prayer/features/common/widgets/notification_bar.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
 import 'package:prayer/features/auth/providers/auth_state.dart';
+import 'package:prayer/utils/app_link.dart';
 
 class HomeTabBar extends HookConsumerWidget {
   const HomeTabBar({super.key});
@@ -88,12 +90,21 @@ class HomeTabBar extends HookConsumerWidget {
       }));
       subscriptions.add(FirebaseMessaging.onMessageOpenedApp.listen(
           (initialMessage) => handleNotification(context, initialMessage)));
+      subscriptions.add(AppLinks()
+          .allUriLinkStream
+          .listen((uri) => handleAppLink(context, uri)));
       return () {
         subscriptions.forEach((subscription) => subscription.cancel());
       };
     }, []);
 
     useEffect(() {
+      AppLinks().getInitialAppLink().then((uri) {
+        if (uri == null) {
+          return;
+        }
+        handleAppLink(context, uri);
+      });
       updateFcmToken();
       FirebaseMessaging.instance.getInitialMessage().then(
           (initialMessage) => handleNotification(context, initialMessage));
