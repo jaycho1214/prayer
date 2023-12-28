@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:prayer.theagapefoundation.org</string>
+		<string>applinks:prayer.theagapefoundation.org?mode=developer</string>
 	</array>
 </dict>
 </plist>
