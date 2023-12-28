@@ -181,6 +181,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Failed to leave the group"),
         "errorLoadImage":
             MessageLookupByLibrary.simpleMessage("Failed to load an image"),
+        "errorMemberShare": MessageLookupByLibrary.simpleMessage(
+            "Only members can share the group"),
+        "errorModeratorShare": MessageLookupByLibrary.simpleMessage(
+            "Only moderators can share the group"),
         "errorMustBeModeratorToPost": MessageLookupByLibrary.simpleMessage(
             "Only moderators are allowed to post corporate prayers."),
         "errorNameLessThan30Characters": MessageLookupByLibrary.simpleMessage(

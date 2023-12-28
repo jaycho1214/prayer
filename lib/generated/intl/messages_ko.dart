@@ -170,6 +170,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("그룹 탈퇴에 실패했습니다"),
         "errorLoadImage":
             MessageLookupByLibrary.simpleMessage("이미지 로딩에 실패하였습니다"),
+        "errorMemberShare":
+            MessageLookupByLibrary.simpleMessage("그룹 멤버만 공유 할 수 있습니다"),
+        "errorModeratorShare":
+            MessageLookupByLibrary.simpleMessage("사역자만 그룹을 공유 할 수 있습니다"),
         "errorMustBeModeratorToPost":
             MessageLookupByLibrary.simpleMessage("사역자들만 중보 기도문을 게시할 수 있습니다."),
         "errorNameLessThan30Characters": MessageLookupByLibrary.simpleMessage(

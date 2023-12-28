@@ -76,6 +76,8 @@
   "errorJoinGroup": "그룹 참가에 실패했습니다",
   "errorLeaveGroup": "그룹 탈퇴에 실패했습니다",
   "errorLoadImage": "이미지 로딩에 실패하였습니다",
+  "errorMemberShare": "그룹 멤버만 공유 할 수 있습니다",
+  "errorModeratorShare": "사역자만 그룹을 공유 할 수 있습니다",
   "errorMustBeModeratorToPost": "사역자들만 중보 기도문을 게시할 수 있습니다.",
   "errorNameLessThan30Characters": "이름은 30자 미만이어야 하며 해시태그 및 '@' 기호를 포함하지 않아야 합니다.",
   "errorNeedCorporatePrayerDescription": "중보기도 설명을 적어주세요",

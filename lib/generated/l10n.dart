@@ -810,6 +810,26 @@ class S {
     );
   }
 
+  /// `Only members can share the group`
+  String get errorMemberShare {
+    return Intl.message(
+      'Only members can share the group',
+      name: 'errorMemberShare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only moderators can share the group`
+  String get errorModeratorShare {
+    return Intl.message(
+      'Only moderators can share the group',
+      name: 'errorModeratorShare',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Only moderators are allowed to post corporate prayers.`
   String get errorMustBeModeratorToPost {
     return Intl.message(

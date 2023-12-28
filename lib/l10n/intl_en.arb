@@ -76,6 +76,8 @@
   "errorJoinGroup": "Failed to join the group",
   "errorLeaveGroup": "Failed to leave the group",
   "errorLoadImage": "Failed to load an image",
+  "errorMemberShare": "Only members can share the group",
+  "errorModeratorShare": "Only moderators can share the group",
   "errorMustBeModeratorToPost": "Only moderators are allowed to post corporate prayers.",
   "errorNameLessThan30Characters": "Names must be less than 30 characters and do not include hashtag and or the '@' symbol.",
   "errorNeedCorporatePrayerDescription": "Please provide a description for a corporate prayer",
