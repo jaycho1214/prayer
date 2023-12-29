@@ -1430,6 +1430,16 @@ class S {
     );
   }
 
+  /// `{username} posted a corporate prayer`
+  String notificationPostedCorporatePrayer(Object username) {
+    return Intl.message(
+      '$username posted a corporate prayer',
+      name: 'notificationPostedCorporatePrayer',
+      desc: '',
+      args: [username],
+    );
+  }
+
   /// `{username} posted a prayer`
   String notificationPostedPrayer(Object username) {
     return Intl.message(

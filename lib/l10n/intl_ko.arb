@@ -138,6 +138,7 @@
   "notificationFollow": "{username}이 당신을 팔로우 했습니다",
   "notificationJoinRequested": "{username}이 가입을 요청했습니다",
   "notificationJoinedGroup": "{username}이 그룹원이 되었습니다",
+  "notificationPostedCorporatePrayer": "{username}이 중보기도문을 올렸습니다",
   "notificationPostedPrayer": "{username}이 기도문을 올렸습니다",
   "notificationPrayed": "{username}이 기도했습니다",
   "notificationPromoted": "{group}의 사역자가 되었습니다",
