@@ -5,10 +5,10 @@ import 'package:app_links/app_links.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +17,7 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/error_screen.dart';
 import 'package:prayer/features/home/screens/group_prayers_screen.dart';
+import 'package:prayer/features/home/widgets/home_tab_nav_button.dart';
 import 'package:prayer/features/user/screens/user_screen.dart';
 import 'package:prayer/features/home/screens/home_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/fab.dart';
@@ -111,9 +112,9 @@ class HomeTabBar extends HookConsumerWidget {
       return () => null;
     }, []);
 
-    return PlatformScaffold(
+    return Scaffold(
       backgroundColor: MyTheme.surface,
-      body: authState.hasError || authState.valueOrNull is AuthStateSignedOut
+      body: authState.hasError || !(authState.valueOrNull is AuthStateSignedUp)
           ? ErrorScreen()
           : Stack(
               children: [
@@ -147,109 +148,48 @@ class HomeTabBar extends HookConsumerWidget {
                 ),
               ],
             ),
-      bottomNavBar: PlatformNavBar(
-        height: 50,
-        material3: (context, platform) => MaterialNavigationBarData(
-          surfaceTintColor: MyTheme.surface,
-          indicatorColor: MyTheme.surface,
-          backgroundColor: MyTheme.surface,
-        ),
-        cupertino: (context, platform) => CupertinoTabBarData(
-            inactiveColor: MyTheme.disabled, activeColor: MyTheme.disabled),
-        currentIndex: index.value,
-        itemChanged: (i) {
-          index.value = i;
-        },
-        backgroundColor: MyTheme.surface,
-        items: [
-          BottomNavigationBarItem(
-              backgroundColor: MyTheme.surface,
-              label: '',
-              icon: FaIcon(
-                index.value == 0
-                    ? FontAwesomeIcons.houseChimneyHeart
-                    : FontAwesomeIcons.lightHouseChimneyHeart,
-                size: 20,
-                color: index.value == 0 ? MyTheme.onPrimary : MyTheme.disabled,
-              )),
-          BottomNavigationBarItem(
-              label: '',
-              icon: FaIcon(
-                index.value == 1
-                    ? FontAwesomeIcons.solidUserGroupSimple
-                    : FontAwesomeIcons.userGroupSimple,
-                size: 20,
-                color: index.value == 1 ? MyTheme.onPrimary : MyTheme.disabled,
-              )),
-          BottomNavigationBarItem(
-            label: '',
-            icon: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color:
-                      index.value == 2 ? MyTheme.onPrimary : MyTheme.disabled,
-                  width: index.value == 2 ? 1 : 0.5,
-                ),
-                shape: BoxShape.circle,
-              ),
-              padding: EdgeInsets.all(authStateValue is AuthStateSignedUp
-                  ? authStateValue.user.profile == null
-                      ? 10
-                      : 2
-                  : 10),
-              child: UserTabButton(
-                index: index.value,
-                profile: authStateValue is AuthStateSignedUp
-                    ? authStateValue.user.profile
-                    : null,
-              ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: MyTheme.surface,
+          border: Border(
+            top: BorderSide(
+              width: 0.5,
+              color: MyTheme.outline,
             ),
           ),
-        ],
+        ),
+        width: double.infinity,
+        height: 50 + MediaQuery.of(context).padding.bottom,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HomeTabNavButton(
+                onTap: () => index.value = 0,
+                focused: index.value == 0,
+                focusedIcon: FontAwesomeIcons.houseChimneyHeart,
+                unfocusedIcon: FontAwesomeIcons.lightHouseChimneyHeart,
+              ),
+              HomeTabNavButton(
+                onTap: () => index.value = 1,
+                focused: index.value == 1,
+                focusedIcon: FontAwesomeIcons.solidUserGroupSimple,
+                unfocusedIcon: FontAwesomeIcons.userGroupSimple,
+              ),
+              HomeTabNavProfileButton(
+                onTap: () => index.value = 2,
+                profile: authStateValue?.maybeWhen(
+                  orElse: () => null,
+                  signedUp: (user) => user.profile,
+                ),
+                focused: index.value == 2,
+              ),
+            ],
+          ),
+        ),
       ),
     );
-  }
-}
-
-class UserTabButton extends StatelessWidget {
-  const UserTabButton({
-    super.key,
-    this.profile,
-    this.index = 0,
-  });
-
-  final String? profile;
-  final int index;
-
-  Widget _renderPlaceholder() {
-    return FaIcon(
-      FontAwesomeIcons.user,
-      size: 15,
-      color: index == 2 ? MyTheme.onPrimary : MyTheme.disabled,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return profile == null
-        ? _renderPlaceholder()
-        : CachedNetworkImage(
-            width: 30,
-            height: 30,
-            imageUrl: profile!,
-            errorWidget: (context, url, error) => Center(
-              child: _renderPlaceholder(),
-            ),
-            imageBuilder: (context, imageProvider) => Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  )),
-            ),
-          );
   }
 }
