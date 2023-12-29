@@ -30,13 +30,12 @@ mixin _$CustomNotification {
   PUser? get targetUser => throw _privateConstructorUsedError;
   @JsonKey(name: 'corporate_id')
   String? get corporateId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'pray_id')
+  int? get prayId => throw _privateConstructorUsedError;
   @JsonKey(name: 'prayer_id')
   String? get prayerId => throw _privateConstructorUsedError;
   @JsonKey(name: 'group_id')
   String? get groupId => throw _privateConstructorUsedError;
-  Group? get group => throw _privateConstructorUsedError;
-  Prayer? get pray => throw _privateConstructorUsedError;
-  CorporatePrayer? get corporate => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
@@ -59,17 +58,12 @@ abstract class $CustomNotificationCopyWith<$Res> {
       NotificationType type,
       @JsonKey(name: 'target_user') PUser? targetUser,
       @JsonKey(name: 'corporate_id') String? corporateId,
+      @JsonKey(name: 'pray_id') int? prayId,
       @JsonKey(name: 'prayer_id') String? prayerId,
       @JsonKey(name: 'group_id') String? groupId,
-      Group? group,
-      Prayer? pray,
-      CorporatePrayer? corporate,
       @JsonKey(name: 'created_at') DateTime? createdAt});
 
   $PUserCopyWith<$Res>? get targetUser;
-  $GroupCopyWith<$Res>? get group;
-  $PrayerCopyWith<$Res>? get pray;
-  $CorporatePrayerCopyWith<$Res>? get corporate;
 }
 
 /// @nodoc
@@ -91,11 +85,9 @@ class _$CustomNotificationCopyWithImpl<$Res, $Val extends CustomNotification>
     Object? type = null,
     Object? targetUser = freezed,
     Object? corporateId = freezed,
+    Object? prayId = freezed,
     Object? prayerId = freezed,
     Object? groupId = freezed,
-    Object? group = freezed,
-    Object? pray = freezed,
-    Object? corporate = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -123,6 +115,10 @@ class _$CustomNotificationCopyWithImpl<$Res, $Val extends CustomNotification>
           ? _value.corporateId
           : corporateId // ignore: cast_nullable_to_non_nullable
               as String?,
+      prayId: freezed == prayId
+          ? _value.prayId
+          : prayId // ignore: cast_nullable_to_non_nullable
+              as int?,
       prayerId: freezed == prayerId
           ? _value.prayerId
           : prayerId // ignore: cast_nullable_to_non_nullable
@@ -131,18 +127,6 @@ class _$CustomNotificationCopyWithImpl<$Res, $Val extends CustomNotification>
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
               as String?,
-      group: freezed == group
-          ? _value.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as Group?,
-      pray: freezed == pray
-          ? _value.pray
-          : pray // ignore: cast_nullable_to_non_nullable
-              as Prayer?,
-      corporate: freezed == corporate
-          ? _value.corporate
-          : corporate // ignore: cast_nullable_to_non_nullable
-              as CorporatePrayer?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -159,42 +143,6 @@ class _$CustomNotificationCopyWithImpl<$Res, $Val extends CustomNotification>
 
     return $PUserCopyWith<$Res>(_value.targetUser!, (value) {
       return _then(_value.copyWith(targetUser: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $GroupCopyWith<$Res>? get group {
-    if (_value.group == null) {
-      return null;
-    }
-
-    return $GroupCopyWith<$Res>(_value.group!, (value) {
-      return _then(_value.copyWith(group: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $PrayerCopyWith<$Res>? get pray {
-    if (_value.pray == null) {
-      return null;
-    }
-
-    return $PrayerCopyWith<$Res>(_value.pray!, (value) {
-      return _then(_value.copyWith(pray: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CorporatePrayerCopyWith<$Res>? get corporate {
-    if (_value.corporate == null) {
-      return null;
-    }
-
-    return $CorporatePrayerCopyWith<$Res>(_value.corporate!, (value) {
-      return _then(_value.copyWith(corporate: value) as $Val);
     });
   }
 }
@@ -214,21 +162,13 @@ abstract class _$$CustomNotificationImplCopyWith<$Res>
       NotificationType type,
       @JsonKey(name: 'target_user') PUser? targetUser,
       @JsonKey(name: 'corporate_id') String? corporateId,
+      @JsonKey(name: 'pray_id') int? prayId,
       @JsonKey(name: 'prayer_id') String? prayerId,
       @JsonKey(name: 'group_id') String? groupId,
-      Group? group,
-      Prayer? pray,
-      CorporatePrayer? corporate,
       @JsonKey(name: 'created_at') DateTime? createdAt});
 
   @override
   $PUserCopyWith<$Res>? get targetUser;
-  @override
-  $GroupCopyWith<$Res>? get group;
-  @override
-  $PrayerCopyWith<$Res>? get pray;
-  @override
-  $CorporatePrayerCopyWith<$Res>? get corporate;
 }
 
 /// @nodoc
@@ -248,11 +188,9 @@ class __$$CustomNotificationImplCopyWithImpl<$Res>
     Object? type = null,
     Object? targetUser = freezed,
     Object? corporateId = freezed,
+    Object? prayId = freezed,
     Object? prayerId = freezed,
     Object? groupId = freezed,
-    Object? group = freezed,
-    Object? pray = freezed,
-    Object? corporate = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$CustomNotificationImpl(
@@ -280,6 +218,10 @@ class __$$CustomNotificationImplCopyWithImpl<$Res>
           ? _value.corporateId
           : corporateId // ignore: cast_nullable_to_non_nullable
               as String?,
+      prayId: freezed == prayId
+          ? _value.prayId
+          : prayId // ignore: cast_nullable_to_non_nullable
+              as int?,
       prayerId: freezed == prayerId
           ? _value.prayerId
           : prayerId // ignore: cast_nullable_to_non_nullable
@@ -288,18 +230,6 @@ class __$$CustomNotificationImplCopyWithImpl<$Res>
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
               as String?,
-      group: freezed == group
-          ? _value.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as Group?,
-      pray: freezed == pray
-          ? _value.pray
-          : pray // ignore: cast_nullable_to_non_nullable
-              as Prayer?,
-      corporate: freezed == corporate
-          ? _value.corporate
-          : corporate // ignore: cast_nullable_to_non_nullable
-              as CorporatePrayer?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -318,11 +248,9 @@ class _$CustomNotificationImpl implements _CustomNotification {
       required this.type,
       @JsonKey(name: 'target_user') this.targetUser,
       @JsonKey(name: 'corporate_id') this.corporateId,
+      @JsonKey(name: 'pray_id') this.prayId,
       @JsonKey(name: 'prayer_id') this.prayerId,
       @JsonKey(name: 'group_id') this.groupId,
-      this.group,
-      this.pray,
-      this.corporate,
       @JsonKey(name: 'created_at') this.createdAt});
 
   factory _$CustomNotificationImpl.fromJson(Map<String, dynamic> json) =>
@@ -345,24 +273,21 @@ class _$CustomNotificationImpl implements _CustomNotification {
   @JsonKey(name: 'corporate_id')
   final String? corporateId;
   @override
+  @JsonKey(name: 'pray_id')
+  final int? prayId;
+  @override
   @JsonKey(name: 'prayer_id')
   final String? prayerId;
   @override
   @JsonKey(name: 'group_id')
   final String? groupId;
   @override
-  final Group? group;
-  @override
-  final Prayer? pray;
-  @override
-  final CorporatePrayer? corporate;
-  @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'CustomNotification(id: $id, userId: $userId, targetUserId: $targetUserId, type: $type, targetUser: $targetUser, corporateId: $corporateId, prayerId: $prayerId, groupId: $groupId, group: $group, pray: $pray, corporate: $corporate, createdAt: $createdAt)';
+    return 'CustomNotification(id: $id, userId: $userId, targetUserId: $targetUserId, type: $type, targetUser: $targetUser, corporateId: $corporateId, prayId: $prayId, prayerId: $prayerId, groupId: $groupId, createdAt: $createdAt)';
   }
 
   @override
@@ -379,33 +304,18 @@ class _$CustomNotificationImpl implements _CustomNotification {
                 other.targetUser == targetUser) &&
             (identical(other.corporateId, corporateId) ||
                 other.corporateId == corporateId) &&
+            (identical(other.prayId, prayId) || other.prayId == prayId) &&
             (identical(other.prayerId, prayerId) ||
                 other.prayerId == prayerId) &&
             (identical(other.groupId, groupId) || other.groupId == groupId) &&
-            (identical(other.group, group) || other.group == group) &&
-            (identical(other.pray, pray) || other.pray == pray) &&
-            (identical(other.corporate, corporate) ||
-                other.corporate == corporate) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      userId,
-      targetUserId,
-      type,
-      targetUser,
-      corporateId,
-      prayerId,
-      groupId,
-      group,
-      pray,
-      corporate,
-      createdAt);
+  int get hashCode => Object.hash(runtimeType, id, userId, targetUserId, type,
+      targetUser, corporateId, prayId, prayerId, groupId, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -430,11 +340,9 @@ abstract class _CustomNotification implements CustomNotification {
           required final NotificationType type,
           @JsonKey(name: 'target_user') final PUser? targetUser,
           @JsonKey(name: 'corporate_id') final String? corporateId,
+          @JsonKey(name: 'pray_id') final int? prayId,
           @JsonKey(name: 'prayer_id') final String? prayerId,
           @JsonKey(name: 'group_id') final String? groupId,
-          final Group? group,
-          final Prayer? pray,
-          final CorporatePrayer? corporate,
           @JsonKey(name: 'created_at') final DateTime? createdAt}) =
       _$CustomNotificationImpl;
 
@@ -458,17 +366,14 @@ abstract class _CustomNotification implements CustomNotification {
   @JsonKey(name: 'corporate_id')
   String? get corporateId;
   @override
+  @JsonKey(name: 'pray_id')
+  int? get prayId;
+  @override
   @JsonKey(name: 'prayer_id')
   String? get prayerId;
   @override
   @JsonKey(name: 'group_id')
   String? get groupId;
-  @override
-  Group? get group;
-  @override
-  Prayer? get pray;
-  @override
-  CorporatePrayer? get corporate;
   @override
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;

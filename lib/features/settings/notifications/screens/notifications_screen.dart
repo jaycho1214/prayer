@@ -159,6 +159,7 @@ class NotificationsListScreen extends HookWidget {
     }, []);
 
     return PagedListView<int?, CustomNotification>.separated(
+      cacheExtent: 10000,
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(

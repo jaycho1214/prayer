@@ -1,8 +1,5 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:prayer/features/prayer/models/prayer_model.dart';
-import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
-import 'package:prayer/model/group/group_model.dart';
 import 'package:prayer/model/user/user_model.dart';
 
 part 'notification_model.freezed.dart';
@@ -28,11 +25,9 @@ class CustomNotification with _$CustomNotification {
     required NotificationType type,
     @JsonKey(name: 'target_user') PUser? targetUser,
     @JsonKey(name: 'corporate_id') String? corporateId,
+    @JsonKey(name: 'pray_id') int? prayId,
     @JsonKey(name: 'prayer_id') String? prayerId,
     @JsonKey(name: 'group_id') String? groupId,
-    Group? group,
-    Prayer? pray,
-    CorporatePrayer? corporate,
     @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _CustomNotification;
 

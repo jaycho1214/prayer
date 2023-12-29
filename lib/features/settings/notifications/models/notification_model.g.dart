@@ -17,17 +17,9 @@ _$CustomNotificationImpl _$$CustomNotificationImplFromJson(
           ? null
           : PUser.fromJson(json['target_user'] as Map<String, dynamic>),
       corporateId: json['corporate_id'] as String?,
+      prayId: json['pray_id'] as int?,
       prayerId: json['prayer_id'] as String?,
       groupId: json['group_id'] as String?,
-      group: json['group'] == null
-          ? null
-          : Group.fromJson(json['group'] as Map<String, dynamic>),
-      pray: json['pray'] == null
-          ? null
-          : Prayer.fromJson(json['pray'] as Map<String, dynamic>),
-      corporate: json['corporate'] == null
-          ? null
-          : CorporatePrayer.fromJson(json['corporate'] as Map<String, dynamic>),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -42,11 +34,9 @@ Map<String, dynamic> _$$CustomNotificationImplToJson(
       'type': _$NotificationTypeEnumMap[instance.type]!,
       'target_user': instance.targetUser,
       'corporate_id': instance.corporateId,
+      'pray_id': instance.prayId,
       'prayer_id': instance.prayerId,
       'group_id': instance.groupId,
-      'group': instance.group,
-      'pray': instance.pray,
-      'corporate': instance.corporate,
       'created_at': instance.createdAt?.toIso8601String(),
     };
 
