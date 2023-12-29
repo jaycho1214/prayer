@@ -98,7 +98,11 @@ class AppRouter {
         //SEARCH
         GoRoute(
           path: 'search',
-          builder: (context, state) => const SearchScreen(),
+          builder: (context, state) => SearchScreen(
+            initialPage: state.uri.queryParameters['type'] == 'user'
+                ? SearchScreenInitialPage.user
+                : SearchScreenInitialPage.group,
+          ),
         ),
 
         //NOTIFICATONS

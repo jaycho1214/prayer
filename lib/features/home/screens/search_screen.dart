@@ -10,8 +10,15 @@ import 'package:prayer/features/user/widgets/users_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/tab_bar.dart';
 
+enum SearchScreenInitialPage { group, user }
+
 class SearchScreen extends HookWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+    this.initialPage = SearchScreenInitialPage.group,
+  });
+
+  final SearchScreenInitialPage initialPage;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +41,7 @@ class SearchScreen extends HookWidget {
     }, []);
 
     return DefaultTabController(
+      initialIndex: initialPage == SearchScreenInitialPage.group ? 0 : 1,
       length: 2,
       child: Builder(
         builder: (context) {
