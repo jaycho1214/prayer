@@ -32,6 +32,8 @@ class PrayerCard extends ConsumerWidget {
     return Row(
       children: [
         UserProfileImage(
+          uid: prayer!.pray!.uid,
+          clickActionType: UserProfileImageClickActionType.profile,
           profile: prayer!.pray!.profile,
           size: 30,
         ),
