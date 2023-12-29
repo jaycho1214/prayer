@@ -22,6 +22,12 @@ _$CustomNotificationImpl _$$CustomNotificationImplFromJson(
       group: json['group'] == null
           ? null
           : Group.fromJson(json['group'] as Map<String, dynamic>),
+      pray: json['pray'] == null
+          ? null
+          : Prayer.fromJson(json['pray'] as Map<String, dynamic>),
+      corporate: json['corporate'] == null
+          ? null
+          : CorporatePrayer.fromJson(json['corporate'] as Map<String, dynamic>),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -39,6 +45,8 @@ Map<String, dynamic> _$$CustomNotificationImplToJson(
       'prayer_id': instance.prayerId,
       'group_id': instance.groupId,
       'group': instance.group,
+      'pray': instance.pray,
+      'corporate': instance.corporate,
       'created_at': instance.createdAt?.toIso8601String(),
     };
 
