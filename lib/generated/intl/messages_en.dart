@@ -38,25 +38,39 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m7(membersCount) => "${membersCount} Members";
 
-  static String m8(url) =>
+  static String m8(group) => "You are now a member of ${group}";
+
+  static String m9(username) => "${username} started following you";
+
+  static String m10(username) => "${username} requested to join";
+
+  static String m11(username) => "${username} joined the group";
+
+  static String m12(username) => "${username} posted a prayer";
+
+  static String m13(username) => "${username} prayed for you";
+
+  static String m14(group) => "You are now a moderator of ${group}";
+
+  static String m15(url) =>
       "Share your prayer requests, express your prayers, and offer your prayers for others on Prayer today! \n\n ${url}";
 
-  static String m9(username) => "${username} prayed";
+  static String m16(username) => "${username} prayed";
 
-  static String m10(membershipType) => "This group is ${membershipType}";
+  static String m17(membershipType) => "This group is ${membershipType}";
 
-  static String m11(membersCount) => "Invite ${membersCount} people?";
+  static String m18(membersCount) => "Invite ${membersCount} people?";
 
-  static String m12(name) => "Promote ${name}";
+  static String m19(name) => "Promote ${name}";
 
-  static String m13(fromDays, toDays) =>
+  static String m20(fromDays, toDays) =>
       "You will be notified on ${fromDays} at ${toDays}";
 
-  static String m14(username) => "Unblock ${username}";
+  static String m21(username) => "Unblock ${username}";
 
-  static String m15(username) => "Unfollow ${username}";
+  static String m22(username) => "Unfollow ${username}";
 
-  static String m16(version) => "Version: ${version}";
+  static String m23(version) => "Version: ${version}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -271,8 +285,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "neighbor": MessageLookupByLibrary.simpleMessage("Neighbor"),
         "neighborDescription": MessageLookupByLibrary.simpleMessage(
             "Pray for others to become their neighbor."),
-        "notificationFollow":
-            MessageLookupByLibrary.simpleMessage(" followed you"),
+        "notificationAccepted": m8,
+        "notificationFollow": m9,
+        "notificationJoinRequested": m10,
+        "notificationJoinedGroup": m11,
+        "notificationPostedPrayer": m12,
+        "notificationPrayed": m13,
+        "notificationPromoted": m14,
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "onlyVisibleToYou":
             MessageLookupByLibrary.simpleMessage("Only visible to you"),
@@ -328,7 +347,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sendInvitation":
             MessageLookupByLibrary.simpleMessage("Send Invitation"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "shareAppMessage": m8,
+        "shareAppMessage": m15,
         "sharePrayer": MessageLookupByLibrary.simpleMessage("Share Prayer"),
         "signInWithApple":
             MessageLookupByLibrary.simpleMessage("Continue with Apple"),
@@ -339,7 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Rejoice always, pray continually, give thanks in all circumstances; for this is God’s will for you in Christ Jesus."),
         "signUpScreenBibleVerseBook": MessageLookupByLibrary.simpleMessage(
             "1 Thessalonians 5:16-18 (NIV)"),
-        "someoneHasPrayed": m9,
+        "someoneHasPrayed": m16,
         "startedAt": MessageLookupByLibrary.simpleMessage("Started At"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
@@ -355,10 +374,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Corporate Prayer"),
         "titleGroupDescription": MessageLookupByLibrary.simpleMessage(
             "Tell us a detail about your Group, such as its purpose or mission."),
-        "titleGroupType": m10,
+        "titleGroupType": m17,
         "titleHowToShareYourPrayer":
             MessageLookupByLibrary.simpleMessage("How to Share Your Prayer?"),
-        "titleInvitePeople": m11,
+        "titleInvitePeople": m18,
         "titleInvitePeopleDescription": MessageLookupByLibrary.simpleMessage(
             "Users will receive a notification and can join without approval. Admin or other moderators can revoke your invites"),
         "titleMemberCanPostOnly": MessageLookupByLibrary.simpleMessage(
@@ -375,20 +394,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Post Anonymously"),
         "titlePrayerPostPublicly":
             MessageLookupByLibrary.simpleMessage("Post Publicly"),
-        "titlePromoteUser": m12,
-        "titleReminderNotifyOn": m13,
+        "titlePromoteUser": m19,
+        "titleReminderNotifyOn": m20,
         "titleTimezoneWillBeUsed": MessageLookupByLibrary.simpleMessage(
             "Your timezone will be used to notify other members"),
         "titleWithName": MessageLookupByLibrary.simpleMessage(
             "Your name will appear alongside your post."),
         "titleYourPrayerHasBeenReceived": MessageLookupByLibrary.simpleMessage(
             "Your prayer has been received"),
-        "unblockUser": m14,
+        "unblockUser": m21,
         "unfollow": MessageLookupByLibrary.simpleMessage("Unfollow"),
-        "unfollowUser": m15,
+        "unfollowUser": m22,
         "username": MessageLookupByLibrary.simpleMessage("Username"),
         "users": MessageLookupByLibrary.simpleMessage("Users"),
-        "versionText": m16,
+        "versionText": m23,
         "weekdays": MessageLookupByLibrary.simpleMessage("Weekdays"),
         "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
         "withName": MessageLookupByLibrary.simpleMessage("With Name")

@@ -1390,13 +1390,73 @@ class S {
     );
   }
 
-  /// ` followed you`
-  String get notificationFollow {
+  /// `You are now a member of {group}`
+  String notificationAccepted(Object group) {
     return Intl.message(
-      ' followed you',
+      'You are now a member of $group',
+      name: 'notificationAccepted',
+      desc: '',
+      args: [group],
+    );
+  }
+
+  /// `{username} started following you`
+  String notificationFollow(Object username) {
+    return Intl.message(
+      '$username started following you',
       name: 'notificationFollow',
       desc: '',
-      args: [],
+      args: [username],
+    );
+  }
+
+  /// `{username} requested to join`
+  String notificationJoinRequested(Object username) {
+    return Intl.message(
+      '$username requested to join',
+      name: 'notificationJoinRequested',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `{username} joined the group`
+  String notificationJoinedGroup(Object username) {
+    return Intl.message(
+      '$username joined the group',
+      name: 'notificationJoinedGroup',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `{username} posted a prayer`
+  String notificationPostedPrayer(Object username) {
+    return Intl.message(
+      '$username posted a prayer',
+      name: 'notificationPostedPrayer',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `{username} prayed for you`
+  String notificationPrayed(Object username) {
+    return Intl.message(
+      '$username prayed for you',
+      name: 'notificationPrayed',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `You are now a moderator of {group}`
+  String notificationPromoted(Object group) {
+    return Intl.message(
+      'You are now a moderator of $group',
+      name: 'notificationPromoted',
+      desc: '',
+      args: [group],
     );
   }
 
