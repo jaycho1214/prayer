@@ -13,10 +13,12 @@ class GroupCard extends HookConsumerWidget {
   const GroupCard({
     super.key,
     required this.group,
+    this.imageRadius = BorderRadius.zero,
     this.onTap,
   });
 
   final Group group;
+  final BorderRadiusGeometry imageRadius;
   final void Function()? onTap;
 
   @override
@@ -36,11 +38,15 @@ class GroupCard extends HookConsumerWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 0.5,
-            color: MyTheme.placeholder,
+            color:
+                group.banner == null ? MyTheme.placeholder : Colors.transparent,
             child: group.banner != null
-                ? CachedNetworkImage(
-                    imageUrl: group.banner!,
-                    fit: BoxFit.cover,
+                ? ClipRRect(
+                    borderRadius: imageRadius,
+                    child: CachedNetworkImage(
+                      imageUrl: group.banner!,
+                      fit: BoxFit.cover,
+                    ),
                   )
                 : null,
           ),
