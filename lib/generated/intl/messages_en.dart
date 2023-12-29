@@ -309,6 +309,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "placeholderReminder":
             MessageLookupByLibrary.simpleMessage("Let us pray..."),
         "placeholderSearch": MessageLookupByLibrary.simpleMessage("Search..."),
+        "postedByMe": MessageLookupByLibrary.simpleMessage("Posted by me"),
         "pray": MessageLookupByLibrary.simpleMessage("Pray"),
         "prayAnonymoous":
             MessageLookupByLibrary.simpleMessage("Pray as Anonymous"),

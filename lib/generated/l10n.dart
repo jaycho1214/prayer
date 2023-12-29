@@ -1560,6 +1560,16 @@ class S {
     );
   }
 
+  /// `Posted by me`
+  String get postedByMe {
+    return Intl.message(
+      'Posted by me',
+      name: 'postedByMe',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pray`
   String get pray {
     return Intl.message(

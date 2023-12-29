@@ -295,6 +295,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "placeholderReminder":
             MessageLookupByLibrary.simpleMessage("기도 시간 입니다..."),
         "placeholderSearch": MessageLookupByLibrary.simpleMessage("검색"),
+        "postedByMe": MessageLookupByLibrary.simpleMessage("내가 포스팅한 기도문"),
         "pray": MessageLookupByLibrary.simpleMessage("기도"),
         "prayAnonymoous": MessageLookupByLibrary.simpleMessage("익명으로 기도"),
         "prayDuration": MessageLookupByLibrary.simpleMessage("기도 기간"),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
+import 'package:prayer/features/prayer/widgets/labels/written_by_me.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/bible/widgets/bible_card_list.dart';
 import 'package:prayer/features/pray/widgets/pray_chip.dart';
@@ -71,9 +73,16 @@ class PrayerCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (prayer.value?.anon == true &&
+                  FirebaseAuth.instance.currentUser?.uid ==
+                      prayer.value?.userId)
+                Padding(
+                  padding: const EdgeInsets.only(left: 40.0),
+                  child: WrittenByMeLabel(),
+                ),
               if (prayer.value?.group != null)
                 Padding(
-                  padding: const EdgeInsets.only(left: 30.0, bottom: 5),
+                  padding: const EdgeInsets.only(left: 40.0),
                   child: Row(
                     children: [
                       GroupLabel(prayer: prayer.value!),

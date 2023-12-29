@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -11,6 +12,7 @@ import 'package:prayer/features/common/widgets/image_list.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
+import 'package:prayer/features/prayer/widgets/labels/written_by_me.dart';
 import 'package:prayer/features/prayer/widgets/open_graph_card.dart';
 import 'package:prayer/features/prayer/widgets/prayer_option_button.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -83,18 +85,32 @@ class PrayerScreen extends HookConsumerWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            if (prayer.value?.group != null)
-                                              GroupLabel(prayer: prayer.value!),
-                                            if (prayer.value?.corporate != null)
-                                              CorporateLabel(
-                                                  prayer: prayer.value!),
-                                          ],
+                                        if (prayer.value?.anon == true &&
+                                            FirebaseAuth.instance.currentUser
+                                                    ?.uid ==
+                                                prayer.value?.userId)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 35.0),
+                                            child: WrittenByMeLabel(),
+                                          ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 35.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              if (prayer.value?.group != null)
+                                                GroupLabel(
+                                                    prayer: prayer.value!),
+                                              if (prayer.value?.corporate !=
+                                                  null)
+                                                CorporateLabel(
+                                                    prayer: prayer.value!),
+                                            ],
+                                          ),
                                         ),
-                                        const SizedBox(height: 10),
                                         UserChip(
                                           uid: prayer.value?.userId,
                                           name: prayer.value?.user?.name,
