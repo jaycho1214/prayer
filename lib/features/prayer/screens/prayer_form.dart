@@ -30,10 +30,12 @@ import 'package:prayer/repo/prayer_repository.dart';
 class PrayerFormScreen extends HookConsumerWidget {
   const PrayerFormScreen({
     super.key,
+    this.initialValue,
     this.groupId,
     this.corporateId,
   });
 
+  final String? initialValue;
   final String? groupId;
   final String? corporateId;
 
@@ -110,7 +112,11 @@ class PrayerFormScreen extends HookConsumerWidget {
 
     return FormBuilder(
       key: formKey,
-      initialValue: {'groupId': _groupId.value, 'corporateId': corporateId},
+      initialValue: {
+        'value': initialValue,
+        'groupId': _groupId.value,
+        'corporateId': corporateId
+      },
       child: Stack(
         children: [
           PlatformScaffold(

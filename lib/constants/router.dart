@@ -185,6 +185,7 @@ class AppRouter {
           path: 'form/prayer',
           pageBuilder: (context, state) => CustomTransitionPage(
             child: PrayerFormScreen(
+              initialValue: state.uri.queryParameters['value'],
               groupId: state.uri.queryParameters['groupId'],
               corporateId: state.uri.queryParameters['corporateId'],
             ),
