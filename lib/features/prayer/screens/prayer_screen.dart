@@ -8,6 +8,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
@@ -261,11 +262,16 @@ class PraysScreen extends HookConsumerWidget {
     }, [pagingController]);
 
     return PagedListView<int?, PrayerPray>(
+      cacheExtent: 10000,
       physics: const NeverScrollableScrollPhysics(),
       pagingController: pagingController,
       padding: const EdgeInsets.only(bottom: 200),
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
+        noItemsFoundIndicatorBuilder: (context) => EmptyPrayersScreen(
+          title: S.of(context).awaitingLove,
+          description: S.of(context).awaitingLoveDescription,
+        ),
         itemBuilder: (context, item, index) => PrayCard(
           pray: item,
           onDelete: () async {

@@ -96,6 +96,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "amen": MessageLookupByLibrary.simpleMessage("아멘"),
         "anonymous": MessageLookupByLibrary.simpleMessage("익명"),
         "anonymously": MessageLookupByLibrary.simpleMessage("익명"),
+        "awaitingLove": MessageLookupByLibrary.simpleMessage("기도의 손길"),
+        "awaitingLoveDescription": MessageLookupByLibrary.simpleMessage(
+            "기도의 씨앗이 뿌려졌습니다. 여러분의 사랑을 나누고 예수 그리스도의 사랑의 빛이 되어주세요."),
         "bible": MessageLookupByLibrary.simpleMessage("성경"),
         "bibleCorporatePrayerScreenVerse": MessageLookupByLibrary.simpleMessage(
             "빌기를 다하매 모인 곳이 진동하더니 무리가 다 성령이 충만하여 담대히 하나님의 말씀을 전하니라"),

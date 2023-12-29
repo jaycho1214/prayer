@@ -190,6 +190,26 @@ class S {
     );
   }
 
+  /// `Awaiting Your Love`
+  String get awaitingLove {
+    return Intl.message(
+      'Awaiting Your Love',
+      name: 'awaitingLove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It seems we're just beginning. Share your love and be the beacon of Jesus Christ's love.`
+  String get awaitingLoveDescription {
+    return Intl.message(
+      'It seems we\'re just beginning. Share your love and be the beacon of Jesus Christ\'s love.',
+      name: 'awaitingLoveDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Bible`
   String get bible {
     return Intl.message(
