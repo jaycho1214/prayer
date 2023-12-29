@@ -10,7 +10,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/group/group_model.dart';
-import 'package:prayer/model/notification/notification_model.dart';
+import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/group/widgets/groups_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/settings/notifications/widgets/notification_card.dart';
@@ -158,7 +158,7 @@ class NotificationsListScreen extends HookWidget {
       };
     }, []);
 
-    return PagedListView<int?, CustomNotification>(
+    return PagedListView<int?, CustomNotification>.separated(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
@@ -167,6 +167,8 @@ class NotificationsListScreen extends HookWidget {
           item: item,
         ),
       ),
+      separatorBuilder: (context, index) =>
+          const Divider(color: MyTheme.disabled),
     );
   }
 }
