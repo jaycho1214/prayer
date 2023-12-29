@@ -23,7 +23,6 @@ class CustomNotification with _$CustomNotification {
     required int id,
     @JsonKey(name: 'user_id') required String userId,
     @JsonKey(name: 'target_user_id') String? targetUserId,
-    String? message,
     required NotificationType type,
     @JsonKey(name: 'target_user') PUser? targetUser,
     @JsonKey(name: 'corporate_id') String? corporateId,
@@ -39,7 +38,7 @@ class CustomNotification with _$CustomNotification {
   static CustomNotification get placeholder => CustomNotification(
         id: 1,
         userId: '',
-        message: 'THIS IS A PLACEHOLDER MESSAGE',
+        type: NotificationType.followed,
         targetUserId: '',
       );
 }

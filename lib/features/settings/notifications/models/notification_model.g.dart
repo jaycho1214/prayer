@@ -12,7 +12,6 @@ _$CustomNotificationImpl _$$CustomNotificationImplFromJson(
       id: json['id'] as int,
       userId: json['user_id'] as String,
       targetUserId: json['target_user_id'] as String?,
-      message: json['message'] as String?,
       type: $enumDecode(_$NotificationTypeEnumMap, json['type']),
       targetUser: json['target_user'] == null
           ? null
@@ -34,7 +33,6 @@ Map<String, dynamic> _$$CustomNotificationImplToJson(
       'id': instance.id,
       'user_id': instance.userId,
       'target_user_id': instance.targetUserId,
-      'message': instance.message,
       'type': _$NotificationTypeEnumMap[instance.type]!,
       'target_user': instance.targetUser,
       'corporate_id': instance.corporateId,
