@@ -34,7 +34,7 @@ class PrayerCard extends ConsumerWidget {
         UserProfileImage(
           uid: prayer!.pray!.uid,
           clickActionType: UserProfileImageClickActionType.profile,
-          profile: prayer!.pray!.profile,
+          profile: prayer.pray!.profile,
           size: 30,
         ),
         const SizedBox(width: 10),
