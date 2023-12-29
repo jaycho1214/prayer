@@ -143,6 +143,17 @@ class PrayerRepository {
     return prayer;
   }
 
+  Future<PrayerPray?> fetchPray(int prayId) async {
+    final resp = await dio.get('/v1/prayers/pray/$prayId');
+    if (resp.data['message'] != null) {
+      throw resp.data['message'];
+    }
+    final prayer = resp.data == null || resp.data['data'] == null
+        ? null
+        : PrayerPray.fromJson(resp.data['data']);
+    return prayer;
+  }
+
   Future<CorporatePrayer?> fetchCorporatePrayer(String prayerId) async {
     final resp = await dio.get('/v1/prayers/corporate/$prayerId');
     if (resp.data['message'] != null) {
