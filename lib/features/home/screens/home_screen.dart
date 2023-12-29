@@ -104,9 +104,9 @@ class HomeScreen extends HookConsumerWidget {
                     .copyWith(fontWeight: FontWeight.bold),
               ),
             ),
-            floating: true,
+            floating: false,
             pinned: false,
-            snap: true,
+            snap: false,
             bottom: bannedAt == null
                 ? null
                 : PreferredSize(
