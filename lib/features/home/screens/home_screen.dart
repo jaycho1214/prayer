@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
@@ -161,6 +162,29 @@ class HomeScreen extends HookConsumerWidget {
                             _ => homePagingController,
                           },
                           noItemsFoundIndicatorBuilder: switch (entry.key) {
+                            1 => (context) => EmptyPrayersScreen(
+                                  title: S.of(context).companionsOnTheJourney,
+                                  description: S
+                                      .of(context)
+                                      .companionsOnTheJourneyDescription,
+                                  buttonText: S.of(context).searchCompanion,
+                                  onTap: () => context.push(Uri(
+                                          path: '/search',
+                                          queryParameters: {'type': 'user'})
+                                      .toString()),
+                                ),
+                            2 => (context) => EmptyPrayersScreen(
+                                  title: S.of(context).loveYourNeighbor,
+                                  description: S
+                                          .of(context)
+                                          .neighborDescription +
+                                      '\n\n' +
+                                      S.of(context).prayWithWordFormBibleVerse +
+                                      '\n' +
+                                      S.of(context).prayWithWordFormBible,
+                                  buttonText: S.of(context).pray,
+                                  onTap: () => tabController.animateTo(0),
+                                ),
                             _ => null
                           },
                           fetchFn: entry.value,

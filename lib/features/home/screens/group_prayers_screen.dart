@@ -7,10 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
-import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
@@ -133,32 +133,11 @@ class GroupPrayersScreen extends HookWidget {
               fetchFn: (cursor) => GetIt.I<PrayerRepository>()
                   .fetchGroupPrayersFromUser(cursor: cursor),
               pagingController: pagingController,
-              noItemsFoundIndicatorBuilder: (p0) => Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.of(context).prayWithOthers,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 30,
-                      ),
-                    ),
-                    Text(
-                      S.of(context).emptyGroupDescription,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: MyTheme.placeholderText,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    PrimaryTextButton(
-                      text: S.of(context).searchGroup,
-                      onTap: () => context.push('/search'),
-                    ),
-                  ],
-                ),
+              noItemsFoundIndicatorBuilder: (p0) => EmptyPrayersScreen(
+                title: S.of(context).prayWithOthers,
+                description: S.of(context).emptyGroupDescription,
+                buttonText: S.of(context).searchGroup,
+                onTap: () => context.push('/search'),
               ),
             ),
           ],

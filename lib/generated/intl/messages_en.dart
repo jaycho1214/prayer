@@ -97,6 +97,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseTranslation":
             MessageLookupByLibrary.simpleMessage("Choose a translation"),
         "community": MessageLookupByLibrary.simpleMessage("Community"),
+        "companionsOnTheJourney":
+            MessageLookupByLibrary.simpleMessage("Companions on the Journey"),
+        "companionsOnTheJourneyDescription": MessageLookupByLibrary.simpleMessage(
+            "Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you\'re not alone. Follow, lead, and grow in faith."),
         "corporate": MessageLookupByLibrary.simpleMessage("Corporate"),
         "corporatePrayerPrayed": MessageLookupByLibrary.simpleMessage("Prayed"),
         "corporatePrayerPraying":
@@ -245,6 +249,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "joined": MessageLookupByLibrary.simpleMessage("Joined"),
         "leaveGroup": MessageLookupByLibrary.simpleMessage("Leave group"),
         "legal": MessageLookupByLibrary.simpleMessage("Legal"),
+        "loveYourNeighbor":
+            MessageLookupByLibrary.simpleMessage("Love your neighbor"),
         "memberPromoted":
             MessageLookupByLibrary.simpleMessage("Member Promoted"),
         "members": MessageLookupByLibrary.simpleMessage("Members"),
@@ -263,6 +269,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "1. Moderators have the ability to invite others or accept join requests.:2. Moderators can post corporate prayers.:3. Moderators can set notifications for prayer times."),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "neighbor": MessageLookupByLibrary.simpleMessage("Neighbor"),
+        "neighborDescription": MessageLookupByLibrary.simpleMessage(
+            "Pray for others to become their neighbor."),
+        "notificationFollow":
+            MessageLookupByLibrary.simpleMessage(" followed you"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "onlyVisibleToYou":
             MessageLookupByLibrary.simpleMessage("Only visible to you"),
@@ -311,6 +321,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "restricted": MessageLookupByLibrary.simpleMessage("Restricted"),
         "revoke": MessageLookupByLibrary.simpleMessage("Revoke"),
         "revoked": MessageLookupByLibrary.simpleMessage("Revoked"),
+        "searchCompanion":
+            MessageLookupByLibrary.simpleMessage("Search a companion"),
         "searchGroup": MessageLookupByLibrary.simpleMessage("Search a group "),
         "sendFeedback": MessageLookupByLibrary.simpleMessage("Send Feedback"),
         "sendInvitation":

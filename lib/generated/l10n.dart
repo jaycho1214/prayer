@@ -320,6 +320,26 @@ class S {
     );
   }
 
+  /// `Companions on the Journey`
+  String get companionsOnTheJourney {
+    return Intl.message(
+      'Companions on the Journey',
+      name: 'companionsOnTheJourney',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you're not alone. Follow, lead, and grow in faith.`
+  String get companionsOnTheJourneyDescription {
+    return Intl.message(
+      'Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you\'re not alone. Follow, lead, and grow in faith.',
+      name: 'companionsOnTheJourneyDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Corporate`
   String get corporate {
     return Intl.message(
@@ -1230,6 +1250,16 @@ class S {
     );
   }
 
+  /// `Love your neighbor`
+  String get loveYourNeighbor {
+    return Intl.message(
+      'Love your neighbor',
+      name: 'loveYourNeighbor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Member Promoted`
   String get memberPromoted {
     return Intl.message(
@@ -1345,6 +1375,26 @@ class S {
     return Intl.message(
       'Neighbor',
       name: 'neighbor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pray for others to become their neighbor.`
+  String get neighborDescription {
+    return Intl.message(
+      'Pray for others to become their neighbor.',
+      name: 'neighborDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` followed you`
+  String get notificationFollow {
+    return Intl.message(
+      ' followed you',
+      name: 'notificationFollow',
       desc: '',
       args: [],
     );
@@ -1705,6 +1755,16 @@ class S {
     return Intl.message(
       'Revoked',
       name: 'revoked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search a companion`
+  String get searchCompanion {
+    return Intl.message(
+      'Search a companion',
+      name: 'searchCompanion',
       desc: '',
       args: [],
     );

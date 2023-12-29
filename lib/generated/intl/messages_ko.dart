@@ -95,6 +95,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "chooseGroup": MessageLookupByLibrary.simpleMessage("그룹 선택"),
         "chooseTranslation": MessageLookupByLibrary.simpleMessage("성경 선택"),
         "community": MessageLookupByLibrary.simpleMessage("커뮤니티"),
+        "companionsOnTheJourney":
+            MessageLookupByLibrary.simpleMessage("믿음의 동반자"),
+        "companionsOnTheJourneyDescription":
+            MessageLookupByLibrary.simpleMessage(
+                "동행에서 위안을 찾고, 여정의 모든 단계에서 서로를 격려하세요. 당신의 길은 특별하지만, 혼자가 아닙니다."),
         "corporate": MessageLookupByLibrary.simpleMessage("중보기도"),
         "corporatePrayerPrayed": MessageLookupByLibrary.simpleMessage("기도 완료"),
         "corporatePrayerPraying": MessageLookupByLibrary.simpleMessage("기도 중"),
@@ -232,6 +237,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "joined": MessageLookupByLibrary.simpleMessage("가입됨"),
         "leaveGroup": MessageLookupByLibrary.simpleMessage("그룹 탈퇴"),
         "legal": MessageLookupByLibrary.simpleMessage("법률"),
+        "loveYourNeighbor": MessageLookupByLibrary.simpleMessage("네 이웃을 사랑하라"),
         "memberPromoted": MessageLookupByLibrary.simpleMessage("멤버를 임명했습니다"),
         "members": MessageLookupByLibrary.simpleMessage("멤버들"),
         "membersCount": m7,
@@ -250,6 +256,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "1. 사역자는 다른 사람을 초대하거나 가입 요청을 수락할 수 있습니다:2. 사역자는 중보 기도문을 게시할 수 있습니다.:3. 사역자는 기도 시간에 대한 알림을 설정할 수 있습니다."),
         "name": MessageLookupByLibrary.simpleMessage("이름"),
         "neighbor": MessageLookupByLibrary.simpleMessage("이웃들"),
+        "neighborDescription":
+            MessageLookupByLibrary.simpleMessage("사람들을 위해 기도하고, 이웃이 되어주세요."),
+        "notificationFollow":
+            MessageLookupByLibrary.simpleMessage("이 당신을 팔로우 했습니다"),
         "notifications": MessageLookupByLibrary.simpleMessage("알림"),
         "onlyVisibleToYou": MessageLookupByLibrary.simpleMessage("나한테만 보임"),
         "open": MessageLookupByLibrary.simpleMessage("공개"),
@@ -293,6 +303,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "restricted": MessageLookupByLibrary.simpleMessage("제한됨"),
         "revoke": MessageLookupByLibrary.simpleMessage("철회"),
         "revoked": MessageLookupByLibrary.simpleMessage("철회됨"),
+        "searchCompanion": MessageLookupByLibrary.simpleMessage("동반자 찾기"),
         "searchGroup": MessageLookupByLibrary.simpleMessage("그룹 찾기"),
         "sendFeedback": MessageLookupByLibrary.simpleMessage("피드백 보내기"),
         "sendInvitation": MessageLookupByLibrary.simpleMessage("초대하기"),
