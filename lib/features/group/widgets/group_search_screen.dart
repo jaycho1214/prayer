@@ -15,6 +15,7 @@ class GroupSearchScreen extends HookWidget {
     this.scrollController,
     this.onTap,
     this.uid,
+    this.noItemsFoundIndicatorBuilder,
   });
 
   final PagingController<String?, Group> pagingController;
@@ -22,6 +23,7 @@ class GroupSearchScreen extends HookWidget {
   final String? query;
   final String? uid;
   final void Function(String)? onTap;
+  final Widget Function(BuildContext)? noItemsFoundIndicatorBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +66,7 @@ class GroupSearchScreen extends HookWidget {
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
+        noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
         itemBuilder: (context, item, index) => Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: GroupCard(

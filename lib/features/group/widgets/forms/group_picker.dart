@@ -81,6 +81,7 @@ class GroupPicker extends HookWidget {
               child: GroupSearchScreen(
                 pagingController: pagingController,
                 uid: FirebaseAuth.instance.currentUser!.uid,
+                noItemsFoundIndicatorBuilder: (p0) => SizedBox(),
                 scrollController: scrollController,
                 onTap: (item) => Navigator.of(context).pop(item),
               ),
