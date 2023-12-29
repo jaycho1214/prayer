@@ -120,7 +120,6 @@ class PrayerRepository {
   }) async {
     final resp = await dio
         .post('/v1/prayers/pray', data: {'prayerId': prayerId, 'value': value});
-    mixpanel.track("Pray Created");
     return resp.data['data'] == 'success';
   }
 

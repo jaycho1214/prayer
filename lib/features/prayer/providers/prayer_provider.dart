@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/repo/prayer_repository.dart';
@@ -49,6 +50,7 @@ class PrayerNotifier extends _$PrayerNotifier {
           onNeedWait?.call();
         }
         onPrayed?.call();
+        mixpanel.track("Pray Created");
       } catch (error, stackTrace) {
         state = AsyncValue.data(backup);
         talker.handle(
