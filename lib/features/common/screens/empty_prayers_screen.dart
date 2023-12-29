@@ -7,14 +7,14 @@ class EmptyPrayersScreen extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
-    required this.buttonText,
-    required this.onTap,
+    this.buttonText,
+    this.onTap,
   });
 
   final String title;
   final String description;
-  final String buttonText;
-  final void Function() onTap;
+  final String? buttonText;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +38,10 @@ class EmptyPrayersScreen extends StatelessWidget {
               color: MyTheme.placeholderText,
             ),
           ),
-          const SizedBox(height: 20),
-          PrimaryTextButton(text: buttonText, onTap: onTap),
+          if (buttonText != null) ...[
+            const SizedBox(height: 20),
+            PrimaryTextButton(text: buttonText!, onTap: onTap),
+          ],
         ],
       ),
     );
