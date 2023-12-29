@@ -141,6 +141,7 @@
   "notificationPostedCorporatePrayer": "{username}이 중보기도문을 올렸습니다",
   "notificationPostedPrayer": "{username}이 기도문을 올렸습니다",
   "notificationPrayed": "{username}이 기도했습니다",
+  "notificationPrayedForYou": "{username}이 기도했습니다",
   "notificationPromoted": "{group}의 사역자가 되었습니다",
   "notifications": "알림",
   "onlyVisibleToYou": "나한테만 보임",

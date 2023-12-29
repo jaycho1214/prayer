@@ -1450,11 +1450,21 @@ class S {
     );
   }
 
-  /// `{username} prayed for you`
+  /// `{username} prayed`
   String notificationPrayed(Object username) {
     return Intl.message(
-      '$username prayed for you',
+      '$username prayed',
       name: 'notificationPrayed',
+      desc: '',
+      args: [username],
+    );
+  }
+
+  /// `{username} prayed for you`
+  String notificationPrayedForYou(Object username) {
+    return Intl.message(
+      '$username prayed for you',
+      name: 'notificationPrayedForYou',
       desc: '',
       args: [username],
     );
