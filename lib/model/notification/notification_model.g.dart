@@ -12,7 +12,8 @@ _$CustomNotificationImpl _$$CustomNotificationImplFromJson(
       id: json['id'] as int,
       userId: json['user_id'] as String,
       targetUserId: json['target_user_id'] as String?,
-      message: json['message'] as String,
+      message: json['message'] as String?,
+      type: $enumDecode(_$NotificationTypeEnumMap, json['type']),
       targetUser: json['target_user'] == null
           ? null
           : PUser.fromJson(json['target_user'] as Map<String, dynamic>),
@@ -34,6 +35,7 @@ Map<String, dynamic> _$$CustomNotificationImplToJson(
       'user_id': instance.userId,
       'target_user_id': instance.targetUserId,
       'message': instance.message,
+      'type': _$NotificationTypeEnumMap[instance.type]!,
       'target_user': instance.targetUser,
       'corporate_id': instance.corporateId,
       'prayer_id': instance.prayerId,
@@ -41,3 +43,14 @@ Map<String, dynamic> _$$CustomNotificationImplToJson(
       'group': instance.group,
       'created_at': instance.createdAt?.toIso8601String(),
     };
+
+const _$NotificationTypeEnumMap = {
+  NotificationType.followed: 'followed',
+  NotificationType.group_join_requested: 'group_join_requested',
+  NotificationType.group_joined: 'group_joined',
+  NotificationType.group_accepted: 'group_accepted',
+  NotificationType.group_promoted: 'group_promoted',
+  NotificationType.prayed: 'prayed',
+  NotificationType.group_corporate_posted: 'group_corporate_posted',
+  NotificationType.prayer_posted: 'prayer_posted',
+};

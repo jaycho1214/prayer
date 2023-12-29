@@ -25,7 +25,8 @@ mixin _$CustomNotification {
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'target_user_id')
   String? get targetUserId => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  NotificationType get type => throw _privateConstructorUsedError;
   @JsonKey(name: 'target_user')
   PUser? get targetUser => throw _privateConstructorUsedError;
   @JsonKey(name: 'corporate_id')
@@ -54,7 +55,8 @@ abstract class $CustomNotificationCopyWith<$Res> {
       {int id,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'target_user_id') String? targetUserId,
-      String message,
+      String? message,
+      NotificationType type,
       @JsonKey(name: 'target_user') PUser? targetUser,
       @JsonKey(name: 'corporate_id') String? corporateId,
       @JsonKey(name: 'prayer_id') String? prayerId,
@@ -82,7 +84,8 @@ class _$CustomNotificationCopyWithImpl<$Res, $Val extends CustomNotification>
     Object? id = null,
     Object? userId = null,
     Object? targetUserId = freezed,
-    Object? message = null,
+    Object? message = freezed,
+    Object? type = null,
     Object? targetUser = freezed,
     Object? corporateId = freezed,
     Object? prayerId = freezed,
@@ -103,10 +106,14 @@ class _$CustomNotificationCopyWithImpl<$Res, $Val extends CustomNotification>
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
               as String?,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NotificationType,
       targetUser: freezed == targetUser
           ? _value.targetUser
           : targetUser // ignore: cast_nullable_to_non_nullable
@@ -171,7 +178,8 @@ abstract class _$$CustomNotificationImplCopyWith<$Res>
       {int id,
       @JsonKey(name: 'user_id') String userId,
       @JsonKey(name: 'target_user_id') String? targetUserId,
-      String message,
+      String? message,
+      NotificationType type,
       @JsonKey(name: 'target_user') PUser? targetUser,
       @JsonKey(name: 'corporate_id') String? corporateId,
       @JsonKey(name: 'prayer_id') String? prayerId,
@@ -199,7 +207,8 @@ class __$$CustomNotificationImplCopyWithImpl<$Res>
     Object? id = null,
     Object? userId = null,
     Object? targetUserId = freezed,
-    Object? message = null,
+    Object? message = freezed,
+    Object? type = null,
     Object? targetUser = freezed,
     Object? corporateId = freezed,
     Object? prayerId = freezed,
@@ -220,10 +229,14 @@ class __$$CustomNotificationImplCopyWithImpl<$Res>
           ? _value.targetUserId
           : targetUserId // ignore: cast_nullable_to_non_nullable
               as String?,
-      message: null == message
+      message: freezed == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NotificationType,
       targetUser: freezed == targetUser
           ? _value.targetUser
           : targetUser // ignore: cast_nullable_to_non_nullable
@@ -259,7 +272,8 @@ class _$CustomNotificationImpl implements _CustomNotification {
       {required this.id,
       @JsonKey(name: 'user_id') required this.userId,
       @JsonKey(name: 'target_user_id') this.targetUserId,
-      required this.message,
+      this.message,
+      required this.type,
       @JsonKey(name: 'target_user') this.targetUser,
       @JsonKey(name: 'corporate_id') this.corporateId,
       @JsonKey(name: 'prayer_id') this.prayerId,
@@ -279,7 +293,9 @@ class _$CustomNotificationImpl implements _CustomNotification {
   @JsonKey(name: 'target_user_id')
   final String? targetUserId;
   @override
-  final String message;
+  final String? message;
+  @override
+  final NotificationType type;
   @override
   @JsonKey(name: 'target_user')
   final PUser? targetUser;
@@ -300,11 +316,11 @@ class _$CustomNotificationImpl implements _CustomNotification {
 
   @override
   String toString() {
-    return 'CustomNotification(id: $id, userId: $userId, targetUserId: $targetUserId, message: $message, targetUser: $targetUser, corporateId: $corporateId, prayerId: $prayerId, groupId: $groupId, group: $group, createdAt: $createdAt)';
+    return 'CustomNotification(id: $id, userId: $userId, targetUserId: $targetUserId, message: $message, type: $type, targetUser: $targetUser, corporateId: $corporateId, prayerId: $prayerId, groupId: $groupId, group: $group, createdAt: $createdAt)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CustomNotificationImpl &&
@@ -313,6 +329,7 @@ class _$CustomNotificationImpl implements _CustomNotification {
             (identical(other.targetUserId, targetUserId) ||
                 other.targetUserId == targetUserId) &&
             (identical(other.message, message) || other.message == message) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.targetUser, targetUser) ||
                 other.targetUser == targetUser) &&
             (identical(other.corporateId, corporateId) ||
@@ -327,8 +344,19 @@ class _$CustomNotificationImpl implements _CustomNotification {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, userId, targetUserId,
-      message, targetUser, corporateId, prayerId, groupId, group, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      userId,
+      targetUserId,
+      message,
+      type,
+      targetUser,
+      corporateId,
+      prayerId,
+      groupId,
+      group,
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -350,7 +378,8 @@ abstract class _CustomNotification implements CustomNotification {
           {required final int id,
           @JsonKey(name: 'user_id') required final String userId,
           @JsonKey(name: 'target_user_id') final String? targetUserId,
-          required final String message,
+          final String? message,
+          required final NotificationType type,
           @JsonKey(name: 'target_user') final PUser? targetUser,
           @JsonKey(name: 'corporate_id') final String? corporateId,
           @JsonKey(name: 'prayer_id') final String? prayerId,
@@ -371,7 +400,9 @@ abstract class _CustomNotification implements CustomNotification {
   @JsonKey(name: 'target_user_id')
   String? get targetUserId;
   @override
-  String get message;
+  String? get message;
+  @override
+  NotificationType get type;
   @override
   @JsonKey(name: 'target_user')
   PUser? get targetUser;

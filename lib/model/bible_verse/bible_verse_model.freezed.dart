@@ -154,7 +154,7 @@ class _$BibleTranslationImpl implements _BibleTranslation {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BibleTranslationImpl &&
@@ -441,7 +441,7 @@ class _$BibleVerseImpl implements _BibleVerse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BibleVerseImpl &&

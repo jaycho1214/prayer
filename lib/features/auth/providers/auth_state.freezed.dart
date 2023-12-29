@@ -106,7 +106,7 @@ class _$AuthStateSignedOutImpl implements AuthStateSignedOut {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$AuthStateSignedOutImpl);
   }
@@ -214,7 +214,7 @@ class _$AuthStateSignedInImpl implements AuthStateSignedIn {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$AuthStateSignedInImpl);
   }
@@ -350,7 +350,7 @@ class _$AuthStateSignedUpImpl implements AuthStateSignedUp {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateSignedUpImpl &&

@@ -6,13 +6,25 @@ import 'package:prayer/model/user/user_model.dart';
 part 'notification_model.freezed.dart';
 part 'notification_model.g.dart';
 
+enum NotificationType {
+  followed,
+  group_join_requested,
+  group_joined,
+  group_accepted,
+  group_promoted,
+  prayed,
+  group_corporate_posted,
+  prayer_posted,
+}
+
 @Freezed()
 class CustomNotification with _$CustomNotification {
   const factory CustomNotification({
     required int id,
     @JsonKey(name: 'user_id') required String userId,
     @JsonKey(name: 'target_user_id') String? targetUserId,
-    required String message,
+    String? message,
+    required NotificationType type,
     @JsonKey(name: 'target_user') PUser? targetUser,
     @JsonKey(name: 'corporate_id') String? corporateId,
     @JsonKey(name: 'prayer_id') String? prayerId,
