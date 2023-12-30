@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -343,13 +344,18 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                 ),
               ],
               body: PrayersScreen(
-                  physics: const NeverScrollableScrollPhysics(),
-                  fetchFn: (cursor) => GetIt.I<PrayerRepository>()
-                          .fetchPrayersFromCorporatePrayer(
-                        prayerId: prayerId,
-                        cursor: cursor,
-                      ),
-                  pagingController: pagingController),
+                physics: const NeverScrollableScrollPhysics(),
+                noItemsFoundIndicatorBuilder: (p0) => EmptyPrayersScreen(
+                  title: S.of(context).emptyCorporatePrayerTitle,
+                  description: S.of(context).emptyCorporatePrayerDescription,
+                ),
+                fetchFn: (cursor) =>
+                    GetIt.I<PrayerRepository>().fetchPrayersFromCorporatePrayer(
+                  prayerId: prayerId,
+                  cursor: cursor,
+                ),
+                pagingController: pagingController,
+              ),
             ),
           ),
           if (snapshot.data != null)

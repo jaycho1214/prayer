@@ -160,6 +160,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Help us spread the love of Jesus Christ."),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "emptyCorporatePrayerDescription": MessageLookupByLibrary.simpleMessage(
+            "Post your first prayer and watch as, in unity, miracles unfold."),
+        "emptyCorporatePrayerTitle":
+            MessageLookupByLibrary.simpleMessage("Witness a Miracle"),
         "emptyGroupDescription": MessageLookupByLibrary.simpleMessage(
             "Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary."),
         "endedAt": MessageLookupByLibrary.simpleMessage("Ended At"),

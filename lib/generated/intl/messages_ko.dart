@@ -155,6 +155,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "저희가 예수님의 사랑을 널리 퍼뜨릴 수 있도록 도와주세요."),
         "done": MessageLookupByLibrary.simpleMessage("완료"),
         "edit": MessageLookupByLibrary.simpleMessage("수정"),
+        "emptyCorporatePrayerDescription":
+            MessageLookupByLibrary.simpleMessage("첫 기도문을 올리고 하나님의 기적을 경험하세요."),
+        "emptyCorporatePrayerTitle":
+            MessageLookupByLibrary.simpleMessage("기적의 증인이 되는 삶"),
         "emptyGroupDescription": MessageLookupByLibrary.simpleMessage(
             "함께 연결되고 나누어 중보기도의 힘을 경험하세요. 다른 이들과 신앙 안에서 하나가 되어 놀라운 일을 목격하세요."),
         "endedAt": MessageLookupByLibrary.simpleMessage("종료"),

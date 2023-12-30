@@ -620,6 +620,26 @@ class S {
     );
   }
 
+  /// `Post your first prayer and watch as, in unity, miracles unfold.`
+  String get emptyCorporatePrayerDescription {
+    return Intl.message(
+      'Post your first prayer and watch as, in unity, miracles unfold.',
+      name: 'emptyCorporatePrayerDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Witness a Miracle`
+  String get emptyCorporatePrayerTitle {
+    return Intl.message(
+      'Witness a Miracle',
+      name: 'emptyCorporatePrayerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary.`
   String get emptyGroupDescription {
     return Intl.message(
