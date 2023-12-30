@@ -111,6 +111,8 @@
   "groupDescription": "Group Description",
   "groupEstablishedAt": "3. This group was established at {establishedAt}",
   "groupName": "Group Name",
+  "groupNotificationSettingsAll": "Notify when the prayer is posted to the group.",
+  "groupNotificationSettingsModerator": "Notify when the moderator posts a prayer.",
   "groups": "Groups",
   "home": "Home",
   "introductionTitle": "United in Prayer \nStronger Together \nCollective Faith",

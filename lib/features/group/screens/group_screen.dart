@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
+import 'package:prayer/features/group/widgets/group_notification_subscribe_button.dart';
 import 'package:prayer/features/group/widgets/group_share_button.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -193,6 +194,14 @@ class GroupScreen extends HookConsumerWidget {
                                             value: group.prayersCount,
                                             text: S.of(context).prayers),
                                         Spacer(),
+                                        if (group.acceptedAt != null)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5.0),
+                                            child:
+                                                GroupNotificationSubscribeButton(
+                                                    groupId: groupId),
+                                          ),
                                         GroupShareButton(groupId: groupId),
                                         const SizedBox(width: 10),
                                         JoinButton(

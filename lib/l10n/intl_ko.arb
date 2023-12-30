@@ -111,6 +111,8 @@
   "groupDescription": "그룹 설명",
   "groupEstablishedAt": "3. 이 그룹은 {establishedAt}애 창설되었습니다",
   "groupName": "그룹 이름",
+  "groupNotificationSettingsAll": "그룹원이 기도문을 올릴때 알림을 받습니다.",
+  "groupNotificationSettingsModerator": "사역자가 기도문을 올릴때 알림을 받습니다",
   "groups": "그룹",
   "home": "홈",
   "introductionTitle": "기도로 연합\n믿음의 동반자\n공동의 믿음",

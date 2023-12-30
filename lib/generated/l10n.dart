@@ -1160,6 +1160,26 @@ class S {
     );
   }
 
+  /// `Notify when the prayer is posted to the group.`
+  String get groupNotificationSettingsAll {
+    return Intl.message(
+      'Notify when the prayer is posted to the group.',
+      name: 'groupNotificationSettingsAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notify when the moderator posts a prayer.`
+  String get groupNotificationSettingsModerator {
+    return Intl.message(
+      'Notify when the moderator posts a prayer.',
+      name: 'groupNotificationSettingsModerator',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Groups`
   String get groups {
     return Intl.message(

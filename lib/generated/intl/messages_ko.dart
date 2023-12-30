@@ -246,6 +246,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "groupDescription": MessageLookupByLibrary.simpleMessage("그룹 설명"),
         "groupEstablishedAt": m6,
         "groupName": MessageLookupByLibrary.simpleMessage("그룹 이름"),
+        "groupNotificationSettingsAll":
+            MessageLookupByLibrary.simpleMessage("그룹원이 기도문을 올릴때 알림을 받습니다."),
+        "groupNotificationSettingsModerator":
+            MessageLookupByLibrary.simpleMessage("사역자가 기도문을 올릴때 알림을 받습니다"),
         "groups": MessageLookupByLibrary.simpleMessage("그룹"),
         "home": MessageLookupByLibrary.simpleMessage("홈"),
         "introductionTitle":

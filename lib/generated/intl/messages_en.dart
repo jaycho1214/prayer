@@ -259,6 +259,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Group Description"),
         "groupEstablishedAt": m6,
         "groupName": MessageLookupByLibrary.simpleMessage("Group Name"),
+        "groupNotificationSettingsAll": MessageLookupByLibrary.simpleMessage(
+            "Notify when the prayer is posted to the group."),
+        "groupNotificationSettingsModerator":
+            MessageLookupByLibrary.simpleMessage(
+                "Notify when the moderator posts a prayer."),
         "groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
         "introductionTitle": MessageLookupByLibrary.simpleMessage(
