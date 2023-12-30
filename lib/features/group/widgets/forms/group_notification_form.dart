@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/features/group/models/group_notification_settings_model.dart';
+import 'package:prayer/features/group/models/group_notification_settings/group_notification_settings_model.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 

@@ -10,7 +10,7 @@ import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
-import 'package:prayer/model/group_member/group_member_model.dart';
+import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';

@@ -51,6 +51,14 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
             const Divider(color: MyTheme.disabled),
+            SettingsRowCard(
+              icon: FontAwesomeIcons.lightAlarmClock,
+              title: S.of(context).reminder,
+              onTap: () {
+                context.push('/settings/account');
+              },
+            ),
+            const Divider(color: MyTheme.disabled),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),

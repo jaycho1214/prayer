@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/group/group_model.dart';
+import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/group/widgets/group_search_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 

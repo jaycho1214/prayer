@@ -1,6 +1,6 @@
 import 'package:prayer/constants/dio.dart';
-import 'package:prayer/features/group/models/group_notification_settings_model.dart';
-import 'package:prayer/model/group_member/group_member_model.dart';
+import 'package:prayer/features/group/models/group_notification_settings/group_notification_settings_model.dart';
+import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/repo/response_types.dart';
 
 class NotificationRepository {

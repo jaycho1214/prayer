@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/errors.dart';
-import 'package:prayer/model/group/group_model.dart';
+import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:synchronized/synchronized.dart';

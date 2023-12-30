@@ -11,7 +11,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/tab_bar.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/group_member/group_member_model.dart';
+import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/group/widgets/forms/member_picker.dart';
 import 'package:prayer/features/group/widgets/forms/invite_users_picker.dart';

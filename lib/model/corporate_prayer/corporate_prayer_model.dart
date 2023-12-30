@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:prayer/model/group/group_model.dart';
+import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/model/reminder/reminder_model.dart';
 import 'package:prayer/model/user/user_model.dart';
 

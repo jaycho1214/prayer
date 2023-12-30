@@ -12,7 +12,7 @@ import 'package:prayer/features/group/widgets/group_notification_subscribe_butto
 import 'package:prayer/features/group/widgets/group_share_button.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/group/group_model.dart';
+import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/corporate_prayer/widgets/group_corporate_prayers_screen.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/fab.dart';
