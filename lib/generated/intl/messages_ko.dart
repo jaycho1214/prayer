@@ -287,6 +287,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "neighbor": MessageLookupByLibrary.simpleMessage("이웃들"),
         "neighborDescription":
             MessageLookupByLibrary.simpleMessage("사람들을 위해 기도하고, 이웃이 되어주세요."),
+        "noReminderSet":
+            MessageLookupByLibrary.simpleMessage("이 중보기도는 알림이 없습니다"),
         "notificationAccepted": m8,
         "notificationFollow": m9,
         "notificationJoinRequested": m10,

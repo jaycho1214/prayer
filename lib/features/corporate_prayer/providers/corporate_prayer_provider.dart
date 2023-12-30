@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
+import 'package:prayer/features/corporate_prayer/models/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

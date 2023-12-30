@@ -10,16 +10,16 @@ import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
+import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
+import 'package:prayer/features/corporate_prayer/widgets/corporate_notification_subscribe_button.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/fab.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/user/widgets/user_chip.dart';
 import 'package:prayer/features/common/sheets/confirm_menu_form.dart';
 import 'package:prayer/features/corporate_prayer/widgets/sheets/corporate_prayer_duration.dart';
-import 'package:prayer/features/corporate_prayer/widgets/sheets/reminder_detail.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
@@ -72,28 +72,20 @@ class CorporatePrayerScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refreshKey = useState(0);
-    final fetchFn = useMemoized(
-        () => GetIt.I<PrayerRepository>().fetchCorporatePrayer(prayerId),
-        [refreshKey.value]);
-    final snapshot = useFuture(
-      fetchFn,
-      initialData: CorporatePrayer.placeholder,
-      preserveState: false,
-    );
+    final snapshot = ref.watch(corporatePrayerProvider(prayerId));
     final pagingController =
         usePagingController<String?, String>(firstPageKey: null);
-    final startedAt = snapshot.data?.startedAt == null
+    final startedAt = snapshot.value?.startedAt == null
         ? null
-        : parseFromDateTime(snapshot.data!.startedAt!);
-    final endedAt = snapshot.data?.endedAt == null
+        : parseFromDateTime(snapshot.value!.startedAt!);
+    final endedAt = snapshot.value?.endedAt == null
         ? null
-        : parseFromDateTime(snapshot.data!.endedAt!);
+        : parseFromDateTime(snapshot.value!.endedAt!);
 
     final checkingMember = useState(false);
     final prayingStatus = useMemoized(
         () => getProgressStatus(startedAt: startedAt, endedAt: endedAt),
-        [snapshot.data, startedAt, endedAt]);
+        [snapshot.value, startedAt, endedAt]);
 
     final text = useMemoized(
         () => switch (prayingStatus) {
@@ -126,20 +118,21 @@ class CorporatePrayerScreen extends HookConsumerWidget {
         leading: NavigateBackButton(),
         title: Text(S.of(context).corporate),
         trailingActions: [
-          if (snapshot.data?.userId == FirebaseAuth.instance.currentUser?.uid)
+          if (snapshot.value?.userId == FirebaseAuth.instance.currentUser?.uid)
             PullDownButton(
                 itemBuilder: (context) => [
                       PullDownMenuItem(
                         onTap: () async {
-                          if (snapshot.data != null) {
+                          if (snapshot.value != null) {
                             final resp = await context.push(
                               Uri(path: '/form/corporate', queryParameters: {
-                                'groupId': snapshot.data!.groupId,
+                                'groupId': snapshot.value!.groupId,
                               }).toString(),
-                              extra: snapshot.data,
+                              extra: snapshot.value,
                             );
                             if (resp == true) {
-                              refreshKey.value += 1;
+                              return ref.refresh(
+                                  corporatePrayerProvider(prayerId).future);
                             }
                           }
                         },
@@ -182,16 +175,14 @@ class CorporatePrayerScreen extends HookConsumerWidget {
           RefreshIndicator(
             notificationPredicate: (notification) => notification.depth == 1,
             onRefresh: () async {
-              refreshKey.value += 1;
               pagingController.refresh();
+              return ref.refresh(corporatePrayerProvider(prayerId).future);
             },
             child: NestedScrollView(
               headerSliverBuilder: (context, _) => [
                 SliverToBoxAdapter(
                   child: Skeletonizer(
-                    enabled:
-                        snapshot.connectionState == ConnectionState.waiting ||
-                            snapshot.data == null,
+                    enabled: snapshot.valueOrNull == null,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Column(
@@ -207,9 +198,9 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                   children: [
                                     ShrinkingButton(
                                       onTap: () {
-                                        if (snapshot.data?.groupId != null) {
+                                        if (snapshot.value?.groupId != null) {
                                           context.push(
-                                              '/groups/${snapshot.data!.groupId}');
+                                              '/groups/${snapshot.value!.groupId}');
                                         }
                                       },
                                       child: Row(
@@ -221,39 +212,30 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                             color: MyTheme.onPrimary,
                                           ),
                                           const SizedBox(width: 5),
-                                          Text(
-                                              snapshot.data?.group?.name ?? ''),
+                                          Text(snapshot.value?.group?.name ??
+                                              ''),
                                         ],
                                       ),
                                     ),
                                     const SizedBox(height: 10),
                                     UserChip(
-                                      uid: snapshot.data?.userId,
-                                      name: snapshot.data?.user?.name,
-                                      profile: snapshot.data?.user?.profile,
-                                      username: snapshot.data?.user?.username,
+                                      uid: snapshot.value?.userId,
+                                      name: snapshot.value?.user?.name,
+                                      profile: snapshot.value?.user?.profile,
+                                      username: snapshot.value?.user?.username,
                                     ),
                                   ],
                                 ),
                               ),
                               Row(
                                 children: [
-                                  if (snapshot.data?.reminder != null)
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: ShrinkingButton(
-                                        onTap: () => ReminderDetailSheet.show(
-                                          context,
-                                          reminder: snapshot.data!.reminder!,
-                                        ),
-                                        child: FaIcon(
-                                          FontAwesomeIcons.bell,
-                                          size: 20,
-                                          color: MyTheme.onPrimary,
-                                        ),
-                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: CorporateNotificationSubscribeButton(
+                                      corporateId: prayerId,
                                     ),
+                                  ),
                                   if (prayingStatus != null)
                                     ShrinkingButton(
                                       onTap: () {
@@ -286,22 +268,22 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            snapshot.data?.title ?? '',
+                            snapshot.value?.title ?? '',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
                           ),
-                          if (snapshot.data == null ||
-                              snapshot.data?.description != null)
+                          if (snapshot.value == null ||
+                              snapshot.value?.description != null)
                             ParseableText(
-                              snapshot.data?.description ?? '',
+                              snapshot.value?.description ?? '',
                               style: TextStyle(
                                 fontSize: 15,
                               ),
                             ),
-                          if (snapshot.data?.prayers != null)
-                            ...snapshot.data!.prayers!
+                          if (snapshot.value?.prayers != null)
+                            ...snapshot.value!.prayers!
                                 .asMap()
                                 .entries
                                 .map((entry) => Container(
@@ -358,12 +340,12 @@ class CorporatePrayerScreen extends HookConsumerWidget {
               ),
             ),
           ),
-          if (snapshot.data != null)
+          if (snapshot.value != null)
             FAB(
               onTap: () async {
                 checkingMember.value = true;
                 ref
-                    .read(GroupNotifierProvider(snapshot.data!.groupId))
+                    .read(GroupNotifierProvider(snapshot.value!.groupId))
                     .whenData((value) {
                   checkingMember.value = false;
                   if (value == null) {
@@ -378,8 +360,8 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                 });
                 final resp =
                     context.push(Uri(path: '/form/prayer', queryParameters: {
-                  'groupId': snapshot.data!.groupId,
-                  'corporateId': snapshot.data!.id,
+                  'groupId': snapshot.value!.groupId,
+                  'corporateId': snapshot.value!.id,
                 }).toString());
                 if (resp == true) {
                   pagingController.refresh();

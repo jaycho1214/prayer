@@ -1450,6 +1450,16 @@ class S {
     );
   }
 
+  /// `No reminder has been set for this corporate prayer`
+  String get noReminderSet {
+    return Intl.message(
+      'No reminder has been set for this corporate prayer',
+      name: 'noReminderSet',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You are now a member of {group}`
   String notificationAccepted(Object group) {
     return Intl.message(

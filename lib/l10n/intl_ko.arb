@@ -140,6 +140,7 @@
   "name": "이름",
   "neighbor": "이웃들",
   "neighborDescription": "사람들을 위해 기도하고, 이웃이 되어주세요.",
+  "noReminderSet": "이 중보기도는 알림이 없습니다",
   "notificationAccepted": "{group}의 그룹원이 되었습니다",
   "notificationFollow": "{username}이 당신을 팔로우 했습니다",
   "notificationJoinRequested": "{username}이 가입을 요청했습니다",

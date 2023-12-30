@@ -302,6 +302,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "neighbor": MessageLookupByLibrary.simpleMessage("Neighbor"),
         "neighborDescription": MessageLookupByLibrary.simpleMessage(
             "Pray for others to become their neighbor."),
+        "noReminderSet": MessageLookupByLibrary.simpleMessage(
+            "No reminder has been set for this corporate prayer"),
         "notificationAccepted": m8,
         "notificationFollow": m9,
         "notificationJoinRequested": m10,

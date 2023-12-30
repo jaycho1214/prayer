@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:prayer/model/content/content_model.dart';
-import 'package:prayer/model/corporate_prayer/corporate_prayer_model.dart';
+import 'package:prayer/features/corporate_prayer/models/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/model/placeholder.dart';
 import 'package:prayer/model/user/user_model.dart';

@@ -7,7 +7,7 @@ part of 'group_notification_provider.dart';
 // **************************************************************************
 
 String _$groupNotificationNotifierHash() =>
-    r'fbaff293f0f23f4b6957f71715d5bdaf2adfaec6';
+    r'01dcaae3d0fca65155781f9f3314f8dcccd9c5c9';
 
 /// Copied from Dart SDK
 class _SystemHash {
