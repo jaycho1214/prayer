@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/errors.dart';
@@ -9,7 +10,6 @@ import 'package:prayer/repo/authentication_repository.dart';
 import 'package:prayer/repo/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_provider.g.dart';
 
@@ -36,13 +36,14 @@ class AuthNotifier extends _$AuthNotifier {
         }
       });
       if (next.value != null) {
-        GetIt.I<SharedPreferences>().setInt(
-            'auth.signInStatus',
-            switch (next.value!) {
-              AuthStateSignedOut() => 0,
-              AuthStateSignedIn() => 1,
-              AuthStateSignedUp() => 2,
-            });
+        Hive.box('settings').put(
+          'auth.signInStatus',
+          switch (next.value!) {
+            AuthStateSignedOut() => 0,
+            AuthStateSignedIn() => 1,
+            AuthStateSignedUp() => 2,
+          },
+        );
       }
     });
     final uid = FirebaseAuth.instance.currentUser?.uid;

@@ -1,8 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:prayer/constants/bible_books.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bible_verse_model.freezed.dart';
 part 'bible_verse_model.g.dart';
@@ -34,8 +33,7 @@ class BibleTranslation with _$BibleTranslation {
   }
 
   static BibleTranslation preference() {
-    final pref =
-        GetIt.I<SharedPreferences>().getInt('bible_translations.preference');
+    final pref = Hive.box('settings').get('bible_translations.preference');
     if (pref == null) {
       return BibleTranslation.KJV;
     }

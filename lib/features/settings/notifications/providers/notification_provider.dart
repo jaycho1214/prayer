@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/repo/notification_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'notification_provider.g.dart';
 
@@ -14,12 +14,11 @@ class NotificationNotifier extends _$NotificationNotifier {
     try {
       final data =
           await GetIt.I<NotificationRepository>().fetchLatestNotificationDate();
-      final prefs = GetIt.I<SharedPreferences>();
       if (data == null) {
         return false;
       }
       final latestReadDateString =
-          prefs.getString('notification.latest_read_date');
+          await Hive.box('settings').get('notification.latest_read_date');
       if (latestReadDateString == null) {
         return true;
       }
@@ -33,10 +32,8 @@ class NotificationNotifier extends _$NotificationNotifier {
   }
 
   void readNow() {
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setString(
-          'notification.latest_read_date', DateTime.now().toIso8601String());
-    });
+    Hive.box('settings')
+        .put('notification.latest_read_date', DateTime.now().toIso8601String());
     state = AsyncValue.data(false);
   }
 }

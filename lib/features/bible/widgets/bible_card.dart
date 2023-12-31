@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/constants/theme.dart';
@@ -9,7 +9,6 @@ import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/model/placeholder.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/bible/providers/bible_verse_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class BibleCard extends HookConsumerWidget {
@@ -61,8 +60,8 @@ class BibleCard extends HookConsumerWidget {
                     if (resp == null) {
                       return;
                     }
-                    GetIt.I<SharedPreferences>()
-                        .setInt('bible_translations.preference', resp.id);
+                    Hive.box('settings')
+                        .put('bible_translations.preference', resp.id);
                     translation.value = resp;
                   },
                   child: Container(

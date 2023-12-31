@@ -7,7 +7,7 @@ part of 'corporate_notification_provider.dart';
 // **************************************************************************
 
 String _$corporateNotificationNotifierHash() =>
-    r'2467002756627a91cb6bb8c84f221265dd8b99e4';
+    r'c9bcf06355b706638095f3e678a423da3270bb9a';
 
 /// Copied from Dart SDK
 class _SystemHash {

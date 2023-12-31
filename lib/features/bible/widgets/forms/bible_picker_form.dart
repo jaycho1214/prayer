@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/constants/dio.dart';
@@ -12,7 +12,6 @@ import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
 
 class BiblePickerProvider extends ChangeNotifier {
@@ -24,8 +23,8 @@ class BiblePickerProvider extends ChangeNotifier {
 
   void setTranslation(BibleTranslation newTranslation) {
     currentTranslation = newTranslation;
-    GetIt.I<SharedPreferences>()
-        .setInt('bible_translations.preference', newTranslation.id);
+    Hive.box('settings')
+        .put('bible_translations.preference', newTranslation.id);
     notifyListeners();
   }
 
