@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
+import 'package:prayer/features/group/providers/group_notification_provider.dart';
 import 'package:prayer/features/group/widgets/group_notification_subscribe_button.dart';
 import 'package:prayer/features/group/widgets/group_share_button.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -138,7 +139,11 @@ class GroupScreen extends HookConsumerWidget {
                 if (DefaultTabController.of(context).index == 1) {
                   corporatePagingController.refresh();
                 }
-                return ref.refresh(GroupNotifierProvider(groupId).future);
+                await Future.wait([
+                  ref.refresh(
+                      groupNotificationNotifierProvider(groupId).future),
+                  ref.refresh(groupNotifierProvider(groupId).future)
+                ]);
               },
               child: Stack(
                 children: [
