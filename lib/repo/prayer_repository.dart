@@ -58,7 +58,7 @@ class PrayerRepository {
     return true;
   }
 
-  Future<bool> createOrUpdateCorporatePrayer({
+  Future<String?> createOrUpdateCorporatePrayer({
     String? corporateId,
     required String groupId,
     required String title,
@@ -71,7 +71,7 @@ class PrayerRepository {
     List<int>? reminderDays,
     void Function(double progress)? onSendProgress,
   }) async {
-    await dio.post('/v1/prayers/corporate', data: {
+    final resp = await dio.post('/v1/prayers/corporate', data: {
       'corporateId': corporateId,
       'groupId': groupId,
       'title': title,
@@ -95,7 +95,7 @@ class PrayerRepository {
       'title': title,
       'description': description,
     });
-    return true;
+    return resp.data['data'];
   }
 
   Future<bool> deletePrayer({
