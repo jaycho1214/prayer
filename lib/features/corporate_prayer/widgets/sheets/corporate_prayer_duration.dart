@@ -13,17 +13,20 @@ class CorporatePrayerDuration extends StatelessWidget {
     required this.status,
     this.startedAt,
     this.endedAt,
+    this.prayersCount = 0,
   });
 
   final CorporatePrayerDurationStatus status;
   final Jiffy? startedAt;
   final Jiffy? endedAt;
+  final int prayersCount;
 
   static Future<bool?> show(
     BuildContext context, {
     required CorporatePrayerDurationStatus status,
     Jiffy? startedAt,
     Jiffy? endedAt,
+    int prayersCount = 0,
   }) {
     return showModalBottomSheet<bool>(
         elevation: 0,
@@ -35,6 +38,7 @@ class CorporatePrayerDuration extends StatelessWidget {
             status: status,
             startedAt: startedAt,
             endedAt: endedAt,
+            prayersCount: prayersCount,
           );
         });
   }
@@ -43,7 +47,6 @@ class CorporatePrayerDuration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 200,
       color: Colors.transparent,
       margin: EdgeInsets.fromLTRB(
         10,
@@ -57,7 +60,8 @@ class CorporatePrayerDuration extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
           color: MyTheme.sheetSurface,
         ),
-        child: Column(
+        child: Wrap(
+          alignment: WrapAlignment.center,
           children: [
             Text(
               switch (status) {
@@ -75,8 +79,8 @@ class CorporatePrayerDuration extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.fade,
             ),
-            const SizedBox(height: 20),
-            Expanded(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Row(
                 children: [
                   if (startedAt != null) ...[
@@ -104,7 +108,29 @@ class CorporatePrayerDuration extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '$prayersCount',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(text: ' ${S.of(context).prayers}'),
+                    if (endedAt != null) ...[
+                      TextSpan(text: ', '),
+                      TextSpan(
+                        text:
+                            '${endedAt!.diff(Jiffy.now(), unit: Unit.day)} days',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ],
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
             ShrinkingButton(
               onTap: () => Navigator.of(context).pop(false),
               child: Container(

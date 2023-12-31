@@ -231,7 +231,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
+                                        horizontal: 5),
                                     child: CorporateNotificationSubscribeButton(
                                       corporateId: prayerId,
                                     ),
@@ -247,6 +247,8 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                           )!,
                                           startedAt: startedAt,
                                           endedAt: endedAt,
+                                          prayersCount:
+                                              snapshot.value?.prayersCount ?? 0,
                                         );
                                       },
                                       child: Container(
