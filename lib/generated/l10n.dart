@@ -1660,10 +1660,10 @@ class S {
     );
   }
 
-  /// `Pray as Anonymous`
+  /// `Pray Anonymously`
   String get prayAnonymoous {
     return Intl.message(
-      'Pray as Anonymous',
+      'Pray Anonymously',
       name: 'prayAnonymoous',
       desc: '',
       args: [],

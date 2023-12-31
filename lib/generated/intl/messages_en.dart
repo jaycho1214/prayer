@@ -330,7 +330,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "postedByMe": MessageLookupByLibrary.simpleMessage("Posted by me"),
         "pray": MessageLookupByLibrary.simpleMessage("Pray"),
         "prayAnonymoous":
-            MessageLookupByLibrary.simpleMessage("Pray as Anonymous"),
+            MessageLookupByLibrary.simpleMessage("Pray Anonymously"),
         "prayDuration": MessageLookupByLibrary.simpleMessage("Duration"),
         "prayWithName": MessageLookupByLibrary.simpleMessage("Pray with name?"),
         "prayWithOthers":
