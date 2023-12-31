@@ -5,6 +5,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/corporate_prayer/models/reminder/reminder_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
+import 'package:prayer/utils/formatter.dart';
 
 class ReminderDetailSheet extends StatelessWidget {
   const ReminderDetailSheet({
@@ -25,29 +26,6 @@ class ReminderDetailSheet extends StatelessWidget {
       barrierColor: Colors.white.withAlpha(15),
       builder: (context) => ReminderDetailSheet(reminder: reminder),
     );
-  }
-
-  String daysToString(BuildContext context, List<int> days) {
-    final sortedDays = days..sort();
-    if (sortedDays == [0, 6]) {
-      return S.of(context).weekend;
-    } else if (sortedDays == [1, 2, 3, 4, 5]) {
-      return S.of(context).weekdays;
-    } else if (sortedDays == [0, 1, 2, 3, 4, 5, 6]) {
-      return S.of(context).everyday;
-    }
-    return reminder.days!
-        .map((e) => [
-              S.of(context).daySun,
-              S.of(context).dayMon,
-              S.of(context).dayTue,
-              S.of(context).dayWen,
-              S.of(context).dayThu,
-              S.of(context).dayFri,
-              S.of(context).daySat
-            ][e])
-        .toList()
-        .join(', ');
   }
 
   @override
@@ -88,7 +66,7 @@ class ReminderDetailSheet extends StatelessWidget {
             Expanded(
               child: Text(
                 S.of(context).titleReminderNotifyOn(
-                    daysToString(context, reminder.days!.toList()),
+                    Formatter.daysToString(reminder.days!.toList()),
                     Jiffy.parseFromDateTime(reminder.time).toLocal().jm),
                 style: TextStyle(
                   color: MyTheme.outline,

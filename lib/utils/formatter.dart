@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:prayer/generated/l10n.dart';
 
 class Formatter {
   static String fromNow(DateTime now) {
@@ -35,6 +37,29 @@ class Formatter {
       double result = number / 1000000000;
       return result.toStringAsFixed(1) + 'B';
     }
+  }
+
+  static String daysToString(List<int> days) {
+    final sortedDays = days..sort();
+    if (listEquals([0, 6], sortedDays)) {
+      return S.current.weekend;
+    } else if (listEquals(sortedDays, [1, 2, 3, 4, 5])) {
+      return S.current.weekdays;
+    } else if (listEquals(sortedDays, [0, 1, 2, 3, 4, 5, 6])) {
+      return S.current.everyday;
+    }
+    return days
+        .map((e) => [
+              S.current.daySun,
+              S.current.dayMon,
+              S.current.dayTue,
+              S.current.dayWen,
+              S.current.dayThu,
+              S.current.dayFri,
+              S.current.daySat
+            ][e])
+        .toList()
+        .join(', ');
   }
 }
 
