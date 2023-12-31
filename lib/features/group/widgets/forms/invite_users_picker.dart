@@ -155,6 +155,9 @@ class InviteUsersPicker extends HookConsumerWidget {
 
     final fetchPage = useCallback((String? cursor) async {
       try {
+        if (query.value.trim() == '') {
+          return;
+        }
         final data = await GetIt.I<UserRepository>().fetchUsers(
           cursor: cursor,
           query: query.value,
