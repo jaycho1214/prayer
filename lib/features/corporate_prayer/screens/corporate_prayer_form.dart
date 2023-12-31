@@ -38,7 +38,7 @@ class CorporatePrayerForm extends HookWidget {
     final prayers = useState(1);
     final initialValue = GoRouterState.of(context).extra as CorporatePrayer?;
 
-    final onClick = useCallback(() {
+    final onClick = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
         loading.value = true;
         final form = formKey.currentState!.value;
@@ -46,45 +46,46 @@ class CorporatePrayerForm extends HookWidget {
             ? "[CorporatePrayer] Creating: $form"
             : "[CorporatePrayer] Updating: $form");
         loading.value = false;
-        GetIt.I<PrayerRepository>()
-            .createOrUpdateCorporatePrayer(
-          corporateId: initialValue?.id,
-          groupId: groupId,
-          title: form['title'],
-          description: form['description'],
-          reminderDays: form['reminderActivated'] == true
-              ? List<int>.from(jsonDecode(form['reminder']))
-              : null,
-          reminderText:
-              form['reminderActivated'] == true ? form['reminderText'] : null,
-          reminderTime:
-              form['reminderActivated'] == true ? form['reminderTime'] : null,
-          prayers: form.entries
-              .where((element) =>
-                  element.key.startsWith('prayers.') && element.value != null)
-              .map((e) => e.value as String)
-              .toList(),
-          startedAt: form['startedAt'] == null
-              ? null
-              : (form['startedAt'] as Jiffy).dateTime,
-          endedAt: form['endedAt'] == null
-              ? null
-              : (form['endedAt'] as Jiffy).dateTime,
-        )
-            .then((value) {
+        try {
+          final newCorporateId =
+              await GetIt.I<PrayerRepository>().createOrUpdateCorporatePrayer(
+            corporateId: initialValue?.id,
+            groupId: groupId,
+            title: form['title'],
+            description: form['description'],
+            reminderDays: form['reminderActivated'] == true
+                ? List<int>.from(jsonDecode(form['reminder']))
+                : null,
+            reminderText:
+                form['reminderActivated'] == true ? form['reminderText'] : null,
+            reminderTime:
+                form['reminderActivated'] == true ? form['reminderTime'] : null,
+            prayers: form.entries
+                .where((element) =>
+                    element.key.startsWith('prayers.') && element.value != null)
+                .map((e) => e.value as String)
+                .toList(),
+            startedAt: form['startedAt'] == null
+                ? null
+                : (form['startedAt'] as Jiffy).dateTime,
+            endedAt: form['endedAt'] == null
+                ? null
+                : (form['endedAt'] as Jiffy).dateTime,
+          );
           context.pop(true);
+          context.push('/prayers/corporate/$newCorporateId');
           mixpanel.track(
               'Corproate Prayer ${initialValue == null ? 'Created' : 'Updated'}');
           talker.good(
               "[CorporatePrayer] ${initialValue == null ? 'Created' : 'Updated'}");
-        }).catchError((e, st) {
+        } catch (e, st) {
           talker.handle(e, st,
               "[CorporatePrayer] Failed to ${initialValue == null ? 'create' : 'update'}");
           GlobalSnackBar.show(context,
               message: "Failed to create a corporate prayer");
-        }).whenComplete(() {
+        } finally {
           loading.value = false;
-        });
+        }
       }
     }, []);
 
