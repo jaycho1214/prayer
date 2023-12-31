@@ -1840,6 +1840,16 @@ class S {
     );
   }
 
+  /// `Reminders`
+  String get reminders {
+    return Intl.message(
+      'Reminders',
+      name: 'reminders',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Remove current photo`
   String get removeCurrentPhoto {
     return Intl.message(

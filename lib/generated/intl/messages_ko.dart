@@ -333,6 +333,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "readmore": MessageLookupByLibrary.simpleMessage("더보기"),
         "refresh": MessageLookupByLibrary.simpleMessage("새로고침"),
         "reminder": MessageLookupByLibrary.simpleMessage("알림"),
+        "reminders": MessageLookupByLibrary.simpleMessage("알림"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("현재 사진 제거하기"),
         "report": MessageLookupByLibrary.simpleMessage("신고하기"),

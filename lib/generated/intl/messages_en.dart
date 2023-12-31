@@ -352,6 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "readmore": MessageLookupByLibrary.simpleMessage("Read More"),
         "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "reminder": MessageLookupByLibrary.simpleMessage("Reminder"),
+        "reminders": MessageLookupByLibrary.simpleMessage("Reminders"),
         "removeCurrentPhoto":
             MessageLookupByLibrary.simpleMessage("Remove current photo"),
         "report": MessageLookupByLibrary.simpleMessage("Report"),
