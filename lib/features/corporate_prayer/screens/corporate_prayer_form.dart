@@ -73,7 +73,9 @@ class CorporatePrayerForm extends HookWidget {
                 : (form['endedAt'] as Jiffy).dateTime,
           );
           context.pop(true);
-          context.push('/prayers/corporate/$newCorporateId');
+          if (initialValue == null) {
+            context.push('/prayers/corporate/$newCorporateId');
+          }
           mixpanel.track(
               'Corproate Prayer ${initialValue == null ? 'Created' : 'Updated'}');
           talker.good(
