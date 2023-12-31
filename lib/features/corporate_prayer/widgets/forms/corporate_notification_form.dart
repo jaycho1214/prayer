@@ -6,7 +6,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/corporate_prayer/models/corporate_prayer_notification_settings/corporate_prayer_notification_settings.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
-import 'package:prayer/model/reminder/reminder_model.dart';
+import 'package:prayer/features/corporate_prayer/models/reminder/reminder_model.dart';
 
 class CorporateNotificationForm extends HookWidget {
   const CorporateNotificationForm({
