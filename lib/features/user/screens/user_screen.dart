@@ -14,7 +14,7 @@ import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
-import 'package:prayer/model/group/group_model.dart';
+import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/features/group/widgets/groups_screen.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
