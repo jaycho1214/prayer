@@ -6,9 +6,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/widgets/forms/day_picker.dart';
+import 'package:prayer/features/common/widgets/forms/time_picker.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
+import 'package:prayer/utils/formatter.dart';
 
 class ReminderDatePickerForm extends HookWidget {
   const ReminderDatePickerForm({
@@ -117,6 +120,8 @@ class ReminderDatePickerForm extends HookWidget {
                                             ));
                                     time.value = TimeOfDay(hour: 9, minute: 0);
                                   }
+                                } else {
+                                  dayAnimController.animateBack(0.0);
                                 }
                               });
                         }),
@@ -127,152 +132,138 @@ class ReminderDatePickerForm extends HookWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(7, (index) => index)
-                            .map(
-                              (day) => buildButton(
-                                  child: Text(
-                                    ['S', 'M', 'T', 'W', 'Th', 'F', 'S'][day],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  color: days.value.contains(day)
-                                      ? MyTheme.primary
-                                      : Colors.transparent,
-                                  onTap: () {
-                                    if (days.value.contains(day)) {
-                                      days.value = [...days.value..remove(day)];
-                                    } else {
-                                      days.value = [...days.value, day];
-                                    }
-                                    if (days.value.length > 0) {
-                                      reminderField
-                                          .didChange(jsonEncode(days.value));
-                                      if (time.value == null) {
-                                        reminderTimeField.didChange(
-                                            DateTime.now().toLocal().copyWith(
-                                                  hour: 9,
-                                                  minute: 0,
-                                                ));
-                                        time.value =
-                                            TimeOfDay(hour: 9, minute: 0);
-                                      }
-                                    }
-                                  }),
-                            )
-                            .toList(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          children: [
-                            Builder(
-                              builder: (context) {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    buildButton(
-                                      onTap: () {
-                                        if (time.value != null) {
-                                          final oldHour = time.value!.hour;
-                                          final oldMinutes = time.value!.minute;
-                                          time.value = TimeOfDay(
-                                            hour: oldMinutes == 0
-                                                ? oldHour - 1 < 0
-                                                    ? 23
-                                                    : oldHour - 1
-                                                : oldHour,
-                                            minute: oldMinutes == 0
-                                                ? 50
-                                                : oldMinutes - 10,
-                                          );
-                                          reminderTimeField.didChange(
-                                              DateTime.now().toLocal().copyWith(
-                                                  hour: time.value!.hour,
-                                                  minute: time.value!.minute));
-                                        }
-                                      },
-                                      child: FaIcon(
-                                        FontAwesomeIcons.chevronLeft,
-                                        size: 15,
-                                        color: MyTheme.onPrimary,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Text(
-                                      time.value == null
-                                          ? ''
-                                          : time.value!.format(context),
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    buildButton(
-                                      onTap: () {
-                                        if (time.value != null) {
-                                          final oldHour = time.value!.hour;
-                                          final oldMinutes = time.value!.minute;
-                                          time.value = TimeOfDay(
-                                            hour: oldMinutes == 50
-                                                ? oldHour + 1 > 23
-                                                    ? 0
-                                                    : oldHour + 1
-                                                : oldHour,
-                                            minute: oldMinutes == 50
-                                                ? 0
-                                                : oldMinutes + 10,
-                                          );
-                                          reminderTimeField.didChange(
-                                              DateTime.now().toLocal().copyWith(
-                                                  hour: time.value!.hour,
-                                                  minute: time.value!.minute));
-                                        }
-                                      },
-                                      child: FaIcon(
-                                        FontAwesomeIcons.chevronRight,
-                                        size: 15,
-                                        color: MyTheme.onPrimary,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            TextInputField(
-                              name: 'reminderText',
-                              maxLength: 100,
-                              hintText: S.of(context).placeholderReminder,
-                              validator: (value) {
-                                if (formKey.currentState
-                                        ?.instantValue['reminderActivated'] ==
-                                    true) {
-                                  if ((value ?? '').trim().length == 0) {
-                                    return S
-                                        .of(context)
-                                        .errorProvideReminderMessage;
-                                  }
-                                  if (days.value.length == 0) {
-                                    return S.of(context).errorNeedDayReminder;
-                                  }
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              S.of(context).titleTimezoneWillBeUsed,
-                              style: TextStyle(
-                                color: MyTheme.placeholderText,
+                      ShrinkingButton(
+                        onTap: () async {
+                          final resp = await DayPicker.show(context,
+                              initialValue: [...days.value]);
+                          if (resp == null) {
+                            return;
+                          }
+                          days.value = resp;
+                          if (days.value.length > 0) {
+                            reminderField.didChange(jsonEncode(days.value));
+                            if (time.value == null) {
+                              reminderTimeField
+                                  .didChange(DateTime.now().toLocal().copyWith(
+                                        hour: 9,
+                                        minute: 0,
+                                      ));
+                              time.value = TimeOfDay(hour: 9, minute: 0);
+                            }
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Day",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                              if (days.value.length > 0)
+                                Expanded(
+                                  child: Text(
+                                    Formatter.daysToString(days.value),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: MyTheme.placeholderText,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              if (days.value.length == 0)
+                                FaIcon(
+                                  FontAwesomeIcons.chevronRight,
+                                  color: MyTheme.onPrimary,
+                                  size: 15,
+                                ),
+                            ],
+                          ),
                         ),
+                      ),
+                      ShrinkingButton(
+                        onTap: () async {
+                          final resp = await TimePicker.show(
+                            context,
+                            initialValue: time.value,
+                            minuteInterval: 10,
+                          );
+                          if (resp == null) {
+                            return;
+                          }
+                          time.value = resp;
+                          reminderTimeField.didChange(DateTime.now()
+                              .toLocal()
+                              .copyWith(hour: resp.hour, minute: resp.minute));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Time",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              if (time.value != null)
+                                Expanded(
+                                  child: Text(
+                                    time.value!.format(context),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: MyTheme.placeholderText,
+                                    ),
+                                    textAlign: TextAlign.end,
+                                  ),
+                                ),
+                              if (time.value == null)
+                                FaIcon(
+                                  FontAwesomeIcons.chevronRight,
+                                  color: MyTheme.onPrimary,
+                                  size: 15,
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          TextInputField(
+                            name: 'reminderText',
+                            maxLength: 100,
+                            hintText: S.of(context).placeholderReminder,
+                            validator: (value) {
+                              if (formKey.currentState
+                                      ?.instantValue['reminderActivated'] ==
+                                  true) {
+                                if ((value ?? '').trim().length == 0) {
+                                  return S
+                                      .of(context)
+                                      .errorProvideReminderMessage;
+                                }
+                                if (days.value.length == 0) {
+                                  return S.of(context).errorNeedDayReminder;
+                                }
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            S.of(context).titleTimezoneWillBeUsed,
+                            style: TextStyle(
+                              color: MyTheme.placeholderText,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
