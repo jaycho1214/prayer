@@ -57,9 +57,11 @@ class GroupNotificationForm extends HookWidget {
                 ],
               ),
             ),
-            Checkbox(
-              value: value,
-              onChanged: (value) => null,
+            AbsorbPointer(
+              child: Checkbox(
+                value: value,
+                onChanged: (value) => null,
+              ),
             ),
           ],
         ),

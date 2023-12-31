@@ -92,13 +92,15 @@ class CorporateNotificationForm extends HookWidget {
                 ],
               ),
             ),
-            Checkbox(
-              side: disabled == true
-                  ? MaterialStateBorderSide.resolveWith(
-                      (states) => BorderSide(color: MyTheme.disabled))
-                  : null,
-              value: value,
-              onChanged: (value) => null,
+            AbsorbPointer(
+              child: Checkbox(
+                side: disabled == true
+                    ? MaterialStateBorderSide.resolveWith(
+                        (states) => BorderSide(color: MyTheme.disabled))
+                    : null,
+                value: value,
+                onChanged: (value) => null,
+              ),
             ),
           ],
         ),

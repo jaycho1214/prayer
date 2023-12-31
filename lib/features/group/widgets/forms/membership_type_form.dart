@@ -46,18 +46,20 @@ class MembershipTypeForm extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            Checkbox(
-              activeColor: MyTheme.onPrimary,
-              side: MaterialStateBorderSide.resolveWith(
-                (states) => BorderSide(color: MyTheme.placeholderText),
+            AbsorbPointer(
+              child: Checkbox(
+                activeColor: MyTheme.onPrimary,
+                side: MaterialStateBorderSide.resolveWith(
+                  (states) => BorderSide(color: MyTheme.placeholderText),
+                ),
+                value: value,
+                onChanged: (value) {
+                  if (disabled == true) {
+                    return;
+                  }
+                  onChanged?.call(name);
+                },
               ),
-              value: value,
-              onChanged: (value) {
-                if (disabled == true) {
-                  return;
-                }
-                onChanged?.call(name);
-              },
             ),
           ],
         ),
