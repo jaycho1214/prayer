@@ -340,6 +340,8 @@ class UserScreen extends HookConsumerWidget {
                                         sliver: true,
                                         physics:
                                             const NeverScrollableScrollPhysics(),
+                                        noItemsFoundIndicatorBuilder:
+                                            (context) => const SizedBox(),
                                         pagingController:
                                             prayerPagingController,
                                         fetchFn: (cursor) =>

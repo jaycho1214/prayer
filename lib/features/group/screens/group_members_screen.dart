@@ -287,6 +287,7 @@ class MembersPage extends HookWidget {
     return PagedSliverList(
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<GroupMember>(
+        noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
         itemBuilder: (context, item, index) => GroupMemberCard(
           onDone: (actionType) => onAction?.call(actionType, item.uid),
           groupId: groupId,
