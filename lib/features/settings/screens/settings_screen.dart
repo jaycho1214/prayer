@@ -55,7 +55,7 @@ class SettingsScreen extends ConsumerWidget {
               icon: FontAwesomeIcons.lightAlarmClock,
               title: S.of(context).reminder,
               onTap: () {
-                context.push('/settings/account');
+                context.push('/settings/reminders');
               },
             ),
             const Divider(color: MyTheme.disabled),

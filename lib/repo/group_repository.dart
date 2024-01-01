@@ -156,14 +156,15 @@ class GroupRepository {
     required bool value,
   }) async {
     try {
-      final resp =
-          await dio.post('/v1/groups/$groupId/join', data: {'value': value});
       if (value) {
+        final resp = await dio.post('/v1/groups/$groupId/join');
         mixpanel.track("Group Joined");
         return resp.data['data'];
+      } else {
+        await dio.delete('/v1/groups/$groupId/join');
+        mixpanel.track("Group Left");
+        return null;
       }
-      mixpanel.track("Group Left");
-      return null;
     } on DioException catch (err) {
       if (err.response?.data['code'] == 'operation-not-allowed') {
         throw AdminLeaveGroupException();
@@ -271,8 +272,7 @@ class GroupRepository {
     required String userId,
     required bool value,
   }) async {
-    await dio.post('/v1/groups/$groupId/promote',
-        data: {'userId': userId, 'value': value});
+    await dio.post('/v1/groups/$groupId/promote', data: {'userId': userId});
   }
 
   Future<void> removeGroup(String groupId) async {

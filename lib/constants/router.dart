@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/auth/screens/login_screen.dart';
 import 'package:prayer/features/auth/screens/signup_screen.dart';
+import 'package:prayer/features/settings/reminders/screens/reminder_form.dart';
+import 'package:prayer/features/settings/reminders/screens/reminder_list_screens.dart';
 import 'package:prayer/features/settings/screens/account_settings_screen.dart';
 import 'package:prayer/features/settings/screens/donate_screen.dart';
 import 'package:prayer/features/settings/screens/settings_screen.dart';
@@ -27,7 +29,6 @@ import 'package:prayer/features/user/screens/user_follows_screen.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
 import 'package:prayer/features/auth/providers/auth_state.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class AppRouter {
@@ -38,7 +39,7 @@ class AppRouter {
     return GoRouter(
       navigatorKey: navigatorKey,
       initialLocation: switch (
-          GetIt.I<SharedPreferences>().getInt('auth.signInStatus') ?? 0) {
+          Hive.box('settings').get('auth.signInStatus', defaultValue: 0)) {
         2 => '/',
         _ => '/auth/signIn',
       },
@@ -211,6 +212,19 @@ class AppRouter {
             GoRoute(
               path: 'donate',
               builder: (context, state) => const DonateScreen(),
+            ),
+            GoRoute(
+              path: 'reminders',
+              builder: (context, state) => const ReminderListScreen(),
+              routes: [
+                GoRoute(
+                  path: 'form',
+                  builder: (context, state) => ReminderFormScreen(
+                    reminderId: int.tryParse(
+                        state.uri.queryParameters['reminderId'] ?? ''),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

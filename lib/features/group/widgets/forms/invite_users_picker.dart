@@ -142,16 +142,12 @@ class InviteUsersPicker extends HookConsumerWidget {
     useEffect(() {
       void fn() {
         query.value = queryController.text;
+        pagingController.refresh();
       }
 
       queryController.addListener(fn);
       return () => queryController.removeListener(fn);
     }, [queryController]);
-
-    useEffect(() {
-      pagingController.refresh();
-      return () => null;
-    }, [query.value]);
 
     final fetchPage = useCallback((String? cursor) async {
       try {

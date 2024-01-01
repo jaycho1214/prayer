@@ -27,20 +27,26 @@ class UserRepository {
     required String uid,
     required bool value,
   }) async {
-    mixpanel.track("User Followed");
-    await dio.post('/v1/users/$uid/follows', data: {
-      'value': value,
-    });
+    if (value) {
+      mixpanel.track("User Followed");
+      await dio.post('/v1/users/$uid/follows');
+    } else {
+      mixpanel.track("User Unfollowed");
+      await dio.delete('/v1/users/$uid/follows');
+    }
   }
 
   Future<void> blockUser({
     required String uid,
     required bool value,
   }) async {
-    mixpanel.track("User Blocked");
-    await dio.post('/v1/users/$uid/blocks', data: {
-      'value': value,
-    });
+    if (value) {
+      mixpanel.track("User Blocked");
+      await dio.post('/v1/users/$uid/blocks');
+    } else {
+      mixpanel.track("User Unblocked");
+      await dio.delete('/v1/users/$uid/blocks');
+    }
   }
 
   Future<void> deleteUser() async {

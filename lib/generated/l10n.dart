@@ -830,6 +830,16 @@ class S {
     );
   }
 
+  /// `This field is required`
+  String get errorFieldRequired {
+    return Intl.message(
+      'This field is required',
+      name: 'errorFieldRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Failed to follow the user`
   String get errorFollowUser {
     return Intl.message(
@@ -837,6 +847,16 @@ class S {
       name: 'errorFollowUser',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `You can set up to {max} reminders`
+  String errorFullReminders(Object max) {
+    return Intl.message(
+      'You can set up to $max reminders',
+      name: 'errorFullReminders',
+      desc: '',
+      args: [max],
     );
   }
 
@@ -1385,6 +1405,16 @@ class S {
     return Intl.message(
       'People must ask or be invited to join the group; prayers are not visible to non-members',
       name: 'membershipTypeRestrictedDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Message`
+  String get message {
+    return Intl.message(
+      'Message',
+      name: 'message',
       desc: '',
       args: [],
     );
@@ -2085,6 +2115,16 @@ class S {
     return Intl.message(
       'Terms of Use',
       name: 'termsOfUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test`
+  String get test {
+    return Intl.message(
+      'Test',
+      name: 'test',
       desc: '',
       args: [],
     );
