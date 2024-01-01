@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/forms/day_picker.dart';
+import 'package:prayer/features/common/widgets/forms/form_row_card.dart';
 import 'package:prayer/features/common/widgets/forms/time_picker.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
@@ -132,7 +132,11 @@ class ReminderDatePickerForm extends HookWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
-                      ShrinkingButton(
+                      FormRowCard(
+                        title: 'Day',
+                        value: days.value.length == 0
+                            ? null
+                            : Formatter.daysToString(days.value),
                         onTap: () async {
                           final resp = await DayPicker.show(context,
                               initialValue: [...days.value]);
@@ -152,40 +156,13 @@ class ReminderDatePickerForm extends HookWidget {
                             }
                           }
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Day",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              if (days.value.length > 0)
-                                Expanded(
-                                  child: Text(
-                                    Formatter.daysToString(days.value),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: MyTheme.placeholderText,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              if (days.value.length == 0)
-                                FaIcon(
-                                  FontAwesomeIcons.chevronRight,
-                                  color: MyTheme.onPrimary,
-                                  size: 15,
-                                ),
-                            ],
-                          ),
-                        ),
                       ),
-                      ShrinkingButton(
+                      const Divider(color: MyTheme.outline),
+                      FormRowCard(
+                        title: 'Time',
+                        value: time.value == null
+                            ? null
+                            : time.value!.format(context),
                         onTap: () async {
                           final resp = await TimePicker.show(
                             context,
@@ -200,38 +177,6 @@ class ReminderDatePickerForm extends HookWidget {
                               .toLocal()
                               .copyWith(hour: resp.hour, minute: resp.minute));
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Time",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              if (time.value != null)
-                                Expanded(
-                                  child: Text(
-                                    time.value!.format(context),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: MyTheme.placeholderText,
-                                    ),
-                                    textAlign: TextAlign.end,
-                                  ),
-                                ),
-                              if (time.value == null)
-                                FaIcon(
-                                  FontAwesomeIcons.chevronRight,
-                                  color: MyTheme.onPrimary,
-                                  size: 15,
-                                ),
-                            ],
-                          ),
-                        ),
                       ),
                       Column(
                         children: [

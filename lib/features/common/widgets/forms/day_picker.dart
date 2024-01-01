@@ -48,7 +48,7 @@ class DayPicker extends HookWidget {
               ),
             ),
           ),
-          AbsorbPointer(
+          IgnorePointer(
             child: Checkbox(
               value: value,
               onChanged: (value) => null,
@@ -75,7 +75,7 @@ class DayPicker extends HookWidget {
             S.of(context).reminder,
             style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
-          ...[0, 1, 2, 3, 4, 5, 6]
+          ...[7, 1, 2, 3, 4, 5, 6]
               .map((index) => _buildRow(
                   title: Jiffy.now().startOf(Unit.week).add(days: index).EEEE,
                   value: state.value.indexOf(index) != -1,

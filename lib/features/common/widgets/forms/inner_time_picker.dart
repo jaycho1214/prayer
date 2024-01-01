@@ -317,7 +317,7 @@ class _CupertinoTimePickerState extends State<CupertinoTimePicker> {
           label: semanticsLabel,
           excludeSemantics: true,
           child: _buildPickerNumberLabel(
-              localizations.timerPickerMinute(minute), additionalPadding),
+              localizations.datePickerMinute(minute), additionalPadding),
         );
       }),
     );
