@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/utils/linkify.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 const String _kEllipsis = '\u2026';
@@ -123,9 +124,10 @@ class ParseableText extends StatelessWidget {
           humanize: false,
           removeWww: false,
           looseUrl: true,
+          defaultToHttps: true,
           excludeLastPeriod: true,
         );
-        final linkifiers = [UrlLinkifier()];
+        final linkifiers = [CustomUrlLinkifier()];
 
         late final TextSpan textSpan;
         if (textPainter.didExceedMaxLines) {

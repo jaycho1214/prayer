@@ -13,6 +13,7 @@ import 'package:prayer/features/bible/widgets/forms/bible_picker_form.dart';
 import 'package:prayer/features/corporate_prayer/widgets/sheets/corporate_prayer_form.dart';
 import 'package:prayer/features/user/widgets/verses_form.dart';
 import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/hook/rich_text_controller_hook.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/sheets/image_picker_form.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -55,6 +56,7 @@ class PrayerFormScreen extends HookConsumerWidget {
         () => Future.wait(media.value
             .map((e) => e.thumbnailDataWithSize(ThumbnailSize.square(300)))),
         [media.value]));
+    final controller = useRichTextController();
 
     final submit = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
@@ -173,6 +175,7 @@ class PrayerFormScreen extends HookConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40, 0, 20, 0),
                     child: FormBuilderTextField(
+                      controller: controller,
                       focusNode: focusNode,
                       name: 'value',
                       minLines: 5,
