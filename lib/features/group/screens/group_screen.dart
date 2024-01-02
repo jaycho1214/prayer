@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/features/group/providers/group_notification_provider.dart';
@@ -253,9 +254,40 @@ class GroupScreen extends HookConsumerWidget {
                                         GetIt.I<PrayerRepository>()
                                             .fetchGroupPrayers(
                                                 groupId: groupId),
+                                    noItemsFoundIndicatorBuilder: (p0) =>
+                                        EmptyPrayersScreen(
+                                      title: S
+                                          .of(context)
+                                          .emptyCorporatePrayerTitle,
+                                      description: S
+                                          .of(context)
+                                          .emptyCorporatePrayerDescription,
+                                      buttonText: S.of(context).pray,
+                                      onTap: () => context.push(Uri(
+                                          path: '/form/prayer',
+                                          queryParameters: {
+                                            'groupId': groupId
+                                          }).toString()),
+                                    ),
                                     pagingController: prayerPagingController,
                                   ),
                                   GroupCorporatePrayersScreen(
+                                    noItemsFoundIndicatorBuilder: (p0) =>
+                                        EmptyPrayersScreen(
+                                      title: S.of(context).corporatePrayer,
+                                      description:
+                                          S.of(context).emptyGroupDescription,
+                                      buttonText: group.moderator == null
+                                          ? null
+                                          : S.of(context).create,
+                                      onTap: group.moderator == null
+                                          ? null
+                                          : () => context.push(Uri(
+                                                  path: '/form/corporate',
+                                                  queryParameters: {
+                                                    'groupId': groupId
+                                                  }).toString()),
+                                    ),
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     groupId: groupId,

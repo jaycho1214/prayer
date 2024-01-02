@@ -370,6 +370,16 @@ class S {
     );
   }
 
+  /// `Corporate Prayer`
+  String get corporatePrayer {
+    return Intl.message(
+      'Corporate Prayer',
+      name: 'corporatePrayer',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Prayed`
   String get corporatePrayerPrayed {
     return Intl.message(

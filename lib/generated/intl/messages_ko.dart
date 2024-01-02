@@ -124,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "동행에서 위안을 찾고, 여정의 모든 단계에서 서로를 격려하세요. 당신의 길은 특별하지만, 혼자가 아닙니다."),
         "corporate": MessageLookupByLibrary.simpleMessage("중보기도"),
+        "corporatePrayer": MessageLookupByLibrary.simpleMessage("중보 기도"),
         "corporatePrayerPrayed": MessageLookupByLibrary.simpleMessage("기도 완료"),
         "corporatePrayerPraying": MessageLookupByLibrary.simpleMessage("기도 중"),
         "corporatePrayerPreparing":

@@ -126,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "companionsOnTheJourneyDescription": MessageLookupByLibrary.simpleMessage(
             "Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you\'re not alone. Follow, lead, and grow in faith."),
         "corporate": MessageLookupByLibrary.simpleMessage("Corporate"),
+        "corporatePrayer":
+            MessageLookupByLibrary.simpleMessage("Corporate Prayer"),
         "corporatePrayerPrayed": MessageLookupByLibrary.simpleMessage("Prayed"),
         "corporatePrayerPraying":
             MessageLookupByLibrary.simpleMessage("Praying"),
