@@ -64,9 +64,7 @@ class OpenGraphCard extends HookWidget {
       if (match == null) {
         return null;
       }
-      if (match.group(1)?.isNotEmpty == true) {
-        return match.group(1)!;
-      } else if (match.group(2)?.isNotEmpty == true) {
+      if (match.group(2)?.isNotEmpty == true) {
         var originalUrl = match.group(2)!;
 
         if (originalUrl[originalUrl.length - 1] == ".") {
