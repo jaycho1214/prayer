@@ -83,6 +83,7 @@ class CorporatePrayerPicker extends HookWidget {
           Divider(color: MyTheme.outline),
           Expanded(
             child: GroupCorporatePrayersScreen(
+              noItemsFoundIndicatorBuilder: (p0) => const SizedBox(),
               groupId: groupId,
               pagingController: pagingController,
               scrollController: scrollController,

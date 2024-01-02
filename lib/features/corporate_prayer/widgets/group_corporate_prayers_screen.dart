@@ -13,6 +13,7 @@ class GroupCorporatePrayersScreen extends HookWidget {
     required this.groupId,
     required this.pagingController,
     this.scrollController,
+    this.noItemsFoundIndicatorBuilder,
     this.onTap,
     this.physics,
   });
@@ -21,6 +22,7 @@ class GroupCorporatePrayersScreen extends HookWidget {
   final PagingController<String?, String> pagingController;
   final String groupId;
   final void Function(String)? onTap;
+  final Widget Function(BuildContext)? noItemsFoundIndicatorBuilder;
   final ScrollPhysics? physics;
 
   @override
@@ -56,6 +58,7 @@ class GroupCorporatePrayersScreen extends HookWidget {
       scrollController: scrollController,
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
+        noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
         itemBuilder: (context, item, index) => CorporatePrayerCard(
           prayerId: item,
           onTap: onTap == null ? null : () => onTap!.call(item),
