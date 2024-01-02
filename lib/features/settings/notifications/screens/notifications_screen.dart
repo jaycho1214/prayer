@@ -102,6 +102,7 @@ class NotificationsScreen extends HookConsumerWidget {
                       pagingController: notificationsPagingController,
                     ),
                     GroupsScreen(
+                      noItemsFoundIndicatorBuilder: (p0) => const SizedBox(),
                       fetchFn: (cursor) => GetIt.I<GroupRepository>()
                           .fetchInvitedGroups(cursor: cursor),
                       pagingController: invitationPagingController,
@@ -160,9 +161,10 @@ class NotificationsListScreen extends HookWidget {
 
     return PagedListView<int?, CustomNotification>.separated(
       cacheExtent: 10000,
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      padding: const EdgeInsets.only(top: 10, bottom: 100),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
+        noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
         animateTransitions: true,
         itemBuilder: (context, item, index) => NotificationCard(
           item: item,

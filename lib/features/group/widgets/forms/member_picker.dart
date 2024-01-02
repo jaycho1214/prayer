@@ -151,6 +151,7 @@ class MemberPicker extends HookConsumerWidget {
                 PagedSliverList<String?, GroupMember>(
                   pagingController: pagingController,
                   builderDelegate: PagedChildBuilderDelegate(
+                    noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
                     itemBuilder: (context, item, index) => Padding(
                       padding: EdgeInsets.only(
                           bottom: index + 1 == pagingController.itemList?.length

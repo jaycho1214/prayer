@@ -14,11 +14,13 @@ class GroupsScreen<CursorType> extends HookWidget {
     this.scrollController,
     this.onTap,
     this.physics,
+    this.noItemsFoundIndicatorBuilder,
     this.sliver = false,
   });
 
   final Future<PaginationResponse<Group, CursorType?>> Function(dynamic cursor)?
       fetchFn;
+  final Widget Function(BuildContext)? noItemsFoundIndicatorBuilder;
   final ScrollController? scrollController;
   final PagingController<CursorType, Group> pagingController;
   final ScrollPhysics? physics;
@@ -57,6 +59,7 @@ class GroupsScreen<CursorType> extends HookWidget {
       return PagedSliverList<CursorType, Group>(
         pagingController: pagingController,
         builderDelegate: PagedChildBuilderDelegate(
+          noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
           animateTransitions: true,
           itemBuilder: (context, item, index) => Padding(
             padding: const EdgeInsets.only(bottom: 20.0),
@@ -71,10 +74,11 @@ class GroupsScreen<CursorType> extends HookWidget {
 
     return PagedListView<CursorType, Group>(
       scrollController: scrollController,
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 100),
       physics: physics,
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate(
+        noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
         animateTransitions: true,
         itemBuilder: (context, item, index) => Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
