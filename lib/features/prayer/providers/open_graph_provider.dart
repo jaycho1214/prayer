@@ -19,6 +19,7 @@ class OpenGrpahNotifier extends _$OpenGrpahNotifier {
         var document = parser.parse(response.body);
         Map<String, dynamic> ogTags = {};
 
+        ogTags['title'] = document.head?.querySelector('title')?.text;
         // Find all meta tags in the document
         var metaTags = document.getElementsByTagName('meta');
 

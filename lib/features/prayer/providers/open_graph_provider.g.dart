@@ -6,7 +6,7 @@ part of 'open_graph_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$openGrpahNotifierHash() => r'5d17eb361dfa4a4d635453e093dac9fbbefce1af';
+String _$openGrpahNotifierHash() => r'cec26e534f45cd4e02b346049c3f9a8bf63e0871';
 
 /// Copied from Dart SDK
 class _SystemHash {

@@ -1,17 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/prayer/providers/open_graph_provider.dart';
+import 'package:prayer/utils/linkify.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-final _looseUrlRegex = RegExp(
-  r'''^(.*?)((https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//="'`]*))''',
-  caseSensitive: false,
-  dotAll: true,
-);
 
 class OpenGraphCard extends HookConsumerWidget {
   const OpenGraphCard({
@@ -24,22 +20,18 @@ class OpenGraphCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final url = useMemoized(() {
-      final match = _looseUrlRegex.firstMatch(text);
-      if (match == null) {
+      final parse = CustomUrlLinkifier().parse(
+        [TextElement(text)],
+        LinkifyOptions(excludeLastPeriod: true, defaultToHttps: true),
+      );
+      if (parse.length == 0) {
         return null;
       }
-      if (match.group(2)?.isNotEmpty == true) {
-        var originalUrl = match.group(2)!;
-
-        if (originalUrl[originalUrl.length - 1] == ".") {
-          return originalUrl.substring(0, originalUrl.length - 1);
-        }
-        return originalUrl;
-      }
-      return null;
+      return parse.whereType<UrlElement>().firstOrNull?.url;
     }, [text]);
     final snapshot = ref.watch(openGrpahNotifierProvider(url));
-    if (snapshot.valueOrNull == null) {
+    final title = snapshot.value?['og:title'] ?? snapshot.value?['title'];
+    if (snapshot.valueOrNull == null || title == null) {
       return const SizedBox();
     }
     return Padding(
@@ -70,7 +62,9 @@ class OpenGraphCard extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      snapshot.value!['og:title'],
+                      snapshot.value?['og:title'] ??
+                          snapshot.value?['title'] ??
+                          '',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:prayer/hook/custom_linkify.dart';
+import 'package:prayer/utils/linkify.dart';
 
 class RichTextController extends TextEditingController {
   RichTextController({
