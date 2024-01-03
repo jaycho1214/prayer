@@ -5,9 +5,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -20,13 +22,13 @@ import 'package:prayer/features/common/widgets/forms/upload_progress_bar.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/repo/group_repository.dart';
 
-class GroupFormScreen extends HookWidget {
+class GroupFormScreen extends HookConsumerWidget {
   const GroupFormScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
     final loading = useState(false);
     final initialValue = GoRouterState.of(context).extra as Group?;
@@ -84,6 +86,7 @@ class GroupFormScreen extends HookWidget {
           mixpanel.track('Group Edited');
           context.pop(true);
           talker.good("[Group] Edited");
+          return ref.invalidate(groupNotifierProvider(initialValue.id));
         }
       } catch (e, st) {
         talker.handle(e, st, "[Group] Failed to edit");
