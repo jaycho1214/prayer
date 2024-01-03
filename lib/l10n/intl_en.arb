@@ -5,6 +5,8 @@
   "account": "Account",
   "admin": "Admin",
   "alertAcceptMember": "Accept @{username}?",
+  "alertClose": "Do you want to close?",
+  "alertCloseNeighborDescriptionCard": "You can always view this by clicking the neighbor tab.",
   "alertDeleteGroup": "1. Deletion is irreversible and immediate.:2. All group members will be removed automatically.:3. All prayers, both corporate and individual, must be deleted to remove the group.",
   "alertFeedbackSent": "Feedback has sent",
   "alertLeaveGroup": "1. You need to be reaccepted to join the group.:2. You need to be repromoted to regain moderator status.:3. None of your prayers will be deleted.",
@@ -240,5 +242,7 @@
   "versionText": "Version: {version}",
   "weekdays": "Weekdays",
   "weekend": "Weekend",
+  "whoIsMyNeighbor": "Who is my neighbor?",
+  "whoIsMyNeighborDescription": "When you pray for others, they become your neighbors in faith, and you'll see the blessings of their future prayers.",
   "withName": "With Name"
 }

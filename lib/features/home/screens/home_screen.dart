@@ -4,10 +4,12 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
+import 'package:prayer/features/home/widgets/neighbor_description_card.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
@@ -126,6 +128,12 @@ class HomeScreen extends HookConsumerWidget {
                   S.of(context).followers,
                   S.of(context).neighbor,
                 ],
+                onTap: (index) {
+                  if (tabController.animation?.value == index && index == 2) {
+                    Hive.box('settings')
+                        .put('neighbor.description.shown', true);
+                  }
+                },
               ),
             ),
           ),
@@ -152,6 +160,8 @@ class HomeScreen extends HookConsumerWidget {
                       ),
                       slivers: [
                         OverlapInjectorPlus(),
+                        if (entry.key == 2)
+                          SliverToBoxAdapter(child: NeighborDescriptionCard()),
                         PrayersScreen(
                           sliver: true,
                           physics: const NeverScrollableScrollPhysics(),

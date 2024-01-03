@@ -84,6 +84,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "account": MessageLookupByLibrary.simpleMessage("계정"),
         "admin": MessageLookupByLibrary.simpleMessage("관리자"),
         "alertAcceptMember": m0,
+        "alertClose": MessageLookupByLibrary.simpleMessage("정말로 닫으시겠습니까?"),
+        "alertCloseNeighborDescriptionCard":
+            MessageLookupByLibrary.simpleMessage(
+                "이웃 탭을 클릭하면 언제든지 다시 확인할 수 있습니다."),
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
             "1. 삭제는 되돌릴 수 없으며 즉시 이루어집니다.:2. 모든 그룹 구성원은 자동으로 탈퇴됩니다.:3. 그룹을 삭제하기 위해서는 모든 기도 및 중보기도를 삭제해야 합니다."),
         "alertFeedbackSent":
@@ -417,6 +421,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "versionText": m26,
         "weekdays": MessageLookupByLibrary.simpleMessage("주중"),
         "weekend": MessageLookupByLibrary.simpleMessage("주말"),
+        "whoIsMyNeighbor": MessageLookupByLibrary.simpleMessage("누가 제 이웃인가요?"),
+        "whoIsMyNeighborDescription": MessageLookupByLibrary.simpleMessage(
+            "남을 위해 기도하면, 그들은 우리의 신앙 이웃이 되며, 그들의 앞으로의 기도와 축복을 함께 나눌 수 있습니다."),
         "withName": MessageLookupByLibrary.simpleMessage("공개")
       };
 }

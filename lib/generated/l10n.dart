@@ -100,6 +100,26 @@ class S {
     );
   }
 
+  /// `Do you want to close?`
+  String get alertClose {
+    return Intl.message(
+      'Do you want to close?',
+      name: 'alertClose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can always view this by clicking the neighbor tab.`
+  String get alertCloseNeighborDescriptionCard {
+    return Intl.message(
+      'You can always view this by clicking the neighbor tab.',
+      name: 'alertCloseNeighborDescriptionCard',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `1. Deletion is irreversible and immediate.:2. All group members will be removed automatically.:3. All prayers, both corporate and individual, must be deleted to remove the group.`
   String get alertDeleteGroup {
     return Intl.message(
@@ -2445,6 +2465,26 @@ class S {
     return Intl.message(
       'Weekend',
       name: 'weekend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Who is my neighbor?`
+  String get whoIsMyNeighbor {
+    return Intl.message(
+      'Who is my neighbor?',
+      name: 'whoIsMyNeighbor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When you pray for others, they become your neighbors in faith, and you'll see the blessings of their future prayers.`
+  String get whoIsMyNeighborDescription {
+    return Intl.message(
+      'When you pray for others, they become your neighbors in faith, and you\'ll see the blessings of their future prayers.',
+      name: 'whoIsMyNeighborDescription',
       desc: '',
       args: [],
     );

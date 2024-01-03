@@ -6,10 +6,12 @@ class CustomTabBar extends StatelessWidget {
     super.key,
     required this.tabs,
     this.controller,
+    this.onTap,
   });
 
   final TabController? controller;
   final List<String> tabs;
+  final void Function(int)? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class CustomTabBar extends StatelessWidget {
         fontSize: 13,
       ),
       dividerColor: MyTheme.outline,
+      onTap: onTap,
       tabs: tabs
           .map((e) => Tab(
                 text: e,

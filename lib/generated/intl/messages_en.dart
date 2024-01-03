@@ -85,6 +85,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "account": MessageLookupByLibrary.simpleMessage("Account"),
         "admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "alertAcceptMember": m0,
+        "alertClose":
+            MessageLookupByLibrary.simpleMessage("Do you want to close?"),
+        "alertCloseNeighborDescriptionCard":
+            MessageLookupByLibrary.simpleMessage(
+                "You can always view this by clicking the neighbor tab."),
         "alertDeleteGroup": MessageLookupByLibrary.simpleMessage(
             "1. Deletion is irreversible and immediate.:2. All group members will be removed automatically.:3. All prayers, both corporate and individual, must be deleted to remove the group."),
         "alertFeedbackSent":
@@ -444,6 +449,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "versionText": m26,
         "weekdays": MessageLookupByLibrary.simpleMessage("Weekdays"),
         "weekend": MessageLookupByLibrary.simpleMessage("Weekend"),
+        "whoIsMyNeighbor":
+            MessageLookupByLibrary.simpleMessage("Who is my neighbor?"),
+        "whoIsMyNeighborDescription": MessageLookupByLibrary.simpleMessage(
+            "When you pray for others, they become your neighbors in faith, and you\'ll see the blessings of their future prayers."),
         "withName": MessageLookupByLibrary.simpleMessage("With Name")
       };
 }

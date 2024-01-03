@@ -38,7 +38,7 @@ class ConfirmSlimMenuForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 70,
+      height: 80,
       color: Colors.transparent,
       margin: EdgeInsets.fromLTRB(
         10,
@@ -71,14 +71,16 @@ class ConfirmSlimMenuForm extends StatelessWidget {
                     Text(
                       description!,
                       style: TextStyle(
-                        color: MyTheme.disabled,
+                        color: MyTheme.placeholderText,
+                        fontSize: 12,
                       ),
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                 ],
               ),
             ),
+            const SizedBox(width: 5),
             ShrinkingButton(
               onTap: () => Navigator.of(context).pop(true),
               child: Container(

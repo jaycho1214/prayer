@@ -8,12 +8,14 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
     this.controller,
     this.maxExtent = 48,
     this.minExtent = 48,
+    this.onTap,
   });
 
   final TabController? controller;
   final List<String> tabs;
   final double minExtent;
   final double maxExtent;
+  final void Function(int)? onTap;
 
   @override
   Widget build(
@@ -24,6 +26,7 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
       child: CustomTabBar(
         tabs: tabs,
         controller: controller,
+        onTap: onTap,
       ),
     );
   }
