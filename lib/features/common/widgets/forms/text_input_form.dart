@@ -21,7 +21,10 @@ class TextInputField extends StatelessWidget {
     this.onTap,
     this.initialValue,
     this.counterText,
+    this.focusNode,
     this.enabled = true,
+    this.autofocus = false,
+    this.scrollPadding = const EdgeInsets.all(20),
   });
   final TextInputType? keyboardType;
   final String? initialValue;
@@ -35,11 +38,14 @@ class TextInputField extends StatelessWidget {
   final InputDecoration? decoration;
   final Widget? suffix;
   final AutovalidateMode? autovalidateMode;
+  final FocusNode? focusNode;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final void Function(String?)? onChanged;
   final void Function()? onTap;
   final bool enabled;
+  final bool autofocus;
+  final EdgeInsets scrollPadding;
 
   OutlineInputBorder _commonBorder({required Color color, double width = 2.0}) {
     return OutlineInputBorder(
@@ -68,6 +74,9 @@ class TextInputField extends StatelessWidget {
           children: [
             FormBuilderTextField(
               key: key,
+              scrollPadding: scrollPadding,
+              focusNode: focusNode,
+              autofocus: autofocus,
               name: name,
               enabled: enabled,
               initialValue: initialValue,
