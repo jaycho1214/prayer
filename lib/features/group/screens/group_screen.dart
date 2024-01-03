@@ -12,6 +12,7 @@ import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/features/group/providers/group_notification_provider.dart';
 import 'package:prayer/features/group/widgets/group_notification_subscribe_button.dart';
 import 'package:prayer/features/group/widgets/group_share_button.dart';
+import 'package:prayer/features/prayer/widgets/forms/post_prayer_type_picker.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
@@ -298,32 +299,33 @@ class GroupScreen extends HookConsumerWidget {
                   ),
                   FAB(
                     onTap: () async {
-                      if (DefaultTabController.of(context).index == 0) {
-                        if (group.acceptedAt == null) {
-                          GlobalSnackBar.show(context,
-                              message: "Only members can post prayers.");
-                        } else {
-                          final didAdd = await context.push(Uri(
-                                  path: '/form/prayer',
-                                  queryParameters: {'groupId': groupId})
-                              .toString());
-                          if (didAdd == true) {
-                            prayerPagingController.refresh();
-                          }
+                      if (group.acceptedAt == null) {
+                        return GlobalSnackBar.show(context,
+                            message: "Only members can post prayers.");
+                      }
+                      PostPrayerTypePickerResponse? resp;
+                      bool? prayer;
+                      if (group.moderator != null) {
+                        resp = await PostPrayerTypePicker.show(context);
+                        if (resp == null) {
+                          return;
                         }
-                      } else if (DefaultTabController.of(context).index == 1) {
-                        if (group.moderator == null) {
-                          GlobalSnackBar.show(context,
-                              message:
-                                  S.of(context).errorMustBeModeratorToPost);
-                        } else {
-                          final didSomething = await context.push(Uri(
-                                  path: '/form/corporate',
-                                  queryParameters: {'groupId': groupId})
-                              .toString());
-                          if (didSomething == true) {
-                            corporatePagingController.refresh();
-                          }
+                      }
+                      prayer = group.moderator == null ||
+                          resp == PostPrayerTypePickerResponse.prayer;
+                      if (prayer) {
+                        final didAdd = await context.push(Uri(
+                            path: '/form/prayer',
+                            queryParameters: {'groupId': groupId}).toString());
+                        if (didAdd == true) {
+                          prayerPagingController.refresh();
+                        }
+                      } else {
+                        final didSomething = await context.push(Uri(
+                            path: '/form/corporate',
+                            queryParameters: {'groupId': groupId}).toString());
+                        if (didSomething == true) {
+                          corporatePagingController.refresh();
                         }
                       }
                     },

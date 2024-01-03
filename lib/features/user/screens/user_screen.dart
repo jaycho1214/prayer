@@ -363,6 +363,8 @@ class UserScreen extends HookConsumerWidget {
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       pagingController: groupPagingController,
+                                      noItemsFoundIndicatorBuilder: (context) =>
+                                          const SizedBox(),
                                       fetchFn: (cursor) =>
                                           GetIt.I<GroupRepository>()
                                               .fetchGroupsByUser(
@@ -380,6 +382,8 @@ class UserScreen extends HookConsumerWidget {
                                       sliver: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
+                                      noItemsFoundIndicatorBuilder: (p0) =>
+                                          const SizedBox(),
                                       pagingController: prayPagingController,
                                       fetchFn: (cursor) =>
                                           GetIt.I<PrayerRepository>()
