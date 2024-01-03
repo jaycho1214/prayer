@@ -92,7 +92,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "alertLeaveGroup": MessageLookupByLibrary.simpleMessage(
             "1. You need to be reaccepted to join the group.:2. You need to be repromoted to regain moderator status.:3. None of your prayers will be deleted."),
         "alertPrayWithName": MessageLookupByLibrary.simpleMessage(
-            "Do you want to pray using your name? Please be aware that if you do, everyone will be able to see your prayer along with your name."),
+            "Do you want to pray using your name? Everyone will be able to see your prayer along with your name."),
+        "alertPrayWithNameGroup": MessageLookupByLibrary.simpleMessage(
+            "Do you want to pray using your name? All members in the group will be able to see your prayer along with your name."),
         "alertRevokeInvitation": m1,
         "alertYouCannotUndoThisAction":
             MessageLookupByLibrary.simpleMessage("You cannot undo this action"),

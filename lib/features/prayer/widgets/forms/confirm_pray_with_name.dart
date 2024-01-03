@@ -7,16 +7,19 @@ import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 class ConfirmPrayWithNameForm extends StatelessWidget {
   const ConfirmPrayWithNameForm({
     super.key,
+    this.groupId,
   });
 
-  static Future<bool?> show(BuildContext context) {
+  final String? groupId;
+
+  static Future<bool?> show(BuildContext context, {String? groupId}) {
     return showModalBottomSheet<bool>(
         elevation: 0,
         context: context,
         backgroundColor: Colors.transparent,
         barrierColor: Colors.white.withAlpha(15),
         builder: (context) {
-          return ConfirmPrayWithNameForm();
+          return ConfirmPrayWithNameForm(groupId: groupId);
         });
   }
 
@@ -29,7 +32,7 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
         10,
         0,
         10,
-        MediaQuery.of(context).padding.bottom,
+        MediaQuery.of(context).padding.bottom + 10,
       ),
       child: Container(
         padding: EdgeInsets.all(20),
@@ -50,7 +53,9 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
               overflow: TextOverflow.fade,
             ),
             Text(
-              S.of(context).alertPrayWithName,
+              groupId == null
+                  ? S.of(context).alertPrayWithName
+                  : S.of(context).alertPrayWithNameGroup,
               style: TextStyle(
                 color: MyTheme.placeholderText,
                 fontSize: 15,

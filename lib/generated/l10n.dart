@@ -130,11 +130,21 @@ class S {
     );
   }
 
-  /// `Do you want to pray using your name? Please be aware that if you do, everyone will be able to see your prayer along with your name.`
+  /// `Do you want to pray using your name? Everyone will be able to see your prayer along with your name.`
   String get alertPrayWithName {
     return Intl.message(
-      'Do you want to pray using your name? Please be aware that if you do, everyone will be able to see your prayer along with your name.',
+      'Do you want to pray using your name? Everyone will be able to see your prayer along with your name.',
       name: 'alertPrayWithName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to pray using your name? All members in the group will be able to see your prayer along with your name.`
+  String get alertPrayWithNameGroup {
+    return Intl.message(
+      'Do you want to pray using your name? All members in the group will be able to see your prayer along with your name.',
+      name: 'alertPrayWithNameGroup',
       desc: '',
       args: [],
     );

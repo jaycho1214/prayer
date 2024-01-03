@@ -75,7 +75,8 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
         final form = formKey.currentState!.value;
         talker.debug('[Prayer] Posting: $form');
         if (!form['anon']) {
-          final resp = await ConfirmPrayWithNameForm.show(context);
+          final resp = await ConfirmPrayWithNameForm.show(context,
+              groupId: form['groupId']);
           if (resp != true) {
             setState(() {
               _loading = true;

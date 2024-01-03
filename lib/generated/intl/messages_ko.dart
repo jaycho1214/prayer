@@ -92,6 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "1. 그룹에 가입하기 위해서는 다시 초대받거나 승인되어야 합니다:2. 현재 사역자일 경우 다시 임명 받아야합니다.:3. 그룹에 올린 기도문은 삭제되지 않습니다."),
         "alertPrayWithName": MessageLookupByLibrary.simpleMessage(
             "이 기도문은 모든 사람이 당신의 이름과 함께 볼 수 있습니다."),
+        "alertPrayWithNameGroup": MessageLookupByLibrary.simpleMessage(
+            "이 기도문은 \b그룹원이 당신의 이름과 함께 볼 수 있습니다."),
         "alertRevokeInvitation": m1,
         "alertYouCannotUndoThisAction":
             MessageLookupByLibrary.simpleMessage("이 작업은 취소할 수 없습니다"),
