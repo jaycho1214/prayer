@@ -8,6 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
+import 'package:prayer/features/group/models/group/group_model.dart';
+import 'package:prayer/features/home/widgets/mini_my_group_list.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
@@ -23,6 +25,8 @@ class GroupPrayersScreen extends HookWidget {
     final queryController = useTextEditingController();
     final pagingController =
         usePagingController<String?, String>(firstPageKey: null);
+    final groupPagingController =
+        usePagingController<String?, Group>(firstPageKey: null);
 
     useEffect(() {
       void listener() {
@@ -41,6 +45,7 @@ class GroupPrayersScreen extends HookWidget {
         notificationPredicate: (notification) => notification.depth == 0,
         onRefresh: () async {
           pagingController.refresh();
+          groupPagingController.refresh();
         },
         child: CustomScrollView(
           cacheExtent: 5000,
@@ -126,6 +131,11 @@ class GroupPrayersScreen extends HookWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: MiniMyGroupList(
+                pagingController: groupPagingController,
               ),
             ),
             PrayersScreen(

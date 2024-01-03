@@ -357,7 +357,11 @@ class UserScreen extends HookConsumerWidget {
                               ),
                               Builder(builder: (context) {
                                 return CustomScrollView(
+                                  physics: const BouncingScrollPhysics(
+                                    parent: AlwaysScrollableScrollPhysics(),
+                                  ),
                                   slivers: [
+                                    OverlapInjectorPlus(),
                                     GroupsScreen(
                                       sliver: true,
                                       physics:
@@ -377,7 +381,11 @@ class UserScreen extends HookConsumerWidget {
                               }),
                               Builder(builder: (context) {
                                 return CustomScrollView(
+                                  physics: const BouncingScrollPhysics(
+                                    parent: AlwaysScrollableScrollPhysics(),
+                                  ),
                                   slivers: [
+                                    OverlapInjectorPlus(),
                                     PrayersScreen(
                                       sliver: true,
                                       physics:
