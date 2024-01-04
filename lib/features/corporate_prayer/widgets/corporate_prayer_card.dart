@@ -86,9 +86,11 @@ class CorporatePrayerCard extends ConsumerWidget {
                         value:
                             '${Jiffy.parseFromDateTime(prayer.value!.startedAt!.toLocal()).yMMMd}${prayer.value?.endedAt == null ? "" : "-${Jiffy.parseFromDateTime(prayer.value!.endedAt!.toLocal()).yMMMd}"}'),
                   Spacer(),
-                  StatisticsChip(
-                    icon: FontAwesomeIcons.personPraying,
-                    value: prayer.value?.prayersCount ?? 0,
+                  AbsorbPointer(
+                    child: StatisticsChip(
+                      icon: FontAwesomeIcons.personPraying,
+                      value: prayer.value?.prayersCount ?? 0,
+                    ),
                   ),
                 ],
               ),
