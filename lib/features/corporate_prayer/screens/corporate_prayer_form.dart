@@ -85,6 +85,16 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
         _loading = false;
       });
       try {
+        final prayers = form.entries
+            .where((element) =>
+                element.key.startsWith('prayers.') && element.value != null)
+            .map((e) => e.value as String)
+            .toList();
+        if (prayers[0].trim() == '') {
+          GlobalSnackBar.show(context,
+              message: S.of(context).errorCorporatePrayerNeedPrayers);
+          return;
+        }
         final newCorporateId =
             await GetIt.I<PrayerRepository>().createOrUpdateCorporatePrayer(
           corporateId: initialValue?.id,
@@ -98,11 +108,7 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
               form['reminderActivated'] == true ? form['reminderText'] : null,
           reminderTime:
               form['reminderActivated'] == true ? form['reminderTime'] : null,
-          prayers: form.entries
-              .where((element) =>
-                  element.key.startsWith('prayers.') && element.value != null)
-              .map((e) => e.value as String)
-              .toList(),
+          prayers: prayers,
           startedAt: form['startedAt'] == null
               ? null
               : (form['startedAt'] as Jiffy).dateTime,
@@ -293,19 +299,11 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                                 initialValue: '',
                                 focusNode: focusNodes[index],
                                 scrollPadding:
-                                    const EdgeInsets.only(bottom: 200),
+                                    const EdgeInsets.only(bottom: 220),
                                 labelText:
                                     '${S.of(context).prayer} ${index + 1}',
                                 maxLines: 5,
                                 maxLength: 200,
-                                validator: (value) {
-                                  if ((value ?? "").trim() == '') {
-                                    return S
-                                        .of(context)
-                                        .errorCorporatePrayerNeedPrayers;
-                                  }
-                                  return null;
-                                },
                               ),
                             ),
                           ),
