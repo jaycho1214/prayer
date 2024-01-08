@@ -146,8 +146,8 @@ class GroupPrayersScreen extends HookWidget {
               noItemsFoundIndicatorBuilder: (p0) => EmptyPrayersScreen(
                 title: S.of(context).prayWithOthers,
                 description: S.of(context).emptyGroupDescription,
-                buttonText: S.of(context).searchGroup,
-                onTap: () => context.push('/search'),
+                buttonText: S.of(context).createGroup,
+                onTap: () => context.push('/form/group'),
               ),
             ),
           ],
