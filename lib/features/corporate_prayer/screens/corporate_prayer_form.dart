@@ -89,8 +89,9 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
             .where((element) =>
                 element.key.startsWith('prayers.') && element.value != null)
             .map((e) => e.value as String)
+            .where((element) => element.trim() != '')
             .toList();
-        if (prayers[0].trim() == '') {
+        if (prayers.length < 1 || prayers[0].trim() == '') {
           GlobalSnackBar.show(context,
               message: S.of(context).errorCorporatePrayerNeedPrayers);
           return;
