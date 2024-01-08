@@ -173,10 +173,13 @@ class BibleBookTile extends HookConsumerWidget {
                   margin: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     color: MyTheme.primary,
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   alignment: Alignment.center,
-                  child: Text("${verseIndex + 1}"),
+                  child: Text(
+                    "${verseIndex + 1}",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
                 ),
               ),
             ),
@@ -410,7 +413,7 @@ class BiblePicker {
                                 fontWeight: FontWeight.w300,
                                 decoration:
                                     chosen ? TextDecoration.underline : null,
-                                decorationStyle: TextDecorationStyle.dashed,
+                                decorationStyle: TextDecorationStyle.solid,
                                 color: (selected.length == maxLength && !chosen)
                                     ? MyTheme.disabled
                                     : MyTheme.onPrimary,
