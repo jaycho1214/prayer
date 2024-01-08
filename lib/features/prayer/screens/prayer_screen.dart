@@ -135,6 +135,7 @@ class PrayerScreen extends HookConsumerWidget {
                                 ),
                               ),
                               const SizedBox(height: 10),
+                              OpenGraphCard(text: prayer.value?.value ?? ''),
                               if (prayer.value?.verses != null &&
                                   prayer.value!.verses.length > 0)
                                 Padding(
@@ -154,7 +155,6 @@ class PrayerScreen extends HookConsumerWidget {
                                               .toList() ??
                                           []),
                                 ),
-                              OpenGraphCard(text: prayer.value?.value ?? ''),
                               const SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment:
@@ -171,21 +171,23 @@ class PrayerScreen extends HookConsumerWidget {
                                     ),
                                   Spacer(),
                                   RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text:
-                                            '${Formatter.formatNumber(prayer.value?.praysCount ?? 0)} ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w900,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '${Formatter.formatNumber(prayer.value?.praysCount ?? 0)} ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                          ),
                                         ),
-                                      ),
-                                      TextSpan(
-                                        text: S.of(context).prays,
-                                        style: TextStyle(
-                                          color: MyTheme.placeholderText,
+                                        TextSpan(
+                                          text: S.of(context).prays,
+                                          style: TextStyle(
+                                            color: MyTheme.placeholderText,
+                                          ),
                                         ),
-                                      ),
-                                    ]),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
