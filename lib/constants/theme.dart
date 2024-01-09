@@ -122,7 +122,7 @@ final darkColorScheme = ColorScheme.dark(
   outlineVariant: Color(0xFF2F4F4F),
   primary: Colors.white,
   onPrimary: Colors.black,
-  secondary: Color(0xFFFED2DA),
+  secondary: Color(0xFF2E002E),
   onSecondary: Colors.black,
   surface: Colors.white,
   onSurface: Colors.black,
