@@ -72,8 +72,7 @@ class GroupPrayersScreen extends HookWidget {
                           context,
                           material: (ThemeData data) =>
                               data.textTheme.headlineSmall,
-                          cupertino: (data) => data.textTheme.navTitleTextStyle
-                              .copyWith(fontWeight: FontWeight.bold),
+                          cupertino: (data) => data.textTheme.navTitleTextStyle,
                         ),
                       ),
                     ),

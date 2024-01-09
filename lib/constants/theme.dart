@@ -214,6 +214,7 @@ final darkDefaultCupertinoTheme =
       inherit: true,
       color: darkColorScheme.onBackground,
       fontWeight: FontWeight.bold,
+      fontSize: 17,
     ),
   ),
 );
