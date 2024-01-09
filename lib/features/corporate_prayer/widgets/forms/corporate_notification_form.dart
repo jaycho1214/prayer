@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/widgets/buttons/large_text_button.dart';
 import 'package:prayer/features/corporate_prayer/models/corporate_prayer_notification_settings/corporate_prayer_notification_settings.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -26,8 +26,6 @@ class CorporateNotificationForm extends HookWidget {
     return showModalBottomSheet<CorporatePrayerNotificationSettings>(
       context: context,
       useSafeArea: true,
-      backgroundColor: MyTheme.sheetSurface,
-      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => CorporateNotificationForm(
         initialValue: initialValue,
         reminder: reminder,
@@ -58,7 +56,8 @@ class CorporateNotificationForm extends HookWidget {
         .join(', ');
   }
 
-  Widget _buildRow({
+  Widget _buildRow(
+    BuildContext context, {
     required String title,
     required String description,
     void Function()? onTap,
@@ -76,18 +75,17 @@ class CorporateNotificationForm extends HookWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: disabled == true ? MyTheme.disabled : Colors.white,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: disabled == true
+                            ? Theme.of(context).disabledColor
+                            : null),
                   ),
                   Text(
                     description,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: MyTheme.placeholderText,
-                    ),
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: disabled == true
+                            ? Theme.of(context).disabledColor
+                            : null),
                   ),
                 ],
               ),
@@ -95,8 +93,8 @@ class CorporateNotificationForm extends HookWidget {
             AbsorbPointer(
               child: Checkbox(
                 side: disabled == true
-                    ? MaterialStateBorderSide.resolveWith(
-                        (states) => BorderSide(color: MyTheme.disabled))
+                    ? MaterialStateBorderSide.resolveWith((states) =>
+                        BorderSide(color: Theme.of(context).disabledColor))
                     : null,
                 value: value,
                 onChanged: (value) => null,
@@ -113,13 +111,10 @@ class CorporateNotificationForm extends HookWidget {
     final state = useState(initialValue ??
         CorporatePrayerNotificationSettings(onReminder: false, onPost: false));
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      decoration: BoxDecoration(
-        color: MyTheme.sheetSurface,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Wrap(
-        alignment: WrapAlignment.center,
+      padding: EdgeInsets.fromLTRB(
+          20, 20, 20, MediaQuery.of(context).padding.bottom + 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             S.of(context).corporate,
@@ -127,6 +122,7 @@ class CorporateNotificationForm extends HookWidget {
           ),
           const SizedBox(height: 10),
           _buildRow(
+            context,
             title: S.of(context).reminder,
             description: reminder == null
                 ? S.of(context).noReminderSet
@@ -138,36 +134,19 @@ class CorporateNotificationForm extends HookWidget {
                 state.value.copyWith(onReminder: !state.value.onReminder),
             disabled: reminder == null,
           ),
-          Divider(color: MyTheme.outline),
+          const Divider(),
           _buildRow(
+            context,
             title: S.of(context).members,
             description: S.of(context).groupNotificationSettingsAll,
             value: state.value.onPost,
             onTap: () =>
                 state.value = state.value.copyWith(onPost: !state.value.onPost),
           ),
-          ShrinkingButton(
+          const SizedBox(height: 20),
+          LargeTextButton(
             onTap: () => context.pop(state.value.copyWith()),
-            child: Container(
-              margin: EdgeInsets.only(
-                top: 20,
-                bottom: MediaQuery.of(context).padding.bottom,
-              ),
-              alignment: Alignment.center,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: MyTheme.onPrimary,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                S.of(context).done,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
+            text: S.of(context).done,
           ),
         ],
       ),

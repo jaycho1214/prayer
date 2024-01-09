@@ -28,7 +28,9 @@ class PrayerOptionButton extends ConsumerWidget {
       itemBuilder: (context) => [
         PullDownMenuHeader(
           leading: UserProfileImage(
-              profile: prayer.anon == true ? null : prayer.user?.profile),
+            profile: prayer.anon == true ? null : prayer.user?.profile,
+            imageRadius: BorderRadius.circular(5),
+          ),
           title: prayer.anon == true
               ? S.of(context).anonymous
               : '@${prayer.user?.username}',

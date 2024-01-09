@@ -6,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/constants/dio.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_translation_picker.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
@@ -84,7 +83,7 @@ class StickyActionBar extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: MyTheme.primary,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -92,7 +91,10 @@ class StickyActionBar extends ConsumerWidget {
           children: [
             Text(
               '${S.of(context).done} (${selected.length}/$maxLength)',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
               textAlign: TextAlign.center,
             ),
             Text(
@@ -100,7 +102,10 @@ class StickyActionBar extends ConsumerWidget {
                   .map((e) =>
                       '${toLocaleBibleBook(context, e.book)} ${e.chapter}:${e.verse}')
                   .join(', '),
-              style: TextStyle(fontSize: 10, color: MyTheme.placeholderText),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
             ),
           ],
         ),
@@ -142,49 +147,46 @@ class BibleBookTile extends HookConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.only(bottom: last ? 200 : 0),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-            listTileTheme: ListTileTheme.of(context).copyWith(dense: true)),
-        child: ExpansionTile(
-          initiallyExpanded: expanded,
-          childrenPadding: const EdgeInsets.only(bottom: 10),
-          onExpansionChanged: (value) {
-            if (value) {
-              onExpanded?.call();
-            }
-          },
-          controller: controller,
-          title: Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-          ),
-          children: [
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
-              itemCount: chapterCount,
-              itemBuilder: (context, verseIndex) => ShrinkingButton(
-                onTap: () {
-                  onTap?.call(verseIndex);
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: MyTheme.primary,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "${verseIndex + 1}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
+      child: ExpansionTile(
+        initiallyExpanded: expanded,
+        childrenPadding: const EdgeInsets.only(bottom: 10),
+        onExpansionChanged: (value) {
+          if (value) {
+            onExpanded?.call();
+          }
+        },
+        controller: controller,
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        children: [
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7),
+            itemCount: chapterCount,
+            itemBuilder: (context, verseIndex) => ShrinkingButton(
+              onTap: () {
+                onTap?.call(verseIndex);
+              },
+              child: Container(
+                margin: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "${verseIndex + 1}",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -197,6 +199,8 @@ class BiblePicker {
     List<BibleVerse>? initialIds,
   }) {
     return SliverWoltModalSheetPage(
+      backgroundColor:
+          Theme.of(modalSheetContext).bottomSheetTheme.backgroundColor,
       topBarTitle: Text(
         S.of(modalSheetContext).bible,
         style: TextStyle(
@@ -204,6 +208,7 @@ class BiblePicker {
           fontSize: 16,
         ),
       ),
+      hasSabGradient: false,
       leadingNavBarWidget: Container(
         margin: const EdgeInsets.only(left: 20),
         child: UnconstrainedBox(
@@ -265,6 +270,9 @@ class BiblePicker {
     List<BibleVerse>? initialIds,
   }) {
     return SliverWoltModalSheetPage(
+      backgroundColor:
+          Theme.of(modalSheetContext).bottomSheetTheme.backgroundColor,
+      hasSabGradient: false,
       leadingNavBarWidget: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -280,17 +288,18 @@ class BiblePicker {
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: MyTheme.surface,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.horizontal(
                           left: Radius.circular(20),
                         ),
                       ),
                       child: Text(
                         '${toLocaleBibleBook(context, book!)} $page',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary),
                       ),
                     ),
                   );
@@ -313,17 +322,18 @@ class BiblePicker {
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: MyTheme.surface,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.horizontal(
                           right: Radius.circular(20),
                         ),
                       ),
                       child: Text(
                         translation.abbreviation,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary),
                       ),
                     ),
                   );
@@ -361,7 +371,12 @@ class BiblePicker {
               itemBuilder: (context, index) => ShrinkingButton(
                 onTap: () {
                   final selected = ref.read(biblePickerProvider).selected;
-                  if (selected.length >= maxLength) {
+                  final chosen = selected.indexWhere((element) =>
+                          element.book == book &&
+                          element.chapter == chapter &&
+                          element.verse == index + 1) ==
+                      -1;
+                  if (chosen && selected.length >= maxLength) {
                     return;
                   }
                   final current = BibleVerse(
@@ -373,11 +388,7 @@ class BiblePicker {
                     verseId: snapshot.data?.data['data'][index]['verse_id'],
                     translation: translation,
                   );
-                  if (selected.indexWhere((element) =>
-                          element.book == book &&
-                          element.chapter == chapter &&
-                          element.verse == index + 1) ==
-                      -1) {
+                  if (chosen) {
                     ref.read(biblePickerProvider.notifier).add(current);
                   } else {
                     ref.read(biblePickerProvider.notifier).remove(current);
@@ -403,20 +414,24 @@ class BiblePicker {
                       child: RichText(
                         text: TextSpan(
                           text: '${index + 1}. ',
-                          style: TextStyle(color: MyTheme.placeholderText),
+                          style:
+                              TextStyle(color: Theme.of(context).disabledColor),
                           children: [
                             TextSpan(
                               text:
                                   '${snapshot.data?.data['data'][index]['value']}',
                               style: TextStyle(
-                                decorationColor: MyTheme.onPrimary,
-                                fontWeight: FontWeight.w300,
+                                decorationColor:
+                                    Theme.of(context).colorScheme.onBackground,
+                                fontWeight: FontWeight.w400,
                                 decoration:
                                     chosen ? TextDecoration.underline : null,
                                 decorationStyle: TextDecorationStyle.solid,
                                 color: (selected.length == maxLength && !chosen)
-                                    ? MyTheme.disabled
-                                    : MyTheme.onPrimary,
+                                    ? Theme.of(context).disabledColor
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                 fontSize: 15,
                                 height: 2,
                               ),

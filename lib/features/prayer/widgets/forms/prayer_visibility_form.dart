@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
@@ -20,8 +19,6 @@ class PrayerVisibilityForm extends StatelessWidget {
     return showModalBottomSheet<bool>(
         elevation: 0,
         context: context,
-        backgroundColor: Colors.transparent,
-        barrierColor: Colors.white.withAlpha(15),
         builder: (context) {
           return PrayerVisibilityForm(
             anonymous: anonymous,
@@ -50,7 +47,6 @@ class PrayerVisibilityForm extends StatelessWidget {
               child: FaIcon(
                 icon,
                 size: 30,
-                color: MyTheme.onPrimary,
               ),
             ),
             const SizedBox(width: 20),
@@ -80,17 +76,13 @@ class PrayerVisibilityForm extends StatelessWidget {
                           child: FaIcon(
                             FontAwesomeIcons.check,
                             size: 12,
-                            color: MyTheme.onPrimary,
                           ),
                         ),
                     ],
                   ),
                   Text(
                     description,
-                    style: TextStyle(
-                      color: MyTheme.placeholderText,
-                      fontSize: 15,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],
               ),
@@ -106,42 +98,35 @@ class PrayerVisibilityForm extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 400,
-      color: Colors.transparent,
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          color: MyTheme.sheetSurface,
-        ),
-        child: Column(
-          children: [
-            Text(
-              S.of(context).titleHowToShareYourPrayer,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Text(
+            S.of(context).titleHowToShareYourPrayer,
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 18,
             ),
-            const SizedBox(height: 10),
-            buildRow(
-              context,
-              icon: FontAwesomeIcons.lightUser,
-              title: S.of(context).withName,
-              description: S.of(context).titleWithName,
-              value: false,
-            ),
-            Divider(color: MyTheme.outline),
-            buildRow(
-              context,
-              icon: FontAwesomeIcons.lightUserSlash,
-              title: S.of(context).anonymously,
-              description: S.of(context).titleAnonymously,
-              value: true,
-            ),
-            SizedBox(height: MediaQuery.of(context).padding.bottom),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          buildRow(
+            context,
+            icon: FontAwesomeIcons.lightUser,
+            title: S.of(context).withName,
+            description: S.of(context).titleWithName,
+            value: false,
+          ),
+          Divider(),
+          buildRow(
+            context,
+            icon: FontAwesomeIcons.lightUserSlash,
+            title: S.of(context).anonymously,
+            description: S.of(context).titleAnonymously,
+            value: true,
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
+        ],
       ),
     );
   }

@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
     super.key,
-    this.onTap,
-    this.loading = false,
     required this.iconPath,
     required this.text,
+    this.onTap,
+    this.loading = false,
+    this.imageColor,
   });
 
   final void Function()? onTap;
   final String iconPath;
   final String text;
   final bool loading;
+  final Color? imageColor;
 
   void handleTap() {
     HapticFeedback.lightImpact();
@@ -28,10 +29,14 @@ class LoginButton extends StatelessWidget {
     return ShrinkingButton(
       onTap: handleTap,
       child: Container(
-          padding: const EdgeInsets.all(20),
+          height: 55,
+          alignment: Alignment.center,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(30)),
-            border: Border.all(color: MyTheme.outline, width: 1.0),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outline,
+              width: 0.5,
+            ),
           ),
           child: AnimatedCrossFade(
             duration: const Duration(milliseconds: 200),
@@ -54,17 +59,14 @@ class LoginButton extends StatelessWidget {
                   iconPath,
                   width: 20,
                   height: 20,
+                  color: imageColor,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Text(
                   text,
-                  style: const TextStyle(
-                    color: MyTheme.onPrimary,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

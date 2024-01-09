@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 
@@ -21,8 +20,6 @@ class PrayWithWordForm extends HookWidget {
         elevation: 0,
         context: context,
         isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        barrierColor: Colors.white.withAlpha(15),
         builder: (context) {
           return PrayWithWordForm(
             prayerId: prayerId,
@@ -38,10 +35,6 @@ class PrayWithWordForm extends HookWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(
           20, 20, 20, MediaQuery.of(context).viewInsets.bottom + 20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        color: MyTheme.sheetSurface,
-      ),
       child: Wrap(
         children: [
           Padding(
@@ -86,10 +79,7 @@ class PrayWithWordForm extends HookWidget {
                 ),
                 Text(
                   S.of(context).prayWithWordFormBible,
-                  style: TextStyle(
-                    color: MyTheme.placeholderText,
-                    fontSize: 12,
-                  ),
+                  style: Theme.of(context).textTheme.labelSmall,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.fade,
                 ),

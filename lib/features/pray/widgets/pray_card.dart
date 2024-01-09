@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -23,10 +22,6 @@ class PrayCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: MyTheme.surface,
-        borderRadius: BorderRadius.circular(20),
-      ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,20 +41,24 @@ class PrayCard extends StatelessWidget {
                       ? S.of(context).someoneHasPrayed(pray.user.username)
                       : pray.user.username,
                   maxLines: 1,
-                ),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ).boldSubString(pray.user.username),
               ),
               const SizedBox(width: 10),
               Text(
                 Formatter.fromNow(pray.createdAt),
-                style: TextStyle(
-                  color: MyTheme.outline,
-                ),
+                style: Theme.of(context).textTheme.labelMedium,
               ),
               const SizedBox(width: 10),
               PullDownButton(
                 itemBuilder: (context) => [
                   PullDownMenuHeader(
-                    leading: UserProfileImage(profile: pray.user.profile),
+                    leading: AbsorbPointer(
+                      child: UserProfileImage(
+                        profile: pray.user.profile,
+                        imageRadius: BorderRadius.circular(5),
+                      ),
+                    ),
                     icon: FontAwesomeIcons.circleUser,
                     title: '@${pray.user.username}',
                     onTap: () => context.push(Uri(
@@ -93,7 +92,7 @@ class PrayCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: FaIcon(
                       FontAwesomeIcons.lightEllipsisVertical,
-                      color: MyTheme.placeholderText,
+                      color: Theme.of(context).disabledColor,
                       size: 15,
                     ),
                   ),
@@ -107,6 +106,7 @@ class PrayCard extends StatelessWidget {
               child: Text(
                 pray.value ?? '',
                 textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
         ],

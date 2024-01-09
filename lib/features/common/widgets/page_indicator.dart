@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/utils/utils.dart';
 
 class PageIndicator extends HookWidget {
@@ -45,9 +44,9 @@ class PageIndicator extends HookWidget {
                   i.toDouble(),
                   i + 1
                 ], [
-                  MyTheme.disabled,
-                  MyTheme.onPrimary,
-                  MyTheme.disabled,
+                  Theme.of(context).disabledColor,
+                  Theme.of(context).colorScheme.onBackground,
+                  Theme.of(context).disabledColor,
                 ]),
               ),
             );

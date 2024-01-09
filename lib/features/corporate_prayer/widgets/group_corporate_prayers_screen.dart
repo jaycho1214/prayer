@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/corporate_prayer/widgets/corporate_prayer_card.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
@@ -64,8 +63,7 @@ class GroupCorporatePrayersScreen extends HookWidget {
           onTap: onTap == null ? null : () => onTap!.call(item),
         ),
       ),
-      separatorBuilder: (context, index) =>
-          const Divider(color: MyTheme.disabled),
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }

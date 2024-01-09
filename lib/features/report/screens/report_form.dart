@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/notification_bar.dart';
@@ -47,7 +46,7 @@ class _ReportScreenState extends State<ReportScreen> {
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
-          color: MyTheme.primary,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -55,15 +54,17 @@ class _ReportScreenState extends State<ReportScreen> {
             Expanded(
               child: Text(
                 text,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
               ),
             ),
             if (id == _selected)
-              const Padding(
+              Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: FaIcon(
                   FontAwesomeIcons.circleCheck,
-                  color: MyTheme.onPrimary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   size: 15,
                 ),
               ),
@@ -106,10 +107,11 @@ class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
-        backgroundColor: MyTheme.surface,
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+          backgroundColor: Theme.of(context).colorScheme.background,
+        ),
         title: Text(S.of(context).report),
       ),
       body: Padding(
@@ -118,17 +120,11 @@ class _ReportScreenState extends State<ReportScreen> {
           children: [
             Text(
               'Help us build a better community',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+              style: Theme.of(context).textTheme.displayMedium,
             ),
             Text(
               "Which one describes a problem the best",
-              style: TextStyle(
-                fontSize: 15,
-                color: MyTheme.placeholderText,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 20),
             ...reportTypes.map(
@@ -147,7 +143,8 @@ class _ReportScreenState extends State<ReportScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    border: Border.all(color: MyTheme.error),
+                    border:
+                        Border.all(color: Theme.of(context).colorScheme.error),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: _loading

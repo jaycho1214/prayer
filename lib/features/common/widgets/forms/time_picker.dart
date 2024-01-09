@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/forms/inner_time_picker.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -25,8 +24,6 @@ class TimePicker extends HookWidget {
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
-      backgroundColor: MyTheme.sheetSurface,
-      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => TimePicker(
         initialValue: initialValue,
         minuteInterval: minuteInterval,
@@ -39,10 +36,6 @@ class TimePicker extends HookWidget {
     final state = useState(initialValue ?? TimeOfDay(hour: 9, minute: 0));
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      decoration: BoxDecoration(
-        color: MyTheme.sheetSurface,
-        borderRadius: BorderRadius.circular(20),
-      ),
       child: Wrap(
         alignment: WrapAlignment.center,
         children: [
@@ -69,15 +62,15 @@ class TimePicker extends HookWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                color: MyTheme.onPrimary,
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 S.of(context).done,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
           ),

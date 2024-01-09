@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -25,7 +24,7 @@ class GroupCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ShrinkingButton(
       onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
+        FocusManager.instance.primaryFocus?.unfocus();
         if (onTap != null) {
           onTap?.call();
         } else {
@@ -38,8 +37,9 @@ class GroupCard extends HookConsumerWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 0.5,
-            color:
-                group.banner == null ? MyTheme.placeholder : Colors.transparent,
+            color: group.banner == null
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             child: group.banner != null
                 ? ClipRRect(
                     borderRadius: imageRadius,
@@ -53,18 +53,18 @@ class GroupCard extends HookConsumerWidget {
           const SizedBox(height: 5),
           if (group.membershipType == 'private')
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
               child: Row(
                 children: [
                   FaIcon(
                     FontAwesomeIcons.lock,
                     size: 15,
-                    color: MyTheme.placeholderText,
+                    color: Theme.of(context).textTheme.labelMedium?.color,
                   ),
                   const SizedBox(width: 10),
                   Text(
                     S.of(context).onlyVisibleToYou,
-                    style: TextStyle(color: MyTheme.placeholderText),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],
               ),
@@ -96,15 +96,15 @@ class GroupCard extends HookConsumerWidget {
                               FaIcon(
                                 FontAwesomeIcons.userGroupSimple,
                                 size: 12,
-                                color: MyTheme.placeholderText,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.color,
                               ),
                               const SizedBox(width: 5),
                               Text(
                                 '${group.membersCount}',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: MyTheme.placeholderText,
-                                ),
+                                style: Theme.of(context).textTheme.labelMedium,
                               ),
                             ],
                           ),
@@ -113,10 +113,7 @@ class GroupCard extends HookConsumerWidget {
                       if ((group.description ?? '') != '')
                         Text(
                           group.description ?? '',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: MyTheme.placeholderText,
-                          ),
+                          style: Theme.of(context).textTheme.labelSmall,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

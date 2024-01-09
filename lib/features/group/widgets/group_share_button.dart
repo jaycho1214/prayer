@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
@@ -49,14 +48,14 @@ class GroupShareButton extends ConsumerWidget {
         height: 35,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: MyTheme.primary,
+          color: Theme.of(context).colorScheme.primary,
         ),
         child: group.valueOrNull == null
             ? CircularProgressIndicator.adaptive()
             : FaIcon(
                 FontAwesomeIcons.arrowUpFromBracket,
                 size: 15,
-                color: MyTheme.onPrimary,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
       ),
     );

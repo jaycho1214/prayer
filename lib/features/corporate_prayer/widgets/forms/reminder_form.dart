@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/forms/day_picker.dart';
 import 'package:prayer/features/common/widgets/forms/form_row_card.dart';
 import 'package:prayer/features/common/widgets/forms/time_picker.dart';
@@ -21,11 +20,12 @@ class ReminderDatePickerForm extends HookWidget {
 
   final GlobalKey<FormBuilderState> formKey;
 
-  Widget buildButton({
+  Widget buildButton(
+    BuildContext context, {
     required Widget child,
     Key? key,
     void Function()? onTap,
-    Color color = MyTheme.primary,
+    Color? color,
   }) {
     return ShrinkingButton(
       key: key,
@@ -35,8 +35,8 @@ class ReminderDatePickerForm extends HookWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: MyTheme.disabled),
-          color: color,
+          border: Border.all(color: Theme.of(context).colorScheme.outline),
+          color: color ?? Theme.of(context).colorScheme.primary,
         ),
         child: Center(
           child: child,
@@ -157,7 +157,7 @@ class ReminderDatePickerForm extends HookWidget {
                           }
                         },
                       ),
-                      const Divider(color: MyTheme.outline),
+                      const Divider(),
                       FormRowCard(
                         title: 'Time',
                         value: time.value == null
@@ -204,9 +204,7 @@ class ReminderDatePickerForm extends HookWidget {
                           const SizedBox(height: 10),
                           Text(
                             S.of(context).titleTimezoneWillBeUsed,
-                            style: TextStyle(
-                              color: MyTheme.placeholderText,
-                            ),
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],
                       ),

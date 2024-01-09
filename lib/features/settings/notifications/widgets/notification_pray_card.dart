@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -30,7 +29,7 @@ class NotificationPrayCard extends HookWidget {
         ),
         Text(
           Formatter.fromNow(item.createdAt!),
-          style: TextStyle(color: MyTheme.placeholderText),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
       ],
     );
@@ -72,7 +71,7 @@ class NotificationPrayCard extends HookWidget {
                         const SizedBox(height: 5),
                         Text(
                           snapshot.data?.value ?? '',
-                          style: TextStyle(color: MyTheme.placeholderText),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                       ],
                     ),

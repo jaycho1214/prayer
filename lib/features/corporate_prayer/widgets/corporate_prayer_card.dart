@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/constants/theme.dart';
-import 'package:prayer/features/common/widgets/chips/statistics_chip.dart';
 import 'package:prayer/features/common/widgets/chips/text_chip.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
@@ -61,10 +59,7 @@ class CorporatePrayerCard extends ConsumerWidget {
                         ),
                         ParseableText(
                           prayer.value?.description ?? '',
-                          style: const TextStyle(
-                            color: MyTheme.outline,
-                            fontSize: 15,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                           trimLines: 2,
                         ),
                       ],
@@ -87,9 +82,10 @@ class CorporatePrayerCard extends ConsumerWidget {
                             '${Jiffy.parseFromDateTime(prayer.value!.startedAt!.toLocal()).yMMMd}${prayer.value?.endedAt == null ? "" : "-${Jiffy.parseFromDateTime(prayer.value!.endedAt!.toLocal()).yMMMd}"}'),
                   Spacer(),
                   AbsorbPointer(
-                    child: StatisticsChip(
-                      icon: FontAwesomeIcons.personPraying,
-                      value: prayer.value?.prayersCount ?? 0,
+                    child: TextChip(
+                      icon: FontAwesomeIcons.solidHeart,
+                      iconColor: Colors.red,
+                      value: '${prayer.value?.prayersCount ?? 0}',
                     ),
                   ),
                 ],

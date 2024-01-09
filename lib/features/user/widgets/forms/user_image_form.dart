@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/sheets/image_picker_form.dart';
 import 'package:prayer/features/common/sheets/image_picker_type_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -68,7 +67,7 @@ class ProfileImageForm extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: MyTheme.surface,
+                  color: Theme.of(context).colorScheme.background,
                 ),
                 padding: const EdgeInsets.all(5),
                 child: ShrinkingButton(
@@ -77,7 +76,7 @@ class ProfileImageForm extends StatelessWidget {
                   child: Container(
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: MyTheme.surfaceContainer,
+                      color: Theme.of(context).colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
                     width: 100,
@@ -96,11 +95,19 @@ class ProfileImageForm extends StatelessWidget {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 right: 5,
                 bottom: 5,
-                child: FaIcon(FontAwesomeIcons.solidPenCircle,
-                    color: MyTheme.onPrimary),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.background,
+                  ),
+                  child: FaIcon(
+                    FontAwesomeIcons.solidPenCircle,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
               ),
             ],
           );
@@ -142,7 +149,7 @@ class BannerImageForm extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  color: MyTheme.surfaceContainer,
+                  color: Theme.of(context).colorScheme.primary,
                   width: _size,
                   height: _size * aspectRatio,
                   child: field.value != null
@@ -160,12 +167,12 @@ class BannerImageForm extends StatelessWidget {
                       : const SizedBox(),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 right: 5,
                 bottom: 5,
                 child: FaIcon(
                   FontAwesomeIcons.solidPenCircle,
-                  color: MyTheme.onPrimary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             ],

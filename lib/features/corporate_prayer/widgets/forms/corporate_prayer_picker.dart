@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/corporate_prayer/widgets/group_corporate_prayers_screen.dart';
@@ -23,8 +22,6 @@ class CorporatePrayerPicker extends HookWidget {
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
-      backgroundColor: MyTheme.sheetSurface,
-      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => CorporatePrayerPicker(
         groupId: groupId,
       ),
@@ -45,7 +42,7 @@ class CorporatePrayerPicker extends HookWidget {
           const SizedBox(height: 20),
           Text(
             S.of(context).chooseCorporatePrayer,
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+            style: Theme.of(context).textTheme.displaySmall,
           ),
           const SizedBox(height: 10),
           Padding(
@@ -59,12 +56,12 @@ class CorporatePrayerPicker extends HookWidget {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: MyTheme.primary,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: FaIcon(
                         FontAwesomeIcons.lightGlobe,
-                        color: MyTheme.onPrimary,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -80,7 +77,7 @@ class CorporatePrayerPicker extends HookWidget {
               ),
             ),
           ),
-          Divider(color: MyTheme.outline),
+          const Divider(),
           Expanded(
             child: GroupCorporatePrayersScreen(
               noItemsFoundIndicatorBuilder: (p0) => const SizedBox(),

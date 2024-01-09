@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/prayer/providers/prayer_provider.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
@@ -47,14 +46,14 @@ class NotificationPrayerCard extends ConsumerWidget {
                       ),
                       Text(
                         Formatter.fromNow(item.createdAt!),
-                        style: TextStyle(color: MyTheme.placeholderText),
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],
                   ),
                   const SizedBox(height: 5),
                   Text(
                     value.value?.value ?? '',
-                    style: TextStyle(color: MyTheme.placeholderText),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],
               ),

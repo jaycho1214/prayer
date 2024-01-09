@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -9,7 +10,6 @@ import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/corporate_prayer/models/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -59,13 +59,15 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: disabled ? MyTheme.disabled : MyTheme.primary,
+          color: disabled
+              ? Theme.of(context).disabledColor
+              : Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: FaIcon(
           icon,
           size: 15,
-          color: MyTheme.onPrimary,
+          color: Theme.of(context).colorScheme.onPrimary,
         ),
       ),
     );
@@ -165,12 +167,11 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
   Widget build(BuildContext context) {
     final initialValue = GoRouterState.of(context).extra as CorporatePrayer?;
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+    return KeyboardDismissOnTap(
       child: PlatformScaffold(
-        backgroundColor: MyTheme.surface,
         appBar: PlatformAppBar(
-          backgroundColor: MyTheme.surface,
+          cupertino: (context, platform) => CupertinoNavigationBarData(
+              backgroundColor: Theme.of(context).colorScheme.background),
           automaticallyImplyLeading: true,
           leading: NavigateBackButton(result: false),
           trailingActions: [
@@ -205,19 +206,13 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                         const SizedBox(height: 20),
                         Text(
                           S.of(context).bibleCorporatePrayerScreenVerse,
-                          style: const TextStyle(
-                            color: MyTheme.outline,
-                            fontSize: 14,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                           textAlign: TextAlign.center,
                         ),
                         Center(
                           child: Text(
                             S.of(context).bibleCorporatePrayerScreenVerseBook,
-                            style: const TextStyle(
-                              color: MyTheme.outline,
-                              fontSize: 12,
-                            ),
+                            style: Theme.of(context).textTheme.labelSmall,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -258,13 +253,13 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                           },
                         ),
                         const SizedBox(height: 10),
-                        const Divider(color: MyTheme.outline),
+                        const Divider(),
                         const SizedBox(height: 10),
                         ReminderDatePickerForm(
                           formKey: formKey,
                         ),
                         const SizedBox(height: 10),
-                        const Divider(color: MyTheme.outline),
+                        const Divider(),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: DurationPickerForm(),
@@ -272,19 +267,13 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                         const SizedBox(height: 10),
                         Text(
                           S.of(context).corporatePrayerReminderMesasge,
-                          style: const TextStyle(
-                            color: MyTheme.outline,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
-                        const Divider(color: MyTheme.outline),
+                        const Divider(),
                         const SizedBox(height: 10),
                         Text(
                           S.of(context).prayers,
-                          style: const TextStyle(
-                            color: MyTheme.onPrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 10),
                         ...List.generate(

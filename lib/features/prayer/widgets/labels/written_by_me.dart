@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 
 class WrittenByMeLabel extends StatelessWidget {
@@ -14,18 +13,17 @@ class WrittenByMeLabel extends StatelessWidget {
       children: [
         const SizedBox(width: 10),
         FaIcon(
-          FontAwesomeIcons.user,
+          FontAwesomeIcons.lock,
           size: 11,
-          color: MyTheme.placeholderText,
+          color: Theme.of(context).textTheme.labelMedium?.color,
         ),
         const SizedBox(width: 5),
         Text(
           S.of(context).postedByMe,
-          style: TextStyle(
-            color: MyTheme.placeholderText,
-            fontWeight: FontWeight.bold,
-            fontSize: 11,
-          ),
+          style: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
     );

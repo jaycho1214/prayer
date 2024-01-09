@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -8,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
@@ -96,12 +96,9 @@ class GroupFormScreen extends HookConsumerWidget {
       }
     }, []);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+    return KeyboardDismissOnTap(
       child: PlatformScaffold(
-        backgroundColor: MyTheme.surface,
         appBar: PlatformAppBar(
-          backgroundColor: MyTheme.surface,
           automaticallyImplyLeading: true,
           leading: NavigateBackButton(result: false),
           title: Text(S.of(context).createGroup),
@@ -169,12 +166,10 @@ class GroupFormScreen extends HookConsumerWidget {
                         const SizedBox(height: 10),
                         Text(
                           S.of(context).errorNameLessThan30Characters,
-                          style: const TextStyle(
-                            color: MyTheme.outline,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const SizedBox(height: 10),
-                        const Divider(color: MyTheme.disabled),
+                        const Divider(),
                         const SizedBox(height: 10),
                         TextInputField(
                           name: 'description',
@@ -192,13 +187,11 @@ class GroupFormScreen extends HookConsumerWidget {
                         const SizedBox(height: 10),
                         Text(
                           S.of(context).titleGroupDescription,
-                          style: const TextStyle(
-                            color: MyTheme.outline,
-                          ),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const SizedBox(height: 10),
                         if (initialValue != null) ...[
-                          const Divider(color: MyTheme.disabled),
+                          const Divider(),
                           loading.value
                               ? PlatformCircularProgressIndicator()
                               : PrimaryTextButton(
@@ -239,20 +232,15 @@ class GroupFormScreen extends HookConsumerWidget {
                                 ),
                         ],
                         if (initialValue == null) ...[
-                          const Divider(color: MyTheme.disabled),
+                          const Divider(),
                           const SizedBox(height: 10),
                           Text(
                             S.of(context).membershipType,
-                            style: const TextStyle(
-                              color: MyTheme.onPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Text(
                             S.of(context).titleMembershipType,
-                            style: const TextStyle(
-                                color: MyTheme.placeholderText, fontSize: 12),
+                            style: Theme.of(context).textTheme.labelSmall,
                           ),
                           const SizedBox(height: 10),
                           const MembershipTypeForm(),

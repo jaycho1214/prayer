@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/corporate_prayer/providers/corporate_notification_provider.dart';
 import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
@@ -40,17 +39,18 @@ class CorporateNotificationSubscribeButton extends ConsumerWidget {
         height: 35,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: MyTheme.primary,
+          color: Theme.of(context).colorScheme.primary,
         ),
         child: settings.valueOrNull == null || corporate.valueOrNull == null
-            ? CircularProgressIndicator.adaptive()
+            ? CircularProgressIndicator.adaptive(
+                backgroundColor: Theme.of(context).colorScheme.onPrimary)
             : FaIcon(
                 settings.value?.onReminder == true ||
                         settings.value?.onPost == true
                     ? FontAwesomeIcons.bell
                     : FontAwesomeIcons.bellSlash,
                 size: 15,
-                color: MyTheme.onPrimary,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
       ),
     );

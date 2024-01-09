@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
@@ -86,7 +85,7 @@ class InnerImageCard extends ConsumerWidget {
                 shape: BoxShape.circle,
                 color: Colors.black54,
                 border: Border.all(
-                  color: MyTheme.onPrimary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             ),
@@ -110,7 +109,7 @@ class InnerImageCard extends ConsumerWidget {
                     height: 15,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: MyTheme.primary,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                     child: Center(
                       child: Text(

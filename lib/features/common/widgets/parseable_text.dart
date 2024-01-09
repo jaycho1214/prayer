@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/utils/linkify.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -45,23 +44,19 @@ class ParseableText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
+    final TextStyle defaultTextStyle = Theme.of(context).textTheme.bodyMedium ??
+        DefaultTextStyle.of(context).style;
     TextStyle? effectiveTextStyle = style;
-    if (style?.inherit ?? false) {
-      effectiveTextStyle = defaultTextStyle.style.merge(style);
-    }
 
     final _textAlign =
-        textAlign ?? defaultTextStyle.textAlign ?? TextAlign.start;
+        textAlign ?? DefaultTextStyle.of(context).textAlign ?? TextAlign.start;
     final _textDirection = textDirection ?? Directionality.of(context);
     final overflow = defaultTextStyle.overflow;
     final _defaultDelimiterStyle = delimiterStyle ?? effectiveTextStyle;
 
     TextSpan link = TextSpan(
       text: trimCollapsedText,
-      style: TextStyle(
-        color: MyTheme.placeholderText,
-      ),
+      style: Theme.of(context).textTheme.labelMedium,
     );
 
     TextSpan _delimiter = TextSpan(

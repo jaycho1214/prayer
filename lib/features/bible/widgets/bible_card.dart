@@ -1,13 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_translation_picker.dart';
+import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/model/placeholder.dart';
-import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/bible/providers/bible_verse_provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -35,7 +34,7 @@ class BibleCard extends HookConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: MyTheme.disabled,
+            color: Theme.of(context).disabledColor,
             width: 1,
           ),
         ),
@@ -54,7 +53,7 @@ class BibleCard extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                ShrinkingButton(
+                PrimaryTextButton(
                   onTap: () async {
                     final resp = await BibleTranslationPicker.show(context);
                     if (resp == null) {
@@ -64,18 +63,7 @@ class BibleCard extends HookConsumerWidget {
                         .put('bible_translations.preference', resp.id);
                     translation.value = resp;
                   },
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: MyTheme.primary,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      translation.value.abbreviation,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  text: translation.value.abbreviation,
                 ),
               ],
             ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class FormRowCard extends StatelessWidget {
@@ -40,17 +39,14 @@ class FormRowCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       value!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: MyTheme.placeholderText,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                       textAlign: TextAlign.end,
                     ),
                   ),
                 if (value == null)
                   FaIcon(
                     FontAwesomeIcons.chevronRight,
-                    color: MyTheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onPrimary,
                     size: 15,
                   ),
               ],
@@ -59,7 +55,7 @@ class FormRowCard extends StatelessWidget {
               Text(
                 errorText!,
                 style: TextStyle(
-                  color: MyTheme.error,
+                  color: Theme.of(context).colorScheme.error,
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
                 ),

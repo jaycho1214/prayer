@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
@@ -82,15 +82,22 @@ class UserFormScreen extends HookConsumerWidget {
       return () {};
     }, [formKey, oldUser]);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-      child: PlatformScaffold(
-        appBar: PlatformAppBar(
+    return KeyboardDismissOnTap(
+      child: Scaffold(
+        appBar: AppBar(
           leading: NavigateBackButton(),
-          backgroundColor: MyTheme.surface,
-          title: Text(S.of(context).profile),
-          trailingActions: [
-            Center(
+          title: Text(
+            S.of(context).profile,
+            style: platformThemeData(
+              context,
+              material: (ThemeData data) => data.textTheme.headlineSmall,
+              cupertino: (data) => data.textTheme.navTitleTextStyle
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          actions: [
+            Container(
+              padding: const EdgeInsets.only(right: 20),
               child: PrimaryTextButton(
                 text: S.of(context).done,
                 onTap: onSubmit,
@@ -101,78 +108,74 @@ class UserFormScreen extends HookConsumerWidget {
         ),
         body: FormBuilder(
           key: formKey,
-          child: Container(
-            color: MyTheme.surface,
-            child: Stack(
-              children: [
-                ListView(
-                  padding: const EdgeInsets.only(bottom: 100),
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
+          child: Stack(
+            children: [
+              ListView(
+                padding: const EdgeInsets.only(bottom: 100),
+                children: [
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width + 50,
+                      ),
+                      BannerImageForm(initialValue: oldUser.banner),
+                      Positioned(
+                        left: 30,
+                        bottom: 20,
+                        child: ProfileImageForm(initialValue: oldUser.profile),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width + 50,
+                        ProfileBibleVerseForm(),
+                        const SizedBox(height: 20),
+                        UsernameInputForm(
+                          initialValue: oldUser.username,
                         ),
-                        BannerImageForm(initialValue: oldUser.banner),
-                        Positioned(
-                          left: 30,
-                          bottom: 20,
-                          child:
-                              ProfileImageForm(initialValue: oldUser.profile),
+                        const SizedBox(height: 5),
+                        TextInputField(
+                          name: 'name',
+                          labelText: S.of(context).name,
+                          maxLength: 30,
+                          maxLines: 1,
+                          keyboardType: TextInputType.name,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return S.of(context).errorEnterName;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        TextInputField(
+                          name: 'bio',
+                          labelText: S.of(context).bio,
+                          maxLength: 200,
+                          maxLines: 10,
+                          minLines: 10,
+                          keyboardType: TextInputType.multiline,
                         ),
                       ],
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ProfileBibleVerseForm(),
-                          const SizedBox(height: 20),
-                          UsernameInputForm(
-                            initialValue: oldUser.username,
-                          ),
-                          const SizedBox(height: 5),
-                          TextInputField(
-                            name: 'name',
-                            labelText: S.of(context).name,
-                            maxLength: 30,
-                            maxLines: 1,
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return S.of(context).errorEnterName;
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          TextInputField(
-                            name: 'bio',
-                            labelText: S.of(context).bio,
-                            maxLength: 200,
-                            maxLines: 10,
-                            minLines: 10,
-                            keyboardType: TextInputType.multiline,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: UploadProgressBar(progress: progress.value),
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: UploadProgressBar(progress: progress.value),
+              ),
+            ],
           ),
         ),
       ),

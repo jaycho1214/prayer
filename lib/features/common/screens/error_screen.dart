@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
@@ -13,9 +12,9 @@ class ErrorScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
-        backgroundColor: MyTheme.surface,
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+            backgroundColor: Theme.of(context).colorScheme.background),
         automaticallyImplyLeading: false,
         title: Text(
           "Prayer",
@@ -37,21 +36,15 @@ class ErrorScreen extends ConsumerWidget {
             children: [
               FaIcon(
                 FontAwesomeIcons.thinCircleExclamation,
-                color: MyTheme.onPrimary,
                 size: 100,
               ),
               SizedBox(height: 20),
               Text(
                 S.of(context).errorConnection,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.displayMedium,
               ),
-              Text(
-                S.of(context).errorConnectionDescription,
-              ),
-              SizedBox(height: 20),
+              Text(S.of(context).errorConnectionDescription),
+              const SizedBox(height: 20),
               PrimaryTextButton(
                 text: S.of(context).refresh,
                 onTap: () => ref.refresh(authNotifierProvider.future),

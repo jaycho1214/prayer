@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class PrimaryTextButton extends StatelessWidget {
@@ -29,16 +28,20 @@ class PrimaryTextButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor ??
-              (inverse == true ? MyTheme.onPrimary : MyTheme.primary),
-          borderRadius: BorderRadius.circular(20),
+              (inverse == true
+                  ? Theme.of(context).colorScheme.inversePrimary
+                  : Theme.of(context).colorScheme.primary),
+          borderRadius: BorderRadius.circular(50),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
         child: Text(
           text,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
-            color: inverse == true ? Colors.black : MyTheme.onPrimary,
+            color: inverse == true
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onPrimary,
           ),
         ),
       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
@@ -22,8 +21,6 @@ class DayPicker extends HookWidget {
       context: context,
       useSafeArea: true,
       isScrollControlled: true,
-      backgroundColor: MyTheme.sheetSurface,
-      barrierColor: Colors.white.withAlpha(15),
       builder: (context) => DayPicker(
         initialValue: initialValue,
       ),
@@ -64,10 +61,6 @@ class DayPicker extends HookWidget {
     final state = useState(initialValue ?? <int>[]);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      decoration: BoxDecoration(
-        color: MyTheme.sheetSurface,
-        borderRadius: BorderRadius.circular(20),
-      ),
       child: Wrap(
         alignment: WrapAlignment.center,
         children: [
@@ -94,15 +87,15 @@ class DayPicker extends HookWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                color: MyTheme.onPrimary,
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 S.of(context).done,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
               ),
             ),
           ),

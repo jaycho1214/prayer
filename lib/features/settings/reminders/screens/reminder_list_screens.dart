@@ -4,7 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/settings/reminders/models/local_reminder.dart';
@@ -19,11 +18,11 @@ class ReminderListScreen extends HookWidget {
     final reminders = useValueListenable(
         Hive.box<LocalReminder>('local_reminders').listenable());
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
-        backgroundColor: MyTheme.surface,
         title: Text(S.of(context).reminders),
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+            backgroundColor: Theme.of(context).colorScheme.background),
         trailingActions: [
           NavigateIconButton(
             icon: FontAwesomeIcons.alarmPlus,

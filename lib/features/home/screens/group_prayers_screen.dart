@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/home/widgets/mini_my_group_list.dart';
@@ -39,8 +39,7 @@ class GroupPrayersScreen extends HookWidget {
       };
     }, []);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+    return KeyboardDismissOnTap(
       child: RefreshIndicator(
         notificationPredicate: (notification) => notification.depth == 0,
         onRefresh: () async {
@@ -52,9 +51,6 @@ class GroupPrayersScreen extends HookWidget {
           slivers: [
             SliverAppBar(
               toolbarHeight: 40,
-              backgroundColor: MyTheme.surface,
-              surfaceTintColor: MyTheme.surface,
-              foregroundColor: MyTheme.surface,
               floating: true,
               pinned: false,
               snap: true,
@@ -91,7 +87,6 @@ class GroupPrayersScreen extends HookWidget {
                             },
                             child: const FaIcon(
                               FontAwesomeIcons.magnifyingGlass,
-                              color: MyTheme.onPrimary,
                               size: 20,
                             ),
                           ),
@@ -107,7 +102,6 @@ class GroupPrayersScreen extends HookWidget {
                                   height: 20,
                                   child: const FaIcon(
                                     FontAwesomeIcons.userGroupSimple,
-                                    color: MyTheme.onPrimary,
                                     size: 20,
                                   ),
                                 ),
@@ -115,10 +109,11 @@ class GroupPrayersScreen extends HookWidget {
                                   top: 2,
                                   right: 0,
                                   child: Container(
-                                    color: MyTheme.surface,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     child: const FaIcon(
                                       FontAwesomeIcons.solidPlus,
-                                      color: MyTheme.onPrimary,
                                       size: 10,
                                     ),
                                   ),

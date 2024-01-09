@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/notification_bar.dart';
@@ -17,8 +16,6 @@ class FeedbackForm extends HookWidget {
         elevation: 0,
         context: context,
         isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        barrierColor: Colors.white.withAlpha(15),
         builder: (context) {
           return FeedbackForm();
         });
@@ -52,11 +49,8 @@ class FeedbackForm extends HookWidget {
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(
           20, 20, 20, 20 + MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        color: MyTheme.sheetSurface,
-      ),
-      child: Wrap(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),

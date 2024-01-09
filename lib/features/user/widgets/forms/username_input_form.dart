@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
 import 'package:prayer/repo/user_repository.dart';
@@ -28,7 +26,7 @@ class UsernameInputForm extends HookWidget {
     final suffix = useMemoized(() {
       const size = 20.0;
       if (valid.value == 1) {
-        return PlatformCircularProgressIndicator();
+        return CircularProgressIndicator.adaptive();
       } else if (valid.value == 2) {
         return const FaIcon(
           FontAwesomeIcons.solidCircleCheck,
@@ -36,15 +34,15 @@ class UsernameInputForm extends HookWidget {
           size: size,
         );
       } else if (valid.value == -1) {
-        return const FaIcon(
+        return FaIcon(
           FontAwesomeIcons.xmark,
-          color: MyTheme.error,
+          color: Theme.of(context).colorScheme.error,
           size: size,
         );
       } else if (valid.value == -2) {
-        return const FaIcon(
+        return FaIcon(
           FontAwesomeIcons.solidCircleXmark,
-          color: MyTheme.error,
+          color: Theme.of(context).colorScheme.error,
           size: size,
         );
       }

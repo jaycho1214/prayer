@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/prayer/providers/open_graph_provider.dart';
 import 'package:prayer/utils/linkify.dart';
@@ -40,7 +39,8 @@ class OpenGraphCard extends HookConsumerWidget {
         onTap: () => launchUrlString(url!),
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: MyTheme.disabled, width: 1.0),
+            border:
+                Border.all(color: Theme.of(context).disabledColor, width: 1.0),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -75,11 +75,7 @@ class OpenGraphCard extends HookConsumerWidget {
                         snapshot.value!['og:description'],
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: MyTheme.placeholderText,
-                          fontSize: 12,
-                        ),
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                   ],
                 ),

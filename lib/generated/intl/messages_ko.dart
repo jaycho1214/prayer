@@ -139,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("기도 기간이 끝나면 알림이 전송되지 않습니다"),
         "create": MessageLookupByLibrary.simpleMessage("생성"),
         "createGroup": MessageLookupByLibrary.simpleMessage("그룹 생성"),
+        "darkMode": MessageLookupByLibrary.simpleMessage("다크 모드"),
         "dayFri": MessageLookupByLibrary.simpleMessage("금\t"),
         "dayMon": MessageLookupByLibrary.simpleMessage("월"),
         "daySat": MessageLookupByLibrary.simpleMessage("토"),
@@ -327,6 +328,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pray": MessageLookupByLibrary.simpleMessage("기도"),
         "prayAnonymoous": MessageLookupByLibrary.simpleMessage("익명으로 기도"),
         "prayDuration": MessageLookupByLibrary.simpleMessage("기도 기간"),
+        "praySilently": MessageLookupByLibrary.simpleMessage("조용히 기도하기"),
         "prayWithName": MessageLookupByLibrary.simpleMessage("공개적으로 기도하시겠습니까?"),
         "prayWithOthers": MessageLookupByLibrary.simpleMessage("다른 사람과 기도해보세요"),
         "prayWithWordFormBible":
@@ -362,6 +364,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings": MessageLookupByLibrary.simpleMessage("설정"),
         "shareAppMessage": m18,
         "sharePrayer": MessageLookupByLibrary.simpleMessage("Prayer 공유하기"),
+        "shareYourLove": MessageLookupByLibrary.simpleMessage("사랑을 나누세요"),
         "signInWithApple": MessageLookupByLibrary.simpleMessage("애플로 로그인하기"),
         "signInWithGoogle": MessageLookupByLibrary.simpleMessage("구글로 로그인하기"),
         "signOut": MessageLookupByLibrary.simpleMessage("로그아웃"),

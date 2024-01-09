@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/errors.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/sheets/confirm_menu_form.dart';
@@ -39,9 +38,14 @@ class JoinButton extends HookConsumerWidget {
     }, [group]);
 
     final colors = switch (value) {
-      GroupJoinState.none => [MyTheme.onPrimary, MyTheme.surface],
-      GroupJoinState.requested => [MyTheme.surfaceDim, MyTheme.outline],
-      GroupJoinState.joined => [MyTheme.surface, MyTheme.onPrimary],
+      GroupJoinState.joined => [
+          Theme.of(context).colorScheme.surface,
+          Theme.of(context).colorScheme.onSurface
+        ],
+      _ => [
+          Theme.of(context).colorScheme.inverseSurface,
+          Theme.of(context).colorScheme.onInverseSurface
+        ],
     };
 
     final text = switch (value) {
@@ -85,8 +89,8 @@ class JoinButton extends HookConsumerWidget {
           decoration: BoxDecoration(
             color: colors[0],
             borderRadius: BorderRadius.circular(10),
-            border: value != GroupJoinState.none
-                ? Border.all(color: MyTheme.outline)
+            border: value != GroupJoinState.joined
+                ? Border.all(color: Theme.of(context).colorScheme.outline)
                 : null,
           ),
           child: Text(

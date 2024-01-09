@@ -8,9 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -102,7 +100,7 @@ class SliverUserAppBarDelegate extends SliverPersistentHeaderDelegate {
                 opacity: Utils.interpolate(shrinkOffset, [0, 60], [1.0, 0.0]),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: MyTheme.surface,
+                    color: Theme.of(context).colorScheme.background,
                     shape: BoxShape.circle,
                   ),
                   padding: const EdgeInsets.all(5),
@@ -180,7 +178,7 @@ class UserScreen extends HookConsumerWidget {
           return RefreshIndicator(
             notificationPredicate: (notification) => user == PUser.placeholder
                 ? notification.depth == 0
-                : notification.depth == 0,
+                : notification.depth == 2,
             onRefresh: () async {
               final index = DefaultTabController.of(context).index;
               final state = ref.refresh(userNotifierProvider(
@@ -201,10 +199,10 @@ class UserScreen extends HookConsumerWidget {
               }
             },
             child: Container(
-              color: MyTheme.surface,
+              color: Theme.of(context).colorScheme.background,
               child: Stack(
                 children: [
-                  NestedScrollViewPlus(
+                  NestedScrollView(
                     controller: scrollController,
                     headerSliverBuilder: (context, _) => [
                       SliverPersistentHeader(
@@ -221,7 +219,7 @@ class UserScreen extends HookConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 20,
-                            vertical: 10,
+                            vertical: 5,
                           ),
                           child: Skeletonizer(
                             enabled: userValue.value == null,
@@ -230,26 +228,20 @@ class UserScreen extends HookConsumerWidget {
                               children: [
                                 Text(
                                   user?.name ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w900),
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
                                 ),
                                 Text(
                                   '@${user?.username}',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    color: MyTheme.disabled,
-                                  ),
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
                                 if ((user?.bio ?? '') != '') ...[
                                   const SizedBox(height: 10),
-                                  Text(
-                                    user?.bio ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      color: MyTheme.onPrimary,
-                                    ),
-                                  ),
+                                  Text(user?.bio ?? '',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
                                 ],
                                 if (user?.verseId != null)
                                   Padding(
@@ -311,7 +303,10 @@ class UserScreen extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      OverlapAbsorberPlus(
+                      SliverOverlapAbsorber(
+                        key: ObjectKey(Theme.of(context).brightness),
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
                         sliver: SliverPersistentHeader(
                           pinned: true,
                           delegate: TabBarDelegate(
@@ -331,11 +326,11 @@ class UserScreen extends HookConsumerWidget {
                               Builder(
                                 builder: (context) {
                                   return CustomScrollView(
-                                    physics: const BouncingScrollPhysics(
-                                      parent: AlwaysScrollableScrollPhysics(),
-                                    ),
                                     slivers: [
-                                      OverlapInjectorPlus(),
+                                      SliverOverlapInjector(
+                                          handle: NestedScrollView
+                                              .sliverOverlapAbsorberHandleFor(
+                                                  context)),
                                       PrayersScreen(
                                         sliver: true,
                                         physics:
@@ -357,11 +352,11 @@ class UserScreen extends HookConsumerWidget {
                               ),
                               Builder(builder: (context) {
                                 return CustomScrollView(
-                                  physics: const BouncingScrollPhysics(
-                                    parent: AlwaysScrollableScrollPhysics(),
-                                  ),
                                   slivers: [
-                                    OverlapInjectorPlus(),
+                                    SliverOverlapInjector(
+                                        handle: NestedScrollView
+                                            .sliverOverlapAbsorberHandleFor(
+                                                context)),
                                     GroupsScreen(
                                       sliver: true,
                                       physics:
@@ -381,11 +376,11 @@ class UserScreen extends HookConsumerWidget {
                               }),
                               Builder(builder: (context) {
                                 return CustomScrollView(
-                                  physics: const BouncingScrollPhysics(
-                                    parent: AlwaysScrollableScrollPhysics(),
-                                  ),
                                   slivers: [
-                                    OverlapInjectorPlus(),
+                                    SliverOverlapInjector(
+                                        handle: NestedScrollView
+                                            .sliverOverlapAbsorberHandleFor(
+                                                context)),
                                     PrayersScreen(
                                       sliver: true,
                                       physics:
@@ -420,10 +415,10 @@ class UserScreen extends HookConsumerWidget {
                             color: Color.fromRGBO(0, 0, 0, 0.5),
                             shape: BoxShape.circle,
                           ),
-                          child: const FaIcon(
+                          child: FaIcon(
                             FontAwesomeIcons.solidChevronLeft,
-                            color: MyTheme.onPrimary,
                             size: 12,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -442,9 +437,9 @@ class UserScreen extends HookConsumerWidget {
                             color: Color.fromRGBO(0, 0, 0, 0.5),
                             shape: BoxShape.circle,
                           ),
-                          child: const FaIcon(
+                          child: FaIcon(
                             FontAwesomeIcons.pencil,
-                            color: MyTheme.onPrimary,
+                            color: Colors.white,
                             size: 12,
                           ),
                         ),
@@ -536,10 +531,10 @@ class UserScreen extends HookConsumerWidget {
                                 color: Color.fromRGBO(0, 0, 0, 0.5),
                                 shape: BoxShape.circle,
                               ),
-                              child: const FaIcon(
+                              child: FaIcon(
                                 FontAwesomeIcons.ellipsis,
-                                color: MyTheme.onPrimary,
                                 size: 12,
+                                color: Colors.white,
                               ),
                             ),
                           );

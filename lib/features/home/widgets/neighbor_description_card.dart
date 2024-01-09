@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -31,7 +30,8 @@ class NeighborDescriptionCard extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: MyTheme.outline),
+                bottom:
+                    BorderSide(color: Theme.of(context).colorScheme.outline),
               ),
             ),
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -40,8 +40,8 @@ class NeighborDescriptionCard extends StatelessWidget {
                 Row(
                   children: [
                     FaIcon(
-                      FontAwesomeIcons.heart,
-                      color: MyTheme.onPrimary,
+                      FontAwesomeIcons.solidHeart,
+                      color: Colors.red,
                     ),
                     const SizedBox(width: 20),
                     Expanded(
@@ -54,7 +54,7 @@ class NeighborDescriptionCard extends StatelessWidget {
                           ),
                           Text(
                             S.of(context).whoIsMyNeighborDescription,
-                            style: TextStyle(color: MyTheme.placeholderText),
+                            style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],
                       ),
@@ -67,7 +67,6 @@ class NeighborDescriptionCard extends StatelessWidget {
                   child: FaIcon(
                     FontAwesomeIcons.xmark,
                     size: 12,
-                    color: MyTheme.onPrimary,
                   ),
                 ),
               ],

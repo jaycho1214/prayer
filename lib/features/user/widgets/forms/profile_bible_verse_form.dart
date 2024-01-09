@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_picker_form.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_translation_picker.dart';
+import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -53,8 +53,10 @@ class ProfileBibleVerseForm extends HookWidget {
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(20, 15, 20, 30),
                       decoration: BoxDecoration(
-                        color: MyTheme.primary,
                         borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +73,8 @@ class ProfileBibleVerseForm extends HookWidget {
                                   ),
                                 ),
                               ),
-                              ShrinkingButton(
+                              PrimaryTextButton(
+                                text: translation.value.abbreviation,
                                 onTap: () async {
                                   final resp =
                                       await BibleTranslationPicker.show(
@@ -81,19 +84,6 @@ class ProfileBibleVerseForm extends HookWidget {
                                   }
                                   translation.value = resp;
                                 },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 10),
-                                  decoration: BoxDecoration(
-                                    color: MyTheme.surface,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    translation.value.abbreviation,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
                               ),
                             ],
                           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:prayer/constants/theme.dart';
 
 class TextInputField extends StatelessWidget {
   const TextInputField({
@@ -93,12 +92,16 @@ class TextInputField extends StatelessWidget {
                 errorMaxLines: 2,
                 hintText: hintText,
                 counterText: counterText,
-                focusedBorder: _commonBorder(color: MyTheme.onPrimary),
-                errorBorder: _commonBorder(color: MyTheme.error),
-                border: _commonBorder(color: MyTheme.onPrimary),
-                disabledBorder: _commonBorder(color: MyTheme.disabled),
-                enabledBorder:
-                    _commonBorder(color: MyTheme.disabled, width: 1.0),
+                focusedBorder: _commonBorder(
+                    color: Theme.of(context).colorScheme.onBackground),
+                errorBorder:
+                    _commonBorder(color: Theme.of(context).colorScheme.error),
+                border: _commonBorder(
+                    color: Theme.of(context).colorScheme.onBackground),
+                disabledBorder:
+                    _commonBorder(color: Theme.of(context).disabledColor),
+                enabledBorder: _commonBorder(
+                    color: Theme.of(context).disabledColor, width: 1.0),
               ),
             ),
             suffix != null

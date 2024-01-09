@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class GroupBannerImage extends StatelessWidget {
@@ -17,7 +15,7 @@ class GroupBannerImage extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.width * 0.5,
-      color: MyTheme.placeholder,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 
@@ -54,7 +52,7 @@ class UserBannerImage extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 300,
-      color: MyTheme.placeholder,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 
@@ -88,6 +86,7 @@ class UserProfileImage extends StatelessWidget {
     this.uid,
     this.size = 100,
     this.clickActionType = UserProfileImageClickActionType.picture,
+    this.imageRadius,
   }) : assert((clickActionType == UserProfileImageClickActionType.profile &&
                 uid != null) ||
             clickActionType == UserProfileImageClickActionType.picture);
@@ -96,14 +95,16 @@ class UserProfileImage extends StatelessWidget {
   final String? uid;
   final double size;
   final UserProfileImageClickActionType clickActionType;
+  final BorderRadius? imageRadius;
 
   Widget _buildPlaceholder(BuildContext context) {
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: MyTheme.placeholder,
-        shape: BoxShape.circle,
+        color: Theme.of(context).colorScheme.primary,
+        shape: imageRadius != null ? BoxShape.rectangle : BoxShape.circle,
+        borderRadius: imageRadius,
       ),
     );
   }
@@ -132,7 +133,8 @@ class UserProfileImage extends StatelessWidget {
             height: size,
             decoration: BoxDecoration(
               image: DecorationImage(image: imageProvider),
-              shape: BoxShape.circle,
+              shape: imageRadius != null ? BoxShape.rectangle : BoxShape.circle,
+              borderRadius: imageRadius,
             ),
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
@@ -17,7 +16,7 @@ class DurationPickerForm extends StatelessWidget {
     required FormFieldState<Jiffy?> startedAtField,
     required FormFieldState<Jiffy?> endedAtField,
   }) async {
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusManager.instance.primaryFocus?.unfocus();
     final date = await showPlatformDatePicker(
       context: context,
       initialDate:
@@ -40,7 +39,7 @@ class DurationPickerForm extends StatelessWidget {
     required FormFieldState<Jiffy?> startedAtField,
     required FormFieldState<Jiffy?> endedAtField,
   }) async {
-    FocusScope.of(context).requestFocus(FocusNode());
+    FocusManager.instance.primaryFocus?.unfocus();
     DateTime? startedAt = startedAtField.value?.dateTime;
     if (startedAt == null) {
       return GlobalSnackBar.show(context,
@@ -74,9 +73,7 @@ class DurationPickerForm extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: MyTheme.outline,
-            ),
+            border: Border.all(color: Theme.of(context).colorScheme.outline),
           ),
           child: FormBuilderField(
               name: 'startedAt',
@@ -102,8 +99,10 @@ class DurationPickerForm extends StatelessWidget {
                                       : startedAtField.value!.yMMMMd,
                                   style: TextStyle(
                                     color: startedAtField.value == null
-                                        ? MyTheme.placeholderText
-                                        : MyTheme.onPrimary,
+                                        ? Theme.of(context).disabledColor
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
                                   ),
                                 ),
                               ),
@@ -112,7 +111,6 @@ class DurationPickerForm extends StatelessWidget {
                           FaIcon(
                             FontAwesomeIcons.lightArrowRight,
                             size: 15,
-                            color: MyTheme.onPrimary,
                           ),
                           Expanded(
                             child: ShrinkingButton(
@@ -130,8 +128,10 @@ class DurationPickerForm extends StatelessWidget {
                                       : endedAtField.value!.yMMMMd,
                                   style: TextStyle(
                                     color: endedAtField.value == null
-                                        ? MyTheme.placeholderText
-                                        : MyTheme.onPrimary,
+                                        ? Theme.of(context).disabledColor
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
                                   ),
                                 ),
                               ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 
 class NavigateIconButton extends StatelessWidget {
   const NavigateIconButton({
@@ -21,7 +20,7 @@ class NavigateIconButton extends StatelessWidget {
       icon: FaIcon(
         icon,
         size: 15,
-        color: MyTheme.onPrimary,
+        color: Theme.of(context).colorScheme.onBackground,
       ),
     );
   }

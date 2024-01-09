@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class TextChip extends StatelessWidget {
@@ -8,10 +7,12 @@ class TextChip extends StatelessWidget {
     super.key,
     required this.icon,
     required this.value,
+    this.iconColor,
   });
 
   final IconData icon;
   final String value;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class TextChip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: MyTheme.surfaceDim,
+            border: Border.all(color: Theme.of(context).colorScheme.outline),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -28,13 +29,16 @@ class TextChip extends StatelessWidget {
             children: [
               FaIcon(
                 icon,
-                color: MyTheme.onPrimary,
+                color: iconColor ?? Theme.of(context).colorScheme.onBackground,
                 size: 12,
               ),
               const SizedBox(width: 5),
               Text(
                 value,
-                style: TextStyle(fontSize: 12),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
               ),
             ],
           ),

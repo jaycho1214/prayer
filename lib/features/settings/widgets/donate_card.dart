@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/generated/l10n.dart';
 
@@ -15,12 +14,12 @@ class DonateCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: MyTheme.disabled,
+            color: Theme.of(context).disabledColor,
             width: 1.0,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -30,17 +29,11 @@ class DonateCard extends StatelessWidget {
                   children: [
                     Text(
                       S.of(context).donatePrayer,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     Text(
                       S.of(context).donatePrayerDescription,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: MyTheme.placeholderText,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],
                 ),

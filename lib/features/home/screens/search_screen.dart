@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:prayer/constants/theme.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
@@ -45,8 +45,7 @@ class SearchScreen extends HookWidget {
       length: 2,
       child: Builder(
         builder: (context) {
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          return KeyboardDismissOnTap(
             child: RefreshIndicator(
               notificationPredicate: (notification) => notification.depth == 1,
               onRefresh: () async {
@@ -75,17 +74,12 @@ class SearchScreen extends HookWidget {
                           child: SearchBar(
                             controller: queryController,
                             hintText: S.of(context).placeholderSearch,
-                            hintStyle: const MaterialStatePropertyAll(
-                              TextStyle(color: MyTheme.placeholderText),
-                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  backgroundColor: MyTheme.surface,
                 ),
-                backgroundColor: MyTheme.surface,
                 body: Column(
                   children: [
                     CustomTabBar(

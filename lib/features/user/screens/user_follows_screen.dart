@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/user/providers/user_provider.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -41,7 +40,6 @@ class UsersFollowScreen extends HookConsumerWidget {
         usePagingController<String?, PUser>(firstPageKey: null);
 
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       body: RefreshIndicator(
         notificationPredicate: (notification) => notification.depth == 2,
         onRefresh: () async {
@@ -55,9 +53,7 @@ class UsersFollowScreen extends HookConsumerWidget {
         child: NestedScrollView(
           headerSliverBuilder: (context, _) => [
             SliverAppBar(
-              surfaceTintColor: MyTheme.surface,
               pinned: true,
-              backgroundColor: MyTheme.surface,
               leading: NavigateBackButton(),
               title: Text(
                 user.valueOrNull?.username ?? '',

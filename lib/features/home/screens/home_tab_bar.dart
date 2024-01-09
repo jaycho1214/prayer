@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/error_screen.dart';
 import 'package:prayer/features/home/screens/group_prayers_screen.dart';
 import 'package:prayer/features/home/widgets/home_tab_nav_button.dart';
@@ -20,6 +19,20 @@ import 'package:prayer/hook/use_notifications_hook.dart';
 class HomeTabBar extends HookConsumerWidget {
   const HomeTabBar({super.key});
 
+  Future<void> onTapFap(BuildContext context, {required int index}) async {
+    if (index == 1) {
+      final groupId = await GroupPicker.show(context);
+      if (groupId != null) {
+        context.push(Uri(
+          path: '/form/prayer',
+          queryParameters: {'groupId': groupId == '' ? null : groupId},
+        ).toString());
+      }
+    } else {
+      context.push('/form/prayer');
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final index = useState(0);
@@ -31,7 +44,6 @@ class HomeTabBar extends HookConsumerWidget {
     useAppLink(context);
 
     return Scaffold(
-      backgroundColor: MyTheme.surface,
       body: authState.hasError ||
               (!authState.isLoading &&
                   !(authState.valueOrNull is AuthStateSignedUp))
@@ -49,32 +61,15 @@ class HomeTabBar extends HookConsumerWidget {
                     ),
                   ],
                 ),
-                FAB(
-                  onTap: () async {
-                    if (index.value == 1) {
-                      final groupId = await GroupPicker.show(context);
-                      if (groupId != null) {
-                        context.push(Uri(
-                          path: '/form/prayer',
-                          queryParameters: {
-                            'groupId': groupId == '' ? null : groupId
-                          },
-                        ).toString());
-                      }
-                    } else {
-                      context.push('/form/prayer');
-                    }
-                  },
-                ),
+                FAB(onTap: () => onTapFap(context, index: index.value)),
               ],
             ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: MyTheme.surface,
           border: Border(
             top: BorderSide(
               width: 0.5,
-              color: MyTheme.outline,
+              color: Theme.of(context).colorScheme.outlineVariant,
             ),
           ),
         ),

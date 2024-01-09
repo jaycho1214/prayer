@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/constants/theme.dart';
+import 'package:prayer/features/common/widgets/buttons/large_text_button.dart';
 import 'package:prayer/generated/l10n.dart';
-import 'package:prayer/features/pray/widgets/forms/pray_with_word_form.dart';
 import 'package:prayer/features/pray/sheets/too_many_pray_sheet.dart';
-import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/prayer/providers/prayer_provider.dart';
 
@@ -22,93 +19,105 @@ class PrayButton extends HookConsumerWidget {
   final String prayerId;
   final void Function()? onPrayed;
 
-  Widget buildIndicator(BuildContext context, bool hasPrayed) {
-    return Center(
-      child: PlatformCircularProgressIndicator(
-        cupertino: (context, target) => CupertinoProgressIndicatorData(
-            color: hasPrayed ? MyTheme.surface : null),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prayer = ref.watch(prayerNotifierProvider(prayerId));
-    final prayerNotifier = ref.watch(prayerNotifierProvider(prayerId).notifier);
-    final hasPrayed = prayer.value?.hasPrayed != null;
+    final controller = useTextEditingController();
+    final errorText = useState<String?>(null);
+    // final prayer = ref.watch(prayerNotifierProvider(prayerId));
+    // final hasPrayed = prayer.value?.hasPrayed != null;
 
-    final onTap = useCallback(
-        (bool silent) => () async {
-              String? value;
-              if (!silent) {
-                value =
-                    await PrayWithWordForm.show(context, prayerId: prayerId);
-                if (value == null) {
-                  return;
-                }
-              }
-              prayerNotifier.prayForUser(
-                  value: value,
-                  onPrayed: () {
-                    onPrayed?.call();
-                    mixpanel.track("Pray Sent");
-                  },
-                  onError: () {
-                    GlobalSnackBar.show(context,
-                        message: S.of(context).errorUnknown);
-                  },
-                  onNeedWait: () {
-                    mixpanel.track("Pray Need Wait");
-                    TooManyPraySheet.show(context);
-                  });
+    final onTap = useCallback((bool silent) async {
+      String value = controller.text;
+      if (!silent && value.trim() == '') {
+        errorText.value = S.of(context).errorFieldRequired;
+        return;
+      }
+      errorText.value = null;
+      ref.read(prayerNotifierProvider(prayerId).notifier).prayForUser(
+            value: value,
+            onPrayed: () {
+              onPrayed?.call();
+              controller.clear();
+              mixpanel.track("Pray Sent");
+              FocusManager.instance.primaryFocus?.unfocus();
             },
-        []);
+            onError: () {
+              GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
+            },
+            onNeedWait: () {
+              mixpanel.track("Pray Need Wait");
+              TooManyPraySheet.show(context);
+            },
+          );
+    }, []);
 
     return Container(
-      height: 60,
-      width: 140,
+      padding: EdgeInsets.fromLTRB(
+          20,
+          10,
+          20,
+          MediaQuery.of(context).viewInsets.bottom +
+              MediaQuery.of(context).padding.bottom +
+              10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
-        color: MyTheme.surfaceDim,
+        color: Theme.of(context).colorScheme.background,
+        border: Border(
+          top: BorderSide(color: Theme.of(context).colorScheme.outline),
+        ),
       ),
-      child: Column(
-        children: [
-          Row(
+      child: KeyboardVisibilityBuilder(
+        builder: (context, isKeyboardVisible) {
+          return Column(
             children: [
-              ShrinkingButton(
-                onTap: onTap(true),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 60,
-                  width: 85,
-                  child: FaIcon(
-                    hasPrayed
-                        ? FontAwesomeIcons.solidFireFlameCurved
-                        : FontAwesomeIcons.lightFireFlameCurved,
-                    color: hasPrayed ? Colors.red : MyTheme.placeholderText,
+              TextField(
+                controller: controller,
+                maxLength: 200,
+                expands: false,
+                minLines: 1,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  counterText: isKeyboardVisible ? null : '',
+                  errorText: errorText.value,
+                  isCollapsed: true,
+                  isDense: true,
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  hintText: S.of(context).shareYourLove,
+                  fillColor: Theme.of(context).colorScheme.secondary,
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).disabledColor,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  filled: true,
                 ),
               ),
-              ShrinkingButton(
-                onTap: onTap(false),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: MyTheme.onPrimary,
-                    shape: BoxShape.circle,
-                  ),
-                  alignment: Alignment.center,
-                  width: 50,
-                  height: 50,
-                  child: FaIcon(
-                    FontAwesomeIcons.messageHeart,
-                    size: 20,
-                    color: Colors.black,
-                  ),
-                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: isKeyboardVisible
+                    ? const SizedBox()
+                    : Row(
+                        children: [
+                          Expanded(child: Divider()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('or'),
+                          ),
+                          Expanded(child: Divider()),
+                        ],
+                      ),
+              ),
+              LargeTextButton(
+                text: isKeyboardVisible
+                    ? S.of(context).pray
+                    : S.of(context).praySilently,
+                onTap: () => onTap(!isKeyboardVisible),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }

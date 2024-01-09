@@ -144,6 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "After the duration of prayers has elapsed, they will be marked as concluded, and reminders will not be sent."),
         "create": MessageLookupByLibrary.simpleMessage("Create"),
         "createGroup": MessageLookupByLibrary.simpleMessage("Create a Group"),
+        "darkMode": MessageLookupByLibrary.simpleMessage("Dark Mode"),
         "dayFri": MessageLookupByLibrary.simpleMessage("Fri"),
         "dayMon": MessageLookupByLibrary.simpleMessage("Mon"),
         "daySat": MessageLookupByLibrary.simpleMessage("Sat"),
@@ -347,6 +348,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "prayAnonymoous":
             MessageLookupByLibrary.simpleMessage("Pray Anonymously"),
         "prayDuration": MessageLookupByLibrary.simpleMessage("Duration"),
+        "praySilently": MessageLookupByLibrary.simpleMessage("Pray silently"),
         "prayWithName": MessageLookupByLibrary.simpleMessage("Pray with name?"),
         "prayWithOthers":
             MessageLookupByLibrary.simpleMessage("Pray with Others"),
@@ -387,6 +389,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "shareAppMessage": m18,
         "sharePrayer": MessageLookupByLibrary.simpleMessage("Share Prayer"),
+        "shareYourLove":
+            MessageLookupByLibrary.simpleMessage("Share your love"),
         "signInWithApple":
             MessageLookupByLibrary.simpleMessage("Continue with Apple"),
         "signInWithGoogle":

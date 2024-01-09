@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
@@ -62,9 +61,10 @@ class GroupScreen extends HookConsumerWidget {
     final group = data.value ?? Group.placeholder;
 
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
-        backgroundColor: MyTheme.surface,
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+          backgroundColor: Theme.of(context).colorScheme.background,
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -180,10 +180,9 @@ class GroupScreen extends HookConsumerWidget {
                                     if (group.description != null)
                                       ParseableText(
                                         group.description!,
-                                        style: TextStyle(
-                                          color: MyTheme.placeholderText,
-                                          fontSize: 13,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
                                       ),
                                     Row(
                                       crossAxisAlignment:

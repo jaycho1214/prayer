@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/tab_bar.dart';
 
 class TabBarDelegate extends SliverPersistentHeaderDelegate {
@@ -9,6 +8,7 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
     this.maxExtent = 48,
     this.minExtent = 48,
     this.onTap,
+    this.mode,
   });
 
   final TabController? controller;
@@ -16,13 +16,14 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   final double minExtent;
   final double maxExtent;
   final void Function(int)? onTap;
+  final ThemeMode? mode;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       alignment: Alignment.bottomCenter,
-      color: MyTheme.surface,
+      color: Theme.of(context).colorScheme.background,
       child: CustomTabBar(
         tabs: tabs,
         controller: controller,
@@ -32,7 +33,7 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+  bool shouldRebuild(TabBarDelegate oldDelegate) {
+    return oldDelegate.controller != controller || oldDelegate.mode != mode;
   }
 }

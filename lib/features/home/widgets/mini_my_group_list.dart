@@ -6,7 +6,6 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/repo/group_repository.dart';
@@ -59,7 +58,7 @@ class MiniMyGroupList extends HookWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: MyTheme.disabled),
+            bottom: BorderSide(color: Theme.of(context).disabledColor),
           ),
         ),
         child: PagedListView(
@@ -76,7 +75,8 @@ class MiniMyGroupList extends HookWidget {
                 width: 120,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: MyTheme.disabled, width: 1.0),
+                  border: Border.all(
+                      color: Theme.of(context).disabledColor, width: 1.0),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(

@@ -14,7 +14,6 @@ import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:prayer/app.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/settings/reminders/models/local_reminder.dart';
 import 'package:prayer/firebase_options.dart';
 import 'package:prayer/repo/authentication_repository.dart';
@@ -40,9 +39,6 @@ Future<void> main() async {
   PhotoManager.clearFileCache();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: MyTheme.surface,
-  ));
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   GetIt.I.registerSingleton(AuthenticationRepository());
   GetIt.I.registerSingleton(UserRepository());

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
-class LargeTextButton extends StatelessWidget {
-  const LargeTextButton({
+class LargeIconButton extends StatelessWidget {
+  const LargeIconButton({
     super.key,
-    required this.text,
+    required this.icon,
     this.onTap,
     this.width,
     this.destructive = false,
   });
 
   final double? width;
-  final String text;
+  final IconData icon;
   final bool destructive;
   final void Function()? onTap;
 
@@ -22,21 +23,19 @@ class LargeTextButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: width,
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: destructive
               ? Theme.of(context).colorScheme.error
               : Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: destructive
-                ? Theme.of(context).colorScheme.onError
-                : Theme.of(context).colorScheme.onPrimary,
-          ),
+        child: FaIcon(
+          icon,
+          size: 20,
+          color: destructive
+              ? Theme.of(context).colorScheme.onError
+              : Theme.of(context).colorScheme.onPrimary,
         ),
       ),
     );

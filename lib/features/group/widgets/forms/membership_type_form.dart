@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class MembershipTypeForm extends StatelessWidget {
   const MembershipTypeForm({super.key});
 
-  Widget _buildRow({
+  Widget _buildRow(
+    BuildContext context, {
     required String name,
     required String title,
     required String description,
     required bool value,
     required void Function(String)? onChanged,
-    bool? disabled,
   }) =>
       ShrinkingButton(
         onTap: () {
-          if (disabled == true) {
-            return;
-          }
           onChanged?.call(name);
         },
         child: Row(
@@ -30,17 +26,11 @@ class MembershipTypeForm extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: disabled == true
-                          ? MyTheme.disabled
-                          : MyTheme.onPrimary,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
                     description,
-                    style: const TextStyle(
-                        fontSize: 12, color: MyTheme.placeholderText),
+                    style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
               ),
@@ -48,15 +38,13 @@ class MembershipTypeForm extends StatelessWidget {
             const SizedBox(width: 10),
             AbsorbPointer(
               child: Checkbox(
-                activeColor: MyTheme.onPrimary,
+                activeColor: Theme.of(context).colorScheme.primary,
                 side: MaterialStateBorderSide.resolveWith(
-                  (states) => BorderSide(color: MyTheme.placeholderText),
+                  (states) =>
+                      BorderSide(color: Theme.of(context).disabledColor),
                 ),
                 value: value,
                 onChanged: (value) {
-                  if (disabled == true) {
-                    return;
-                  }
                   onChanged?.call(name);
                 },
               ),
@@ -79,6 +67,7 @@ class MembershipTypeForm extends StatelessWidget {
       builder: (FormFieldState<String> state) => Column(
         children: [
           _buildRow(
+            context,
             name: 'open',
             title: S.of(context).open,
             description: S.of(context).membershipTypeOpenDescription,
@@ -87,6 +76,7 @@ class MembershipTypeForm extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _buildRow(
+            context,
             name: 'restricted',
             title: S.of(context).restricted,
             description: S.of(context).membershipTypeRestrictedDescription,
@@ -95,6 +85,7 @@ class MembershipTypeForm extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _buildRow(
+            context,
             name: 'private',
             title: S.of(context).private,
             description: S.of(context).membershipTypePrivateDescription,
@@ -105,7 +96,7 @@ class MembershipTypeForm extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               state.errorText!,
-              style: const TextStyle(color: MyTheme.error),
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
               textAlign: TextAlign.left,
             ),
           ]

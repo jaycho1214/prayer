@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -8,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
@@ -110,9 +108,11 @@ class GroupMemberCard extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
           child: Row(
             children: [
-              UserProfileImage(
-                profile: member.profile,
-                size: 50,
+              AbsorbPointer(
+                child: UserProfileImage(
+                  profile: member.profile,
+                  size: 50,
+                ),
               ),
               const SizedBox(width: 20),
               Expanded(
@@ -131,18 +131,20 @@ class GroupMemberCard extends HookConsumerWidget {
                         if (member.moderator != null)
                           Container(
                             margin: const EdgeInsets.only(left: 5),
-                            padding: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 3, vertical: 2),
                             decoration: BoxDecoration(
-                              color: MyTheme.primary,
-                              borderRadius: BorderRadius.circular(20),
+                              color: Theme.of(context).colorScheme.primary,
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
                               group?.adminId == member.uid
                                   ? S.of(context).admin
                                   : S.of(context).moderator,
                               style: TextStyle(
+                                fontSize: 10,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -150,9 +152,7 @@ class GroupMemberCard extends HookConsumerWidget {
                     ),
                     Text(
                       "@${member.username}",
-                      style: TextStyle(
-                        color: MyTheme.outline,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
                 ),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/auth/widgets/login_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
@@ -21,10 +20,10 @@ class LoginScreen extends HookConsumerWidget {
 
   final bool needSignOut;
 
-  Widget _buildDisclaimer() {
+  Widget _buildDisclaimer(BuildContext context) {
     return Text.rich(
       TextSpan(
-        style: TextStyle(color: MyTheme.placeholderText),
+        style: Theme.of(context).textTheme.labelMedium,
         children: [
           TextSpan(text: "By signing up, you agree to our "),
           TextSpan(
@@ -89,9 +88,9 @@ class LoginScreen extends HookConsumerWidget {
     }, [needSignOut]);
 
     return Container(
-      color: MyTheme.surface,
+      color: Theme.of(context).colorScheme.background,
       margin: EdgeInsets.zero,
-      padding: EdgeInsets.fromLTRB(20, 80 + MediaQuery.of(context).padding.top,
+      padding: EdgeInsets.fromLTRB(20, 60 + MediaQuery.of(context).padding.top,
           20, MediaQuery.of(context).padding.bottom + 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,11 +98,7 @@ class LoginScreen extends HookConsumerWidget {
         children: [
           Text(
             S.of(context).introductionTitle,
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 30,
-              color: MyTheme.onPrimary,
-            ),
+            style: Theme.of(context).textTheme.displayLarge,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -118,6 +113,7 @@ class LoginScreen extends HookConsumerWidget {
                     lastPressed.value = 'apple';
                     authProvider.signIn(AuthProvider.apple);
                   },
+                  imageColor: Theme.of(context).colorScheme.onBackground,
                 ),
               ],
               const SizedBox(height: 10),
@@ -130,8 +126,8 @@ class LoginScreen extends HookConsumerWidget {
                   authProvider.signIn(AuthProvider.google);
                 },
               ),
-              const SizedBox(height: 40),
-              _buildDisclaimer(),
+              const SizedBox(height: 20),
+              _buildDisclaimer(context),
             ],
           ),
         ],

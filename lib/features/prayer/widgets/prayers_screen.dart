@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/prayer/widgets/prayer_card.dart';
 import 'package:prayer/features/prayer/providers/deleted_prayer_provider.dart';
 import 'package:prayer/repo/response_types.dart';
@@ -77,8 +76,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
             child: PrayerCard(prayerId: item),
           ),
         ),
-        separatorBuilder: (context, index) =>
-            const Divider(color: MyTheme.disabled),
+        separatorBuilder: (context, index) => const Divider(),
       );
     }
 
@@ -93,8 +91,7 @@ class PrayersScreen<CursorType> extends HookConsumerWidget {
         noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
         itemBuilder: (context, item, index) => PrayerCard(prayerId: item),
       ),
-      separatorBuilder: (context, index) =>
-          const Divider(color: MyTheme.disabled),
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }

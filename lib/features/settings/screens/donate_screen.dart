@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/settings/donation/sheets/donation_detail_sheet.dart';
@@ -14,12 +13,12 @@ class DonateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
         automaticallyImplyLeading: false,
-        backgroundColor: MyTheme.surface,
         title: Text(S.of(context).donatePrayer),
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+            backgroundColor: Theme.of(context).colorScheme.background),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,10 +36,7 @@ class DonateScreen extends StatelessWidget {
               child: Text(
                 S.of(context).descriptionNeedDonation,
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: MyTheme.placeholderText,
-                  fontSize: 15,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ),
@@ -61,17 +57,14 @@ class DonateScreen extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               padding: const EdgeInsets.symmetric(vertical: 15),
               decoration: BoxDecoration(
-                color: MyTheme.onPrimary,
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: Text(
                   S.of(context).donatePrayer,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    color: MyTheme.surface,
-                    fontSize: 15,
-                  ),
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary),
                 ),
               ),
             ),

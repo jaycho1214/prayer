@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
 
@@ -34,9 +32,11 @@ class UserCard extends HookWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
           child: Row(
             children: [
-              UserProfileImage(
-                profile: profile,
-                size: 50,
+              AbsorbPointer(
+                child: UserProfileImage(
+                  profile: profile,
+                  size: 50,
+                ),
               ),
               const SizedBox(width: 20),
               Expanded(
@@ -56,9 +56,7 @@ class UserCard extends HookWidget {
                     ),
                     Text(
                       "@$username",
-                      style: TextStyle(
-                        color: MyTheme.outline,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
                 ),

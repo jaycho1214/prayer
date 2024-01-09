@@ -5,7 +5,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/large_text_button.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/forms/day_picker.dart';
@@ -41,11 +40,12 @@ class ReminderFormScreen extends HookWidget {
     }, []);
 
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
-        backgroundColor: MyTheme.surface,
         title: Text(S.of(context).reminder),
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+          backgroundColor: Theme.of(context).colorScheme.background,
+        ),
       ),
       body: FormBuilder(
         key: formKey,

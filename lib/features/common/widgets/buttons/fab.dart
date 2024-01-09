@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class FAB extends StatelessWidget {
@@ -25,7 +24,7 @@ class FAB extends StatelessWidget {
           width: 53,
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            color: MyTheme.fab,
+            color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -35,7 +34,9 @@ class FAB extends StatelessWidget {
                   )
                 : FaIcon(
                     FontAwesomeIcons.plus,
-                    color: MyTheme.fabIcon,
+                    color: Theme.of(context)
+                        .floatingActionButtonTheme
+                        .foregroundColor,
                     size: 20,
                   ),
           ),

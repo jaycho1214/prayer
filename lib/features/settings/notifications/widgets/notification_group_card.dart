@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/features/group/widgets/group_card.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
@@ -39,7 +38,6 @@ class NotificationGroupCard extends ConsumerWidget {
                       FontAwesomeIcons.userCrown,
                     _ => FontAwesomeIcons.a,
                   },
-                  color: MyTheme.onPrimary,
                 ),
                 const SizedBox(width: 20),
                 Expanded(
@@ -61,7 +59,7 @@ class NotificationGroupCard extends ConsumerWidget {
                 ),
                 Text(
                   Formatter.fromNow(item.createdAt!),
-                  style: TextStyle(color: MyTheme.placeholderText),
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
             ),
@@ -73,7 +71,9 @@ class NotificationGroupCard extends ConsumerWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: MyTheme.disabled, width: 1.0),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                        width: 1.0),
                   ),
                   child: GroupCard(
                     group: group.value!,

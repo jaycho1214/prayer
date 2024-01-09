@@ -47,7 +47,6 @@ dependencies:
   talker_flutter: ^3.5.2
   flutter_platform_widgets: ^6.0.2
   image_cropper: ^5.0.0
-  themed: ^5.0.0
   cached_network_image: ^3.3.0
   skeletonizer: ^1.0.1
   infinite_scroll_pagination: ^4.0.0
@@ -72,13 +71,13 @@ dependencies:
   photo_manager: ^3.0.0-dev.5
   photo_manager_image_provider: ^2.1.0
   expandable_page_view: ^1.0.17
-  nested_scroll_view_plus: ^1.0.2
   app_links: ^3.5.0
   flutter_linkify: ^6.0.0
   flutter_local_notifications: ^16.3.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_timezone: ^1.0.8
+  flutter_keyboard_visibility: ^6.0.0
 
 dependency_overrides:
   font_awesome_flutter:

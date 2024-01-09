@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class Dialog extends HookWidget {
@@ -68,7 +67,7 @@ class Dialog extends HookWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: MyTheme.primary,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: BorderRadius.circular(10),
             ),
             height: 60,
@@ -99,12 +98,12 @@ class Dialog extends HookWidget {
                           child: Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: MyTheme.sheetSurface,
+                              color: Theme.of(context).colorScheme.background,
                               shape: BoxShape.circle,
                             ),
                             child: FaIcon(
                               FontAwesomeIcons.solidChevronRight,
-                              color: MyTheme.onPrimary,
+                              color: Theme.of(context).colorScheme.onBackground,
                               size: 12,
                             ),
                           ),
@@ -121,7 +120,7 @@ class Dialog extends HookWidget {
                     height: 2,
                     width: progress.value *
                         (MediaQuery.of(context).size.width - 20),
-                    color: MyTheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
               ],

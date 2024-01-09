@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class HomeTabNavButton extends StatelessWidget {
@@ -28,7 +27,9 @@ class HomeTabNavButton extends StatelessWidget {
         child: FaIcon(
           focused ? focusedIcon : unfocusedIcon,
           size: 20,
-          color: focused ? MyTheme.onPrimary : MyTheme.disabled,
+          color: focused
+              ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor
+              : Theme.of(context).disabledColor,
         ),
       ),
     );
@@ -48,7 +49,7 @@ class HomeTabNavProfileButton extends StatelessWidget {
   final void Function()? onTap;
   final double size = 20;
 
-  Widget _renderPlaceholder() {
+  Widget _renderPlaceholder(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       width: size,
@@ -57,20 +58,22 @@ class HomeTabNavProfileButton extends StatelessWidget {
       child: FaIcon(
         FontAwesomeIcons.user,
         size: 12,
-        color: focused ? MyTheme.onPrimary : MyTheme.disabled,
+        color: focused
+            ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor
+            : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor!,
       ),
     );
   }
 
   Widget buildInnerContainer(BuildContext context) {
     return profile == null
-        ? _renderPlaceholder()
+        ? _renderPlaceholder(context)
         : CachedNetworkImage(
             width: size,
             height: size,
             imageUrl: profile!,
             errorWidget: (context, url, error) => Center(
-              child: _renderPlaceholder(),
+              child: _renderPlaceholder(context),
             ),
             imageBuilder: (context, imageProvider) => Container(
               width: size,
@@ -95,7 +98,13 @@ class HomeTabNavProfileButton extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: focused ? MyTheme.onPrimary : MyTheme.disabled,
+              color: focused
+                  ? Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor!
+                  : Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor!,
               width: focused ? 1 : 0.5,
             ),
             shape: BoxShape.circle,

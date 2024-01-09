@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
@@ -40,7 +39,6 @@ class NotificationsScreen extends HookConsumerWidget {
       child: Builder(
         builder: (context) {
           return PlatformScaffold(
-            backgroundColor: MyTheme.surface,
             body: RefreshIndicator(
               notificationPredicate: (notification) => notification.depth == 2,
               onRefresh: () async {
@@ -54,9 +52,6 @@ class NotificationsScreen extends HookConsumerWidget {
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                   SliverAppBar(
                     toolbarHeight: 40,
-                    surfaceTintColor: MyTheme.surface,
-                    foregroundColor: MyTheme.surface,
-                    backgroundColor: MyTheme.surface,
                     automaticallyImplyLeading: false,
                     title: Stack(
                       children: [
@@ -170,8 +165,7 @@ class NotificationsListScreen extends HookWidget {
           item: item,
         ),
       ),
-      separatorBuilder: (context, index) =>
-          const Divider(color: MyTheme.disabled),
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }

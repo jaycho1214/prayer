@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prayer/constants/theme.dart';
 
 class CustomTabBar extends StatelessWidget {
   const CustomTabBar({
@@ -26,13 +25,6 @@ class CustomTabBar extends StatelessWidget {
           : const EdgeInsets.all(0),
       indicatorPadding: const EdgeInsets.all(0),
       padding: const EdgeInsets.all(0),
-      labelColor: MyTheme.onPrimary,
-      unselectedLabelColor: MyTheme.placeholderText,
-      labelStyle: TextStyle(
-        fontWeight: FontWeight.w800,
-        fontSize: 13,
-      ),
-      dividerColor: MyTheme.outline,
       onTap: onTap,
       tabs: tabs
           .map((e) => Tab(

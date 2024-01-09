@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -106,7 +106,7 @@ class InviteUsersPickerFAB extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
             shape: BoxShape.circle,
           ),
           width: 60,
@@ -116,7 +116,9 @@ class InviteUsersPickerFAB extends StatelessWidget {
                 ? CircularProgressIndicator.adaptive()
                 : FaIcon(
                     icon,
-                    color: Colors.black,
+                    color: Theme.of(context)
+                        .floatingActionButtonTheme
+                        .foregroundColor,
                     size: 20,
                   ),
           ),
@@ -199,7 +201,7 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
   SliverWoltModalSheetPage buildInvitingUsersSearchScreen(
       BuildContext context) {
     return SliverWoltModalSheetPage(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).bottomSheetTheme.backgroundColor,
       hasSabGradient: false,
       hasTopBarLayer: true,
       leadingNavBarWidget: Padding(
@@ -225,10 +227,6 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
         child: SearchBar(
           controller: queryController,
           hintText: S.of(context).placeholderSearch,
-          backgroundColor: const MaterialStatePropertyAll(MyTheme.primary),
-          hintStyle: const MaterialStatePropertyAll(
-            TextStyle(color: MyTheme.placeholderText),
-          ),
         ),
       ),
       forceMaxHeight: true,
@@ -276,7 +274,6 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
                           child: FaIcon(
                             FontAwesomeIcons.check,
                             size: 12,
-                            color: MyTheme.onPrimary,
                           ),
                         ),
                     ],
@@ -292,7 +289,7 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
 
   WoltModalSheetPage buildConfirmUsersInviteScreen(BuildContext context) {
     return WoltModalSheetPage(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).bottomSheetTheme.backgroundColor,
       hasSabGradient: false,
       hasTopBarLayer: true,
       stickyActionBar: Consumer(
@@ -322,8 +319,11 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
         padding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
         child: Text(
           S.of(context).sendInvitation,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+          style: platformThemeData(
+            context,
+            material: (ThemeData data) => data.textTheme.headlineSmall,
+            cupertino: (data) => data.textTheme.navTitleTextStyle
+                .copyWith(fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -344,7 +344,8 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
                   child: Column(
                     children: [
                       Text(
@@ -356,10 +357,7 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
                       ),
                       Text(
                         S.of(context).titleInvitePeopleDescription,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: MyTheme.placeholderText,
-                        ),
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],
                   ),

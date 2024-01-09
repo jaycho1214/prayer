@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/utils/formatter.dart';
 
 class StatisticsText extends StatelessWidget {
@@ -14,15 +13,13 @@ class StatisticsText extends StatelessWidget {
       children: [
         TextSpan(
           text: Formatter.formatNumber(value),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground),
         ),
         TextSpan(
           text: ' $text',
-          style: TextStyle(
-            color: MyTheme.placeholderText,
-          ),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
       ],
     ));

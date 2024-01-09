@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 
@@ -27,15 +26,15 @@ class CorporateLabel extends StatelessWidget {
             child: FaIcon(
               FontAwesomeIcons.solidChevronRight,
               size: 10,
-              color: MyTheme.placeholderText,
+              color: Theme.of(context).textTheme.labelMedium?.color,
             ),
           ),
           Text(
             prayer.corporate?.title ?? '',
-            style: TextStyle(
-              color: MyTheme.placeholderText,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

@@ -7,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
@@ -100,21 +99,25 @@ class CorporatePrayerScreen extends HookConsumerWidget {
     final color = useMemoized(
         () => switch (prayingStatus) {
               CorporatePrayerDurationStatus.preparing => [
-                  MyTheme.disabled,
-                  MyTheme.onPrimary
+                  Theme.of(context).disabledColor,
+                  Theme.of(context).colorScheme.onBackground,
                 ],
               CorporatePrayerDurationStatus.praying => [
-                  MyTheme.primary,
-                  MyTheme.onPrimary
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.onPrimary,
                 ],
-              _ => [MyTheme.onPrimary, MyTheme.surface],
+              _ => [
+                  Theme.of(context).colorScheme.inverseSurface,
+                  Theme.of(context).colorScheme.onInverseSurface,
+                ],
             },
         [prayingStatus]);
 
     return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
       appBar: PlatformAppBar(
-        backgroundColor: MyTheme.surface,
+        cupertino: (context, platform) => CupertinoNavigationBarData(
+          backgroundColor: Theme.of(context).colorScheme.background,
+        ),
         leading: NavigateBackButton(),
         title: Text(S.of(context).corporate),
         trailingActions: [
@@ -209,7 +212,6 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                           FaIcon(
                                             FontAwesomeIcons.lightUsers,
                                             size: 13,
-                                            color: MyTheme.onPrimary,
                                           ),
                                           const SizedBox(width: 5),
                                           Text(snapshot.value?.group?.name ??
@@ -295,7 +297,9 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 15, horizontal: 20),
                                       decoration: BoxDecoration(
-                                        color: MyTheme.primary,
+                                        border: Border.all(
+                                            color: Theme.of(context)
+                                                .disabledColor),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
@@ -304,17 +308,17 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                         children: [
                                           Text(
                                             '${entry.key + 1}.',
-                                            style: TextStyle(
-                                              color: MyTheme.surface,
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 17,
-                                            ),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displaySmall,
                                           ),
                                           const SizedBox(width: 10),
                                           Expanded(
                                             child: Text(
                                               entry.value,
-                                              style: TextStyle(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium,
                                             ),
                                           ),
                                         ],

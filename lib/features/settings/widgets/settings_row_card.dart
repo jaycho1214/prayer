@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class SettingsRowCard extends StatelessWidget {
@@ -29,7 +28,6 @@ class SettingsRowCard extends StatelessWidget {
               width: 20,
               child: FaIcon(
                 icon,
-                color: MyTheme.onPrimary,
                 size: 15,
               ),
             ),
@@ -40,17 +38,12 @@ class SettingsRowCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   if (description != null)
                     Text(
                       description!,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: MyTheme.placeholderText,
-                      ),
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                 ],
               ),
@@ -58,7 +51,6 @@ class SettingsRowCard extends StatelessWidget {
             const SizedBox(width: 20),
             FaIcon(
               FontAwesomeIcons.chevronRight,
-              color: MyTheme.onPrimary,
               size: 15,
             ),
           ],

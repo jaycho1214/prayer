@@ -470,6 +470,16 @@ class S {
     );
   }
 
+  /// `Dark Mode`
+  String get darkMode {
+    return Intl.message(
+      'Dark Mode',
+      name: 'darkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Fri`
   String get dayFri {
     return Intl.message(
@@ -1750,6 +1760,16 @@ class S {
     );
   }
 
+  /// `Pray silently`
+  String get praySilently {
+    return Intl.message(
+      'Pray silently',
+      name: 'praySilently',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pray with name?`
   String get prayWithName {
     return Intl.message(
@@ -2065,6 +2085,16 @@ class S {
     return Intl.message(
       'Share Prayer',
       name: 'sharePrayer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share your love`
+  String get shareYourLove {
+    return Intl.message(
+      'Share your love',
+      name: 'shareYourLove',
       desc: '',
       args: [],
     );

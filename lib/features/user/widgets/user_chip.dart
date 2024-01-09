@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
@@ -59,11 +58,7 @@ class UserChip extends StatelessWidget {
                     child: Text(
                       '@$username',
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: MyTheme.placeholderText,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ),
               ],

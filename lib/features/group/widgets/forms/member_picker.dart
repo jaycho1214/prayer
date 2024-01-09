@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
@@ -126,7 +125,7 @@ class MemberPicker extends HookConsumerWidget {
 
     final usersPage = useCallback(
         (BuildContext context) => SliverWoltModalSheetPage(
-              backgroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.background,
               hasSabGradient: false,
               hasTopBarLayer: true,
               leadingNavBarWidget: Padding(
@@ -139,11 +138,6 @@ class MemberPicker extends HookConsumerWidget {
                 child: SearchBar(
                   controller: queryController,
                   hintText: S.of(context).placeholderSearch,
-                  backgroundColor:
-                      const MaterialStatePropertyAll(MyTheme.primary),
-                  hintStyle: const MaterialStatePropertyAll(
-                    TextStyle(color: MyTheme.placeholderText),
-                  ),
                 ),
               ),
               forceMaxHeight: true,
@@ -176,7 +170,7 @@ class MemberPicker extends HookConsumerWidget {
 
     final confirmPage = useCallback(
         (BuildContext) => WoltModalSheetPage(
-              backgroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.background,
               hasSabGradient: false,
               hasTopBarLayer: true,
               leadingNavBarWidget: Padding(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
@@ -23,10 +22,16 @@ class FollowButton extends ConsumerWidget {
     final blockedAt = user.valueOrNull?.blockedAt;
     final followedAt = user.valueOrNull?.followedAt;
     final colors = blockedAt != null
-        ? [Colors.transparent, MyTheme.onPrimary]
+        ? [Colors.transparent, Theme.of(context).colorScheme.onBackground]
         : followedAt == null
-            ? [MyTheme.onPrimary, MyTheme.surface]
-            : [MyTheme.surface, MyTheme.onPrimary];
+            ? [
+                Theme.of(context).colorScheme.surface,
+                Theme.of(context).colorScheme.onSurface
+              ]
+            : [
+                Theme.of(context).colorScheme.inverseSurface,
+                Theme.of(context).colorScheme.onInverseSurface,
+              ];
     final text = blockedAt != null
         ? S.of(context).blocked
         : followedAt == null
@@ -62,9 +67,9 @@ class FollowButton extends ConsumerWidget {
           color: colors[0],
           borderRadius: BorderRadius.circular(10),
           border: blockedAt != null
-              ? Border.all(color: MyTheme.error)
+              ? Border.all(color: Theme.of(context).colorScheme.error)
               : followedAt != null
-                  ? Border.all(color: MyTheme.outline)
+                  ? Border.all(color: Theme.of(context).colorScheme.outline)
                   : null,
         ),
         child: Text(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
 import 'package:prayer/generated/l10n.dart';
@@ -34,7 +33,7 @@ class NotificationUserCard extends StatelessWidget {
           ),
           Text(
             Formatter.fromNow(item.createdAt!),
-            style: TextStyle(color: MyTheme.placeholderText),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ],
       ),

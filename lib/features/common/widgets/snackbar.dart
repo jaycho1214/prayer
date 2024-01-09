@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/constants/theme.dart';
 
 class Dialog extends HookWidget {
   const Dialog({
@@ -64,26 +63,28 @@ class Dialog extends HookWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: MyTheme.inverseSurface,
-              borderRadius: BorderRadius.circular(100),
+              color: Theme.of(context).colorScheme.errorContainer,
+              borderRadius: BorderRadius.circular(10),
             ),
-            height: 70,
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.all(20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const FaIcon(
+                FaIcon(
                   FontAwesomeIcons.circleExclamation,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onErrorContainer,
                   size: 20,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     message,
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
                     maxLines: 2,
                   ),
                 ),

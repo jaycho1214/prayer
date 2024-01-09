@@ -1,9 +1,10 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
@@ -52,16 +53,21 @@ class ImageGalleryScreen extends HookWidget {
             left: 30,
             child: ShrinkingButton(
               onTap: () => context.pop(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: MyTheme.primary,
-                  shape: BoxShape.circle,
-                ),
-                child: FaIcon(
-                  FontAwesomeIcons.xmark,
-                  size: 20,
-                  color: MyTheme.onPrimary,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(1000),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    alignment: Alignment.center,
+                    color: Colors.black.withOpacity(0.2),
+                    child: FaIcon(
+                      FontAwesomeIcons.xmark,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),

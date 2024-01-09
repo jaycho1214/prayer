@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 
 class EmptyPrayersScreen extends StatelessWidget {
@@ -25,17 +24,14 @@ class EmptyPrayersScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: 25,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
           const SizedBox(height: 5),
           Text(
             description,
             style: TextStyle(
               fontSize: 15,
-              color: MyTheme.placeholderText,
+              color: Theme.of(context).disabledColor,
             ),
           ),
           if (buttonText != null) ...[

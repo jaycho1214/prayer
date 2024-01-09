@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_picker_form.dart';
 import 'package:prayer/features/corporate_prayer/widgets/sheets/corporate_prayer_form.dart';
 import 'package:prayer/features/user/widgets/verses_form.dart';
@@ -127,7 +126,7 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
             _focusNode.requestFocus();
           },
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 5, 0, 15),
+            padding: const EdgeInsets.fromLTRB(15, 3, 0, 13),
             child: Row(
               children: [
                 FaIcon(
@@ -135,16 +134,13 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                       ? FontAwesomeIcons.lightUserSlash
                       : FontAwesomeIcons.lightUser,
                   size: 15,
-                  color: MyTheme.onPrimary,
                 ),
                 const SizedBox(width: 10),
                 Text(
                   !anon
                       ? S.of(context).titlePrayerPostPublicly
                       : S.of(context).titlePrayerPostAnonymously,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
@@ -197,14 +193,14 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                           right: 10,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: MyTheme.primary,
+                              color: Theme.of(context).colorScheme.primary,
                               shape: BoxShape.circle,
                             ),
                             padding: const EdgeInsets.all(10),
                             child: FaIcon(
                               FontAwesomeIcons.xmark,
                               size: 15,
-                              color: MyTheme.onPrimary,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
                         )
@@ -257,19 +253,21 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
       },
       child: Stack(
         children: [
-          PlatformScaffold(
-            backgroundColor: MyTheme.surface,
-            appBar: PlatformAppBar(
-              backgroundColor: MyTheme.surface,
+          Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.background,
               leading: NavigateBackButton(),
-              trailingActions: [
+              actions: [
                 Center(
-                  child: _loading
-                      ? PlatformCircularProgressIndicator()
-                      : PrimaryTextButton(
-                          onTap: submit,
-                          text: S.of(context).pray,
-                        ),
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: _loading
+                        ? PlatformCircularProgressIndicator()
+                        : PrimaryTextButton(
+                            onTap: submit,
+                            text: S.of(context).pray,
+                          ),
+                  ),
                 ),
               ],
             ),
@@ -334,12 +332,13 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                         }
                         return null;
                       },
+                      style: Theme.of(context).textTheme.bodyLarge,
                       decoration: InputDecoration(
                         hintText: S.of(context).placeholderPrayer,
-                        hintStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        hintStyle:
+                            Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  color: Theme.of(context).disabledColor,
+                                ),
                         border: InputBorder.none,
                       ),
                     ),
@@ -358,7 +357,7 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
             right: 0,
             bottom: MediaQuery.of(context).viewInsets.bottom,
             child: Container(
-              color: MyTheme.surface,
+              color: Theme.of(context).colorScheme.background,
               child: Stack(
                 children: [
                   Divider(),
@@ -376,38 +375,35 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                                 child: FaIcon(
                                   FontAwesomeIcons.image,
                                   size: 20,
-                                  color: MyTheme.onPrimary,
                                 ),
                               ),
                             ),
                             FormBuilderField(
                               builder:
-                                  (FormFieldState<List<BibleVerse>> field) {
-                                return ShrinkingButton(
-                                  onTap: () async {
-                                    final newVerses = await BiblePicker.show(
-                                      context,
-                                      initialIds: field.value,
-                                    );
-                                    _focusNode.requestFocus();
-                                    if (newVerses != null) {
-                                      formKey.currentState?.fields['verses']
-                                          ?.didChange([...newVerses]);
-                                    }
-                                  },
-                                  child: FaIcon(
-                                    FontAwesomeIcons.solidBook,
-                                    size: 20,
-                                    color: MyTheme.onPrimary,
-                                  ),
-                                );
-                              },
+                                  (FormFieldState<List<BibleVerse>> field) =>
+                                      ShrinkingButton(
+                                onTap: () async {
+                                  final newVerses = await BiblePicker.show(
+                                    context,
+                                    initialIds: field.value,
+                                  );
+                                  _focusNode.requestFocus();
+                                  if (newVerses != null) {
+                                    formKey.currentState?.fields['verses']
+                                        ?.didChange([...newVerses]);
+                                  }
+                                },
+                                child: FaIcon(
+                                  FontAwesomeIcons.solidBook,
+                                  size: 20,
+                                ),
+                              ),
                               name: 'verses',
                             ),
                             Spacer(),
                             Text(
                               "$_valueTextLength/500",
-                              style: TextStyle(color: MyTheme.placeholderText),
+                              style: Theme.of(context).textTheme.labelMedium,
                             ),
                           ],
                         ),

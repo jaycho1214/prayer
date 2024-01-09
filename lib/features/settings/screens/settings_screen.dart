@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/settings/widgets/donate_card.dart';
 import 'package:prayer/features/settings/widgets/settings_row_card.dart';
+import 'package:prayer/features/settings/widgets/settings_switch_card.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/sheets/feedback_form.dart';
@@ -28,12 +29,18 @@ class SettingsScreen extends ConsumerWidget {
           signedUp: (user) => user.bannedAt,
         );
 
-    return PlatformScaffold(
-      backgroundColor: MyTheme.surface,
-      appBar: PlatformAppBar(
+    return Scaffold(
+      appBar: AppBar(
         leading: NavigateBackButton(),
-        backgroundColor: MyTheme.surface,
-        title: Text(S.of(context).settings),
+        title: Text(
+          S.of(context).settings,
+          style: platformThemeData(
+            context,
+            material: (ThemeData data) => data.textTheme.headlineSmall,
+            cupertino: (data) => data.textTheme.navTitleTextStyle
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -43,6 +50,42 @@ class SettingsScreen extends ConsumerWidget {
             const SizedBox(height: 20),
             DonateCard(),
             const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                "UI",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            ValueListenableBuilder(
+              valueListenable: Hive.box('settings').listenable(keys: ['theme']),
+              builder: (context, box, _) {
+                return SettingsSwitchCard(
+                  icon: FontAwesomeIcons.solidMoon,
+                  title: S.of(context).darkMode,
+                  value: box.get('theme') == 'dark',
+                  onTap: () {
+                    final theme = box.get('theme');
+                    box.put('theme', theme == 'dark' ? 'light' : 'dark');
+                  },
+                );
+              },
+            ),
+            const Divider(),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                S.of(context).account,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
             SettingsRowCard(
               icon: FontAwesomeIcons.user,
               title: S.of(context).account,
@@ -50,7 +93,7 @@ class SettingsScreen extends ConsumerWidget {
                 context.push('/settings/account');
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.lightAlarmClock,
               title: S.of(context).reminder,
@@ -58,10 +101,10 @@ class SettingsScreen extends ConsumerWidget {
                 context.push('/settings/reminders');
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 S.of(context).support,
                 style: TextStyle(
@@ -79,7 +122,7 @@ class SettingsScreen extends ConsumerWidget {
                     : 'https://play.google.com/store/apps/details?id=com.crosswand.prayer'));
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.comment,
               title: S.of(context).sendFeedback,
@@ -87,7 +130,7 @@ class SettingsScreen extends ConsumerWidget {
                 FeedbackForm.show(context);
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.lightMessagePen,
               title: S.of(context).ratePrayer,
@@ -99,10 +142,10 @@ class SettingsScreen extends ConsumerWidget {
                 ));
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 S.of(context).legal,
                 style: TextStyle(
@@ -119,7 +162,7 @@ class SettingsScreen extends ConsumerWidget {
                     Uri.parse('https://www.crosswand.com/app/prayer/privacy'));
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.file,
               title: S.of(context).termsOfUse,
@@ -128,7 +171,7 @@ class SettingsScreen extends ConsumerWidget {
                     Uri.parse('https://www.crosswand.com/app/prayer/terms'));
               },
             ),
-            const Divider(color: MyTheme.disabled),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: FutureBuilder(
@@ -142,7 +185,7 @@ class SettingsScreen extends ConsumerWidget {
                   }
                   return Text(
                     S.of(context).versionText(text),
-                    style: TextStyle(color: MyTheme.outline),
+                    style: Theme.of(context).textTheme.labelMedium,
                   );
                 },
               ),

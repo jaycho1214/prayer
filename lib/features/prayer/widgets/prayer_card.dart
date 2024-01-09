@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
@@ -50,10 +49,7 @@ class PrayerCard extends ConsumerWidget {
         if (prayer.pray?.createdAt != null)
           Text(
             Formatter.fromNow(prayer.pray!.createdAt!),
-            style: TextStyle(
-              fontSize: 12,
-              color: MyTheme.outline,
-            ),
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         const SizedBox(width: 10),
       ],
@@ -106,7 +102,7 @@ class PrayerCard extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 3, vertical: 2),
                       decoration: BoxDecoration(
-                        color: MyTheme.primary,
+                        color: Theme.of(context).colorScheme.primary,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
@@ -115,7 +111,7 @@ class PrayerCard extends ConsumerWidget {
                             : S.of(context).moderator,
                         style: TextStyle(
                           fontSize: 10,
-                          color: MyTheme.onPrimary,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -126,7 +122,7 @@ class PrayerCard extends ConsumerWidget {
                     prayer.value?.createdAt == null
                         ? ''
                         : Formatter.fromNow(prayer.value!.createdAt!),
-                    style: TextStyle(color: MyTheme.outline),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],
               ),

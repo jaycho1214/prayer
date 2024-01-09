@@ -4,7 +4,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/bible_books.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
@@ -31,7 +30,8 @@ class VersesForm extends HookWidget {
                   margin: const EdgeInsets.fromLTRB(40, 10, 10, 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: MyTheme.primary,
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outline),
                   ),
                   child: ShrinkingButton(
                     onTap: () async {
@@ -63,8 +63,9 @@ class VersesForm extends HookWidget {
                                       Expanded(
                                         child: Text(
                                           '${toLocaleBibleBook(context, field.value![index].book)} ${field.value![index].chapter}:${field.value![index].verse}',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
                                         ),
                                       ),
                                       if (field.value![index].translation
@@ -76,7 +77,9 @@ class VersesForm extends HookWidget {
                                         ),
                                     ],
                                   ),
-                                  Text(field.value![index].value ?? ''),
+                                  Text(
+                                    field.value![index].value ?? '',
+                                  ),
                                 ],
                               ),
                             ),

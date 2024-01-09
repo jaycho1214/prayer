@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/errors.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
@@ -53,14 +53,13 @@ class SignUpScreen extends HookConsumerWidget {
       formKey,
     ]);
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+    return KeyboardDismissOnTap(
       child: PlatformScaffold(
         appBar: PlatformAppBar(
-          backgroundColor: MyTheme.surface,
+          cupertino: (context, platform) => CupertinoNavigationBarData(
+              backgroundColor: Theme.of(context).colorScheme.background),
           title: Text(
             S.of(context).profile,
-            style: const TextStyle(color: MyTheme.onPrimary),
           ),
           trailingActions: [
             Center(
@@ -74,56 +73,47 @@ class SignUpScreen extends HookConsumerWidget {
         ),
         body: FormBuilder(
           key: formKey,
-          child: Container(
-            color: MyTheme.surface,
-            child: ListView(
-              padding: const EdgeInsets.only(bottom: 100),
-              children: [
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        S.of(context).signUpScreenBibleVerse,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: MyTheme.outline,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        S.of(context).signUpScreenBibleVerseBook,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: MyTheme.outline,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+          child: ListView(
+            padding: const EdgeInsets.only(bottom: 100),
+            children: [
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  children: [
+                    Text(
+                      S.of(context).signUpScreenBibleVerse,
+                      style: Theme.of(context).textTheme.labelMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      S.of(context).signUpScreenBibleVerseBook,
+                      style: Theme.of(context).textTheme.labelSmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      const UsernameInputForm(),
-                      const SizedBox(height: 5),
-                      TextInputField(
-                        name: 'bio',
-                        labelText: S.of(context).bio,
-                        maxLength: 200,
-                        maxLines: 10,
-                        minLines: 10,
-                        keyboardType: TextInputType.multiline,
-                      ),
-                    ],
-                  ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    const UsernameInputForm(),
+                    const SizedBox(height: 5),
+                    TextInputField(
+                      name: 'bio',
+                      labelText: S.of(context).bio,
+                      maxLength: 200,
+                      maxLines: 10,
+                      minLines: 10,
+                      keyboardType: TextInputType.multiline,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

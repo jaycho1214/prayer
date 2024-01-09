@@ -3,7 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/constants/theme.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/group/widgets/forms/group_picker.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -75,24 +74,25 @@ class PlayerGroupFormInner extends HookConsumerWidget {
           }
         },
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: MyTheme.primary,
-            borderRadius: BorderRadius.circular(20),
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
             children: [
               Text(
                 groupId == null ? S.of(context).community : group?.name ?? '',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall
+                    ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 maxLines: 1,
               ),
               const SizedBox(width: 5),
               FaIcon(
                 FontAwesomeIcons.chevronDown,
-                color: MyTheme.onPrimary,
+                color: Theme.of(context).colorScheme.onPrimary,
                 size: 12,
               )
             ],

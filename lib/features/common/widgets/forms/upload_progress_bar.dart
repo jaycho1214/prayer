@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prayer/constants/theme.dart';
 
 class UploadProgressBar extends StatelessWidget {
   const UploadProgressBar({
@@ -20,12 +19,12 @@ class UploadProgressBar extends StatelessWidget {
       firstChild: Stack(
         children: [
           Container(
-            color: MyTheme.disabled,
+            color: Theme.of(context).disabledColor,
             width: MediaQuery.of(context).size.width,
             height: 5,
           ),
           Container(
-            color: MyTheme.onPrimary,
+            color: Theme.of(context).colorScheme.onBackground,
             width: MediaQuery.of(context).size.width * progress,
             height: 5,
           ),
