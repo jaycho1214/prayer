@@ -190,12 +190,6 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
               initialValue == null ? {} : handleInitialValue(initialValue),
           child: Stack(
             children: [
-              const Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: UploadProgressBar(),
-              ),
               ListView(
                 children: [
                   Padding(
@@ -337,6 +331,12 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                     ),
                   ),
                 ],
+              ),
+              const Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: UploadProgressBar(),
               ),
             ],
           ),
