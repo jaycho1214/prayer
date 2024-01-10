@@ -42,6 +42,7 @@ final lightThemeData = ThemeData.light().copyWith(
       fontWeight: FontWeight.w900,
       fontSize: 17,
     ),
+    headlineSmall: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
     titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
     titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
     titleSmall: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
