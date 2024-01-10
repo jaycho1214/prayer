@@ -5,6 +5,7 @@ class TextInputField extends StatelessWidget {
   const TextInputField({
     super.key,
     required this.name,
+    this.controller,
     this.labelText,
     this.hintText,
     this.decoration,
@@ -25,6 +26,7 @@ class TextInputField extends StatelessWidget {
     this.autofocus = false,
     this.scrollPadding = const EdgeInsets.all(20),
   });
+  final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? initialValue;
   final String? counterText;
@@ -73,6 +75,7 @@ class TextInputField extends StatelessWidget {
           children: [
             FormBuilderTextField(
               key: key,
+              controller: controller,
               scrollPadding: scrollPadding,
               focusNode: focusNode,
               autofocus: autofocus,

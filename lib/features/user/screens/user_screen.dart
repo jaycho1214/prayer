@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
+import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
@@ -238,10 +239,11 @@ class UserScreen extends HookConsumerWidget {
                                 ),
                                 if ((user?.bio ?? '') != '') ...[
                                   const SizedBox(height: 10),
-                                  Text(user?.bio ?? '',
+                                  ParseableText(user?.bio ?? '',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),
+                                  const SizedBox(height: 10),
                                 ],
                                 if (user?.verseId != null)
                                   Padding(

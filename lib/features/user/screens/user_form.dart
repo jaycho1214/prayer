@@ -20,6 +20,7 @@ import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
 import 'package:prayer/features/auth/providers/auth_state.dart';
 import 'package:prayer/features/user/providers/user_provider.dart';
+import 'package:prayer/hook/rich_text_controller_hook.dart';
 import 'package:prayer/repo/user_repository.dart';
 
 class UserFormScreen extends HookConsumerWidget {
@@ -33,6 +34,7 @@ class UserFormScreen extends HookConsumerWidget {
     final formKey = useMemoized(() => GlobalKey<FormBuilderState>());
     final loading = useState(false);
     final progress = useState(0.0);
+    final controller = useRichTextController();
 
     final onSubmit = useCallback(() async {
       if (formKey.currentState?.saveAndValidate() == true) {
@@ -157,6 +159,7 @@ class UserFormScreen extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         TextInputField(
+                          controller: controller,
                           name: 'bio',
                           labelText: S.of(context).bio,
                           maxLength: 200,
