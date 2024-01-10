@@ -286,6 +286,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                                 fontSize: 15,
                               ),
                             ),
+                          const SizedBox(height: 10),
                           if (snapshot.value?.prayers != null)
                             ...snapshot.value!.prayers!
                                 .asMap()
