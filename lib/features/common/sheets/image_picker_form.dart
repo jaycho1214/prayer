@@ -117,6 +117,7 @@ class InnerImageCard extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w900,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                     ),
@@ -257,6 +258,8 @@ class PrimaryImagePicker {
     List<String>? initialIds,
   }) {
     return SliverWoltModalSheetPage(
+      backgroundColor:
+          Theme.of(modalSheetContext).bottomSheetTheme.backgroundColor,
       topBarTitle: Text(
         S.of(modalSheetContext).pickImage,
         style: TextStyle(
