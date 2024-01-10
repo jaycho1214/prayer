@@ -280,7 +280,6 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                                   const EdgeInsets.symmetric(vertical: 5.0),
                               child: TextInputField(
                                 name: 'prayers.${index}',
-                                initialValue: '',
                                 focusNode: focusNodes[index],
                                 scrollPadding:
                                     const EdgeInsets.only(bottom: 220),
