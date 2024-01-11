@@ -76,7 +76,8 @@ class MiniMyGroupList extends HookWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                      color: Theme.of(context).disabledColor, width: 1.0),
+                      color: Theme.of(context).colorScheme.outlineVariant,
+                      width: 1.0),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
