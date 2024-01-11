@@ -6,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/features/settings/widgets/settings_row_card.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/sheets/confirm_menu_form.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
@@ -21,7 +22,7 @@ class AccountSettingsScreen extends StatelessWidget {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
-        title: Text(S.of(context).account),
+        title: Text(t.general.account),
         cupertino: (context, platform) => CupertinoNavigationBarData(
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
@@ -32,12 +33,12 @@ class AccountSettingsScreen extends StatelessWidget {
           children: [
             SettingsRowCard(
               icon: FontAwesomeIcons.lockOpen,
-              title: S.of(context).signOut,
+              title: t.general.signOut,
               onTap: () async {
                 final resp = await ConfirmSlimMenuForm.show(
                   context,
-                  title: S.of(context).signOut,
-                  description: S.of(context).alertYouCannotUndoThisAction,
+                  title: t.general.signOut,
+                  description: t.alert.actionIrreversible,
                   icon: FontAwesomeIcons.lockOpen,
                 );
                 if (resp == true) {
@@ -51,20 +52,19 @@ class AccountSettingsScreen extends StatelessWidget {
             const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.userSlash,
-              title: S.of(context).deleteAccount,
+              title: t.alert.deleteAccount.title,
               onTap: () async {
                 final resp = await ConfirmMenuForm.show(
                   context,
-                  title: S.of(context).titleDeleteAccount,
+                  title: t.alert.deleteAccount.prompt,
                   icon: FontAwesomeIcons.userSlash,
-                  description:
-                      S.of(context).descriptionDeleteAccount.split(':'),
+                  description: t.alert.deleteAccount.rules,
                 );
                 if (resp == true) {
                   final confirmResp = await ConfirmSlimMenuForm.show(
                     context,
-                    title: S.of(context).deleteAccount,
-                    description: S.of(context).alertYouCannotUndoThisAction,
+                    title: t.alert.deleteAccount.title,
+                    description: t.alert.actionIrreversible,
                     icon: FontAwesomeIcons.userSlash,
                   );
                   if (confirmResp == true) {
@@ -78,10 +78,9 @@ class AccountSettingsScreen extends StatelessWidget {
                       if (err is DioException &&
                           err.response?.data['code'] == 'not-empty-resource') {
                         return GlobalSnackBar.show(context,
-                            message: S.of(context).errorDeleteUser);
+                            message: t.error.deleteUser);
                       }
-                      GlobalSnackBar.show(context,
-                          message: S.of(context).errorUnknown);
+                      GlobalSnackBar.show(context, message: t.error.unknown);
                     });
                   }
                 }

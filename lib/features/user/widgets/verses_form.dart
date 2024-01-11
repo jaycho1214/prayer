@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/constants/bible_books.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
 import 'package:prayer/features/common/widgets/page_indicator.dart';
@@ -37,7 +37,7 @@ class VersesForm extends HookWidget {
                     onTap: () async {
                       final resp = await ConfirmSlimMenuForm.show(
                         context,
-                        title: S.of(context).delete,
+                        title: t.general.delete,
                         icon: FontAwesomeIcons.trash,
                       );
                       if (resp == true) {

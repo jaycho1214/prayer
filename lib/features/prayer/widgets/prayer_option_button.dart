@@ -9,7 +9,8 @@ import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/providers/deleted_prayer_provider.dart';
 import 'package:prayer/features/user/providers/user_provider.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 
@@ -32,7 +33,7 @@ class PrayerOptionButton extends ConsumerWidget {
             imageRadius: BorderRadius.circular(5),
           ),
           title: prayer.anon == true
-              ? S.of(context).anonymous
+              ? t.general.anonymous
               : '@${prayer.user?.username}',
           icon: FontAwesomeIcons.circleUser,
           onTap: () {
@@ -52,8 +53,8 @@ class PrayerOptionButton extends ConsumerWidget {
                 .read(userNotifierProvider(uid: prayer.userId).notifier)
                 .followUser(user.value?.followedAt == null),
             title: user.value?.followedAt == null
-                ? S.of(context).followUser('@${user.value?.username}')
-                : S.of(context).unfollowUser('@${user.value?.username}'),
+                ? t.general.followUser(username: '@${user.value?.username}')
+                : t.general.unfollowUser(username: '@${user.value?.username}'),
             icon: FontAwesomeIcons.lightUserPlus,
           ),
         if (prayer.anon != true &&
@@ -63,8 +64,8 @@ class PrayerOptionButton extends ConsumerWidget {
                 .read(userNotifierProvider(uid: prayer.userId).notifier)
                 .blockUser(user.value?.blockedAt == null),
             title: user.value?.blockedAt == null
-                ? S.of(context).blockUser('@${user.value?.username}')
-                : S.of(context).unblockUser('@${user.value?.username}'),
+                ? t.general.blockUser(username: '@${user.value?.username}')
+                : t.general.unblockUser(username: '@${user.value?.username}'),
             icon: FontAwesomeIcons.lightUserSlash,
             isDestructive: true,
           ),
@@ -75,7 +76,7 @@ class PrayerOptionButton extends ConsumerWidget {
               ref.read(deletedPrayerNotifierProvider.notifier).add(prayer.id);
               context.pop('deleted');
             },
-            title: S.of(context).delete,
+            title: t.general.delete,
             icon: FontAwesomeIcons.lightTrash,
             isDestructive: true,
           ),
@@ -83,7 +84,7 @@ class PrayerOptionButton extends ConsumerWidget {
           onTap: () => context.push(
               Uri(path: '/report', queryParameters: {'prayerId': prayer.id})
                   .toString()),
-          title: S.of(context).report,
+          title: t.general.report,
           icon: FontAwesomeIcons.lightFlag,
           isDestructive: true,
         ),

@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/notification_bar.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class FeedbackForm extends HookWidget {
   const FeedbackForm({super.key});
@@ -36,8 +36,7 @@ class FeedbackForm extends HookWidget {
         mixpanel
             .track("Feedback Sent", properties: {'feedback': controller.text});
         context.pop();
-        NotificationSnackBar.show(context,
-            message: S.of(context).alertFeedbackSent);
+        NotificationSnackBar.show(context, message: t.feedback.alert.sent);
       } catch (e, st) {
         talker.handle(e, st, "[Feedback] Failed to send a feedback");
       } finally {
@@ -59,13 +58,13 @@ class FeedbackForm extends HookWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 PrimaryTextButton(
-                  text: S.of(context).cancel,
+                  text: t.general.cancel,
                   onTap: () => context.pop(null),
                 ),
                 loading.value
                     ? CircularProgressIndicator.adaptive()
                     : PrimaryTextButton(
-                        text: S.of(context).done,
+                        text: t.general.done,
                         onTap: onTap,
                       ),
               ],
@@ -75,7 +74,7 @@ class FeedbackForm extends HookWidget {
             controller: controller,
             autofocus: true,
             decoration: InputDecoration.collapsed(
-              hintText: S.of(context).sendFeedback,
+              hintText: t.feedback.form.placeholder,
               hintStyle: TextStyle(fontWeight: FontWeight.bold),
             ),
             maxLength: 300,

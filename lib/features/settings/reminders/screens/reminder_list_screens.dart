@@ -8,7 +8,8 @@ import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/settings/reminders/models/local_reminder.dart';
 import 'package:prayer/features/settings/reminders/widgets/local_reminder_card.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 
 class ReminderListScreen extends HookWidget {
   const ReminderListScreen({super.key});
@@ -20,7 +21,7 @@ class ReminderListScreen extends HookWidget {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
-        title: Text(S.of(context).reminders),
+        title: Text(t.general.reminders),
         cupertino: (context, platform) => CupertinoNavigationBarData(
             backgroundColor: Theme.of(context).colorScheme.background),
         trailingActions: [
@@ -42,7 +43,7 @@ class ReminderListScreen extends HookWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              S.of(context).errorFullReminders(5),
+              t.error.fullLocalReminders(max: 5),
               textAlign: TextAlign.center,
             ),
           ),

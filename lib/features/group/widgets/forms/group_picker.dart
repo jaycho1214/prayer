@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/group/widgets/group_search_screen.dart';
@@ -32,7 +33,7 @@ class GroupPicker extends HookWidget {
         children: [
           const SizedBox(height: 20),
           Text(
-            S.of(context).chooseGroup,
+            t.group.form.picker.title,
             style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           const SizedBox(height: 10),
@@ -57,7 +58,7 @@ class GroupPicker extends HookWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      S.of(context).community,
+                      t.general.community,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

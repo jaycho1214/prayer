@@ -4,7 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:share_plus/share_plus.dart';
 
 class GroupShareButton extends ConsumerWidget {
@@ -25,16 +26,11 @@ class GroupShareButton extends ConsumerWidget {
           return;
         }
         if (value.acceptedAt == null) {
-          return GlobalSnackBar.show(
-            context,
-            message: S.of(context).errorMemberShare,
-          );
+          return GlobalSnackBar.show(context, message: t.error.memberCanShare);
         }
         if (value.membershipType == 'private' && value.moderator == null) {
-          return GlobalSnackBar.show(
-            context,
-            message: S.of(context).errorModeratorShare,
-          );
+          return GlobalSnackBar.show(context,
+              message: t.error.moderatorCanShare);
         }
         Share.shareUri(Uri(
           scheme: "https",

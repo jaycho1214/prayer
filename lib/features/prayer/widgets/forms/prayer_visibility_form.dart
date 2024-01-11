@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class PrayerVisibilityForm extends StatelessWidget {
@@ -102,7 +103,7 @@ class PrayerVisibilityForm extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            S.of(context).titleHowToShareYourPrayer,
+            t.prayer.form.postType.title,
             style: TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 18,
@@ -113,16 +114,16 @@ class PrayerVisibilityForm extends StatelessWidget {
           buildRow(
             context,
             icon: FontAwesomeIcons.lightUser,
-            title: S.of(context).withName,
-            description: S.of(context).titleWithName,
+            title: t.prayer.form.postType.public.title,
+            description: t.prayer.form.postType.public.description,
             value: false,
           ),
           Divider(),
           buildRow(
             context,
             icon: FontAwesomeIcons.lightUserSlash,
-            title: S.of(context).anonymously,
-            description: S.of(context).titleAnonymously,
+            title: t.prayer.form.postType.anonymous.title,
+            description: t.prayer.form.postType.anonymous.description,
             value: true,
           ),
           SizedBox(height: MediaQuery.of(context).padding.bottom),

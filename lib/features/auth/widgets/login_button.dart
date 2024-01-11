@@ -66,7 +66,7 @@ class LoginButton extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class ImageGalleryScreen extends HookWidget {
@@ -43,7 +43,7 @@ class ImageGalleryScreen extends HookWidget {
               child: CachedNetworkImage(
                 imageUrl: url,
                 errorWidget: (context, url, error) => Center(
-                  child: Text(S.of(context).errorLoadImage),
+                  child: Text(t.error.loadImage),
                 ),
               ),
             ),

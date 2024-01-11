@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/features/common/widgets/buttons/large_icon_button.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class TooManyPraySheet extends StatelessWidget {
   const TooManyPraySheet({
@@ -38,7 +38,7 @@ class TooManyPraySheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            S.of(context).titleYourPrayerHasBeenReceived,
+            t.prayer.alert.needWaitToPray.title,
             style: TextStyle(
               fontWeight: FontWeight.w900,
               fontSize: 20,
@@ -48,7 +48,7 @@ class TooManyPraySheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            S.of(context).descriptionYourPrayerHasBeenReceived,
+            t.prayer.alert.needWaitToPray.description,
             style: Theme.of(context).textTheme.labelMedium,
             textAlign: TextAlign.center,
           ),

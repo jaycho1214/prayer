@@ -3,7 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/errors.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/sheets/confirm_menu_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
@@ -49,9 +50,9 @@ class JoinButton extends HookConsumerWidget {
     };
 
     final text = switch (value) {
-      GroupJoinState.none => S.of(context).join,
-      GroupJoinState.requested => S.of(context).requested,
-      GroupJoinState.joined => S.of(context).joined,
+      GroupJoinState.none => t.general.join,
+      GroupJoinState.requested => t.general.requested,
+      GroupJoinState.joined => t.general.joined,
     };
 
     return ShrinkingButton(
@@ -59,9 +60,9 @@ class JoinButton extends HookConsumerWidget {
         if (value == GroupJoinState.joined) {
           final result = await ConfirmMenuForm.show(
             context,
-            title: S.of(context).leaveGroup,
-            subtitle: S.of(context).alertYouCannotUndoThisAction,
-            description: S.of(context).alertLeaveGroup.split(':').toList(),
+            title: t.general.leaveGroup,
+            subtitle: t.alert.actionIrreversible,
+            description: t.group.alert.leaveGroup,
             icon: FontAwesomeIcons.rightFromBracket,
           );
           if (result != true) {
@@ -70,17 +71,13 @@ class JoinButton extends HookConsumerWidget {
         }
         notifier.join(value == GroupJoinState.none).catchError((e) {
           if (e is AdminLeaveGroupException) {
-            return GlobalSnackBar.show(
-              context,
-              message: S.of(context).errorAdminLeaveGroup,
-            );
+            return GlobalSnackBar.show(context,
+                message: t.error.adminLeaveGroup);
           }
-          GlobalSnackBar.show(
-            context,
-            message: value != GroupJoinState.joined
-                ? S.of(context).errorJoinGroup
-                : S.of(context).errorLeaveGroup,
-          );
+          GlobalSnackBar.show(context,
+              message: value != GroupJoinState.joined
+                  ? t.error.joinGroup
+                  : t.error.leaveGroup);
         });
       },
       child: Skeleton.leaf(
@@ -95,7 +92,7 @@ class JoinButton extends HookConsumerWidget {
           ),
           child: Text(
             value == GroupJoinState.none && group?.invitedAt != null
-                ? S.of(context).invited
+                ? t.general.invited
                 : text,
             style: TextStyle(
               fontSize: 15,

@@ -7,7 +7,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:prayer/features/common/widgets/forms/day_picker.dart';
 import 'package:prayer/features/common/widgets/forms/form_row_card.dart';
 import 'package:prayer/features/common/widgets/forms/time_picker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/utils/formatter.dart';
@@ -98,7 +99,7 @@ class ReminderDatePickerForm extends HookWidget {
                 Row(
                   children: [
                     Text(
-                      S.of(context).reminder,
+                      t.general.reminder,
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
@@ -184,18 +185,16 @@ class ReminderDatePickerForm extends HookWidget {
                           TextInputField(
                             name: 'reminderText',
                             maxLength: 100,
-                            hintText: S.of(context).placeholderReminder,
+                            hintText: t
+                                .corporatePrayer.form.main.reminder.placeholder,
                             validator: (value) {
                               if (formKey.currentState
                                       ?.instantValue['reminderActivated'] ==
                                   true) {
                                 if ((value ?? '').trim().length == 0) {
-                                  return S
-                                      .of(context)
-                                      .errorProvideReminderMessage;
-                                }
-                                if (days.value.length == 0) {
-                                  return S.of(context).errorNeedDayReminder;
+                                  return t.error.provideReminderMessage;
+                                } else if (days.value.length == 0) {
+                                  return t.error.needDayReminder;
                                 }
                               }
                               return null;
@@ -203,7 +202,7 @@ class ReminderDatePickerForm extends HookWidget {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            S.of(context).titleTimezoneWillBeUsed,
+                            t.corporatePrayer.form.main.reminder.description,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],

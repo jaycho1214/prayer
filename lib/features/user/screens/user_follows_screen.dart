@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/user/providers/user_provider.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -68,7 +68,7 @@ class UsersFollowScreen extends HookConsumerWidget {
             SliverPersistentHeader(
               delegate: TabBarDelegate(
                 controller: tabController,
-                tabs: [S.of(context).followers, S.of(context).followings],
+                tabs: [t.general.followers, t.general.followings],
               ),
             ),
           ],

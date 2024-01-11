@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/user/providers/user_provider.dart';
@@ -33,10 +33,10 @@ class FollowButton extends ConsumerWidget {
                 Theme.of(context).colorScheme.onInverseSurface,
               ];
     final text = blockedAt != null
-        ? S.of(context).blocked
+        ? t.general.blocked
         : followedAt == null
-            ? S.of(context).follow
-            : S.of(context).following;
+            ? t.general.follow
+            : t.general.following;
 
     return ShrinkingButton(
       onTap: () async {
@@ -47,8 +47,7 @@ class FollowButton extends ConsumerWidget {
                 .blockUser(false);
           } catch (e, st) {
             talker.handle(e, st, "[FollowButton] Failed to block $uid");
-            GlobalSnackBar.show(context,
-                message: S.of(context).errorFollowUser);
+            GlobalSnackBar.show(context, message: t.error.unknown);
           }
           return;
         }
@@ -58,7 +57,7 @@ class FollowButton extends ConsumerWidget {
               .followUser(followedAt == null);
         } catch (e, st) {
           talker.handle(e, st, "[FollowButton] Failed to follow $uid");
-          GlobalSnackBar.show(context, message: S.of(context).errorFollowUser);
+          GlobalSnackBar.show(context, message: t.error.unknown);
         }
       },
       child: Container(

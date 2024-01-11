@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/user/widgets/forms/profile_bible_verse_form.dart';
@@ -59,8 +59,7 @@ class UserFormScreen extends HookConsumerWidget {
           }
         }).catchError((e, st) {
           talker.handle(e, st, '[UserForm] Failed to update: $values');
-          GlobalSnackBar.show(context,
-              message: S.of(context).errorUnableToUpdate);
+          GlobalSnackBar.show(context, message: t.error.unableUpdate);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -89,7 +88,7 @@ class UserFormScreen extends HookConsumerWidget {
         appBar: AppBar(
           leading: NavigateBackButton(),
           title: Text(
-            S.of(context).profile,
+            t.general.profile,
             style: platformThemeData(
               context,
               material: (ThemeData data) => data.textTheme.headlineSmall,
@@ -101,7 +100,7 @@ class UserFormScreen extends HookConsumerWidget {
             Container(
               padding: const EdgeInsets.only(right: 20),
               child: PrimaryTextButton(
-                text: S.of(context).done,
+                text: t.general.done,
                 onTap: onSubmit,
                 loading: loading.value,
               ),
@@ -146,13 +145,13 @@ class UserFormScreen extends HookConsumerWidget {
                         const SizedBox(height: 5),
                         TextInputField(
                           name: 'name',
-                          labelText: S.of(context).name,
+                          labelText: t.general.name,
                           maxLength: 30,
                           maxLines: 1,
                           keyboardType: TextInputType.name,
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return S.of(context).errorEnterName;
+                              return t.error.enterName;
                             }
                             return null;
                           },
@@ -161,7 +160,7 @@ class UserFormScreen extends HookConsumerWidget {
                         TextInputField(
                           controller: controller,
                           name: 'bio',
-                          labelText: S.of(context).bio,
+                          labelText: t.general.bio,
                           maxLength: 200,
                           maxLines: 10,
                           minLines: 10,

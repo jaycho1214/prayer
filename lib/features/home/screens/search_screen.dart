@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/model/user/user_model.dart';
@@ -73,7 +74,7 @@ class SearchScreen extends HookWidget {
                         Expanded(
                           child: SearchBar(
                             controller: queryController,
-                            hintText: S.of(context).placeholderSearch,
+                            hintText: t.placeholder.search,
                           ),
                         ),
                       ],
@@ -83,7 +84,8 @@ class SearchScreen extends HookWidget {
                 body: Column(
                   children: [
                     CustomTabBar(
-                        tabs: [S.of(context).groups, S.of(context).users]),
+                      tabs: [t.general.groups, t.general.users],
+                    ),
                     Expanded(
                       child: TabBarView(
                         children: [

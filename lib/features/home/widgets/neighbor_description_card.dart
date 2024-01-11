@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 
 class NeighborDescriptionCard extends StatelessWidget {
   const NeighborDescriptionCard({super.key});
@@ -19,8 +20,8 @@ class NeighborDescriptionCard extends StatelessWidget {
           onTap: () async {
             final resp = await ConfirmSlimMenuForm.show(
               context,
-              title: S.of(context).alertClose,
-              description: S.of(context).alertCloseNeighborDescriptionCard,
+              title: t.neighbor.alert.title,
+              description: t.neighbor.alert.subtitle,
               icon: FontAwesomeIcons.xmark,
             );
             if (resp == true) {
@@ -49,11 +50,11 @@ class NeighborDescriptionCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            S.of(context).whoIsMyNeighbor,
+                            t.neighbor.card.title,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            S.of(context).whoIsMyNeighborDescription,
+                            t.neighbor.card.description,
                             style: Theme.of(context).textTheme.labelMedium,
                           ),
                         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:prayer/features/common/widgets/buttons/large_icon_button.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class ConfirmPrayWithNameForm extends StatelessWidget {
   const ConfirmPrayWithNameForm({
@@ -34,7 +34,7 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            S.of(context).prayWithName,
+            t.prayer.alert.prayWithName.title,
             style: Theme.of(context).textTheme.displaySmall,
             maxLines: 1,
             overflow: TextOverflow.fade,
@@ -42,8 +42,8 @@ class ConfirmPrayWithNameForm extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             groupId == null
-                ? S.of(context).alertPrayWithName
-                : S.of(context).alertPrayWithNameGroup,
+                ? t.prayer.alert.prayWithName.community
+                : t.prayer.alert.prayWithName.group,
             style: Theme.of(context).textTheme.labelMedium,
             maxLines: 10,
             overflow: TextOverflow.ellipsis,

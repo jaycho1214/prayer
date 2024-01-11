@@ -16,7 +16,8 @@ import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/written_by_me.dart';
 import 'package:prayer/features/prayer/widgets/open_graph_card.dart';
 import 'package:prayer/features/prayer/widgets/prayer_option_button.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
 import 'package:prayer/features/bible/widgets/bible_card_list.dart';
@@ -51,7 +52,7 @@ class PrayerScreen extends HookConsumerWidget {
       child: PlatformScaffold(
         appBar: PlatformAppBar(
           leading: NavigateBackButton(),
-          title: Text(S.of(context).prayer),
+          title: Text(t.general.prayer),
           cupertino: (context, platform) => CupertinoNavigationBarData(
             backgroundColor: Theme.of(context).colorScheme.background,
           ),
@@ -188,7 +189,7 @@ class PrayerScreen extends HookConsumerWidget {
                                             ),
                                           ),
                                           TextSpan(
-                                            text: S.of(context).prays,
+                                            text: t.general.prays,
                                           ),
                                         ],
                                         style: TextStyle(
@@ -282,8 +283,8 @@ class PraysScreen extends HookConsumerWidget {
       builderDelegate: PagedChildBuilderDelegate(
         animateTransitions: true,
         noItemsFoundIndicatorBuilder: (context) => EmptyPrayersScreen(
-          title: S.of(context).awaitingLove,
-          description: S.of(context).awaitingLoveDescription,
+          title: t.empty.main.title,
+          description: t.empty.main.description,
         ),
         itemBuilder: (context, item, index) => PrayCard(
           pray: item,
@@ -300,12 +301,10 @@ class PraysScreen extends HookConsumerWidget {
                   error: pagingController.value.error,
                 );
               } else {
-                GlobalSnackBar.show(context,
-                    message: S.of(context).errorDeletePray);
+                GlobalSnackBar.show(context, message: t.error.deletePray);
               }
             }).catchError((e) {
-              GlobalSnackBar.show(context,
-                  message: S.of(context).errorDeletePray);
+              GlobalSnackBar.show(context, message: t.error.deletePray);
             });
           },
         ),

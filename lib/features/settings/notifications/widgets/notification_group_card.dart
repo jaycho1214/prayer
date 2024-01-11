@@ -4,7 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/features/group/widgets/group_card.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/utils/formatter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -41,21 +42,26 @@ class NotificationGroupCard extends ConsumerWidget {
                 ),
                 const SizedBox(width: 20),
                 Expanded(
-                  child: Text(
+                  child: Text.rich(
                     switch (item.type) {
-                      NotificationType.group_accepted => S
-                          .of(context)
-                          .notificationAccepted(group.value?.name ?? ''),
-                      NotificationType.group_promoted => S
-                          .of(context)
-                          .notificationPromoted(group.value?.name ?? ''),
-                      _ => '',
+                      NotificationType.group_accepted =>
+                        t.notification.groupAccepted(
+                          group: TextSpan(
+                            text: group.value?.name ?? '',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      NotificationType.group_promoted =>
+                        t.notification.groupPromoted(
+                          group: TextSpan(
+                            text: group.value?.name ?? '',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      _ => TextSpan(),
                     },
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ).boldSubString(group.value?.name ?? ''),
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
                 Text(
                   Formatter.fromNow(item.createdAt!),

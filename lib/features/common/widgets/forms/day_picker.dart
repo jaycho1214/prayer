@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class DayPicker extends HookWidget {
@@ -65,7 +65,7 @@ class DayPicker extends HookWidget {
         alignment: WrapAlignment.center,
         children: [
           Text(
-            S.of(context).reminder,
+            t.general.reminder,
             style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           ...[7, 1, 2, 3, 4, 5, 6]
@@ -91,7 +91,7 @@ class DayPicker extends HookWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                S.of(context).done,
+                t.general.done,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge

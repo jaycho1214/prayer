@@ -4,9 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/features/common/widgets/buttons/large_text_button.dart';
 import 'package:prayer/features/corporate_prayer/models/corporate_prayer_notification_settings/corporate_prayer_notification_settings.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/corporate_prayer/models/reminder/reminder_model.dart';
+import 'package:prayer/utils/formatter.dart';
 
 class CorporateNotificationForm extends HookWidget {
   const CorporateNotificationForm({
@@ -31,29 +32,6 @@ class CorporateNotificationForm extends HookWidget {
         reminder: reminder,
       ),
     );
-  }
-
-  String daysToString(BuildContext context, List<int> days) {
-    final sortedDays = days..sort();
-    if (sortedDays == [0, 6]) {
-      return S.of(context).weekend;
-    } else if (sortedDays == [1, 2, 3, 4, 5]) {
-      return S.of(context).weekdays;
-    } else if (sortedDays == [0, 1, 2, 3, 4, 5, 6]) {
-      return S.of(context).everyday;
-    }
-    return reminder!.days!
-        .map((e) => [
-              S.of(context).daySun,
-              S.of(context).dayMon,
-              S.of(context).dayTue,
-              S.of(context).dayWen,
-              S.of(context).dayThu,
-              S.of(context).dayFri,
-              S.of(context).daySat
-            ][e])
-        .toList()
-        .join(', ');
   }
 
   Widget _buildRow(
@@ -117,18 +95,19 @@ class CorporateNotificationForm extends HookWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            S.of(context).corporate,
+            t.general.corporate,
             style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           const SizedBox(height: 10),
           _buildRow(
             context,
-            title: S.of(context).reminder,
+            title: t.corporatePrayer.form.notifications.reminder.title,
             description: reminder == null
-                ? S.of(context).noReminderSet
-                : S.of(context).titleReminderNotifyOn(
-                    daysToString(context, reminder!.days!.toList()),
-                    Jiffy.parseFromDateTime(reminder!.time).toLocal().jm),
+                ? t.empty.corporatePrayer.reminder
+                : t.corporatePrayer.form.notifications.reminder.description(
+                    fromDays: Formatter.daysToString(reminder!.days!.toList()),
+                    toDays:
+                        Jiffy.parseFromDateTime(reminder!.time).toLocal().jm),
             value: state.value.onReminder,
             onTap: () => state.value =
                 state.value.copyWith(onReminder: !state.value.onReminder),
@@ -137,8 +116,9 @@ class CorporateNotificationForm extends HookWidget {
           const Divider(),
           _buildRow(
             context,
-            title: S.of(context).members,
-            description: S.of(context).groupNotificationSettingsAll,
+            title: t.corporatePrayer.form.notifications.members.title,
+            description:
+                t.corporatePrayer.form.notifications.members.description,
             value: state.value.onPost,
             onTap: () =>
                 state.value = state.value.copyWith(onPost: !state.value.onPost),
@@ -146,7 +126,7 @@ class CorporateNotificationForm extends HookWidget {
           const SizedBox(height: 20),
           LargeTextButton(
             onTap: () => context.pop(state.value.copyWith()),
-            text: S.of(context).done,
+            text: t.general.done,
           ),
         ],
       ),

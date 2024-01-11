@@ -4,7 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/notification_bar.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -88,7 +89,7 @@ class _ReportScreenState extends State<ReportScreen> {
       NotificationSnackBar.show(context, message: "Report has been sent");
     } catch (e, st) {
       talker.handle(e, st, '[Report] Failed to send a report');
-      GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
+      GlobalSnackBar.show(context, message: t.error.unknown);
     } finally {
       setState(() {
         _loading = false;
@@ -112,7 +113,7 @@ class _ReportScreenState extends State<ReportScreen> {
         cupertino: (context, platform) => CupertinoNavigationBarData(
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
-        title: Text(S.of(context).report),
+        title: Text(t.general.report),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

@@ -10,7 +10,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:prayer/features/settings/widgets/donate_card.dart';
 import 'package:prayer/features/settings/widgets/settings_row_card.dart';
 import 'package:prayer/features/settings/widgets/settings_switch_card.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/sheets/feedback_form.dart';
 import 'package:prayer/features/user/widgets/account_ban_card.dart';
@@ -33,7 +34,7 @@ class SettingsScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: NavigateBackButton(),
         title: Text(
-          S.of(context).settings,
+          t.general.settings,
           style: platformThemeData(
             context,
             material: (ThemeData data) => data.textTheme.headlineSmall,
@@ -65,7 +66,7 @@ class SettingsScreen extends ConsumerWidget {
               builder: (context, box, _) {
                 return SettingsSwitchCard(
                   icon: FontAwesomeIcons.solidMoon,
-                  title: S.of(context).darkMode,
+                  title: t.general.darkMode,
                   value: box.get('theme') == 'dark',
                   onTap: () {
                     final theme = box.get('theme');
@@ -79,7 +80,7 @@ class SettingsScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                S.of(context).account,
+                t.general.account,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -88,7 +89,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             SettingsRowCard(
               icon: FontAwesomeIcons.user,
-              title: S.of(context).account,
+              title: t.general.account,
               onTap: () {
                 context.push('/settings/account');
               },
@@ -96,7 +97,7 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.lightAlarmClock,
-              title: S.of(context).reminder,
+              title: t.general.reminder,
               onTap: () {
                 context.push('/settings/reminders');
               },
@@ -106,7 +107,7 @@ class SettingsScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                S.of(context).support,
+                t.general.support,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -115,17 +116,18 @@ class SettingsScreen extends ConsumerWidget {
             ),
             SettingsRowCard(
               icon: FontAwesomeIcons.arrowUpRightFromSquare,
-              title: S.of(context).sharePrayer,
+              title: t.general.sharePrayer,
               onTap: () {
-                Share.share(S.of(context).shareAppMessage(Platform.isIOS
-                    ? 'https://apps.apple.com/app/prayer-united-in-prayer/id6471775802'
-                    : 'https://play.google.com/store/apps/details?id=com.crosswand.prayer'));
+                Share.share(t.settings.shareAppMessage(
+                    url: Platform.isIOS
+                        ? 'https://apps.apple.com/app/prayer-united-in-prayer/id6471775802'
+                        : 'https://play.google.com/store/apps/details?id=com.crosswand.prayer'));
               },
             ),
             const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.comment,
-              title: S.of(context).sendFeedback,
+              title: t.general.sendFeedback,
               onTap: () {
                 FeedbackForm.show(context);
               },
@@ -133,7 +135,7 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.lightMessagePen,
-              title: S.of(context).ratePrayer,
+              title: t.general.ratePrayer,
               onTap: () {
                 launchUrl(Uri.parse(
                   Platform.isIOS
@@ -147,7 +149,7 @@ class SettingsScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                S.of(context).legal,
+                t.general.legal,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -156,7 +158,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
             SettingsRowCard(
               icon: FontAwesomeIcons.blinds,
-              title: S.of(context).privacyPolicy,
+              title: t.general.privacyPolicy,
               onTap: () {
                 launchUrl(
                     Uri.parse('https://www.crosswand.com/app/prayer/privacy'));
@@ -165,7 +167,7 @@ class SettingsScreen extends ConsumerWidget {
             const Divider(),
             SettingsRowCard(
               icon: FontAwesomeIcons.file,
-              title: S.of(context).termsOfUse,
+              title: t.general.termsOfUse,
               onTap: () {
                 launchUrl(
                     Uri.parse('https://www.crosswand.com/app/prayer/terms'));
@@ -183,8 +185,13 @@ class SettingsScreen extends ConsumerWidget {
                         ? '${snapshot.data!.version}, ${snapshot.data!.buildNumber}'
                         : '${snapshot.data!.version}+${snapshot.data!.buildNumber}';
                   }
-                  return Text(
-                    S.of(context).versionText(text),
+                  return Text.rich(
+                    t.settings.versionText(
+                      version: TextSpan(
+                        text: text,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     style: Theme.of(context).textTheme.labelMedium,
                   );
                 },

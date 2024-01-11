@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class MembershipTypeForm extends StatelessWidget {
@@ -58,19 +58,14 @@ class MembershipTypeForm extends StatelessWidget {
     return FormBuilderField(
       name: 'membershipType',
       initialValue: 'open',
-      validator: (value) {
-        if (value != 'open' && value != 'restricted' && value != 'private') {
-          return S.of(context).errorNeedMembershipType;
-        }
-        return null;
-      },
       builder: (FormFieldState<String> state) => Column(
         children: [
           _buildRow(
             context,
             name: 'open',
-            title: S.of(context).open,
-            description: S.of(context).membershipTypeOpenDescription,
+            title: t.general.open,
+            description: t.group.form.main.membershipType
+                .description(context: GroupMembershipTypeContext.open),
             value: state.value == 'open',
             onChanged: state.didChange,
           ),
@@ -78,8 +73,9 @@ class MembershipTypeForm extends StatelessWidget {
           _buildRow(
             context,
             name: 'restricted',
-            title: S.of(context).restricted,
-            description: S.of(context).membershipTypeRestrictedDescription,
+            title: t.general.restricted,
+            description: t.group.form.main.membershipType
+                .description(context: GroupMembershipTypeContext.restricted),
             value: state.value == 'restricted',
             onChanged: state.didChange,
           ),
@@ -87,8 +83,9 @@ class MembershipTypeForm extends StatelessWidget {
           _buildRow(
             context,
             name: 'private',
-            title: S.of(context).private,
-            description: S.of(context).membershipTypePrivateDescription,
+            title: t.general.private,
+            description: t.group.form.main.membershipType
+                .description(context: GroupMembershipTypeContext.private),
             value: state.value == 'private',
             onChanged: state.didChange,
           ),

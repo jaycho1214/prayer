@@ -10,7 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/corporate_prayer/models/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
@@ -95,7 +96,7 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
             .toList();
         if (prayers.length < 1 || prayers[0].trim() == '') {
           GlobalSnackBar.show(context,
-              message: S.of(context).errorCorporatePrayerNeedPrayers);
+              message: t.error.corporatePrayerNeedPrayers);
           return;
         }
         final newCorporateId =
@@ -130,8 +131,7 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
       } catch (e, st) {
         talker.handle(e, st,
             "[CorporatePrayer] Failed to ${initialValue == null ? 'create' : 'update'}");
-        GlobalSnackBar.show(context,
-            message: "Failed to create a corporate prayer");
+        GlobalSnackBar.show(context, message: t.error.unknown);
       } finally {
         setState(() {
           _loading = false;
@@ -199,13 +199,13 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                       children: [
                         const SizedBox(height: 20),
                         Text(
-                          S.of(context).bibleCorporatePrayerScreenVerse,
+                          t.corporatePrayer.form.main.bible.passage,
                           style: Theme.of(context).textTheme.labelMedium,
                           textAlign: TextAlign.center,
                         ),
                         Center(
                           child: Text(
-                            S.of(context).bibleCorporatePrayerScreenVerseBook,
+                            t.corporatePrayer.form.main.bible.verse,
                             style: Theme.of(context).textTheme.labelSmall,
                             textAlign: TextAlign.center,
                           ),
@@ -213,19 +213,16 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                         const SizedBox(height: 20),
                         TextInputField(
                           name: 'title',
-                          labelText: S.of(context).title,
+                          labelText: t.general.title,
                           maxLines: 1,
                           maxLength: 30,
                           validator: (value) {
                             if (value == null || value.trim() == '') {
-                              return S
-                                  .of(context)
-                                  .errorCorporatePrayerMustNotEmpty;
+                              return t.error.corporatePrayerMustNotEmpty;
                             }
                             if (value.contains('@') || value.contains('#')) {
-                              return S
-                                  .of(context)
-                                  .errorCorporatePrayerHasSpecialCharacters;
+                              return t
+                                  .error.corporatePrayerHasSpecialCharacters;
                             }
                             return null;
                           },
@@ -233,15 +230,13 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                         const SizedBox(height: 20),
                         TextInputField(
                           name: 'description',
-                          labelText: S.of(context).description,
+                          labelText: t.general.description,
                           maxLines: 5,
                           maxLength: 300,
                           counterText: '',
                           validator: (value) {
                             if ((value ?? "").trim() == '') {
-                              return S
-                                  .of(context)
-                                  .errorNeedCorporatePrayerDescription;
+                              return t.error.needCorporatePrayerDescription;
                             }
                             return null;
                           },
@@ -260,13 +255,13 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          S.of(context).corporatePrayerReminderMesasge,
+                          t.corporatePrayer.form.main.duration.description,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const Divider(),
                         const SizedBox(height: 10),
                         Text(
-                          S.of(context).prayers,
+                          t.general.prayers,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 10),
@@ -283,8 +278,7 @@ class _CorporatePrayerFormState extends State<CorporatePrayerForm> {
                                 focusNode: focusNodes[index],
                                 scrollPadding:
                                     const EdgeInsets.only(bottom: 220),
-                                labelText:
-                                    '${S.of(context).prayer} ${index + 1}',
+                                labelText: '${t.general.prayer} ${index + 1}',
                                 maxLines: 5,
                                 maxLength: 200,
                               ),

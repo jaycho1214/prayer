@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -222,10 +222,10 @@ class InnerImagePicker extends HookConsumerWidget {
           height: MediaQuery.of(context).size.height -
               MediaQuery.of(context).padding.top,
           child: Column(children: [
-            Text(S.of(context).errorAccessPhoto),
+            Text(t.error.noPermissionPhotos),
             const SizedBox(height: 10),
             PrimaryTextButton(
-              text: S.of(context).accept,
+              text: t.general.accept,
               onTap: () => PhotoManager.openSetting(),
             ),
           ]),
@@ -261,7 +261,7 @@ class PrimaryImagePicker {
       backgroundColor:
           Theme.of(modalSheetContext).bottomSheetTheme.backgroundColor,
       topBarTitle: Text(
-        S.of(modalSheetContext).pickImage,
+        t.alert.imagePicker.title,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
@@ -271,7 +271,7 @@ class PrimaryImagePicker {
         margin: const EdgeInsets.only(left: 20),
         child: UnconstrainedBox(
           child: PrimaryTextButton(
-            text: S.of(modalSheetContext).cancel,
+            text: t.general.cancel,
             onTap: () => modalSheetContext.pop(null),
           ),
         ),
@@ -282,7 +282,7 @@ class PrimaryImagePicker {
           child: Consumer(
             builder: (context, ref, _) {
               return PrimaryTextButton(
-                text: S.of(modalSheetContext).done,
+                text: t.general.done,
                 onTap: () async {
                   final selected = ref.read(imagePickerProvider).selected;
                   if (selected.length == 0) {

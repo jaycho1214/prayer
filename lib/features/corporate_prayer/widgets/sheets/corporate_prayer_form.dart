@@ -4,7 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/features/corporate_prayer/widgets/forms/corporate_prayer_picker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/corporate_prayer/models/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/repo/prayer_repository.dart';
@@ -86,7 +87,7 @@ class CorporatePrayerFormInner extends HookWidget {
             children: [
               Text(
                 corporateId == null
-                    ? S.of(context).group
+                    ? t.general.group
                     : snapshot.data?.title ?? '',
                 style: Theme.of(context)
                     .textTheme

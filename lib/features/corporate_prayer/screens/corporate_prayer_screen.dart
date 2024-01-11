@@ -11,7 +11,8 @@ import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
 import 'package:prayer/features/corporate_prayer/widgets/corporate_notification_subscribe_button.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/fab.dart';
@@ -89,10 +90,10 @@ class CorporatePrayerScreen extends HookConsumerWidget {
     final text = useMemoized(
         () => switch (prayingStatus) {
               CorporatePrayerDurationStatus.prayed =>
-                S.of(context).corporatePrayerPrayed,
+                t.general.corporatePrayerPrayed,
               CorporatePrayerDurationStatus.praying =>
-                S.of(context).corporatePrayerPraying,
-              _ => S.of(context).corporatePrayerPreparing,
+                t.general.corporatePrayerPraying,
+              _ => t.general.corporatePrayerPreparing,
             },
         [prayingStatus]);
 
@@ -119,7 +120,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
         leading: NavigateBackButton(),
-        title: Text(S.of(context).corporate),
+        title: Text(t.general.corporate),
         trailingActions: [
           if (snapshot.value?.userId == FirebaseAuth.instance.currentUser?.uid)
             PullDownButton(
@@ -139,18 +140,20 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                             }
                           }
                         },
-                        title: S.of(context).edit,
+                        title: t.general.edit,
                         icon: FontAwesomeIcons.penToSquare,
                       ),
                       PullDownMenuItem(
                         onTap: () async {
                           final response = await ConfirmMenuForm.show(
                             context,
-                            title: S.of(context).titleDeleteCorporatePrayer,
-                            subtitle:
-                                S.of(context).titleConfirmDeleteCorporatePrayer,
+                            title: t.corporatePrayer.alert.deleteCorporatePrayer
+                                .title,
+                            subtitle: t.corporatePrayer.alert
+                                .deleteCorporatePrayer.prompt,
                             description: [
-                              S.of(context).descriptionDeleteCorporatePrayer
+                              t.corporatePrayer.alert.deleteCorporatePrayer
+                                  .rules,
                             ],
                             icon: FontAwesomeIcons.trash,
                           );
@@ -160,7 +163,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                             context.pop();
                           }
                         },
-                        title: S.of(context).delete,
+                        title: t.general.delete,
                         icon: FontAwesomeIcons.trash,
                         isDestructive: true,
                       ),
@@ -335,8 +338,8 @@ class CorporatePrayerScreen extends HookConsumerWidget {
               body: PrayersScreen(
                 physics: const NeverScrollableScrollPhysics(),
                 noItemsFoundIndicatorBuilder: (p0) => EmptyPrayersScreen(
-                  title: S.of(context).emptyCorporatePrayerTitle,
-                  description: S.of(context).emptyCorporatePrayerDescription,
+                  title: t.empty.corporatePrayer.title,
+                  description: t.empty.corporatePrayer.description,
                 ),
                 fetchFn: (cursor) =>
                     GetIt.I<PrayerRepository>().fetchPrayersFromCorporatePrayer(
@@ -356,12 +359,11 @@ class CorporatePrayerScreen extends HookConsumerWidget {
                     .whenData((value) {
                   checkingMember.value = false;
                   if (value == null) {
-                    GlobalSnackBar.show(context,
-                        message: S.of(context).errorUnknown);
+                    GlobalSnackBar.show(context, message: t.error.unknown);
                     return;
                   } else if (value.acceptedAt == null) {
                     GlobalSnackBar.show(context,
-                        message: S.of(context).errorNeedPermissionToPost);
+                        message: t.error.postNoPermission);
                     return;
                   }
                 });

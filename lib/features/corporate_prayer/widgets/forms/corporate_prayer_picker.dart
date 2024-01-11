@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/corporate_prayer/widgets/group_corporate_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -41,7 +42,7 @@ class CorporatePrayerPicker extends HookWidget {
         children: [
           const SizedBox(height: 20),
           Text(
-            S.of(context).chooseCorporatePrayer,
+            t.corporatePrayer.form.picker.title,
             style: Theme.of(context).textTheme.displaySmall,
           ),
           const SizedBox(height: 10),
@@ -66,7 +67,7 @@ class CorporatePrayerPicker extends HookWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      S.of(context).group,
+                      t.general.group,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

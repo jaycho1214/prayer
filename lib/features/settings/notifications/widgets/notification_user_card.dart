@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/utils/formatter.dart';
 
 class NotificationUserCard extends StatelessWidget {
@@ -27,9 +28,14 @@ class NotificationUserCard extends StatelessWidget {
           ),
           const SizedBox(width: 20),
           Expanded(
-            child: Text(
-              S.of(context).notificationFollow(item.targetUser?.username ?? ''),
-            ).boldSubString(item.targetUser?.username ?? ''),
+            child: Text.rich(
+              t.notification.someoneFollowed(
+                username: TextSpan(
+                  text: item.targetUser?.username ?? '',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
           ),
           Text(
             Formatter.fromNow(item.createdAt!),

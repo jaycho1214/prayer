@@ -4,7 +4,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 
@@ -64,7 +65,7 @@ class DurationPickerForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          S.of(context).prayDuration,
+          t.general.prayDuration,
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
@@ -95,7 +96,7 @@ class DurationPickerForm extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: Text(
                                   startedAtField.value == null
-                                      ? S.of(context).startedAt
+                                      ? t.general.startedAt
                                       : startedAtField.value!.yMMMMd,
                                   style: TextStyle(
                                     color: startedAtField.value == null
@@ -124,7 +125,7 @@ class DurationPickerForm extends StatelessWidget {
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: Text(
                                   endedAtField.value == null
-                                      ? S.of(context).endedAt
+                                      ? t.general.endedAt
                                       : endedAtField.value!.yMMMMd,
                                   style: TextStyle(
                                     color: endedAtField.value == null

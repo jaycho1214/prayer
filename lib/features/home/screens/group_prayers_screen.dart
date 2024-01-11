@@ -10,7 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/home/widgets/mini_my_group_list.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -67,7 +68,7 @@ class GroupPrayersScreen extends HookWidget {
                           ? Alignment.center
                           : Alignment.centerLeft,
                       child: Text(
-                        S.of(context).group,
+                        t.general.group,
                         style: platformThemeData(
                           context,
                           material: (ThemeData data) =>
@@ -138,9 +139,9 @@ class GroupPrayersScreen extends HookWidget {
                   .fetchGroupPrayersFromUser(cursor: cursor),
               pagingController: pagingController,
               noItemsFoundIndicatorBuilder: (p0) => EmptyPrayersScreen(
-                title: S.of(context).prayWithOthers,
-                description: S.of(context).emptyGroupDescription,
-                buttonText: S.of(context).createGroup,
+                title: t.empty.group.title,
+                description: t.empty.group.description,
+                buttonText: t.empty.group.button,
                 onTap: () => context.push('/form/group'),
               ),
             ),

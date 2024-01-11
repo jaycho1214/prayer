@@ -6,7 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
@@ -58,7 +59,7 @@ class NotificationsScreen extends HookConsumerWidget {
                         Container(
                           width: double.infinity,
                           child: Text(
-                            S.of(context).notifications,
+                            t.general.notifications,
                             textAlign: TextAlign.center,
                             style: platformThemeData(
                               context,
@@ -84,8 +85,8 @@ class NotificationsScreen extends HookConsumerWidget {
                       preferredSize: Size.fromHeight(48),
                       child: CustomTabBar(
                         tabs: [
-                          S.of(context).notifications,
-                          S.of(context).invitation
+                          t.general.notifications,
+                          t.general.invitation,
                         ],
                       ),
                     ),

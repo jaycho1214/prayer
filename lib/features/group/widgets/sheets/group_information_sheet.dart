@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/features/common/widgets/buttons/large_icon_button.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
 
 class GroupInformationSheet extends ConsumerWidget {
@@ -45,11 +45,12 @@ class GroupInformationSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            S.of(context).titleGroupType(switch (group?.membershipType) {
-                  'restricted' => S.of(context).restricted,
-                  'private' => S.of(context).private,
-                  _ => S.of(context).open,
-                }),
+            t.group.alert.detail.title(
+                membershipType: switch (group?.membershipType) {
+              'restricted' => t.general.restricted,
+              'private' => t.general.private,
+              _ => t.general.open,
+            }),
             style: Theme.of(context).textTheme.displaySmall,
             maxLines: 1,
             overflow: TextOverflow.fade,
@@ -59,24 +60,19 @@ class GroupInformationSheet extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                switch (group?.membershipType) {
-                  'open' => S.of(context).titleMembershipTypeOpen,
-                  'restricted' => S.of(context).titleMembershipTypeRestricted,
-                  'private' => S.of(context).titleMembershipTypePrivate,
-                  _ => '1.',
-                },
+                t['group.alert.detail.description.0.${group?.membershipType ?? "open"}'],
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 10),
               Text(
-                S.of(context).titleMemberCanPostOnly,
+                t['group.alert.detail.description.1'],
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 10),
               if (group?.createdAt != null)
                 Text(
-                  S.of(context).groupEstablishedAt(
-                      Jiffy.parseFromDateTime(group!.createdAt!)
+                  t['group.alert.detail.description.2'](
+                      establishedAt: Jiffy.parseFromDateTime(group!.createdAt!)
                           .toLocal()
                           .yMMMd),
                   style: Theme.of(context).textTheme.bodyMedium,

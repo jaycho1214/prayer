@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/pray/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/prayer/providers/prayer_provider.dart';
@@ -25,7 +26,7 @@ class PrayChip extends ConsumerWidget {
           onPrayed: () => ref.refresh(PrayerNotifierProvider(prayerId).future),
           onError: () {
             mixpanel.track("Pray Sent");
-            GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
+            GlobalSnackBar.show(context, message: t.error.unknown);
           },
           onNeedWait: () {
             mixpanel.track("Pray Need Wait");
@@ -45,7 +46,7 @@ class PrayChip extends ConsumerWidget {
           ),
         ),
         child: Text(
-          S.of(context).pray,
+          t.general.pray,
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: prayer.value?.hasPrayed == null

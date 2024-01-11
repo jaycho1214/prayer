@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/features/common/widgets/buttons/large_icon_button.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 
 enum CorporatePrayerDurationStatus { preparing, praying, prayed }
 
@@ -56,11 +57,11 @@ class CorporatePrayerDuration extends StatelessWidget {
           Text(
             switch (status) {
               CorporatePrayerDurationStatus.prayed =>
-                S.of(context).corporatePrayerPrayed,
+                t.general.corporatePrayerPrayed,
               CorporatePrayerDurationStatus.praying =>
-                S.of(context).corporatePrayerPraying,
+                t.general.corporatePrayerPraying,
               CorporatePrayerDurationStatus.preparing =>
-                S.of(context).corporatePrayerPreparing,
+                t.general.corporatePrayerPreparing,
             },
             style: TextStyle(
               fontWeight: FontWeight.w900,
@@ -106,7 +107,7 @@ class CorporatePrayerDuration extends StatelessWidget {
                     text: '$prayersCount',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  TextSpan(text: ' ${S.of(context).prayers}'),
+                  TextSpan(text: ' ${t.general.prayers}'),
                   if (endedAt != null) ...[
                     TextSpan(text: ', '),
                     TextSpan(

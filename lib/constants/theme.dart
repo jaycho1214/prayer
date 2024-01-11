@@ -42,12 +42,15 @@ final lightThemeData = ThemeData.light().copyWith(
       fontWeight: FontWeight.w900,
       fontSize: 17,
     ),
+    headlineLarge: TextStyle(),
+    headlineMedium: TextStyle(),
     headlineSmall: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
     titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
     titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
     titleSmall: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
     bodyLarge: TextStyle(fontSize: 18),
     bodyMedium: TextStyle(fontSize: 14),
+    bodySmall: TextStyle(),
   ).apply(bodyColor: Colors.black, displayColor: Colors.black).copyWith(
         labelLarge: TextStyle(
           fontSize: 15,

@@ -8,7 +8,8 @@ import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/written_by_me.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/bible/widgets/bible_card_list.dart';
 import 'package:prayer/features/pray/widgets/pray_chip.dart';
 import 'package:prayer/features/user/widgets/user_chip.dart';
@@ -40,8 +41,13 @@ class PrayerCard extends ConsumerWidget {
         ),
         const SizedBox(width: 10),
         Expanded(
-          child: Text(
-            S.of(context).someoneHasPrayed(prayer.pray!.username),
+          child: Text.rich(
+            t.prayer.someoneHasPrayed(
+              username: TextSpan(
+                text: prayer.pray!.name,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
             maxLines: 1,
           ),
         ),
@@ -107,8 +113,8 @@ class PrayerCard extends ConsumerWidget {
                       ),
                       child: Text(
                         prayer.value?.userId == prayer.value?.group?.adminId
-                            ? S.of(context).admin
-                            : S.of(context).moderator,
+                            ? t.general.admin
+                            : t.general.moderator,
                         style: TextStyle(
                           fontSize: 10,
                           color: Theme.of(context).colorScheme.onPrimary,
@@ -131,7 +137,7 @@ class PrayerCard extends ConsumerWidget {
                 padding: const EdgeInsets.only(left: 40.0),
                 child: ParseableText(
                   prayer.value?.value ?? '',
-                  trimCollapsedText: S.of(context).readmore,
+                  trimCollapsedText: t.general.readmore,
                   trimLines: 5,
                 ),
               ),

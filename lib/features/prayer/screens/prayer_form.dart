@@ -10,7 +10,8 @@ import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_picker_form.dart';
 import 'package:prayer/features/corporate_prayer/widgets/sheets/corporate_prayer_form.dart';
 import 'package:prayer/features/user/widgets/verses_form.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/rich_text_controller_hook.dart';
 import 'package:prayer/features/common/sheets/image_picker_form.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -104,7 +105,7 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
         Navigator.of(context).pop(true);
       } catch (err, st) {
         talker.handle(err, st, '[Prayer] Failed to post');
-        GlobalSnackBar.show(context, message: S.of(context).errorPostPrayer);
+        GlobalSnackBar.show(context, message: t.error.postPrayer);
       } finally {
         setState(() {
           _loading = false;
@@ -138,8 +139,8 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                 const SizedBox(width: 10),
                 Text(
                   !anon
-                      ? S.of(context).titlePrayerPostPublicly
-                      : S.of(context).titlePrayerPostAnonymously,
+                      ? t.prayer.form.postPublicly
+                      : t.prayer.form.postAnonymously,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
@@ -265,7 +266,7 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                         ? PlatformCircularProgressIndicator()
                         : PrimaryTextButton(
                             onTap: submit,
-                            text: S.of(context).pray,
+                            text: t.general.pray,
                           ),
                   ),
                 ),
@@ -328,13 +329,13 @@ class _PrayerFormScreenState extends ConsumerState<PrayerFormScreen> {
                       autofocus: true,
                       validator: (value) {
                         if ((value ?? '').trim() == '') {
-                          return S.of(context).errorEmptyPrayer;
+                          return t.error.emptyPrayer;
                         }
                         return null;
                       },
                       style: Theme.of(context).textTheme.bodyLarge,
                       decoration: InputDecoration(
-                        hintText: S.of(context).placeholderPrayer,
+                        hintText: t.prayer.form.main.placeholder,
                         hintStyle:
                             Theme.of(context).textTheme.titleLarge?.copyWith(
                                   color: Theme.of(context).disabledColor,

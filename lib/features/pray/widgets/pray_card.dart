@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
@@ -36,13 +37,16 @@ class PrayCard extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(
-                  pray.value == null
-                      ? S.of(context).someoneHasPrayed(pray.user.username)
-                      : pray.user.username,
+                child: Text.rich(
+                  t.prayer.someoneHasPrayed(
+                    username: TextSpan(
+                      text: pray.user.name,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   maxLines: 1,
                   style: Theme.of(context).textTheme.bodyMedium,
-                ).boldSubString(pray.user.username),
+                ),
               ),
               const SizedBox(width: 10),
               Text(
@@ -73,7 +77,7 @@ class PrayCard extends StatelessWidget {
                               queryParameters: {'prayId': pray.id.toString()})
                           .toString());
                     },
-                    title: S.of(context).report,
+                    title: t.general.report,
                     icon: FontAwesomeIcons.flag,
                     isDestructive: true,
                   ),
@@ -82,7 +86,7 @@ class PrayCard extends StatelessWidget {
                         pray.user.uid == FirebaseAuth.instance.currentUser?.uid,
                     isDestructive: true,
                     onTap: onDelete,
-                    title: S.of(context).delete,
+                    title: t.general.delete,
                     icon: FontAwesomeIcons.trash,
                   ),
                 ],

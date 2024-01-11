@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
@@ -63,7 +64,7 @@ class GroupCard extends HookConsumerWidget {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    S.of(context).onlyVisibleToYou,
+                    t.prayer.onlyVisibleToYou,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],

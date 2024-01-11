@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 
 class WrittenByMeLabel extends StatelessWidget {
   const WrittenByMeLabel({super.key});
@@ -19,7 +20,7 @@ class WrittenByMeLabel extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(
-          S.of(context).postedByMe,
+          t.general.postedByMe,
           style: Theme.of(context)
               .textTheme
               .labelMedium

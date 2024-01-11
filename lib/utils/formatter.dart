@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class Formatter {
   static String fromNow(DateTime now) {
@@ -42,21 +42,21 @@ class Formatter {
   static String daysToString(List<int> days) {
     final sortedDays = days..sort();
     if (listEquals([6, 7], sortedDays)) {
-      return S.current.weekend;
+      return t.general.weekend;
     } else if (listEquals(sortedDays, [1, 2, 3, 4, 5])) {
-      return S.current.weekdays;
+      return t.general.weekdays;
     } else if (listEquals(sortedDays, [1, 2, 3, 4, 5, 6, 7])) {
-      return S.current.everyday;
+      return t.general.everyday;
     }
     return days
         .map((e) => [
-              S.current.dayMon,
-              S.current.dayTue,
-              S.current.dayWen,
-              S.current.dayThu,
-              S.current.dayFri,
-              S.current.daySat,
-              S.current.daySun,
+              t.day.mon,
+              t.day.tue,
+              t.day.wed,
+              t.day.thu,
+              t.day.fri,
+              t.day.sat,
+              t.day.sun,
             ][e - 1])
         .toList()
         .join(', ');

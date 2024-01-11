@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class DonateCard extends StatelessWidget {
   const DonateCard({super.key});
@@ -28,11 +28,11 @@ class DonateCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      S.of(context).donatePrayer,
+                      t.donate.card.title,
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
                     Text(
-                      S.of(context).donatePrayerDescription,
+                      t.donate.card.description,
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],

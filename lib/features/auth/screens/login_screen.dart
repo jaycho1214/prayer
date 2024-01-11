@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/auth/widgets/login_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
 import 'package:prayer/features/auth/providers/auth_state.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends HookConsumerWidget {
@@ -22,32 +22,23 @@ class LoginScreen extends HookConsumerWidget {
 
   Widget _buildDisclaimer(BuildContext context) {
     return Text.rich(
-      TextSpan(
-        style: Theme.of(context).textTheme.labelMedium,
-        children: [
-          TextSpan(text: "By signing up, you agree to our "),
-          TextSpan(
-            text: "Terms of Service",
-            style: TextStyle(decoration: TextDecoration.underline),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                launchUrl(
-                    Uri.parse('https://www.crosswand.com/app/prayer/terms'));
-              },
-          ),
-          TextSpan(text: " and acknowledge that our "),
-          TextSpan(
-            text: "Privacy Policy",
-            style: TextStyle(decoration: TextDecoration.underline),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                launchUrl(
-                    Uri.parse('https://www.crosswand.com/app/prayer/privacy'));
-              },
-          ),
-          TextSpan(text: " applies to you."),
-        ],
+      t.auth.login.disclaimer(
+        termsOfService: TextSpan(
+          text: t.general.termsOfUse,
+          style: TextStyle(decoration: TextDecoration.underline),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => launchUrl(
+                Uri.parse('https://www.crosswand.com/app/prayer/terms')),
+        ),
+        privacyPolicy: TextSpan(
+          text: t.general.privacyPolicy,
+          style: TextStyle(decoration: TextDecoration.underline),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => launchUrl(
+                Uri.parse('https://www.crosswand.com/app/prayer/privacy')),
+        ),
       ),
+      style: Theme.of(context).textTheme.labelMedium,
       textAlign: TextAlign.center,
     );
   }
@@ -60,19 +51,10 @@ class LoginScreen extends HookConsumerWidget {
 
     ref.listen(authNotifierProvider, (_, next) {
       next.when(
-        data: (state) {
-          if (state is AuthStateSignedIn) {
-            context.go('/auth/signUp');
-          } else if (state is AuthStateSignedUp) {
-            context.go('/');
-          }
-        },
-        error: (_, __) {
-          GlobalSnackBar.show(
-            context,
-            message: S.of(context).errorSignIn,
-          );
-        },
+        data: (state) => state is AuthStateSignedIn
+            ? context.go('/auth/signUp')
+            : context.go('/'),
+        error: (_, __) => GlobalSnackBar.show(context, message: t.error.signIn),
         loading: () => null,
       );
     });
@@ -97,7 +79,7 @@ class LoginScreen extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            S.of(context).introductionTitle,
+            t.introduction.title.join('\n'),
             style: Theme.of(context).textTheme.displayLarge,
           ),
           Column(
@@ -108,7 +90,7 @@ class LoginScreen extends HookConsumerWidget {
                 LoginButton(
                   loading: lastPressed.value == 'apple' && loading,
                   iconPath: "assets/images/logo/apple.png",
-                  text: S.of(context).signInWithApple,
+                  text: t.auth.login.button.apple,
                   onTap: () {
                     lastPressed.value = 'apple';
                     authProvider.signIn(AuthProvider.apple);
@@ -120,7 +102,7 @@ class LoginScreen extends HookConsumerWidget {
               LoginButton(
                 loading: lastPressed.value == 'google' && loading,
                 iconPath: "assets/images/logo/google.png",
-                text: S.of(context).signInWithGoogle,
+                text: t.auth.login.button.google,
                 onTap: () {
                   lastPressed.value = 'google';
                   authProvider.signIn(AuthProvider.google);

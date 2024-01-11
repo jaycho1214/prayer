@@ -3,7 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:prayer/features/common/widgets/buttons/large_text_button.dart';
 import 'package:prayer/features/group/models/group_notification_settings/group_notification_settings_model.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 class GroupNotificationForm extends HookWidget {
@@ -73,14 +74,14 @@ class GroupNotificationForm extends HookWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            S.of(context).notifications,
+            t.general.notifications,
             style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           const SizedBox(height: 10),
           _buildRow(
             context,
-            title: S.of(context).moderator,
-            description: S.of(context).groupNotificationSettingsModerator,
+            title: t.group.form.notifications.moderator.title,
+            description: t.group.form.notifications.moderator.description,
             value: state.value.onModeratorPost,
             onTap: () {
               final old = state.value.onModeratorPost;
@@ -95,8 +96,8 @@ class GroupNotificationForm extends HookWidget {
           const Divider(),
           _buildRow(
             context,
-            title: S.of(context).members,
-            description: S.of(context).groupNotificationSettingsAll,
+            title: t.group.form.notifications.members.title,
+            description: t.group.form.notifications.members.description,
             value: state.value.onPost,
             onTap: () {
               final old = state.value.onPost;
@@ -110,7 +111,7 @@ class GroupNotificationForm extends HookWidget {
           ),
           const SizedBox(height: 20),
           LargeTextButton(
-            text: S.of(context).done,
+            text: t.general.done,
             onTap: () => context.pop(state.value.copyWith()),
           ),
         ],

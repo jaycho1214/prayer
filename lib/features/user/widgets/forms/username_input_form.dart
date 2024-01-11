@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
 import 'package:prayer/repo/user_repository.dart';
 
@@ -92,23 +92,20 @@ class UsernameInputForm extends HookWidget {
         username.value = newUsername;
         editedAt.value = DateTime.timestamp();
       },
-      labelText: S.of(context).username,
+      labelText: t.general.username,
       maxLength: 30,
       maxLines: 1,
       keyboardType: TextInputType.text,
       suffix: suffix,
       validator: (value) {
         if (value == null || value == '') {
-          return S.of(context).errorUsernameReqruied;
-        }
-        if (!RegExp(r'^[a-zA-Z0-9._]{1,30}$').hasMatch(value)) {
-          return S.of(context).errorUsernameFormat;
-        }
-        if (valid.value == -1) {
-          return S.of(context).errorUsernameTaken(value);
-        }
-        if (valid.value == -2) {
-          return S.of(context).errorCheckingUsernameExists;
+          return t.error.usernameRequired;
+        } else if (!RegExp(r'^[a-zA-Z0-9._]{1,30}$').hasMatch(value)) {
+          return t.error.wrongUsernameFormat;
+        } else if (valid.value == -1) {
+          return t.error.usernameTaken(username: value);
+        } else if (valid.value == -2) {
+          return t.error.checkingUsernameExists;
         }
         return null;
       },

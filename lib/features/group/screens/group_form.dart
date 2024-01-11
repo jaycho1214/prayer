@@ -10,7 +10,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
@@ -42,7 +43,7 @@ class GroupFormScreen extends HookConsumerWidget {
           if (form['banner'] == null) {
             loading.value = false;
             return GlobalSnackBar.show(context,
-                message: S.of(context).errorNeedGroupBanner);
+                message: t.error.needGroupBanner);
           }
           await GetIt.I<GroupRepository>().createGroup(
             name: form['name'],
@@ -55,7 +56,7 @@ class GroupFormScreen extends HookConsumerWidget {
           talker.good("[Group] Created");
         } catch (e, st) {
           talker.handle(e, st, "[Group] Failed to create");
-          GlobalSnackBar.show(context, message: S.of(context).errorCreateGroup);
+          return GlobalSnackBar.show(context, message: t.error.createGroup);
         } finally {
           loading.value = false;
         }
@@ -65,8 +66,7 @@ class GroupFormScreen extends HookConsumerWidget {
     final onEdit = useCallback(() async {
       try {
         if (initialValue == null) {
-          GlobalSnackBar.show(context, message: S.of(context).errorEditGroup);
-          return;
+          return GlobalSnackBar.show(context, message: t.error.editGroup);
         }
         if (formKey.currentState?.saveAndValidate() == true) {
           loading.value = true;
@@ -75,7 +75,7 @@ class GroupFormScreen extends HookConsumerWidget {
           if (form['banner'] == null) {
             loading.value = false;
             return GlobalSnackBar.show(context,
-                message: S.of(context).errorNeedGroupBanner);
+                message: t.error.needGroupBanner);
           }
           await GetIt.I<GroupRepository>().updateGroup(
             groupId: initialValue.id,
@@ -90,7 +90,7 @@ class GroupFormScreen extends HookConsumerWidget {
         }
       } catch (e, st) {
         talker.handle(e, st, "[Group] Failed to edit");
-        GlobalSnackBar.show(context, message: S.of(context).errorEditGroup);
+        GlobalSnackBar.show(context, message: t.error.editGroup);
       } finally {
         loading.value = false;
       }
@@ -101,13 +101,11 @@ class GroupFormScreen extends HookConsumerWidget {
         appBar: PlatformAppBar(
           automaticallyImplyLeading: true,
           leading: NavigateBackButton(result: false),
-          title: Text(S.of(context).createGroup),
+          title: Text(t.general.createGroup),
           trailingActions: [
             Center(
               child: PrimaryTextButton(
-                text: initialValue == null
-                    ? S.of(context).create
-                    : S.of(context).edit,
+                text: initialValue == null ? t.general.create : t.general.edit,
                 onTap: initialValue == null ? onCreate : onEdit,
                 loading: loading.value,
               ),
@@ -143,29 +141,24 @@ class GroupFormScreen extends HookConsumerWidget {
                         const SizedBox(height: 20),
                         TextInputField(
                           name: 'name',
-                          labelText: S.of(context).groupName,
+                          labelText: t.group.form.main.name.title,
                           maxLines: 1,
                           maxLength: 30,
                           validator: (value) {
                             if (value == null || value.trim() == '') {
-                              return S
-                                  .of(context)
-                                  .errorCorporatePrayerMustNotEmpty;
-                            }
-                            if (value.contains('@') || value.contains('#')) {
-                              return S
-                                  .of(context)
-                                  .errorCorporatePrayerHasSpecialCharacters;
-                            }
-                            if (value.startsWith(' ')) {
-                              return "Name must not start with whitespace";
+                              return t.error.corporatePrayerMustNotEmpty;
+                            } else if (value.contains('@') ||
+                                value.contains('#') ||
+                                value.startsWith(' ')) {
+                              return t
+                                  .error.corporatePrayerHasSpecialCharacters;
                             }
                             return null;
                           },
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          S.of(context).errorNameLessThan30Characters,
+                          t.group.form.main.name.subtitle,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const SizedBox(height: 10),
@@ -173,20 +166,20 @@ class GroupFormScreen extends HookConsumerWidget {
                         const SizedBox(height: 10),
                         TextInputField(
                           name: 'description',
-                          labelText: S.of(context).groupDescription,
+                          labelText: t.group.form.main.description.title,
                           maxLines: 10,
                           maxLength: 300,
                           counterText: '',
                           validator: (value) {
                             if ((value ?? "").trim() == '') {
-                              return S.of(context).errorNeedGroupDescription;
+                              return t.error.needGroupDescription;
                             }
                             return null;
                           },
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          S.of(context).titleGroupDescription,
+                          t.group.form.main.description.subtitle,
                           style: Theme.of(context).textTheme.labelMedium,
                         ),
                         const SizedBox(height: 10),
@@ -195,20 +188,15 @@ class GroupFormScreen extends HookConsumerWidget {
                           loading.value
                               ? PlatformCircularProgressIndicator()
                               : PrimaryTextButton(
-                                  text: S.of(context).delete,
+                                  text: t.general.delete,
                                   onTap: () async {
                                     loading.value = true;
                                     if (await ConfirmMenuForm.show(
                                           context,
-                                          title: S.of(context).deleteGroup,
-                                          subtitle: S
-                                              .of(context)
-                                              .alertYouCannotUndoThisAction,
-                                          description: S
-                                              .of(context)
-                                              .alertDeleteGroup
-                                              .split(":")
-                                              .toList(),
+                                          title: t.general.deleteGroup,
+                                          subtitle: t.alert.actionIrreversible,
+                                          description:
+                                              t.group.alert.deleteGroup,
                                           icon: FontAwesomeIcons.lightTrash,
                                         ) ==
                                         true) {
@@ -219,8 +207,7 @@ class GroupFormScreen extends HookConsumerWidget {
                                             .popUntil(ModalRoute.withName('/'));
                                       }).catchError((_) {
                                         GlobalSnackBar.show(context,
-                                            message:
-                                                S.of(context).errorDeleteGroup);
+                                            message: t.error.deleteGroup);
                                       }).whenComplete(() {
                                         loading.value = false;
                                       });
@@ -235,11 +222,11 @@ class GroupFormScreen extends HookConsumerWidget {
                           const Divider(),
                           const SizedBox(height: 10),
                           Text(
-                            S.of(context).membershipType,
+                            t.group.form.main.membershipType.title,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Text(
-                            S.of(context).titleMembershipType,
+                            t.group.form.main.membershipType.subtitle,
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                           const SizedBox(height: 10),

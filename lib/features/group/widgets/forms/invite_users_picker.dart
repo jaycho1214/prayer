@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/model/user/user_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/notification_bar.dart';
@@ -214,9 +215,8 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
           icon: FontAwesomeIcons.arrowRight,
           onTap: () {
             if (ref.read(inviteUsersPickerProvider).users.length == 0) {
-              GlobalSnackBar.show(context,
-                  message: S.of(context).errorChooseUserToInvite);
-              return;
+              return GlobalSnackBar.show(context,
+                  message: t.error.chooseUserToInvite);
             }
             pageIndex.value += 1;
           },
@@ -226,7 +226,7 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
         padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
         child: SearchBar(
           controller: queryController,
-          hintText: S.of(context).placeholderSearch,
+          hintText: t.placeholder.search,
         ),
       ),
       forceMaxHeight: true,
@@ -318,7 +318,7 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
       topBarTitle: Padding(
         padding: const EdgeInsets.fromLTRB(10, 20, 0, 10),
         child: Text(
-          S.of(context).sendInvitation,
+          t.general.sendInvitation,
           style: platformThemeData(
             context,
             material: (ThemeData data) => data.textTheme.headlineSmall,
@@ -349,14 +349,14 @@ class _InviteUsersPickerState extends ConsumerState<InviteUsersPicker> {
                   child: Column(
                     children: [
                       Text(
-                        S.of(context).titleInvitePeople(member.length),
+                        t.group.form.invite.title(n: member.length),
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 25,
                         ),
                       ),
                       Text(
-                        S.of(context).titleInvitePeopleDescription,
+                        t.group.form.invite.description,
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],

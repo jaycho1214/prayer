@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/main.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 
@@ -170,29 +170,43 @@ NotificationBody? buildNotification(RemoteMessage? message) {
   return switch (NotificationType.values.byName(message.data['type'])) {
     NotificationType.followed => NotificationBody(
         title: 'Prayer',
-        body: S.current.notificationFollow(message.data['username'])),
+        body: t.notification.plain
+            .someoneFollowed(username: message.data['username']),
+      ),
     NotificationType.group_join_requested => NotificationBody(
         title: message.data['groupName'],
-        body: S.current.notificationJoinRequested(message.data['username'])),
+        body: t.notification.plain
+            .groupJoinRequested(username: message.data['username']),
+      ),
     NotificationType.group_joined => NotificationBody(
         title: message.data['groupName'],
-        body: S.current.notificationJoinedGroup(message.data['username'])),
+        body: t.notification.plain
+            .someoneJoinedGroup(username: message.data['username']),
+      ),
     NotificationType.group_accepted => NotificationBody(
         title: message.data['groupName'],
-        body: S.current.notificationAccepted(message.data['groupName'])),
+        body: t.notification.plain
+            .groupAccepted(group: message.data['groupName']),
+      ),
     NotificationType.group_promoted => NotificationBody(
         title: message.data['groupName'],
-        body: S.current.notificationPromoted(message.data['groupName'])),
+        body: t.notification.plain
+            .groupPromoted(group: message.data['groupName']),
+      ),
     NotificationType.prayed => NotificationBody(
         title: 'Prayer',
-        body: S.current.notificationPrayed(message.data['username'])),
+        body: t.notification.plain.prayed(username: message.data['username']),
+      ),
     NotificationType.prayer_posted => NotificationBody(
         title: 'Prayer',
-        body: S.current.notificationPostedPrayer(message.data['username'])),
+        body: t.notification.plain
+            .postedPrayer(username: message.data['username']),
+      ),
     NotificationType.group_corporate_posted => NotificationBody(
         title: message.data['groupName'],
-        body: S.current
-            .notificationPostedCorporatePrayer(message.data['username'])),
+        body: t.notification.plain
+            .postedCorporatePrayer(username: message.data['username']),
+      ),
   };
 }
 

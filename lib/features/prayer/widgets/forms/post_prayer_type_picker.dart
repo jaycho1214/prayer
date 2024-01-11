@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 
 enum PostPrayerTypePickerResponse { prayer, corporate }
@@ -49,7 +50,7 @@ class PostPrayerTypePicker extends HookWidget {
         children: [
           Center(
             child: Text(
-              S.of(context).pray,
+              t.general.pray,
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
             ),
           ),
@@ -57,12 +58,12 @@ class PostPrayerTypePicker extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildRow(
-                title: S.of(context).prayer,
+                title: t.general.prayer,
                 onTap: () => context.pop(PostPrayerTypePickerResponse.prayer),
               ),
               const Divider(),
               _buildRow(
-                title: S.of(context).corporatePrayer,
+                title: t.general.corporatePrayer,
                 onTap: () =>
                     context.pop(PostPrayerTypePickerResponse.corporate),
               ),

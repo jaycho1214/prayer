@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class ErrorScreen extends ConsumerWidget {
   const ErrorScreen({super.key});
@@ -40,18 +40,18 @@ class ErrorScreen extends ConsumerWidget {
               ),
               SizedBox(height: 20),
               Text(
-                S.of(context).errorConnection,
+                t.error.connection.title,
                 style: Theme.of(context).textTheme.displayMedium,
               ),
-              Text(S.of(context).errorConnectionDescription),
+              Text(t.error.connection.description),
               const SizedBox(height: 20),
               PrimaryTextButton(
-                text: S.of(context).refresh,
+                text: t.general.refresh,
                 onTap: () => ref.refresh(authNotifierProvider.future),
               ),
               SizedBox(height: 10),
               PrimaryTextButton(
-                text: S.of(context).signOut,
+                text: t.general.signOut,
                 onTap: () => ref.read(authNotifierProvider.notifier).signOut(),
               ),
             ],

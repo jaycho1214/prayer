@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/router.dart';
 import 'package:prayer/constants/theme.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -34,9 +34,9 @@ class App extends ConsumerWidget {
                 GlobalMaterialLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
-                S.delegate,
               ],
-              supportedLocales: S.delegate.supportedLocales,
+              locale: TranslationProvider.of(context).flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
               routerConfig: router,
               builder: (context, child) => Material(child: child),
             ),

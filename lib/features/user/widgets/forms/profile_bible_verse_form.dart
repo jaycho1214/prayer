@@ -6,7 +6,7 @@ import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_picker_form.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_translation_picker.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/bible/providers/bible_verse_provider.dart';
@@ -32,7 +32,7 @@ class ProfileBibleVerseForm extends HookWidget {
                 children: [
                   Skeleton.keep(
                     child: Text(
-                      S.of(context).bibleVerse,
+                      t.general.bibleVerse,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class ProfileBibleVerseForm extends HookWidget {
                               Expanded(
                                 child: Text(
                                   verse.value == null
-                                      ? S.of(context).bibleVerse
+                                      ? t.general.bibleVerse
                                       : '${toLocaleBibleBook(context, verse.value!.book)!} ${verse.value!.chapter}:${verse.value!.verse}',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class ProfileBibleVerseForm extends HookWidget {
                           const SizedBox(height: 5),
                           Text(
                             verse.value == null
-                                ? S.of(context).placeholderBibleVerse
+                                ? t.placeholder.bibleVerse
                                 : verse.value!.value!,
                           ),
                         ],

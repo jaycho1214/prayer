@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/bible_books.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/features/bible/widgets/forms/bible_translation_picker.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/model/bible_verse/bible_verse_model.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -90,7 +90,7 @@ class StickyActionBar extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '${S.of(context).done} (${selected.length}/$maxLength)',
+              '${t.general.done} (${selected.length}/$maxLength)',
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
@@ -202,7 +202,7 @@ class BiblePicker {
       backgroundColor:
           Theme.of(modalSheetContext).bottomSheetTheme.backgroundColor,
       topBarTitle: Text(
-        S.of(modalSheetContext).bible,
+        t.general.bible,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
@@ -215,7 +215,7 @@ class BiblePicker {
           child: Consumer(
             builder: (context, ref, _) {
               return PrimaryTextButton(
-                text: S.of(modalSheetContext).cancel,
+                text: t.general.cancel,
                 onTap: () {
                   ref.read(biblePickerProvider.notifier).reset();
                   modalSheetContext.pop(null);

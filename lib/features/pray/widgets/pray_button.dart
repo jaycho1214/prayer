@@ -4,7 +4,8 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/features/common/widgets/buttons/large_text_button.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/pray/sheets/too_many_pray_sheet.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/prayer/providers/prayer_provider.dart';
@@ -29,7 +30,7 @@ class PrayButton extends HookConsumerWidget {
     final onTap = useCallback((bool silent) async {
       String value = controller.text;
       if (!silent && value.trim() == '') {
-        errorText.value = S.of(context).errorFieldRequired;
+        errorText.value = t.error.fieldRequired;
         return;
       }
       errorText.value = null;
@@ -42,7 +43,7 @@ class PrayButton extends HookConsumerWidget {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             onError: () {
-              GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
+              GlobalSnackBar.show(context, message: t.error.unknown);
             },
             onNeedWait: () {
               mixpanel.track("Pray Need Wait");
@@ -85,7 +86,7 @@ class PrayButton extends HookConsumerWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  hintText: S.of(context).shareYourLove,
+                  hintText: t.prayer.form.pray.placeholder,
                   fillColor: Theme.of(context).colorScheme.secondary,
                   hintStyle: TextStyle(
                     color: Theme.of(context).disabledColor,
@@ -110,9 +111,8 @@ class PrayButton extends HookConsumerWidget {
                       ),
               ),
               LargeTextButton(
-                text: isKeyboardVisible
-                    ? S.of(context).pray
-                    : S.of(context).praySilently,
+                text:
+                    isKeyboardVisible ? t.general.pray : t.general.praySilently,
                 onTap: () => onTap(!isKeyboardVisible),
               ),
             ],

@@ -8,7 +8,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/common/widgets/tab_bar.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -79,7 +80,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                             width: double.infinity,
                             child: Center(
                               child: Text(
-                                S.of(context).members,
+                                t.general.members,
                                 style: platformThemeData(
                                   context,
                                   material: (ThemeData data) =>
@@ -115,7 +116,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                                                       .refresh();
                                                 }
                                               },
-                                              title: S.of(context).invite,
+                                              title: t.general.invite,
                                               icon: FontAwesomeIcons.envelope,
                                             ),
                                             if (group?.adminId ==
@@ -131,7 +132,7 @@ class GroupMembersScreen extends HookConsumerWidget {
                                                         .refresh();
                                                   }
                                                 },
-                                                title: S.of(context).promote,
+                                                title: t.general.promote,
                                                 icon:
                                                     FontAwesomeIcons.userShield,
                                               ),
@@ -154,14 +155,14 @@ class GroupMembersScreen extends HookConsumerWidget {
                         preferredSize: Size.fromHeight(60),
                         child: CustomTabBar(
                           tabs: [
-                            S.of(context).moderators,
-                            S.of(context).members,
+                            t.general.moderators,
+                            t.general.members,
                             if (group?.moderator != null &&
                                 group?.membershipType != 'open')
-                              S.of(context).requests,
+                              t.general.requests,
                             if (group?.moderator != null &&
                                 group?.membershipType != 'open')
-                              S.of(context).invites
+                              t.general.invites,
                           ],
                         ),
                       ),

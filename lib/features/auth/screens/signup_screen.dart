@@ -7,7 +7,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/errors.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
 import 'package:prayer/features/user/widgets/forms/username_input_form.dart';
@@ -41,7 +42,7 @@ class SignUpScreen extends HookConsumerWidget {
               );
         } on DuplicatedUsernameException catch (_) {
           GlobalSnackBar.show(context,
-              message: S.of(context).errorUsernameTaken(form['username']));
+              message: t.error.usernameTaken(username: form['username']));
         } catch (e) {
           GlobalSnackBar.show(context, message: e.toString());
         } finally {
@@ -59,12 +60,12 @@ class SignUpScreen extends HookConsumerWidget {
           cupertino: (context, platform) => CupertinoNavigationBarData(
               backgroundColor: Theme.of(context).colorScheme.background),
           title: Text(
-            S.of(context).profile,
+            t.general.profile,
           ),
           trailingActions: [
             Center(
               child: PrimaryTextButton(
-                text: S.of(context).done,
+                text: t.general.done,
                 onTap: onSubmit,
                 loading: loading.value,
               ),
@@ -82,13 +83,13 @@ class SignUpScreen extends HookConsumerWidget {
                 child: Column(
                   children: [
                     Text(
-                      S.of(context).signUpScreenBibleVerse,
+                      t.auth.signup.bible.passage,
                       style: Theme.of(context).textTheme.labelMedium,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      S.of(context).signUpScreenBibleVerseBook,
+                      t.auth.signup.bible.verse,
                       style: Theme.of(context).textTheme.labelSmall,
                       textAlign: TextAlign.center,
                     ),
@@ -104,7 +105,7 @@ class SignUpScreen extends HookConsumerWidget {
                     const SizedBox(height: 5),
                     TextInputField(
                       name: 'bio',
-                      labelText: S.of(context).bio,
+                      labelText: t.general.bio,
                       maxLength: 200,
                       maxLines: 10,
                       minLines: 10,

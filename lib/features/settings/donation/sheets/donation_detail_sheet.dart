@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,7 +44,7 @@ class DonationDetailSheet extends HookWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                S.of(context).donatePrayer,
+                t.donate.title,
                 style: Theme.of(context).textTheme.displaySmall,
                 overflow: TextOverflow.fade,
               ),

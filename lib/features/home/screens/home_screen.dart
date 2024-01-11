@@ -9,7 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/tab_bar.dart';
 import 'package:prayer/features/home/widgets/neighbor_description_card.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -118,9 +118,9 @@ class HomeScreen extends HookConsumerWidget {
                         color: Theme.of(context).colorScheme.background,
                         child: CustomTabBar(
                           tabs: [
-                            S.of(context).home,
-                            S.of(context).followers,
-                            S.of(context).neighbor,
+                            t.general.home,
+                            t.general.followers,
+                            t.general.neighbor,
                           ],
                           controller: tabController,
                           onTap: (index) {
@@ -138,27 +138,6 @@ class HomeScreen extends HookConsumerWidget {
                 ),
               ),
             ),
-            // OverlapAbsorberPlus(
-            //   key: ObjectKey(Theme.of(context).brightness),
-            //   sliver: SliverPersistentHeader(
-            //     pinned: false,
-            //     floating: false,
-            //     delegate: TabBarDelegate(
-            //       controller: tabController,
-            //       tabs: [
-            //         S.of(context).home,
-            //         S.of(context).followers,
-            //         S.of(context).neighbor,
-            //       ],
-            //       onTap: (index) {
-            //         if (tabController.animation?.value == index && index == 2) {
-            //           Hive.box('settings')
-            //               .put('neighbor.description.shown', true);
-            //         }
-            //       },
-            //     ),
-            //   ),
-            // ),
           ],
           body: TabBarView(
             controller: tabController,
@@ -198,27 +177,19 @@ class HomeScreen extends HookConsumerWidget {
                             },
                             noItemsFoundIndicatorBuilder: switch (entry.key) {
                               1 => (context) => EmptyPrayersScreen(
-                                    title: S.of(context).companionsOnTheJourney,
-                                    description: S
-                                        .of(context)
-                                        .companionsOnTheJourneyDescription,
-                                    buttonText: S.of(context).searchCompanion,
+                                    title: t.empty.followersPrayer.title,
+                                    description:
+                                        t.empty.followersPrayer.description,
+                                    buttonText: t.empty.followersPrayer.button,
                                     onTap: () => context.push(Uri(
                                             path: '/search',
                                             queryParameters: {'type': 'user'})
                                         .toString()),
                                   ),
                               2 => (context) => EmptyPrayersScreen(
-                                    title: S.of(context).loveYourNeighbor,
-                                    description:
-                                        S.of(context).neighborDescription +
-                                            '\n\n' +
-                                            S
-                                                .of(context)
-                                                .prayWithWordFormBibleVerse +
-                                            '\n' +
-                                            S.of(context).prayWithWordFormBible,
-                                    buttonText: S.of(context).pray,
+                                    title: t.empty.neighbor.title,
+                                    description: t.empty.neighbor.description,
+                                    buttonText: t.general.pray,
                                     onTap: () => tabController.animateTo(0),
                                   ),
                               _ => null

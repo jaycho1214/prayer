@@ -12,7 +12,8 @@ import 'package:prayer/features/group/providers/group_notification_provider.dart
 import 'package:prayer/features/group/widgets/group_notification_subscribe_button.dart';
 import 'package:prayer/features/group/widgets/group_share_button.dart';
 import 'package:prayer/features/prayer/widgets/forms/post_prayer_type_picker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/corporate_prayer/widgets/group_corporate_prayers_screen.dart';
@@ -51,7 +52,7 @@ class GroupScreen extends HookConsumerWidget {
       next.when(
         data: (value) {},
         error: (err, _) {
-          GlobalSnackBar.show(context, message: S.of(context).errorUnknown);
+          GlobalSnackBar.show(context, message: t.error.unknown);
         },
         loading: () {},
       );
@@ -68,7 +69,7 @@ class GroupScreen extends HookConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(S.of(context).group),
+            Text(t.general.group),
             const SizedBox(width: 10),
             PrimaryTextButton(
                 onTap: () {
@@ -77,9 +78,9 @@ class GroupScreen extends HookConsumerWidget {
                   }
                 },
                 text: switch (group.membershipType) {
-                  'restricted' => S.of(context).restricted,
-                  'private' => S.of(context).private,
-                  _ => S.of(context).open,
+                  'restricted' => t.general.restricted,
+                  'private' => t.general.private,
+                  _ => t.general.open,
                 }),
           ],
         ),
@@ -92,7 +93,7 @@ class GroupScreen extends HookConsumerWidget {
                   onTap: () {
                     context.push('/groups/$groupId/members');
                   },
-                  title: S.of(context).members,
+                  title: t.general.members,
                   icon: FontAwesomeIcons.lightUsers,
                 ),
                 PullDownMenuItem(
@@ -101,14 +102,14 @@ class GroupScreen extends HookConsumerWidget {
                         path: '/report',
                         queryParameters: {'groupId': groupId}).toString());
                   },
-                  title: S.of(context).report,
+                  title: t.general.report,
                   icon: FontAwesomeIcons.flag,
                   isDestructive: true,
                 ),
                 if (group.adminId == FirebaseAuth.instance.currentUser?.uid)
                   PullDownMenuItem(
                     onTap: () => context.push('/form/group', extra: group),
-                    title: S.of(context).edit,
+                    title: t.general.edit,
                     icon: FontAwesomeIcons.penToSquare,
                     enabled:
                         group.adminId == FirebaseAuth.instance.currentUser?.uid,
@@ -192,13 +193,14 @@ class GroupScreen extends HookConsumerWidget {
                                           onTap: () => context
                                               .push('/groups/$groupId/members'),
                                           child: StatisticsText(
-                                              value: group.membersCount,
-                                              text: S.of(context).members),
+                                            value: group.membersCount,
+                                            text: t.general.members,
+                                          ),
                                         ),
                                         const SizedBox(width: 15),
                                         StatisticsText(
                                             value: group.prayersCount,
-                                            text: S.of(context).prayers),
+                                            text: t.general.prayers),
                                         Spacer(),
                                         if (group.acceptedAt != null)
                                           Padding(
@@ -225,7 +227,7 @@ class GroupScreen extends HookConsumerWidget {
                       SliverPersistentHeader(
                         pinned: true,
                         delegate: TabBarDelegate(
-                          tabs: [S.of(context).prayer, S.of(context).corporate],
+                          tabs: [t.general.prayer, t.general.corporate],
                         ),
                       ),
                     ],
@@ -240,8 +242,8 @@ class GroupScreen extends HookConsumerWidget {
                                   horizontal: 20,
                                 ),
                                 child: Text(
-                                  S.of(context).errorNeedPermissionToView(
-                                      group.membershipType),
+                                  t.error.viewNoPermission(
+                                      membershipType: group.membershipType),
                                   textAlign: TextAlign.center,
                                 ),
                               )
@@ -256,13 +258,10 @@ class GroupScreen extends HookConsumerWidget {
                                                 groupId: groupId),
                                     noItemsFoundIndicatorBuilder: (p0) =>
                                         EmptyPrayersScreen(
-                                      title: S
-                                          .of(context)
-                                          .emptyCorporatePrayerTitle,
-                                      description: S
-                                          .of(context)
-                                          .emptyCorporatePrayerDescription,
-                                      buttonText: S.of(context).pray,
+                                      title: t.empty.groupPrayer.title,
+                                      description:
+                                          t.empty.groupPrayer.description,
+                                      buttonText: t.empty.groupPrayer.button,
                                       onTap: () => context.push(Uri(
                                           path: '/form/prayer',
                                           queryParameters: {
@@ -274,12 +273,12 @@ class GroupScreen extends HookConsumerWidget {
                                   GroupCorporatePrayersScreen(
                                     noItemsFoundIndicatorBuilder: (p0) =>
                                         EmptyPrayersScreen(
-                                      title: S.of(context).corporatePrayer,
+                                      title: t.empty.corporatePrayer.title,
                                       description:
-                                          S.of(context).emptyGroupDescription,
+                                          t.empty.corporatePrayer.description,
                                       buttonText: group.moderator == null
                                           ? null
-                                          : S.of(context).create,
+                                          : t.general.create,
                                       onTap: group.moderator == null
                                           ? null
                                           : () => context.push(Uri(
@@ -300,7 +299,7 @@ class GroupScreen extends HookConsumerWidget {
                     onTap: () async {
                       if (group.acceptedAt == null) {
                         return GlobalSnackBar.show(context,
-                            message: "Only members can post prayers.");
+                            message: t.error.mustBeMemberToPost);
                       }
                       PostPrayerTypePickerResponse? resp;
                       bool? prayer;

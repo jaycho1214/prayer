@@ -3,7 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/utils/formatter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -39,10 +40,14 @@ class NotificationCorporateCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Text(
-                          S.of(context).notificationPostedCorporatePrayer(
-                              item.targetUser?.username ?? ''),
-                        ).boldSubString(item.targetUser?.username ?? ''),
+                        child: Text.rich(
+                          t.notification.postedCorporatePrayer(
+                            username: TextSpan(
+                              text: item.targetUser?.username ?? '',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
                       ),
                       Text(
                         Formatter.fromNow(item.createdAt!),

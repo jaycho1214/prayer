@@ -4,7 +4,8 @@ import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/features/group/widgets/group_card.dart';
 import 'package:prayer/features/settings/notifications/models/notification_model.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/utils/formatter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -36,23 +37,26 @@ class NotificationModeratorGroupCard extends ConsumerWidget {
                 ),
                 const SizedBox(width: 20),
                 Expanded(
-                  child: Text(
+                  child: Text.rich(
                     switch (item.type) {
-                      NotificationType.group_join_requested => S
-                          .of(context)
-                          .notificationJoinRequested(
-                              item.targetUser?.username ?? ''),
-                      NotificationType.group_joined => S
-                          .of(context)
-                          .notificationJoinedGroup(
-                              item.targetUser?.username ?? ''),
-                      _ => '',
+                      NotificationType.group_join_requested =>
+                        t.notification.groupJoinRequested(
+                          username: TextSpan(
+                            text: item.targetUser?.username ?? '',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      NotificationType.group_joined =>
+                        t.notification.someoneJoinedGroup(
+                          username: TextSpan(
+                            text: item.targetUser?.username ?? '',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      _ => TextSpan(),
                     },
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ).boldSubString(item.targetUser?.username ?? ''),
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
                 Text(
                   Formatter.fromNow(item.createdAt!),

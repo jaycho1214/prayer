@@ -7,7 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
@@ -46,8 +47,8 @@ class GroupMemberCard extends HookConsumerWidget {
       loading.value = true;
       final result = await ConfirmSlimMenuForm.show(
         context,
-        title: S.of(context).alertAcceptMember(member.username),
-        description: S.of(context).alertYouCannotUndoThisAction,
+        title: t.group.alert.acceptMember(username: member.username),
+        description: t.alert.actionIrreversible,
         icon: FontAwesomeIcons.check,
       );
       if (result == true) {
@@ -62,7 +63,7 @@ class GroupMemberCard extends HookConsumerWidget {
         }).catchError((e, st) {
           talker.handle(e, st,
               '[GroupMember] Failed to accept member: (groupId: $groupId, uid: ${member.uid})');
-          GlobalSnackBar.show(context, message: S.of(context).errorAcceptUser);
+          GlobalSnackBar.show(context, message: t.error.acceptUser);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -74,8 +75,8 @@ class GroupMemberCard extends HookConsumerWidget {
       loading.value = true;
       final result = await ConfirmSlimMenuForm.show(
         context,
-        title: S.of(context).alertRevokeInvitation(member.username),
-        description: S.of(context).alertYouCannotUndoThisAction,
+        title: t.group.alert.revokeInvitation(username: member.username),
+        description: t.alert.actionIrreversible,
         icon: FontAwesomeIcons.check,
       );
       if (result == true) {
@@ -90,8 +91,7 @@ class GroupMemberCard extends HookConsumerWidget {
           revoked.value = true;
           onDone?.call(GroupMemberCardActionType.revoke);
         }).catchError((_) {
-          GlobalSnackBar.show(context,
-              message: S.of(context).errorRevokeInvite);
+          GlobalSnackBar.show(context, message: t.error.revokeInvite);
         }).whenComplete(() {
           loading.value = false;
         });
@@ -139,8 +139,8 @@ class GroupMemberCard extends HookConsumerWidget {
                             ),
                             child: Text(
                               group?.adminId == member.uid
-                                  ? S.of(context).admin
-                                  : S.of(context).moderator,
+                                  ? t.general.admin
+                                  : t.general.moderator,
                               style: TextStyle(
                                 fontSize: 10,
                                 color: Theme.of(context).colorScheme.onPrimary,
@@ -162,8 +162,8 @@ class GroupMemberCard extends HookConsumerWidget {
                     ? PlatformCircularProgressIndicator()
                     : PrimaryTextButton(
                         text: accepted.value
-                            ? S.of(context).accepted
-                            : S.of(context).accept,
+                            ? t.general.accepted
+                            : t.general.accept,
                         inverse: accepted.value,
                         onTap: accepted.value ? null : handleAccept,
                       ),
@@ -172,8 +172,8 @@ class GroupMemberCard extends HookConsumerWidget {
                     ? PlatformCircularProgressIndicator()
                     : PrimaryTextButton(
                         text: revoked.value
-                            ? S.of(context).revoked
-                            : S.of(context).revoke,
+                            ? t.general.revoked
+                            : t.general.revoke,
                         inverse: revoked.value,
                         onTap: revoked.value ? null : handleRevoke,
                       ),

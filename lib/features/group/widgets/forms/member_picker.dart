@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
@@ -137,7 +138,7 @@ class MemberPicker extends HookConsumerWidget {
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                 child: SearchBar(
                   controller: queryController,
-                  hintText: S.of(context).placeholderSearch,
+                  hintText: t.placeholder.search,
                 ),
               ),
               forceMaxHeight: true,
@@ -194,7 +195,7 @@ class MemberPicker extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          S.of(context).titlePromoteUser(member?.name ?? ''),
+                          t.group.alert.promote.title(name: member?.name ?? ''),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -205,10 +206,7 @@ class MemberPicker extends HookConsumerWidget {
                               horizontal: 20, vertical: 20),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: S
-                                  .of(context)
-                                  .moderatorsPrivileges
-                                  .split(':')
+                              children: t.group.alert.promote.description
                                   .map((text) => Padding(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 5),
@@ -250,15 +248,13 @@ class MemberPicker extends HookConsumerWidget {
                                             .update(null);
                                         pageIndex.value = 0;
                                         context.pop(uid);
-                                        NotificationSnackBar.show(
-                                          context,
-                                          message: S.of(context).memberPromoted,
-                                        );
+                                        NotificationSnackBar.show(context,
+                                            message:
+                                                t.group.alert.promote.success);
                                       },
                                       onError: () {
                                         GlobalSnackBar.show(context,
-                                            message:
-                                                S.of(context).errorPromoteUser);
+                                            message: t.error.promoteUser);
                                       });
                                 },
                                 child: Container(

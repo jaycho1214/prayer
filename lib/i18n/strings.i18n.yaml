@@ -1,0 +1,394 @@
+introduction:
+  title:
+    - United in Prayer
+    - Stronger Together
+    - Collective Faith
+
+general:
+  accept: Accept
+  accepted: Accepted
+  account: Account
+  admin: Admin
+  anonymous: Anonymous
+  bio: Bio
+  bible: Bible
+  blocked: Blocked
+  blockUser: Block $username
+  bibleVerse: Bible Verse
+  cancel: Cancel
+  prayer: Prayer
+  prayers: Prayers
+  prays: Prays
+  privacyPolicy: Privacy Policy
+  private: Private
+  profile: Profile
+  promote: Promote
+  ratePrayer: Rate Prayer
+  readmore: Read More
+  refresh: Refresh
+  reminder: Reminder
+  reminders: Reminders
+  report: Report
+  requested: Requested
+  requests: Requests
+  restricted: Restricted
+  revoke: Revoke
+  revoked: Revoked
+  name: Name
+  neighbor: Neighbor
+  corporatePrayerPrayed: Prayed
+  corporatePrayerPraying: Praying
+  corporatePrayerPreparing: Preparing
+  corporate: Corporate
+  corporatePrayer: Corporate Prayer
+  create: Create
+  endedAt: Ended At
+  everyday: Everyday
+  follow: Follow
+  followUser: Follow $username
+  followers: Followers
+  following: Following
+  followings: Followings
+  group: Group
+  invitation: Invitation
+  invite: Invite
+  invited: Invited
+  invites: Invites
+  join: Join
+  joined: Joined
+  leaveGroup: Leave group
+  legal: Legal
+  message: Message
+  moderator: Moderator
+  moderators: Moderators
+  done: Done
+  edit: Edit
+  startedAt: Started At
+  support: Support
+  termsOfUse: Terms of Use
+  test: Test
+  title: Title
+  unblockUser: Unblock $username
+  unfollow: Unfollow
+  unfollowUser: Unfollow $username
+  username: Username
+  users: Users
+  weekdays: Weekdays
+  notifications: Notifications
+  weekend: Weekend
+  community: Community
+  createGroup: Create a Group
+  darkMode: Dark Mode
+  delete: Delete
+  deleteGroup: Delete a Group
+  description: Description
+  searchGroup: Search a group 
+  sendInvitation: Send Invitation
+  sendFeedback: Send a Feedback
+  settings: Settings
+  open: Open
+  postedByMe: Posted by me
+  pray: Pray
+  groups: Groups
+  home: Home
+  sharePrayer: Share Prayer
+  signOut: Sign Out
+  prayDuration: Duration
+  praySilently: Pray silently
+  members: Members
+  membersCount: 
+    one: '$membersCount Member'
+    other: $membersCount Members'
+  membershipType: Membership Type
+
+prayer:
+  onlyVisibleToYou: Only visible to you
+  someoneHasPrayed(rich): $username prayed
+  alert:
+    needWaitToPray:
+      title: Your prayer has been received
+      description: >
+        Let's give it a 5-minute grace period to soar high.
+        How about a quick stretch or a moment of quiet reflection?
+        Ready for your next prayer in a jiffy!
+    prayWithName: 
+      title: Pray with name?
+      community: Do you want to pray using your name? Everyone will be able to see your prayer along with your name.
+      group: Do you want to pray using your name? All members in the group will be able to see your prayer along with your name.
+  form:
+    pray: 
+      placeholder: Share your love
+    postAnonymously: Post Anonymously
+    postPublicly: Post Publicly
+    main:
+      placeholder: Our father in heaven
+    postType:
+      title: How to Share Your Prayer?
+      public:
+        title: With Name
+        description: your name will appear alongside your post
+      anonymous:
+        title: Anonymously
+        description: Share your prayer without revealing your identity, keeping your name private
+
+auth:
+  login:
+    disclaimer(rich): By signing up, you agree to our $termsOfService and acknowledge that our $privacyPolicy applies to you
+    button:
+      apple: Continue with Apple
+      google: Continue with Google
+  signup:
+    bible:
+      passage: "Rejoice always, pray continually, give thanks in all circumstances; for this is God’s will for you in Christ Jesus."
+      verse: 1 Thessalonians 5:16-18 (NIV)
+
+group:
+  alert:
+    detail:
+      title: This group is $membershipType
+      description: 
+        - open: 1. All prayers in the group are public, visible to everyone, and joining is unrestricted.
+          restricted: 1. Joining the group requires approval, and only members can view prayers.
+          private: 1. Group is unlisted in searches and its prayers are inaccessible to non-members.
+        - 2. Only group members can post the prayer and participate in prayer activities
+        - 3. This group was established at $establishedAt
+    acceptMember: Accept $username?
+    deleteGroup: 
+      - 1. Deletion is irreversible and immediate.
+      - 2. All group members will be removed automatically.
+      - 3. All prayers, both corporate and individual, must be deleted to remove the group.
+    leaveGroup: 
+      - 1. You need to be reaccepted to join the group.
+      - 2. You need to be repromoted to regain moderator status.
+      - 3. None of your prayers will be deleted.
+    revokeInvitation: Revoke an invitation of $username?
+    promote:
+      title: Promote $name
+      description: 
+        - 1. Moderators have the ability to invite others or accept join requests.
+        - 2. Moderators can post corporate prayers.
+        - 3. Moderators can set notifications for prayer times.
+      success: Member Promoted
+  form:
+    main:
+      name:
+        title: Group Name
+        subtitle: Names must be less than 30 characters and do not include hashtag and or the '@' symbol.
+      description:
+        title: Group Description
+        subtitle: Tell us a detail about your Group, such as its purpose or mission.
+      membershipType:
+        title: Membership Type
+        subtitle: Tell us who can join this group. You cannot change this later.
+        description(context=GroupMembershipTypeContext):
+          open: Anyone can freely view, join, and/or be invited to the group.
+          private: Similar to restricted, but it is hidden from searches and exclusively for those who are invited
+          restricted: People must ask or be invited to join the group; prayers are not visible to non-members
+    notifications:
+      members: 
+        title: '@:general.members'
+        description: Notify when the prayer is posted to the group.
+      moderator: 
+        title: '@:general.moderator'
+        description: Notify when the moderator posts a prayer.
+    picker:
+      title: Choose a Group
+    invite:
+      title: 
+        one: Invite a user?
+        other: Invite $n users?
+      description: Users will receive a notification and can join without approval. Admin or other moderators can revoke your invites
+
+corporatePrayer:
+  alert:
+    deleteCorporatePrayer:
+      title: Delete a Corporate Prayer
+      rules: All prayers in corporate prayers will not be deleted.
+      prompt: Are you sure you want to delete a corporate prayer?
+  form:
+    main:
+      bible:
+        passage: After they prayed, the place where they were meeting was shaken. And they were all filled with the Holy Spirit and spoke the word of God boldly.
+        verse: '- Acts 4:31 (NIV)'
+      reminder:
+        title: '@:general.reminder'
+        description: Your timezone will be used to notify other members
+        placeholder: Let us pray...
+      duration:
+        title: '@:general.prayDuration'
+        description: After the duration of prayers has elapsed, they will be marked as concluded, and reminders will not be sent.
+    picker:
+      title: Choose a Corporate Prayer
+    notifications:
+      reminder:
+        title: '@:general.reminder'
+        description: You will be notified on $fromDays at $toDays
+      members:
+        title: '@:general.members'
+        description: '@:group.form.notifications.members.description'
+
+alert:
+  imagePicker:
+    title: Pick an image
+    pickImageFromGallery: Pick image from gallery
+    resetToDefault: Reset to default
+    removeCurrentPhoto: Remove current photo
+
+  confirmClose: Do you want to close?
+  actionIrreversible: You cannot undo this action
+  deleteAccount:
+    title: Delete an account
+    rules: 
+      - 1. You will be immediately deleted.
+      - 2. You cannot recover once they are deleted.
+      - 3. You must delete all the groups they own.
+      - 4. You must leave all the groups to which they belong.
+      - 5. You must not have any corporate prayers.
+    prompt: Are you sure you want to delete an account?
+  blockUser: 
+    - 1. The user will not be aware that you have blocked them.
+    - 2. The user will not be able to view your prayers, group, or profile.
+    - 3. The user will be unable to search for you.
+
+neighbor:
+  alert:
+    title: '@:alert.confirmClose'
+    subtitle: You can always view this by clicking the neighbor tab.
+  card:
+    title: Who is my neighbor?
+    description: When you pray for others, they become your neighbors in faith, and you'll see the blessings of their future prayers.
+
+settings:
+  shareAppMessage: Share your prayer requests, express your prayers, and offer your prayers for others on Prayer today!\n\n$url
+  versionText(rich): 'Version: $version'
+
+notification:
+  plain:
+    groupAccepted: You are now a member of $group
+    someoneFollowed: $username started following you
+    groupJoinRequested: $username requested to join
+    someoneJoinedGroup: $username joined the group
+    postedCorporatePrayer: $username posted a corporate prayer
+    postedPrayer: $username posted a prayer
+    prayed: $username prayed
+    groupPromoted: You are now a moderator of $group
+  groupAccepted(rich): You are now a member of $group
+  someoneFollowed(rich): $username started following you
+  groupJoinRequested(rich): $username requested to join
+  someoneJoinedGroup(rich): $username joined the group
+  postedCorporatePrayer(rich): $username posted a corporate prayer
+  postedPrayer(rich): $username posted a prayer
+  prayed(rich): $username prayed
+  groupPromoted(rich): You are now a moderator of $group
+
+error:
+  connection:
+    title: Connection Error
+    description: We're experiencing a temporary issue connecting you to our prayer community. Please retry shortly. May your faith remain strong during this brief interruption.
+  acceptUser: Failed to accept the user
+  noPermissionPhotos: Prayers does not have an access to your photos.
+  adminLeaveGroup: Admin cannot leave the group
+  checkingUsernameExists: Error while checking your username
+  chooseUserToInvite: Please choose a user to invite
+  corporatePrayerHasSpecialCharacters: Name must not include the '#' or the '@' symbol
+  corporatePrayerMustNotEmpty: Name must include at least one non-whitespace character
+  corporatePrayerNeedPrayers: Please provide a prayer for corporate prayer
+  createGroup: Failed to create a group
+  deleteGroup: Unable to delete a group
+  deletePray: Failed to delete a pray
+  deleteUser: Please follow all the steps before deleting a user.
+  editGroup: Failed to edit a group
+  emptyPrayer: Prayer must include at least one non-whitespace character
+  enterName: Please enter your name
+  fieldRequired: This field is required
+  fullLocalReminders: You can set up to $max reminders
+  joinGroup: Failed to join the group
+  leaveGroup: Failed to leave the group
+  loadImage: Failed to load an image
+  memberCanShare: Only members can share the group
+  moderatorCanShare: Only moderators can share the group
+  mustBeMemberToPost: Only members are allowed to post prayers.
+  needCorporatePrayerDescription: Please provide a description for a corporate prayer
+  needDayReminder: Please select a day to send
+  needGroupBanner: Please upload a banner
+  needGroupDescription: Please provide a description for the group
+  postNoPermission: You have to be a member of the group
+  viewNoPermission: This group is $membershipType.\nJoin to see the prayers
+  postPrayer: Unable to post a prayer
+  promoteUser: Failed to promote the user
+  provideReminderMessage: Please provide a message to be sent
+  revokeInvite: Failed to revoke the invite
+  signIn: Failed to sign in. Please try again.
+  unableUpdate: Unable to update. Please try again later
+  unknown: Unknown error occured
+  wrongUsernameFormat: You can only use alphabets, numbers, period, and underscore for the username
+  usernameRequired: Username is required
+  usernameTaken: 'Username $username is already taken'
+
+bible:
+  form:
+    versePicker:
+      title: Pick your bible verse
+    translationPicker:
+      title: Choose a translation
+
+feedback:
+  alert:
+    sent: Feedback has sent
+  form:
+    placeholder: Feel free to reach out us
+
+placeholder:
+  bibleVerse: Pick your bible verse
+  search: Search...
+
+donate:
+  title: Donate Now
+  card:
+    title: '@:donate.title'
+    description: Help us spread the love of Jesus Christ.
+  message: >-
+    Join us in nurturing a community of faith and support.
+    Our app offers a unique space for users to share and uplift through prayers, free from ads and without selling any data.
+    We rely entirely on donations to keep this serene and safe platform running.
+    Every contribution, big or small, makes a meaningful difference.
+    Thank you for supporting this journey of fellowship and prayer.
+
+day:
+  fri: Fri
+  mon: Mon
+  sat: Sat
+  sun: Sun
+  thu: Thu
+  tue: Tue
+  wed: Wed
+
+empty:
+  main:
+    title: Awaiting Your Love
+    description: "It seems we're just beginning. Share your love and be the beacon of Jesus Christ's love."
+  groupPrayer:
+    title: Share your first prayer with us
+    description: Take a heartfelt step in your spiritual journey
+    button: '@:general.pray'
+  corporatePrayer:
+    title: Witness a Miracle
+    description: Post your first corporate prayer and watch as, in unity, miracles unfold.
+    reminder: No reminder has been set for this corporate prayer
+  group:
+    title: Pray with Others
+    description: Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary.
+    button: '@:general.createGroup'
+  followersPrayer:
+    title: Companions on the Journey
+    description: Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you're not alone. Follow, lead, and grow in faith.
+    button: Search a companion
+  neighbor:
+    title: Pray for others to become their neighbor.
+    description: >-
+      And the second is like it: ‘Love your neighbor as yourself.’
+      All the Law and the Prophets hang on these two commandments.
+
+
+      Matthew 22:38-40 (NIV)
+

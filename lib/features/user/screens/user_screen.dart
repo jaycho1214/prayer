@@ -11,7 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/model/user/user_model.dart';
@@ -256,12 +256,12 @@ class UserScreen extends HookConsumerWidget {
                                   children: [
                                     StatisticsText(
                                       value: user?.praysCount ?? 0,
-                                      text: S.of(context).prays,
+                                      text: t.general.prays,
                                     ),
                                     const SizedBox(width: 10),
                                     StatisticsText(
                                       value: user?.prayersCount ?? 0,
-                                      text: S.of(context).prayers,
+                                      text: t.general.prayers,
                                     ),
                                   ],
                                 ),
@@ -277,7 +277,7 @@ class UserScreen extends HookConsumerWidget {
                                       },
                                       child: StatisticsText(
                                         value: user?.followersCount ?? 0,
-                                        text: S.of(context).followers,
+                                        text: t.general.followers,
                                       ),
                                     ),
                                     const SizedBox(width: 10),
@@ -294,7 +294,7 @@ class UserScreen extends HookConsumerWidget {
                                       },
                                       child: StatisticsText(
                                         value: user?.followingsCount ?? 0,
-                                        text: S.of(context).followings,
+                                        text: t.general.followings,
                                       ),
                                     ),
                                   ],
@@ -313,9 +313,9 @@ class UserScreen extends HookConsumerWidget {
                           pinned: true,
                           delegate: TabBarDelegate(
                             tabs: [
-                              S.of(context).prayers,
-                              S.of(context).groups,
-                              S.of(context).prays
+                              t.general.prayers,
+                              t.general.groups,
+                              t.general.prays
                             ],
                           ),
                         ),
@@ -464,10 +464,10 @@ class UserScreen extends HookConsumerWidget {
                                   .followUser(user.followedAt == null);
                             },
                             title: user?.followedAt == null
-                                ? S.of(context).followUser('@${user?.username}')
-                                : S
-                                    .of(context)
-                                    .unfollowUser('@${user?.username}'),
+                                ? t.general
+                                    .followUser(username: '@${user?.username}')
+                                : t.general.unfollowUser(
+                                    username: '@${user?.username}'),
                             icon: FontAwesomeIcons.userPlus,
                           ),
                           PullDownMenuItem(
@@ -477,14 +477,10 @@ class UserScreen extends HookConsumerWidget {
                               }
                               final resp = await ConfirmMenuForm.show(
                                 context,
-                                title: S
-                                    .of(context)
-                                    .blockUser('@${user?.username}'),
+                                title: t.general
+                                    .blockUser(username: '@${user?.username}'),
                                 icon: FontAwesomeIcons.userSlash,
-                                description: S
-                                    .of(context)
-                                    .blockUserDescription
-                                    .split(':'),
+                                description: t.alert.blockUser,
                               );
                               if (resp == true) {
                                 try {
@@ -493,7 +489,7 @@ class UserScreen extends HookConsumerWidget {
                                           .notifier)
                                       .blockUser(user.blockedAt == null);
                                   NotificationSnackBar.show(context,
-                                      message: S.of(context).blocked);
+                                      message: t.general.blocked);
                                 } catch (e, st) {
                                   talker.handle(e, st,
                                       '[UserScreen] Failed to block a user');
@@ -503,10 +499,10 @@ class UserScreen extends HookConsumerWidget {
                               }
                             },
                             title: user?.blockedAt == null
-                                ? S.of(context).blockUser('@${user?.username}')
-                                : S
-                                    .of(context)
-                                    .unblockUser('@${user?.username}'),
+                                ? t.general
+                                    .blockUser(username: '@${user?.username}')
+                                : t.general.unblockUser(
+                                    username: '@${user?.username}'),
                             icon: FontAwesomeIcons.userSlash,
                             isDestructive: true,
                           ),
@@ -517,7 +513,7 @@ class UserScreen extends HookConsumerWidget {
                                       queryParameters: {'userId': user?.uid})
                                   .toString());
                             },
-                            title: S.of(context).report,
+                            title: t.general.report,
                             icon: FontAwesomeIcons.flag,
                             isDestructive: true,
                           ),

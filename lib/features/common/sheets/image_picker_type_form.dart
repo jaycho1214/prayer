@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:prayer/generated/l10n.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
+import 'package:prayer/i18n/strings.g.dart';
 
 enum ImagePickTypeMenuType {
   pick,
@@ -78,7 +78,7 @@ class ImagePickTypeForm extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _renderRow(
-            text: S.of(context).pickImageFromGallery,
+            text: t.alert.imagePicker.pickImageFromGallery,
             icon: FontAwesomeIcons.photoFilm,
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
             onTap: () {
@@ -89,7 +89,7 @@ class ImagePickTypeForm extends StatelessWidget {
           const Divider(),
           if (initialValue != null) ...[
             _renderRow(
-              text: S.of(context).resetToDefault,
+              text: t.alert.imagePicker.resetToDefault,
               icon: FontAwesomeIcons.rotateLeft,
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               onTap: () {
@@ -100,7 +100,7 @@ class ImagePickTypeForm extends StatelessWidget {
             const Divider(),
           ],
           _renderRow(
-              text: S.of(context).removeCurrentPhoto,
+              text: t.alert.imagePicker.removeCurrentPhoto,
               icon: FontAwesomeIcons.trash,
               color: Theme.of(context).colorScheme.error,
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),

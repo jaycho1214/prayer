@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:prayer/constants/mixpanel.dart';
-import 'package:prayer/generated/l10n.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/settings/donation/sheets/donation_detail_sheet.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -16,7 +16,7 @@ class DonateScreen extends StatelessWidget {
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
         automaticallyImplyLeading: false,
-        title: Text(S.of(context).donatePrayer),
+        title: Text(t.donate.title),
         cupertino: (context, platform) => CupertinoNavigationBarData(
             backgroundColor: Theme.of(context).colorScheme.background),
       ),
@@ -34,7 +34,7 @@ class DonateScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Text(
-                S.of(context).descriptionNeedDonation,
+                t.donate.message,
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
@@ -62,7 +62,7 @@ class DonateScreen extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  S.of(context).donatePrayer,
+                  t.donate.title,
                   style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary),
                 ),

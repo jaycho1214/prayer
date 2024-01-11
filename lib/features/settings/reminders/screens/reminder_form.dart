@@ -12,7 +12,8 @@ import 'package:prayer/features/common/widgets/forms/form_row_card.dart';
 import 'package:prayer/features/common/widgets/forms/text_input_form.dart';
 import 'package:prayer/features/common/widgets/forms/time_picker.dart';
 import 'package:prayer/features/settings/reminders/models/local_reminder.dart';
-import 'package:prayer/generated/l10n.dart';
+
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/utils/formatter.dart';
 
 class ReminderFormScreen extends HookWidget {
@@ -42,7 +43,7 @@ class ReminderFormScreen extends HookWidget {
     return PlatformScaffold(
       appBar: PlatformAppBar(
         leading: NavigateBackButton(),
-        title: Text(S.of(context).reminder),
+        title: Text(t.general.reminder),
         cupertino: (context, platform) => CupertinoNavigationBarData(
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
@@ -56,16 +57,15 @@ class ReminderFormScreen extends HookWidget {
             children: [
               TextInputField(
                 name: 'title',
-                labelText: S.of(context).title,
+                labelText: t.general.title,
                 maxLength: 10,
               ),
               const SizedBox(height: 10),
               TextInputField(
-                validator: (value) => (value ?? '').trim() == ''
-                    ? S.of(context).errorFieldRequired
-                    : null,
+                validator: (value) =>
+                    (value ?? '').trim() == '' ? t.error.fieldRequired : null,
                 name: 'body',
-                labelText: S.of(context).message,
+                labelText: t.general.message,
                 maxLength: 50,
               ),
               const SizedBox(height: 10),
@@ -73,7 +73,7 @@ class ReminderFormScreen extends HookWidget {
                 name: 'days',
                 validator: (List<int>? value) =>
                     (value == null || value.length == 0)
-                        ? S.of(context).errorFieldRequired
+                        ? t.error.fieldRequired
                         : null,
                 builder: (FormFieldState<List<int>> field) {
                   return FormRowCard(
@@ -97,7 +97,7 @@ class ReminderFormScreen extends HookWidget {
               FormBuilderField(
                 name: 'time',
                 validator: (value) =>
-                    value == null ? S.of(context).errorFieldRequired : null,
+                    value == null ? t.error.fieldRequired : null,
                 builder: (FormFieldState<TimeOfDay> field) {
                   return FormRowCard(
                     onTap: () async {
@@ -121,7 +121,7 @@ class ReminderFormScreen extends HookWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   LargeTextButton(
-                    text: S.of(context).test,
+                    text: t.general.test,
                     width: 80,
                     onTap: () {
                       final verify = formKey.currentState?.saveAndValidate();
@@ -143,7 +143,7 @@ class ReminderFormScreen extends HookWidget {
                   const SizedBox(width: 10),
                   if (reminderId != null) ...[
                     LargeTextButton(
-                      text: S.of(context).delete,
+                      text: t.general.delete,
                       width: 80,
                       destructive: true,
                       onTap: () {
@@ -156,7 +156,7 @@ class ReminderFormScreen extends HookWidget {
                   ],
                   Expanded(
                     child: LargeTextButton(
-                      text: S.of(context).done,
+                      text: t.general.done,
                       onTap: () async {
                         final verify = formKey.currentState?.saveAndValidate();
                         if (verify == false) {

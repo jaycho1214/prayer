@@ -16,6 +16,7 @@ import 'package:prayer/app.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/features/settings/reminders/models/local_reminder.dart';
 import 'package:prayer/firebase_options.dart';
+import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/repo/authentication_repository.dart';
 import 'package:prayer/repo/bible_repository.dart';
 import 'package:prayer/repo/group_repository.dart';
@@ -40,6 +41,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  LocaleSettings.useDeviceLocale();
   GetIt.I.registerSingleton(AuthenticationRepository());
   GetIt.I.registerSingleton(UserRepository());
   GetIt.I.registerLazySingleton(() => GroupRepository());
@@ -54,7 +56,9 @@ Future<void> main() async {
       options.tracesSampleRate = 0.5;
     },
     appRunner: () => runApp(ProviderScope(
-      child: SentryUserInteractionWidget(child: const App()),
+      child: TranslationProvider(
+        child: SentryUserInteractionWidget(child: const App()),
+      ),
     )),
   );
 }
@@ -111,8 +115,10 @@ Future<void> initializeHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(LocalReminderAdapter());
   Hive.registerAdapter(TimeOfDayAdapter());
-  await Hive.openBox('settings');
-  await Hive.openBox<LocalReminder>('local_reminders');
+  await Future.wait([
+    Hive.openBox('settings'),
+    Hive.openBox<LocalReminder>('local_reminders'),
+  ]);
 }
 
 Future<void> initialize() async {
