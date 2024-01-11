@@ -86,7 +86,9 @@ class Dialog extends HookWidget {
                         Expanded(
                           child: Text(
                             message,
-                            style: const TextStyle(fontSize: 14),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).colorScheme.onPrimary),
                             maxLines: 2,
                           ),
                         ),
