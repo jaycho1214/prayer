@@ -7,7 +7,7 @@ class Dialog extends HookWidget {
     super.key,
     required this.message,
     this.onRemove,
-    this.duration = const Duration(seconds: 2),
+    this.duration = const Duration(seconds: 3),
   });
 
   final void Function()? onRemove;
@@ -48,10 +48,10 @@ class Dialog extends HookWidget {
           remove();
         }
       },
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 500),
       child: AnimatedOpacity(
         opacity: shown.value ? 1.0 : 0.0,
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 500),
         child: GestureDetector(
           onVerticalDragStart: (dragStartDetail) {
             if (dragStartDetail.globalPosition.dy < 0) {
