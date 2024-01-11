@@ -38,6 +38,7 @@ class DonateCard extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(width: 5),
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.asset(
