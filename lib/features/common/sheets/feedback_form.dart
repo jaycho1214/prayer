@@ -75,7 +75,10 @@ class FeedbackForm extends HookWidget {
             autofocus: true,
             decoration: InputDecoration.collapsed(
               hintText: t.feedback.form.placeholder,
-              hintStyle: TextStyle(fontWeight: FontWeight.bold),
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).disabledColor,
+              ),
             ),
             maxLength: 300,
             minLines: 7,
