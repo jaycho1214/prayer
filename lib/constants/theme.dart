@@ -5,7 +5,7 @@ final lightColorScheme = ColorScheme.light(
   background: Colors.white,
   onBackground: Colors.black,
   outline: Color(0xFF696969),
-  outlineVariant: Color(0xFF2F4F4F),
+  outlineVariant: Color(0xFFD4D4D4),
   primary: Colors.black,
   onPrimary: Colors.white,
   secondary: Color(0xFFE1E1E2),
