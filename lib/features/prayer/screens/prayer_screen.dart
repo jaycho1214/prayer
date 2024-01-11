@@ -60,7 +60,7 @@ class PrayerScreen extends HookConsumerWidget {
         body: Stack(
           children: [
             RefreshIndicator(
-              notificationPredicate: (notification) => notification.depth == 1,
+              notificationPredicate: (notification) => notification.depth == 0,
               onRefresh: () {
                 pagingController.refresh();
                 return ref.refresh(prayerNotifierProvider(prayerId).future);
