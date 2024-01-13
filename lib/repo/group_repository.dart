@@ -202,6 +202,25 @@ class GroupRepository {
     }
   }
 
+  Future<void> kickUserFromGroup({
+    required String groupId,
+    required String userId,
+  }) async {
+    try {
+      await dio.post('/v1/groups/$groupId/kick', data: {
+        'userId': userId,
+      });
+      mixpanel.track("Users Kicked");
+    } on DioException catch (err) {
+      if (err.response?.data['code'] == 'operation-not-allowed') {
+        throw NeedPermissionException();
+      }
+      rethrow;
+    } catch (err) {
+      rethrow;
+    }
+  }
+
   Future<PaginationResponse<GroupMember, String?>> fetchGroupMembers({
     required String groupId,
     String type = 'members',
@@ -236,12 +255,44 @@ class GroupRepository {
   Future<PaginationResponse<GroupMember, String?>> fetchGroupInvites({
     required String groupId,
     String? cursor,
+    String? query,
   }) async {
     try {
       final resp = await dio.get(
         '/v1/groups/$groupId/invites',
         queryParameters: {
           'cursor': cursor == null ? null : int.tryParse(cursor),
+          'query': query,
+        },
+      );
+      final members = resp.data['data'] == null
+          ? null
+          : List<Map<String, dynamic>>.from(resp.data['data'])
+              .map((data) => GroupMember.fromJson(data))
+              .toList();
+      return PaginationResponse(
+        items: members,
+        cursor: resp.data['cursor'],
+      );
+    } catch (err) {
+      return PaginationResponse<GroupMember, String?>(
+        items: [],
+        error: err.toString(),
+      );
+    }
+  }
+
+  Future<PaginationResponse<GroupMember, String?>> fetchGroupBans({
+    required String groupId,
+    String? cursor,
+    String? query,
+  }) async {
+    try {
+      final resp = await dio.get(
+        '/v1/groups/$groupId/bans',
+        queryParameters: {
+          'cursor': cursor == null ? null : int.tryParse(cursor),
+          'query': query,
         },
       );
       final members = resp.data['data'] == null
@@ -272,7 +323,23 @@ class GroupRepository {
     required String userId,
     required bool value,
   }) async {
-    await dio.post('/v1/groups/$groupId/promote', data: {'userId': userId});
+    if (value) {
+      await dio.post('/v1/groups/$groupId/promote', data: {'userId': userId});
+    } else {
+      await dio.delete('/v1/groups/$groupId/promote', data: {'userId': userId});
+    }
+  }
+
+  Future<void> banMember({
+    required String groupId,
+    required String userId,
+    required bool value,
+  }) async {
+    if (value) {
+      await dio.post('/v1/groups/$groupId/bans', data: {'userId': userId});
+    } else {
+      await dio.delete('/v1/groups/$groupId/bans', data: {'userId': userId});
+    }
   }
 
   Future<void> removeGroup(String groupId) async {

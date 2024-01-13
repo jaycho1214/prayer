@@ -9,10 +9,10 @@ import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/features/group/providers/group_notification_provider.dart';
+import 'package:prayer/features/group/widgets/group_member_ban_Card.dart';
 import 'package:prayer/features/group/widgets/group_notification_subscribe_button.dart';
 import 'package:prayer/features/group/widgets/group_share_button.dart';
 import 'package:prayer/features/prayer/widgets/forms/post_prayer_type_picker.dart';
-
 import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
@@ -72,11 +72,7 @@ class GroupScreen extends HookConsumerWidget {
             Text(t.general.group),
             const SizedBox(width: 10),
             PrimaryTextButton(
-                onTap: () {
-                  if (data.value != null) {
-                    GroupInformationSheet.show(context, groupId);
-                  }
-                },
+                onTap: () => GroupInformationSheet.show(context, groupId),
                 text: switch (group.membershipType) {
                   'restricted' => t.general.restricted,
                   'private' => t.general.private,
@@ -89,6 +85,12 @@ class GroupScreen extends HookConsumerWidget {
           Center(
             child: PullDownButton(
               itemBuilder: (context) => [
+                PullDownMenuItem(
+                  onTap: () => GroupInformationSheet.show(context, groupId),
+                  title: t.general.about,
+                  icon: FontAwesomeIcons.circleInfo,
+                  enabled: data.value != null,
+                ),
                 PullDownMenuItem(
                   onTap: () {
                     context.push('/groups/$groupId/members');
@@ -159,10 +161,12 @@ class GroupScreen extends HookConsumerWidget {
                               data.hasError,
                           child: Column(
                             children: [
+                              if (data.value?.bannedAt != null) GroupBanCard(),
+                              if (data.value?.userBannedAt != null)
+                                GroupMemberBanCard(),
                               GroupBannerImage(
                                 banner: group.banner,
                               ),
-                              if (data.value?.bannedAt != null) GroupBanCard(),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 10),

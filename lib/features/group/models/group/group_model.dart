@@ -23,6 +23,7 @@ class Group with _$Group {
     @JsonKey(name: 'accepted_at') DateTime? acceptedAt,
     @JsonKey(name: 'invited_at') DateTime? invitedAt,
     @JsonKey(name: 'banned_at') DateTime? bannedAt,
+    @JsonKey(name: 'user_banned_at') DateTime? userBannedAt,
     @JsonKey(name: 'moderator') DateTime? moderator,
     @Default(0) @JsonKey(name: 'members_count') int membersCount,
     @Default(0) @JsonKey(name: 'prayers_count') int prayersCount,

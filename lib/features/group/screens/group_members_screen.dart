@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -8,18 +7,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/common/widgets/tab_bar.dart';
-
 import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
-import 'package:prayer/features/group/widgets/forms/member_picker.dart';
 import 'package:prayer/features/group/widgets/forms/invite_users_picker.dart';
 import 'package:prayer/features/group/widgets/group_member_card.dart';
 import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/repo/group_repository.dart';
 import 'package:prayer/repo/response_types.dart';
-import 'package:pull_down_button/pull_down_button.dart';
 
 class GroupMembersScreen extends HookConsumerWidget {
   const GroupMembersScreen({
@@ -40,10 +36,20 @@ class GroupMembersScreen extends HookConsumerWidget {
         usePagingController<String?, GroupMember>(firstPageKey: null);
     final invitesPageController =
         usePagingController<String?, GroupMember>(firstPageKey: null);
+    final bansPageControler =
+        usePagingController<String?, GroupMember>(firstPageKey: null);
+    final tabs = useMemoized(() {
+      if (group?.moderator != null) {
+        if (group?.membershipType == 'open') {
+          return ['moderators', 'members', 'bans'];
+        }
+        return ['moderators', 'members', 'requests', 'invites', 'bans'];
+      }
+      return ['moderators', 'members'];
+    }, [group?.moderator, group?.membershipType]);
 
     return DefaultTabController(
-      length:
-          group?.moderator != null && group?.membershipType != 'open' ? 4 : 2,
+      length: tabs.length,
       child: Builder(
         builder: (context) {
           return PlatformScaffold(
@@ -52,19 +58,16 @@ class GroupMembersScreen extends HookConsumerWidget {
               onRefresh: () async {
                 switch (DefaultTabController.of(context).index) {
                   case 0:
-                    moderatorsPageController.refresh();
-                    break;
+                    return moderatorsPageController.refresh();
                   case 1:
-                    membersPageController.refresh();
-                    break;
+                    return membersPageController.refresh();
                   case 2:
-                    requestsPageController.refresh();
-                    break;
+                    return requestsPageController.refresh();
                   case 3:
-                    invitesPageController.refresh();
-                    break;
+                    return invitesPageController.refresh();
+                  case 4:
+                    return bansPageControler.refresh();
                 }
-                return null;
               },
               child: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -101,52 +104,14 @@ class GroupMembersScreen extends HookConsumerWidget {
                               top: -13,
                               right: 0,
                               child: InviteUsersPicker(
-                                  groupId: groupId,
-                                  builder: (context, showUsersPicker) {
-                                    return MemberPicker(
-                                      groupId: groupId,
-                                      builder: (context, showPromotePicker) {
-                                        return PullDownButton(
-                                          itemBuilder: (context) => [
-                                            PullDownMenuItem(
-                                              onTap: () async {
-                                                if (await showUsersPicker() ==
-                                                    true) {
-                                                  invitesPageController
-                                                      .refresh();
-                                                }
-                                              },
-                                              title: t.general.invite,
-                                              icon: FontAwesomeIcons.envelope,
-                                            ),
-                                            if (group?.adminId ==
-                                                FirebaseAuth
-                                                    .instance.currentUser?.uid)
-                                              PullDownMenuItem(
-                                                onTap: () async {
-                                                  if (await showPromotePicker() !=
-                                                      null) {
-                                                    moderatorsPageController
-                                                        .refresh();
-                                                    membersPageController
-                                                        .refresh();
-                                                  }
-                                                },
-                                                title: t.general.promote,
-                                                icon:
-                                                    FontAwesomeIcons.userShield,
-                                              ),
-                                          ],
-                                          buttonBuilder: (context, showMenu) =>
-                                              NavigateIconButton(
-                                            icon: FontAwesomeIcons
-                                                .ellipsisVertical,
-                                            onPressed: showMenu,
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }),
+                                groupId: groupId,
+                                builder: (context, showUsersPicker) {
+                                  return NavigateIconButton(
+                                    icon: FontAwesomeIcons.envelope,
+                                    onPressed: showUsersPicker,
+                                  );
+                                },
+                              ),
                             ),
                         ],
                       ),
@@ -154,67 +119,58 @@ class GroupMembersScreen extends HookConsumerWidget {
                       bottom: PreferredSize(
                         preferredSize: Size.fromHeight(60),
                         child: CustomTabBar(
-                          tabs: [
-                            t.general.moderators,
-                            t.general.members,
-                            if (group?.moderator != null &&
-                                group?.membershipType != 'open')
-                              t.general.requests,
-                            if (group?.moderator != null &&
-                                group?.membershipType != 'open')
-                              t.general.invites,
-                          ],
+                          tabs: tabs
+                              .map((e) => switch (e) {
+                                    'moderators' => t.general.moderators,
+                                    'members' => t.general.members,
+                                    'requests' => t.general.requests,
+                                    'invites' => t.general.invites,
+                                    _ => t.general.bans,
+                                  })
+                              .toList(),
                         ),
                       ),
                     ),
                   ),
                 ],
                 body: TabBarView(
-                  children: (group?.moderator != null &&
-                              group?.membershipType != 'open'
-                          ? ['moderators', 'members', 'requests', 'invites']
-                          : ['moderators', 'members'])
+                  children: tabs
                       .map(
                         (e) => Builder(
-                          builder: (context) => CustomScrollView(
-                            physics: AlwaysScrollableScrollPhysics(),
-                            slivers: [
-                              SliverOverlapInjector(
-                                  handle: NestedScrollView
-                                      .sliverOverlapAbsorberHandleFor(context)),
-                              MembersPage(
-                                fetchFn: (cursor) => switch (e) {
-                                  'invites' => GetIt.I<GroupRepository>()
-                                        .fetchGroupInvites(
-                                      groupId: groupId,
-                                      cursor: cursor,
-                                    ),
-                                  _ => GetIt.I<GroupRepository>()
-                                        .fetchGroupMembers(
-                                      groupId: groupId,
-                                      cursor: cursor,
-                                      type: e,
-                                    ),
-                                },
-                                pagingController: switch (e) {
-                                  'moderators' => moderatorsPageController,
-                                  'members' => membersPageController,
-                                  'requests' => requestsPageController,
-                                  _ => invitesPageController,
-                                },
-                                onAction: (actionType, _) {
-                                  if (actionType ==
-                                      GroupMemberCardActionType.accept) {
-                                    membersPageController.refresh();
-                                    requestsPageController.refresh();
-                                  } else {
-                                    invitesPageController.refresh();
-                                  }
-                                },
-                                groupId: groupId,
-                                membersType: e,
-                              )
-                            ],
+                          builder: (context) => MembersPage(
+                            pagingController: switch (e) {
+                              'moderators' => moderatorsPageController,
+                              'members' => membersPageController,
+                              'requests' => requestsPageController,
+                              'bans' => bansPageControler,
+                              _ => invitesPageController,
+                            },
+                            onAction: (actionType, _) {
+                              switch (actionType) {
+                                case GroupMemberCardActionType.accept:
+                                  membersPageController.refresh();
+                                  requestsPageController.refresh();
+                                  return;
+                                case GroupMemberCardActionType.ban:
+                                case GroupMemberCardActionType.unban:
+                                  membersPageController.refresh();
+                                  bansPageControler.refresh();
+                                  return;
+                                case GroupMemberCardActionType.kick:
+                                  membersPageController.refresh();
+                                  return;
+                                case GroupMemberCardActionType.revoke:
+                                  invitesPageController.refresh();
+                                  return;
+                                case GroupMemberCardActionType.removeMod:
+                                case GroupMemberCardActionType.promote:
+                                  moderatorsPageController.refresh();
+                                  membersPageController.refresh();
+                                  return;
+                              }
+                            },
+                            groupId: groupId,
+                            membersType: e,
                           ),
                         ),
                       )
@@ -232,15 +188,11 @@ class GroupMembersScreen extends HookConsumerWidget {
 class MembersPage extends HookWidget {
   const MembersPage({
     super.key,
-    required this.fetchFn,
     required this.groupId,
     required this.membersType,
     required this.pagingController,
     this.onAction,
   });
-
-  final Future<PaginationResponse<GroupMember, String?>> Function(dynamic)
-      fetchFn;
   final PagingController<String?, GroupMember> pagingController;
   final String groupId;
   final String membersType;
@@ -249,6 +201,17 @@ class MembersPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useAutomaticKeepAlive();
+    final controller = useTextEditingController();
+    final query = useState('');
+
+    useEffect(() {
+      controller.addListener(() {
+        query.value = controller.text;
+        pagingController.refresh();
+      });
+      return () => null;
+    }, []);
+
     final fetchPage = useCallback((String? cursor) async {
       try {
         PaginationResponse<GroupMember, dynamic> data;
@@ -256,12 +219,20 @@ class MembersPage extends HookWidget {
           data = await GetIt.I<GroupRepository>().fetchGroupInvites(
             groupId: groupId,
             cursor: cursor,
+            query: controller.text,
+          );
+        } else if (membersType == 'bans') {
+          data = await GetIt.I<GroupRepository>().fetchGroupBans(
+            groupId: groupId,
+            cursor: cursor,
+            query: controller.text,
           );
         } else {
           data = await GetIt.I<GroupRepository>().fetchGroupMembers(
             groupId: groupId,
             cursor: cursor,
             type: membersType,
+            query: controller.text,
           );
         }
         if (data.cursor != null) {
@@ -273,7 +244,7 @@ class MembersPage extends HookWidget {
         talker.error('Error while fetching members of the group: $error');
         pagingController.error = error;
       }
-    }, []);
+    }, [query.value]);
 
     useEffect(() {
       pagingController.addPageRequestListener(fetchPage);
@@ -281,18 +252,39 @@ class MembersPage extends HookWidget {
       return () => pagingController.removePageRequestListener(fetchPage);
     }, [fetchPage]);
 
-    return PagedSliverList(
-      pagingController: pagingController,
-      builderDelegate: PagedChildBuilderDelegate<GroupMember>(
-        noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
-        itemBuilder: (context, item, index) => GroupMemberCard(
-          onDone: (actionType) => onAction?.call(actionType, item.uid),
-          groupId: groupId,
-          member: item,
-          showAccept: membersType == 'requests',
-          showUndoInvite: membersType == 'invites',
+    return CustomScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: SearchBar(
+              controller: controller,
+              hintText: t.placeholder.search,
+            ),
+          ),
         ),
-      ),
+        PagedSliverList(
+          pagingController: pagingController,
+          builderDelegate: PagedChildBuilderDelegate<GroupMember>(
+            noItemsFoundIndicatorBuilder: (context) => const SizedBox(),
+            itemBuilder: (context, item, index) => GroupMemberCard(
+              onDone: (actionType) => onAction?.call(actionType, item.uid),
+              groupId: groupId,
+              member: item,
+              showAccept: membersType == 'requests',
+              showUndoInvite: membersType == 'invites',
+              showKick: membersType == 'members' || membersType == 'bans',
+              showBan: membersType == 'members',
+              showRemoveMod: membersType == 'moderators',
+              showPromote: membersType == 'members',
+              showUnban: membersType == 'bans',
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

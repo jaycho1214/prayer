@@ -21,7 +21,6 @@ import 'package:prayer/features/bible/widgets/bible_card.dart';
 import 'package:prayer/features/user/widgets/follow_button.dart';
 import 'package:prayer/features/common/sheets/confirm_menu_form.dart';
 import 'package:prayer/features/common/widgets/nested_scroll_tab_bar.dart';
-import 'package:prayer/features/common/widgets/notification_bar.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
@@ -488,8 +487,6 @@ class UserScreen extends HookConsumerWidget {
                                       .read(userNotifierProvider(uid: user!.uid)
                                           .notifier)
                                       .blockUser(user.blockedAt == null);
-                                  NotificationSnackBar.show(context,
-                                      message: t.general.blocked);
                                 } catch (e, st) {
                                   talker.handle(e, st,
                                       '[UserScreen] Failed to block a user');

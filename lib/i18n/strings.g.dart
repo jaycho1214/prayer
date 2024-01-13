@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 562 (281 per locale)
+/// Strings: 617 (308 per locale)
 ///
-/// Built on 2024-01-11 at 17:34 UTC
+/// Built on 2024-01-13 at 14:53 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -173,6 +173,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsDonateEn donate = _StringsDonateEn._(_root);
 	late final _StringsDayEn day = _StringsDayEn._(_root);
 	late final _StringsEmptyEn empty = _StringsEmptyEn._(_root);
+	late final _StringsBannedEn banned = _StringsBannedEn._(_root);
 }
 
 // Path: introduction
@@ -196,11 +197,15 @@ class _StringsGeneralEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	String get about => 'About';
 	String get accept => 'Accept';
 	String get accepted => 'Accepted';
 	String get account => 'Account';
 	String get admin => 'Admin';
 	String get anonymous => 'Anonymous';
+	String banUser({required Object user}) => 'Ban ${user}';
+	String unbanUser({required Object user}) => 'Unban ${user}';
+	String get bans => 'Bans';
 	String get bio => 'Bio';
 	String get bible => 'Bible';
 	String get blocked => 'Blocked';
@@ -214,6 +219,7 @@ class _StringsGeneralEn {
 	String get private => 'Private';
 	String get profile => 'Profile';
 	String get promote => 'Promote';
+	String promoteUser({required Object user}) => 'Promote ${user}';
 	String get ratePrayer => 'Rate Prayer';
 	String get readmore => 'Read More';
 	String get refresh => 'Refresh';
@@ -292,6 +298,8 @@ class _StringsGeneralEn {
 		other: '${membersCount} Members\'',
 	);
 	String get membershipType => 'Membership Type';
+	String get removeFromGroup => 'Remove from group';
+	String get removeModerator => 'Remove as moderator';
 }
 
 // Path: prayer
@@ -552,6 +560,16 @@ class _StringsEmptyEn {
 	late final _StringsEmptyNeighborEn neighbor = _StringsEmptyNeighborEn._(_root);
 }
 
+// Path: banned
+class _StringsBannedEn {
+	_StringsBannedEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsBannedGroupMemberEn group_member = _StringsBannedGroupMemberEn._(_root);
+}
+
 // Path: prayer.alert
 class _StringsPrayerAlertEn {
 	_StringsPrayerAlertEn._(this._root);
@@ -625,6 +643,9 @@ class _StringsGroupAlertEn {
 	];
 	String revokeInvitation({required Object username}) => 'Revoke an invitation of ${username}?';
 	late final _StringsGroupAlertPromoteEn promote = _StringsGroupAlertPromoteEn._(_root);
+	late final _StringsGroupAlertBanEn ban = _StringsGroupAlertBanEn._(_root);
+	late final _StringsGroupAlertKickEn kick = _StringsGroupAlertKickEn._(_root);
+	late final _StringsGroupAlertRemoveModEn removeMod = _StringsGroupAlertRemoveModEn._(_root);
 }
 
 // Path: group.form
@@ -855,6 +876,21 @@ class _StringsEmptyNeighborEn {
 	String get description => 'And the second is like it: ‘Love your neighbor as yourself.’ All the Law and the Prophets hang on these two commandments.\n\nMatthew 22:38-40 (NIV)';
 }
 
+// Path: banned.group_member
+class _StringsBannedGroupMemberEn {
+	_StringsBannedGroupMemberEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'You are permanently banned from the group for violating our group rules.';
+	List<String> get actions => [
+		'You are unable to post a prayer to the group.',
+		'At this moment, posting a pray to the group\'s prayer is not possible.',
+		'If moderators decide to remove you, you will not be able to rejoin the group.',
+	];
+}
+
 // Path: prayer.alert.needWaitToPray
 class _StringsPrayerAlertNeedWaitToPrayEn {
 	_StringsPrayerAlertNeedWaitToPrayEn._(this._root);
@@ -940,11 +976,7 @@ class _StringsGroupAlertDetailEn {
 
 	// Translations
 	String title({required Object membershipType}) => 'This group is ${membershipType}';
-	List<dynamic> get description => [
-		_StringsGroupAlertDetail$description$0i0$En._(_root),
-		'2. Only group members can post the prayer and participate in prayer activities',
-		({required Object establishedAt}) => '3. This group was established at ${establishedAt}',
-	];
+	late final _StringsGroupAlertDetailDescriptionEn description = _StringsGroupAlertDetailDescriptionEn._(_root);
 }
 
 // Path: group.alert.promote
@@ -958,9 +990,59 @@ class _StringsGroupAlertPromoteEn {
 	List<String> get description => [
 		'1. Moderators have the ability to invite others or accept join requests.',
 		'2. Moderators can post corporate prayers.',
-		'3. Moderators can set notifications for prayer times.',
+		'3. Moderators can remove or ban members from the group.',
 	];
 	String get success => 'Member Promoted';
+}
+
+// Path: group.alert.ban
+class _StringsGroupAlertBanEn {
+	_StringsGroupAlertBanEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object name}) => 'Ban ${name}';
+	List<String> get description => [
+		'1. Users will be immediately banned.',
+		'2. Users will not be automatically kicked.',
+		'3. Users will be unable to post a prayer.',
+		'4. Users will be unable to post a pray to the group\'s prayers.',
+		'5. If a user is kicked after being banned, they will not be able to rejoin.',
+	];
+	String get success => 'Member banned';
+}
+
+// Path: group.alert.kick
+class _StringsGroupAlertKickEn {
+	_StringsGroupAlertKickEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object name}) => 'Remove ${name} from the group?';
+	String get subtitle => '${_root.alert.actionIrreversible}';
+	List<String> get description => [
+		'1. Users won\'t be notified if they\'re removed from the group.',
+		'2. Users can always rejoin or request to come back in.',
+		'3. If a user has been previously banned, they will not be able to rejoin.',
+		'4. All the prayers and group prayers users posted before stay put.',
+		'5. Moderators cannot be removed from the group.',
+	];
+}
+
+// Path: group.alert.removeMod
+class _StringsGroupAlertRemoveModEn {
+	_StringsGroupAlertRemoveModEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object name}) => 'Remove ${name} as moderator?';
+	String get subtitle => '${_root.alert.actionIrreversible}';
+	List<String> get description => [
+		'All moderator privillegs will be immediately revoked.',
+	];
 }
 
 // Path: group.form.main
@@ -1097,16 +1179,20 @@ class _StringsPrayerFormPostTypeAnonymousEn {
 	String get description => 'Share your prayer without revealing your identity, keeping your name private';
 }
 
-// Path: group.alert.detail.description.0
-class _StringsGroupAlertDetail$description$0i0$En {
-	_StringsGroupAlertDetail$description$0i0$En._(this._root);
+// Path: group.alert.detail.description
+class _StringsGroupAlertDetailDescriptionEn {
+	_StringsGroupAlertDetailDescriptionEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get open => '1. All prayers in the group are public, visible to everyone, and joining is unrestricted.';
-	String get restricted => '1. Joining the group requires approval, and only members can view prayers.';
-	String get private => '1. Group is unlisted in searches and its prayers are inaccessible to non-members.';
+	TextSpan establishedAt({required InlineSpan establishedAt, required InlineSpan user}) => TextSpan(children: [
+		const TextSpan(text: 'This group was established on '),
+		establishedAt,
+		const TextSpan(text: ' by '),
+		user,
+	]);
+	late final _StringsGroupAlertDetailDescriptionMembershipTypeEn membershipType = _StringsGroupAlertDetailDescriptionMembershipTypeEn._(_root);
 }
 
 // Path: group.form.main.name
@@ -1230,6 +1316,18 @@ class _StringsCorporatePrayerFormNotificationsMembersEn {
 	String get description => '${_root.group.form.notifications.members.description}';
 }
 
+// Path: group.alert.detail.description.membershipType
+class _StringsGroupAlertDetailDescriptionMembershipTypeEn {
+	_StringsGroupAlertDetailDescriptionMembershipTypeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get open => 'All prayers in the group are public, visible to everyone, and joining is unrestricted.';
+	String get restricted => 'Joining the group requires approval, and only members can view prayers.';
+	String get private => 'Group is unlisted in searches and its prayers are inaccessible to non-members.';
+}
+
 // Path: <root>
 class _StringsKo extends Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
@@ -1273,6 +1371,7 @@ class _StringsKo extends Translations {
 	@override late final _StringsDonateKo donate = _StringsDonateKo._(_root);
 	@override late final _StringsDayKo day = _StringsDayKo._(_root);
 	@override late final _StringsEmptyKo empty = _StringsEmptyKo._(_root);
+	@override late final _StringsBannedKo banned = _StringsBannedKo._(_root);
 }
 
 // Path: introduction
@@ -1296,11 +1395,15 @@ class _StringsGeneralKo extends _StringsGeneralEn {
 	@override final _StringsKo _root; // ignore: unused_field
 
 	// Translations
+	@override String get about => '정보';
 	@override String get accept => '승인';
 	@override String get accepted => '승인됨';
 	@override String get account => '계정';
 	@override String get admin => '관리자';
 	@override String get anonymous => '익명';
+	@override String banUser({required Object user}) => '${user} 차단';
+	@override String unbanUser({required Object user}) => '${user} 차단 해제';
+	@override String get bans => '차단';
 	@override String get bio => '바이오';
 	@override String get bible => '성경';
 	@override String get blocked => '차단됨';
@@ -1314,6 +1417,7 @@ class _StringsGeneralKo extends _StringsGeneralEn {
 	@override String get private => '비공개';
 	@override String get profile => '프로필';
 	@override String get promote => '임명';
+	@override String promoteUser({required Object user}) => '${user} 임명';
 	@override String get ratePrayer => 'Prayer 리뷰 남기기';
 	@override String get readmore => '더보기';
 	@override String get refresh => '새로고침';
@@ -1392,6 +1496,8 @@ class _StringsGeneralKo extends _StringsGeneralEn {
 		other: '${membersCount} 멤버들',
 	);
 	@override String get membershipType => '가입 조건';
+	@override String get removeFromGroup => '강제 퇴장';
+	@override String get removeModerator => '멤버로 전환';
 }
 
 // Path: prayer
@@ -1652,6 +1758,16 @@ class _StringsEmptyKo extends _StringsEmptyEn {
 	@override late final _StringsEmptyNeighborKo neighbor = _StringsEmptyNeighborKo._(_root);
 }
 
+// Path: banned
+class _StringsBannedKo extends _StringsBannedEn {
+	_StringsBannedKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsBannedGroupMemberKo group_member = _StringsBannedGroupMemberKo._(_root);
+}
+
 // Path: prayer.alert
 class _StringsPrayerAlertKo extends _StringsPrayerAlertEn {
 	_StringsPrayerAlertKo._(_StringsKo root) : this._root = root, super._(root);
@@ -1725,6 +1841,9 @@ class _StringsGroupAlertKo extends _StringsGroupAlertEn {
 	];
 	@override String revokeInvitation({required Object username}) => '${username}님의 초대를 취소하시겠습니까?';
 	@override late final _StringsGroupAlertPromoteKo promote = _StringsGroupAlertPromoteKo._(_root);
+	@override late final _StringsGroupAlertBanKo ban = _StringsGroupAlertBanKo._(_root);
+	@override late final _StringsGroupAlertKickKo kick = _StringsGroupAlertKickKo._(_root);
+	@override late final _StringsGroupAlertRemoveModKo removeMod = _StringsGroupAlertRemoveModKo._(_root);
 }
 
 // Path: group.form
@@ -1955,6 +2074,21 @@ class _StringsEmptyNeighborKo extends _StringsEmptyNeighborEn {
 	@override String get description => '둘째도 그와 같으니 네 이웃을 네 자신 같이 사랑하라 하셨으니 모든 율법과 선지자의 가르침이 이 두 계명에 달려있다.\n\n마태복음 22:38-40 (개역개정)';
 }
 
+// Path: banned.group_member
+class _StringsBannedGroupMemberKo extends _StringsBannedGroupMemberEn {
+	_StringsBannedGroupMemberKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '당신은 그룹 규칙을 위반하여 그룹에서 영구적으로 제외되었습니다.';
+	@override List<String> get actions => [
+		'당신은 그룹에 기도문를 올릴 수 없습니다.',
+		'현재로서는 그룹의 기도문에 기도를 올리는 것이 불가능합니다.',
+		'만약 운영진이 당신을 제거하기로 결정한다면, 그룹에 다시 가입할 수 없습니다.',
+	];
+}
+
 // Path: prayer.alert.needWaitToPray
 class _StringsPrayerAlertNeedWaitToPrayKo extends _StringsPrayerAlertNeedWaitToPrayEn {
 	_StringsPrayerAlertNeedWaitToPrayKo._(_StringsKo root) : this._root = root, super._(root);
@@ -2040,11 +2174,7 @@ class _StringsGroupAlertDetailKo extends _StringsGroupAlertDetailEn {
 
 	// Translations
 	@override String title({required Object membershipType}) => '이 그룹은 ${membershipType}입니다';
-	@override List<dynamic> get description => [
-		_StringsGroupAlertDetail$description$0i0$Ko._(_root),
-		'2. 그룹 멤버들만 기도문을 게시하고 기도 활동에 참여할 수 있습니다',
-		({required Object establishedAt}) => '3. 이 그룹은 ${establishedAt}애 창설되었습니다',
-	];
+	@override late final _StringsGroupAlertDetailDescriptionKo description = _StringsGroupAlertDetailDescriptionKo._(_root);
 }
 
 // Path: group.alert.promote
@@ -2058,9 +2188,60 @@ class _StringsGroupAlertPromoteKo extends _StringsGroupAlertPromoteEn {
 	@override List<String> get description => [
 		'1. 사역자는 다른 사람을 초대하거나 가입 요청을 수락할 수 있습니다',
 		'2. 사역자는 중보 기도문을 게시할 수 있습니다.',
-		'3. 사역자는 기도 시간에 대한 알림을 설정할 수 있습니다.',
+		'3. 사역자는 다른 사람을 강제 퇴장하거나 밴 할 수 있습니다.',
 	];
 	@override String get success => '멤버를 임명했습니다';
+}
+
+// Path: group.alert.ban
+class _StringsGroupAlertBanKo extends _StringsGroupAlertBanEn {
+	_StringsGroupAlertBanKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required Object name}) => 'Ban ${name}';
+	@override List<String> get description => [
+		'1. 사용자는 즉시 차단됩니다.',
+		'2. 사용자가 자동으로 그룹에서 제거되지 않습니다.',
+		'3. 사용자는 기도문을 게시할 수 없습니다.',
+		'4. 사용자는 그룹 내 기도문에 기도를 올릴 수 없습니다.',
+		'5. 만약 사용자가 차단 이후에 그룹에서 제거 될 경우, 그룹에 다시 가입할 수 없습니다.',
+	];
+	@override String get success => 'Member banned';
+}
+
+// Path: group.alert.kick
+class _StringsGroupAlertKickKo extends _StringsGroupAlertKickEn {
+	_StringsGroupAlertKickKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required Object name}) => '${name}님을 그룹에서 제거하시겠습니까?';
+	@override String get subtitle => '${_root.alert.actionIrreversible}';
+	@override List<String> get description => [
+		'1. 제거했다는 사실이 알려지지 않습니다.',
+		'2. 유저가 다시 가입하거나 가입 신청할 수 있습니다.',
+		'3. 만약 유저가 기존에 차단당했을 경우, 다시 가입하거나 가입 신청할 수 없습니다.',
+		'4. 기존에 유저가 올린 기도문/중보기도문은 삭제되지 않습니다.',
+		'5. 사역자일 경우 제거할 수 없습니다.',
+	];
+	@override String get success => '멤버를 임명했습니다';
+}
+
+// Path: group.alert.removeMod
+class _StringsGroupAlertRemoveModKo extends _StringsGroupAlertRemoveModEn {
+	_StringsGroupAlertRemoveModKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required Object name}) => '${name}님을 일반 멤버로 전환하시겠습니까?';
+	@override String get subtitle => '${_root.alert.actionIrreversible}';
+	@override List<String> get description => [
+		'기존에 사역자 권한이 즉시 박탈됩니다.',
+	];
 }
 
 // Path: group.form.main
@@ -2197,16 +2378,21 @@ class _StringsPrayerFormPostTypeAnonymousKo extends _StringsPrayerFormPostTypeAn
 	@override String get description => '익명 기도문은 누가 올렸는지 확인할 수 없습니다';
 }
 
-// Path: group.alert.detail.description.0
-class _StringsGroupAlertDetail$description$0i0$Ko extends _StringsGroupAlertDetail$description$0i0$En {
-	_StringsGroupAlertDetail$description$0i0$Ko._(_StringsKo root) : this._root = root, super._(root);
+// Path: group.alert.detail.description
+class _StringsGroupAlertDetailDescriptionKo extends _StringsGroupAlertDetailDescriptionEn {
+	_StringsGroupAlertDetailDescriptionKo._(_StringsKo root) : this._root = root, super._(root);
 
 	@override final _StringsKo _root; // ignore: unused_field
 
 	// Translations
-	@override String get open => '1. 누구나 그룹내 모든 기도문을 볼 수 있고, 가입을 자유롭게 할 수 있습니다.';
-	@override String get restricted => '1. 그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
-	@override String get private => '1. 그룹이 검색되지 않고 초대를 통해서만 들어올 수 있습니다.';
+	@override TextSpan establishedAt({required InlineSpan establishedAt, required InlineSpan user}) => TextSpan(children: [
+		const TextSpan(text: '이 그룹은 '),
+		establishedAt,
+		const TextSpan(text: '애 '),
+		user,
+		const TextSpan(text: '에 의해 창설되었습니다'),
+	]);
+	@override late final _StringsGroupAlertDetailDescriptionMembershipTypeKo membershipType = _StringsGroupAlertDetailDescriptionMembershipTypeKo._(_root);
 }
 
 // Path: group.form.main.name
@@ -2330,6 +2516,18 @@ class _StringsCorporatePrayerFormNotificationsMembersKo extends _StringsCorporat
 	@override String get description => '${_root.group.form.notifications.members.description}';
 }
 
+// Path: group.alert.detail.description.membershipType
+class _StringsGroupAlertDetailDescriptionMembershipTypeKo extends _StringsGroupAlertDetailDescriptionMembershipTypeEn {
+	_StringsGroupAlertDetailDescriptionMembershipTypeKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get open => '누구나 그룹내 모든 기도문을 볼 수 있고, 가입을 자유롭게 할 수 있습니다.';
+	@override String get restricted => '그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
+	@override String get private => '그룹이 검색되지 않고 초대를 통해서만 들어올 수 있습니다.';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
@@ -2339,11 +2537,15 @@ extension on Translations {
 			case 'introduction.title.0': return 'United in Prayer';
 			case 'introduction.title.1': return 'Stronger Together';
 			case 'introduction.title.2': return 'Collective Faith';
+			case 'general.about': return 'About';
 			case 'general.accept': return 'Accept';
 			case 'general.accepted': return 'Accepted';
 			case 'general.account': return 'Account';
 			case 'general.admin': return 'Admin';
 			case 'general.anonymous': return 'Anonymous';
+			case 'general.banUser': return ({required Object user}) => 'Ban ${user}';
+			case 'general.unbanUser': return ({required Object user}) => 'Unban ${user}';
+			case 'general.bans': return 'Bans';
 			case 'general.bio': return 'Bio';
 			case 'general.bible': return 'Bible';
 			case 'general.blocked': return 'Blocked';
@@ -2357,6 +2559,7 @@ extension on Translations {
 			case 'general.private': return 'Private';
 			case 'general.profile': return 'Profile';
 			case 'general.promote': return 'Promote';
+			case 'general.promoteUser': return ({required Object user}) => 'Promote ${user}';
 			case 'general.ratePrayer': return 'Rate Prayer';
 			case 'general.readmore': return 'Read More';
 			case 'general.refresh': return 'Refresh';
@@ -2435,6 +2638,8 @@ extension on Translations {
 				other: '${membersCount} Members\'',
 			);
 			case 'general.membershipType': return 'Membership Type';
+			case 'general.removeFromGroup': return 'Remove from group';
+			case 'general.removeModerator': return 'Remove as moderator';
 			case 'prayer.onlyVisibleToYou': return 'Only visible to you';
 			case 'prayer.someoneHasPrayed': return ({required InlineSpan username}) => TextSpan(children: [
 				username,
@@ -2466,11 +2671,15 @@ extension on Translations {
 			case 'auth.signup.bible.passage': return 'Rejoice always, pray continually, give thanks in all circumstances; for this is God’s will for you in Christ Jesus.';
 			case 'auth.signup.bible.verse': return '1 Thessalonians 5:16-18 (NIV)';
 			case 'group.alert.detail.title': return ({required Object membershipType}) => 'This group is ${membershipType}';
-			case 'group.alert.detail.description.0.open': return '1. All prayers in the group are public, visible to everyone, and joining is unrestricted.';
-			case 'group.alert.detail.description.0.restricted': return '1. Joining the group requires approval, and only members can view prayers.';
-			case 'group.alert.detail.description.0.private': return '1. Group is unlisted in searches and its prayers are inaccessible to non-members.';
-			case 'group.alert.detail.description.1': return '2. Only group members can post the prayer and participate in prayer activities';
-			case 'group.alert.detail.description.2': return ({required Object establishedAt}) => '3. This group was established at ${establishedAt}';
+			case 'group.alert.detail.description.establishedAt': return ({required InlineSpan establishedAt, required InlineSpan user}) => TextSpan(children: [
+				const TextSpan(text: 'This group was established on '),
+				establishedAt,
+				const TextSpan(text: ' by '),
+				user,
+			]);
+			case 'group.alert.detail.description.membershipType.open': return 'All prayers in the group are public, visible to everyone, and joining is unrestricted.';
+			case 'group.alert.detail.description.membershipType.restricted': return 'Joining the group requires approval, and only members can view prayers.';
+			case 'group.alert.detail.description.membershipType.private': return 'Group is unlisted in searches and its prayers are inaccessible to non-members.';
 			case 'group.alert.acceptMember': return ({required Object username}) => 'Accept ${username}?';
 			case 'group.alert.deleteGroup.0': return '1. Deletion is irreversible and immediate.';
 			case 'group.alert.deleteGroup.1': return '2. All group members will be removed automatically.';
@@ -2482,8 +2691,25 @@ extension on Translations {
 			case 'group.alert.promote.title': return ({required Object name}) => 'Promote ${name}';
 			case 'group.alert.promote.description.0': return '1. Moderators have the ability to invite others or accept join requests.';
 			case 'group.alert.promote.description.1': return '2. Moderators can post corporate prayers.';
-			case 'group.alert.promote.description.2': return '3. Moderators can set notifications for prayer times.';
+			case 'group.alert.promote.description.2': return '3. Moderators can remove or ban members from the group.';
 			case 'group.alert.promote.success': return 'Member Promoted';
+			case 'group.alert.ban.title': return ({required Object name}) => 'Ban ${name}';
+			case 'group.alert.ban.description.0': return '1. Users will be immediately banned.';
+			case 'group.alert.ban.description.1': return '2. Users will not be automatically kicked.';
+			case 'group.alert.ban.description.2': return '3. Users will be unable to post a prayer.';
+			case 'group.alert.ban.description.3': return '4. Users will be unable to post a pray to the group\'s prayers.';
+			case 'group.alert.ban.description.4': return '5. If a user is kicked after being banned, they will not be able to rejoin.';
+			case 'group.alert.ban.success': return 'Member banned';
+			case 'group.alert.kick.title': return ({required Object name}) => 'Remove ${name} from the group?';
+			case 'group.alert.kick.subtitle': return '${_root.alert.actionIrreversible}';
+			case 'group.alert.kick.description.0': return '1. Users won\'t be notified if they\'re removed from the group.';
+			case 'group.alert.kick.description.1': return '2. Users can always rejoin or request to come back in.';
+			case 'group.alert.kick.description.2': return '3. If a user has been previously banned, they will not be able to rejoin.';
+			case 'group.alert.kick.description.3': return '4. All the prayers and group prayers users posted before stay put.';
+			case 'group.alert.kick.description.4': return '5. Moderators cannot be removed from the group.';
+			case 'group.alert.removeMod.title': return ({required Object name}) => 'Remove ${name} as moderator?';
+			case 'group.alert.removeMod.subtitle': return '${_root.alert.actionIrreversible}';
+			case 'group.alert.removeMod.description.0': return 'All moderator privillegs will be immediately revoked.';
 			case 'group.form.main.name.title': return 'Group Name';
 			case 'group.form.main.name.subtitle': return 'Names must be less than 30 characters and do not include hashtag and or the \'@\' symbol.';
 			case 'group.form.main.description.title': return 'Group Description';
@@ -2664,6 +2890,10 @@ extension on Translations {
 			case 'empty.followersPrayer.button': return 'Search a companion';
 			case 'empty.neighbor.title': return 'Pray for others to become their neighbor.';
 			case 'empty.neighbor.description': return 'And the second is like it: ‘Love your neighbor as yourself.’ All the Law and the Prophets hang on these two commandments.\n\nMatthew 22:38-40 (NIV)';
+			case 'banned.group_member.title': return 'You are permanently banned from the group for violating our group rules.';
+			case 'banned.group_member.actions.0': return 'You are unable to post a prayer to the group.';
+			case 'banned.group_member.actions.1': return 'At this moment, posting a pray to the group\'s prayer is not possible.';
+			case 'banned.group_member.actions.2': return 'If moderators decide to remove you, you will not be able to rejoin the group.';
 			default: return null;
 		}
 	}
@@ -2675,11 +2905,15 @@ extension on _StringsKo {
 			case 'introduction.title.0': return '기도로 연합';
 			case 'introduction.title.1': return '믿음의 동반자';
 			case 'introduction.title.2': return '공동의 믿음';
+			case 'general.about': return '정보';
 			case 'general.accept': return '승인';
 			case 'general.accepted': return '승인됨';
 			case 'general.account': return '계정';
 			case 'general.admin': return '관리자';
 			case 'general.anonymous': return '익명';
+			case 'general.banUser': return ({required Object user}) => '${user} 차단';
+			case 'general.unbanUser': return ({required Object user}) => '${user} 차단 해제';
+			case 'general.bans': return '차단';
 			case 'general.bio': return '바이오';
 			case 'general.bible': return '성경';
 			case 'general.blocked': return '차단됨';
@@ -2693,6 +2927,7 @@ extension on _StringsKo {
 			case 'general.private': return '비공개';
 			case 'general.profile': return '프로필';
 			case 'general.promote': return '임명';
+			case 'general.promoteUser': return ({required Object user}) => '${user} 임명';
 			case 'general.ratePrayer': return 'Prayer 리뷰 남기기';
 			case 'general.readmore': return '더보기';
 			case 'general.refresh': return '새로고침';
@@ -2771,6 +3006,8 @@ extension on _StringsKo {
 				other: '${membersCount} 멤버들',
 			);
 			case 'general.membershipType': return '가입 조건';
+			case 'general.removeFromGroup': return '강제 퇴장';
+			case 'general.removeModerator': return '멤버로 전환';
 			case 'prayer.onlyVisibleToYou': return '나한테만 보임';
 			case 'prayer.someoneHasPrayed': return ({required InlineSpan username}) => TextSpan(children: [
 				username,
@@ -2802,11 +3039,16 @@ extension on _StringsKo {
 			case 'auth.signup.bible.passage': return '항상 기뻐하라, 쉬지 말고 기도하라, 범사에 감사하라 이것이 그리스도 예수 안에서 너희를 향하신 하나님의 뜻이라';
 			case 'auth.signup.bible.verse': return '데살로니가전서 5:16-18 (개역개정)';
 			case 'group.alert.detail.title': return ({required Object membershipType}) => '이 그룹은 ${membershipType}입니다';
-			case 'group.alert.detail.description.0.open': return '1. 누구나 그룹내 모든 기도문을 볼 수 있고, 가입을 자유롭게 할 수 있습니다.';
-			case 'group.alert.detail.description.0.restricted': return '1. 그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
-			case 'group.alert.detail.description.0.private': return '1. 그룹이 검색되지 않고 초대를 통해서만 들어올 수 있습니다.';
-			case 'group.alert.detail.description.1': return '2. 그룹 멤버들만 기도문을 게시하고 기도 활동에 참여할 수 있습니다';
-			case 'group.alert.detail.description.2': return ({required Object establishedAt}) => '3. 이 그룹은 ${establishedAt}애 창설되었습니다';
+			case 'group.alert.detail.description.establishedAt': return ({required InlineSpan establishedAt, required InlineSpan user}) => TextSpan(children: [
+				const TextSpan(text: '이 그룹은 '),
+				establishedAt,
+				const TextSpan(text: '애 '),
+				user,
+				const TextSpan(text: '에 의해 창설되었습니다'),
+			]);
+			case 'group.alert.detail.description.membershipType.open': return '누구나 그룹내 모든 기도문을 볼 수 있고, 가입을 자유롭게 할 수 있습니다.';
+			case 'group.alert.detail.description.membershipType.restricted': return '그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
+			case 'group.alert.detail.description.membershipType.private': return '그룹이 검색되지 않고 초대를 통해서만 들어올 수 있습니다.';
 			case 'group.alert.acceptMember': return ({required Object username}) => '${username}님을 승인하시겠습니까?';
 			case 'group.alert.deleteGroup.0': return '1. 삭제는 되돌릴 수 없으며 즉시 이루어집니다.';
 			case 'group.alert.deleteGroup.1': return '2. 모든 그룹 구성원은 자동으로 탈퇴됩니다.';
@@ -2818,8 +3060,26 @@ extension on _StringsKo {
 			case 'group.alert.promote.title': return ({required Object name}) => '${name}님을 임명하시겠습니까?';
 			case 'group.alert.promote.description.0': return '1. 사역자는 다른 사람을 초대하거나 가입 요청을 수락할 수 있습니다';
 			case 'group.alert.promote.description.1': return '2. 사역자는 중보 기도문을 게시할 수 있습니다.';
-			case 'group.alert.promote.description.2': return '3. 사역자는 기도 시간에 대한 알림을 설정할 수 있습니다.';
+			case 'group.alert.promote.description.2': return '3. 사역자는 다른 사람을 강제 퇴장하거나 밴 할 수 있습니다.';
 			case 'group.alert.promote.success': return '멤버를 임명했습니다';
+			case 'group.alert.ban.title': return ({required Object name}) => 'Ban ${name}';
+			case 'group.alert.ban.description.0': return '1. 사용자는 즉시 차단됩니다.';
+			case 'group.alert.ban.description.1': return '2. 사용자가 자동으로 그룹에서 제거되지 않습니다.';
+			case 'group.alert.ban.description.2': return '3. 사용자는 기도문을 게시할 수 없습니다.';
+			case 'group.alert.ban.description.3': return '4. 사용자는 그룹 내 기도문에 기도를 올릴 수 없습니다.';
+			case 'group.alert.ban.description.4': return '5. 만약 사용자가 차단 이후에 그룹에서 제거 될 경우, 그룹에 다시 가입할 수 없습니다.';
+			case 'group.alert.ban.success': return 'Member banned';
+			case 'group.alert.kick.title': return ({required Object name}) => '${name}님을 그룹에서 제거하시겠습니까?';
+			case 'group.alert.kick.subtitle': return '${_root.alert.actionIrreversible}';
+			case 'group.alert.kick.description.0': return '1. 제거했다는 사실이 알려지지 않습니다.';
+			case 'group.alert.kick.description.1': return '2. 유저가 다시 가입하거나 가입 신청할 수 있습니다.';
+			case 'group.alert.kick.description.2': return '3. 만약 유저가 기존에 차단당했을 경우, 다시 가입하거나 가입 신청할 수 없습니다.';
+			case 'group.alert.kick.description.3': return '4. 기존에 유저가 올린 기도문/중보기도문은 삭제되지 않습니다.';
+			case 'group.alert.kick.description.4': return '5. 사역자일 경우 제거할 수 없습니다.';
+			case 'group.alert.kick.success': return '멤버를 임명했습니다';
+			case 'group.alert.removeMod.title': return ({required Object name}) => '${name}님을 일반 멤버로 전환하시겠습니까?';
+			case 'group.alert.removeMod.subtitle': return '${_root.alert.actionIrreversible}';
+			case 'group.alert.removeMod.description.0': return '기존에 사역자 권한이 즉시 박탈됩니다.';
 			case 'group.form.main.name.title': return '그룹 이름';
 			case 'group.form.main.name.subtitle': return '이름은 30자 미만이어야 하며 해시태그 및 \'@\' 기호를 포함하지 않아야 합니다.';
 			case 'group.form.main.description.title': return '그룹 설명';
@@ -3000,6 +3260,10 @@ extension on _StringsKo {
 			case 'empty.followersPrayer.button': return '동반자 찾기';
 			case 'empty.neighbor.title': return '남을 위해 기도하면, 그들은 우리의 신앙 이웃이 됩니다.';
 			case 'empty.neighbor.description': return '둘째도 그와 같으니 네 이웃을 네 자신 같이 사랑하라 하셨으니 모든 율법과 선지자의 가르침이 이 두 계명에 달려있다.\n\n마태복음 22:38-40 (개역개정)';
+			case 'banned.group_member.title': return '당신은 그룹 규칙을 위반하여 그룹에서 영구적으로 제외되었습니다.';
+			case 'banned.group_member.actions.0': return '당신은 그룹에 기도문를 올릴 수 없습니다.';
+			case 'banned.group_member.actions.1': return '현재로서는 그룹의 기도문에 기도를 올리는 것이 불가능합니다.';
+			case 'banned.group_member.actions.2': return '만약 운영진이 당신을 제거하기로 결정한다면, 그룹에 다시 가입할 수 없습니다.';
 			default: return null;
 		}
 	}

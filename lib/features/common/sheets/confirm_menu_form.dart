@@ -26,6 +26,7 @@ class ConfirmMenuForm extends StatelessWidget {
     return showModalBottomSheet<bool>(
         elevation: 0,
         context: context,
+        isScrollControlled: true,
         builder: (context) {
           return ConfirmMenuForm(
             title: title,

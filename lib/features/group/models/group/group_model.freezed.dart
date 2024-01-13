@@ -39,6 +39,8 @@ mixin _$Group {
   DateTime? get invitedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'banned_at')
   DateTime? get bannedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_banned_at')
+  DateTime? get userBannedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'moderator')
   DateTime? get moderator => throw _privateConstructorUsedError;
   @JsonKey(name: 'members_count')
@@ -69,6 +71,7 @@ abstract class $GroupCopyWith<$Res> {
       @JsonKey(name: 'accepted_at') DateTime? acceptedAt,
       @JsonKey(name: 'invited_at') DateTime? invitedAt,
       @JsonKey(name: 'banned_at') DateTime? bannedAt,
+      @JsonKey(name: 'user_banned_at') DateTime? userBannedAt,
       @JsonKey(name: 'moderator') DateTime? moderator,
       @JsonKey(name: 'members_count') int membersCount,
       @JsonKey(name: 'prayers_count') int prayersCount});
@@ -101,6 +104,7 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
     Object? acceptedAt = freezed,
     Object? invitedAt = freezed,
     Object? bannedAt = freezed,
+    Object? userBannedAt = freezed,
     Object? moderator = freezed,
     Object? membersCount = null,
     Object? prayersCount = null,
@@ -154,6 +158,10 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.bannedAt
           : bannedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      userBannedAt: freezed == userBannedAt
+          ? _value.userBannedAt
+          : userBannedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       moderator: freezed == moderator
           ? _value.moderator
           : moderator // ignore: cast_nullable_to_non_nullable
@@ -202,6 +210,7 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
       @JsonKey(name: 'accepted_at') DateTime? acceptedAt,
       @JsonKey(name: 'invited_at') DateTime? invitedAt,
       @JsonKey(name: 'banned_at') DateTime? bannedAt,
+      @JsonKey(name: 'user_banned_at') DateTime? userBannedAt,
       @JsonKey(name: 'moderator') DateTime? moderator,
       @JsonKey(name: 'members_count') int membersCount,
       @JsonKey(name: 'prayers_count') int prayersCount});
@@ -233,6 +242,7 @@ class __$$GroupImplCopyWithImpl<$Res>
     Object? acceptedAt = freezed,
     Object? invitedAt = freezed,
     Object? bannedAt = freezed,
+    Object? userBannedAt = freezed,
     Object? moderator = freezed,
     Object? membersCount = null,
     Object? prayersCount = null,
@@ -286,6 +296,10 @@ class __$$GroupImplCopyWithImpl<$Res>
           ? _value.bannedAt
           : bannedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      userBannedAt: freezed == userBannedAt
+          ? _value.userBannedAt
+          : userBannedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       moderator: freezed == moderator
           ? _value.moderator
           : moderator // ignore: cast_nullable_to_non_nullable
@@ -318,6 +332,7 @@ class _$GroupImpl extends _Group {
       @JsonKey(name: 'accepted_at') this.acceptedAt,
       @JsonKey(name: 'invited_at') this.invitedAt,
       @JsonKey(name: 'banned_at') this.bannedAt,
+      @JsonKey(name: 'user_banned_at') this.userBannedAt,
       @JsonKey(name: 'moderator') this.moderator,
       @JsonKey(name: 'members_count') this.membersCount = 0,
       @JsonKey(name: 'prayers_count') this.prayersCount = 0})
@@ -358,6 +373,9 @@ class _$GroupImpl extends _Group {
   @JsonKey(name: 'banned_at')
   final DateTime? bannedAt;
   @override
+  @JsonKey(name: 'user_banned_at')
+  final DateTime? userBannedAt;
+  @override
   @JsonKey(name: 'moderator')
   final DateTime? moderator;
   @override
@@ -369,7 +387,7 @@ class _$GroupImpl extends _Group {
 
   @override
   String toString() {
-    return 'Group(id: $id, name: $name, admin: $admin, description: $description, banner: $banner, adminId: $adminId, membershipType: $membershipType, createdAt: $createdAt, joinedAt: $joinedAt, acceptedAt: $acceptedAt, invitedAt: $invitedAt, bannedAt: $bannedAt, moderator: $moderator, membersCount: $membersCount, prayersCount: $prayersCount)';
+    return 'Group(id: $id, name: $name, admin: $admin, description: $description, banner: $banner, adminId: $adminId, membershipType: $membershipType, createdAt: $createdAt, joinedAt: $joinedAt, acceptedAt: $acceptedAt, invitedAt: $invitedAt, bannedAt: $bannedAt, userBannedAt: $userBannedAt, moderator: $moderator, membersCount: $membersCount, prayersCount: $prayersCount)';
   }
 
   @override
@@ -396,6 +414,8 @@ class _$GroupImpl extends _Group {
                 other.invitedAt == invitedAt) &&
             (identical(other.bannedAt, bannedAt) ||
                 other.bannedAt == bannedAt) &&
+            (identical(other.userBannedAt, userBannedAt) ||
+                other.userBannedAt == userBannedAt) &&
             (identical(other.moderator, moderator) ||
                 other.moderator == moderator) &&
             (identical(other.membersCount, membersCount) ||
@@ -420,6 +440,7 @@ class _$GroupImpl extends _Group {
       acceptedAt,
       invitedAt,
       bannedAt,
+      userBannedAt,
       moderator,
       membersCount,
       prayersCount);
@@ -452,6 +473,7 @@ abstract class _Group extends Group {
       @JsonKey(name: 'accepted_at') final DateTime? acceptedAt,
       @JsonKey(name: 'invited_at') final DateTime? invitedAt,
       @JsonKey(name: 'banned_at') final DateTime? bannedAt,
+      @JsonKey(name: 'user_banned_at') final DateTime? userBannedAt,
       @JsonKey(name: 'moderator') final DateTime? moderator,
       @JsonKey(name: 'members_count') final int membersCount,
       @JsonKey(name: 'prayers_count') final int prayersCount}) = _$GroupImpl;
@@ -490,6 +512,9 @@ abstract class _Group extends Group {
   @override
   @JsonKey(name: 'banned_at')
   DateTime? get bannedAt;
+  @override
+  @JsonKey(name: 'user_banned_at')
+  DateTime? get userBannedAt;
   @override
   @JsonKey(name: 'moderator')
   DateTime? get moderator;

@@ -114,13 +114,20 @@ class PrayerRepository {
     return true;
   }
 
-  Future<bool> createPrayerPray({
+  Future<bool?> createPrayerPray({
     required String prayerId,
     String? value,
   }) async {
-    final resp = await dio
-        .post('/v1/prayers/pray', data: {'prayerId': prayerId, 'value': value});
-    return resp.data['data'] == 'success';
+    try {
+      final resp = await dio.post('/v1/prayers/pray',
+          data: {'prayerId': prayerId, 'value': value});
+      return resp.data['data'] == 'success';
+    } on DioException catch (err) {
+      if (err.response?.data['code'] == 'too-many-pray') {
+        return null;
+      }
+      return false;
+    }
   }
 
   Future<bool> deletePrayerPray({

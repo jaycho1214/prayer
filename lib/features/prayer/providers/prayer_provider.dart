@@ -45,12 +45,15 @@ class PrayerNotifier extends _$PrayerNotifier {
           prayerId: prayerId,
           value: value,
         );
-        if (!resp) {
+        if (resp == null) {
           state = AsyncValue.data(backup);
           onNeedWait?.call();
+        } else if (resp == true) {
+          onPrayed?.call();
+          mixpanel.track("Pray Created");
+        } else {
+          throw Exception();
         }
-        onPrayed?.call();
-        mixpanel.track("Pray Created");
       } catch (error, stackTrace) {
         state = AsyncValue.data(backup);
         talker.handle(

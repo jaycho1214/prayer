@@ -5,11 +5,15 @@ introduction:
     - Collective Faith
 
 general:
+  about: About
   accept: Accept
   accepted: Accepted
   account: Account
   admin: Admin
   anonymous: Anonymous
+  banUser: Ban $user
+  unbanUser: Unban $user
+  bans: Bans
   bio: Bio
   bible: Bible
   blocked: Blocked
@@ -23,6 +27,7 @@ general:
   private: Private
   profile: Profile
   promote: Promote
+  promoteUser: Promote $user
   ratePrayer: Rate Prayer
   readmore: Read More
   refresh: Refresh
@@ -100,6 +105,8 @@ general:
     one: '$membersCount Member'
     other: $membersCount Members'
   membershipType: Membership Type
+  removeFromGroup: Remove from group
+  removeModerator: Remove as moderator
 
 prayer:
   onlyVisibleToYou: Only visible to you
@@ -147,11 +154,11 @@ group:
     detail:
       title: This group is $membershipType
       description: 
-        - open: 1. All prayers in the group are public, visible to everyone, and joining is unrestricted.
-          restricted: 1. Joining the group requires approval, and only members can view prayers.
-          private: 1. Group is unlisted in searches and its prayers are inaccessible to non-members.
-        - 2. Only group members can post the prayer and participate in prayer activities
-        - 3. This group was established at $establishedAt
+        establishedAt(rich): This group was established on $establishedAt by $user
+        membershipType:
+          open: All prayers in the group are public, visible to everyone, and joining is unrestricted.
+          restricted: Joining the group requires approval, and only members can view prayers.
+          private: Group is unlisted in searches and its prayers are inaccessible to non-members.
     acceptMember: Accept $username?
     deleteGroup: 
       - 1. Deletion is irreversible and immediate.
@@ -167,8 +174,31 @@ group:
       description: 
         - 1. Moderators have the ability to invite others or accept join requests.
         - 2. Moderators can post corporate prayers.
-        - 3. Moderators can set notifications for prayer times.
+        - 3. Moderators can remove or ban members from the group.
       success: Member Promoted
+    ban:
+      title: Ban $name
+      description: 
+        - 1. Users will be immediately banned.
+        - 2. Users will not be automatically kicked.
+        - 3. Users will be unable to post a prayer.
+        - 4. Users will be unable to post a pray to the group's prayers.
+        - 5. If a user is kicked after being banned, they will not be able to rejoin.
+      success: Member banned
+    kick:
+      title: Remove $name from the group?
+      subtitle: '@:alert.actionIrreversible'
+      description: 
+        - 1. Users won't be notified if they're removed from the group.
+        - 2. Users can always rejoin or request to come back in.
+        - 3. If a user has been previously banned, they will not be able to rejoin.
+        - 4. All the prayers and group prayers users posted before stay put.
+        - 5. Moderators cannot be removed from the group.
+    removeMod:
+      title: Remove $name as moderator?
+      subtitle: '@:alert.actionIrreversible'
+      description: 
+        - All moderator privillegs will be immediately revoked.
   form:
     main:
       name:
@@ -391,4 +421,12 @@ empty:
 
 
       Matthew 22:38-40 (NIV)
+
+banned:
+  group_member: 
+    title: You are permanently banned from the group for violating our group rules.
+    actions:
+      - You are unable to post a prayer to the group.
+      - At this moment, posting a pray to the group's prayer is not possible.
+      - If moderators decide to remove you, you will not be able to rejoin the group.
 

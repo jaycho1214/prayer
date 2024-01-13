@@ -20,7 +20,11 @@ class GroupBanCard extends StatelessWidget {
           Expanded(
             child: Text(
               "This group has been permanently banned due to a violation of our policy.",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onError,
+              ),
             ),
           ),
         ],
