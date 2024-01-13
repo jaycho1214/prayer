@@ -33,6 +33,8 @@ mixin _$Prayer {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'corporate_id')
   String? get corporateId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'pinned_by')
+  String? get pinnedBy => throw _privateConstructorUsedError;
   @JsonKey(name: 'prays_count')
   int get praysCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'has_prayed')
@@ -62,6 +64,7 @@ abstract class $PrayerCopyWith<$Res> {
       List<int> verses,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'corporate_id') String? corporateId,
+      @JsonKey(name: 'pinned_by') String? pinnedBy,
       @JsonKey(name: 'prays_count') int praysCount,
       @JsonKey(name: 'has_prayed') DateTime? hasPrayed,
       PUser? user,
@@ -97,6 +100,7 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
     Object? verses = null,
     Object? createdAt = freezed,
     Object? corporateId = freezed,
+    Object? pinnedBy = freezed,
     Object? praysCount = null,
     Object? hasPrayed = freezed,
     Object? user = freezed,
@@ -140,6 +144,10 @@ class _$PrayerCopyWithImpl<$Res, $Val extends Prayer>
       corporateId: freezed == corporateId
           ? _value.corporateId
           : corporateId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pinnedBy: freezed == pinnedBy
+          ? _value.pinnedBy
+          : pinnedBy // ignore: cast_nullable_to_non_nullable
               as String?,
       praysCount: null == praysCount
           ? _value.praysCount
@@ -234,6 +242,7 @@ abstract class _$$PrayerImplCopyWith<$Res> implements $PrayerCopyWith<$Res> {
       List<int> verses,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'corporate_id') String? corporateId,
+      @JsonKey(name: 'pinned_by') String? pinnedBy,
       @JsonKey(name: 'prays_count') int praysCount,
       @JsonKey(name: 'has_prayed') DateTime? hasPrayed,
       PUser? user,
@@ -271,6 +280,7 @@ class __$$PrayerImplCopyWithImpl<$Res>
     Object? verses = null,
     Object? createdAt = freezed,
     Object? corporateId = freezed,
+    Object? pinnedBy = freezed,
     Object? praysCount = null,
     Object? hasPrayed = freezed,
     Object? user = freezed,
@@ -315,6 +325,10 @@ class __$$PrayerImplCopyWithImpl<$Res>
           ? _value.corporateId
           : corporateId // ignore: cast_nullable_to_non_nullable
               as String?,
+      pinnedBy: freezed == pinnedBy
+          ? _value.pinnedBy
+          : pinnedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
       praysCount: null == praysCount
           ? _value.praysCount
           : praysCount // ignore: cast_nullable_to_non_nullable
@@ -357,6 +371,7 @@ class _$PrayerImpl implements _Prayer {
       final List<int> verses = const [],
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'corporate_id') this.corporateId,
+      @JsonKey(name: 'pinned_by') this.pinnedBy,
       @JsonKey(name: 'prays_count') this.praysCount = 0,
       @JsonKey(name: 'has_prayed') this.hasPrayed,
       this.user,
@@ -406,6 +421,9 @@ class _$PrayerImpl implements _Prayer {
   @JsonKey(name: 'corporate_id')
   final String? corporateId;
   @override
+  @JsonKey(name: 'pinned_by')
+  final String? pinnedBy;
+  @override
   @JsonKey(name: 'prays_count')
   final int praysCount;
   @override
@@ -422,7 +440,7 @@ class _$PrayerImpl implements _Prayer {
 
   @override
   String toString() {
-    return 'Prayer(id: $id, userId: $userId, groupId: $groupId, anon: $anon, value: $value, contents: $contents, verses: $verses, createdAt: $createdAt, corporateId: $corporateId, praysCount: $praysCount, hasPrayed: $hasPrayed, user: $user, pray: $pray, group: $group, corporate: $corporate)';
+    return 'Prayer(id: $id, userId: $userId, groupId: $groupId, anon: $anon, value: $value, contents: $contents, verses: $verses, createdAt: $createdAt, corporateId: $corporateId, pinnedBy: $pinnedBy, praysCount: $praysCount, hasPrayed: $hasPrayed, user: $user, pray: $pray, group: $group, corporate: $corporate)';
   }
 
   @override
@@ -441,6 +459,8 @@ class _$PrayerImpl implements _Prayer {
                 other.createdAt == createdAt) &&
             (identical(other.corporateId, corporateId) ||
                 other.corporateId == corporateId) &&
+            (identical(other.pinnedBy, pinnedBy) ||
+                other.pinnedBy == pinnedBy) &&
             (identical(other.praysCount, praysCount) ||
                 other.praysCount == praysCount) &&
             (identical(other.hasPrayed, hasPrayed) ||
@@ -465,6 +485,7 @@ class _$PrayerImpl implements _Prayer {
       const DeepCollectionEquality().hash(_verses),
       createdAt,
       corporateId,
+      pinnedBy,
       praysCount,
       hasPrayed,
       user,
@@ -497,6 +518,7 @@ abstract class _Prayer implements Prayer {
       final List<int> verses,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
       @JsonKey(name: 'corporate_id') final String? corporateId,
+      @JsonKey(name: 'pinned_by') final String? pinnedBy,
       @JsonKey(name: 'prays_count') final int praysCount,
       @JsonKey(name: 'has_prayed') final DateTime? hasPrayed,
       final PUser? user,
@@ -528,6 +550,9 @@ abstract class _Prayer implements Prayer {
   @override
   @JsonKey(name: 'corporate_id')
   String? get corporateId;
+  @override
+  @JsonKey(name: 'pinned_by')
+  String? get pinnedBy;
   @override
   @JsonKey(name: 'prays_count')
   int get praysCount;

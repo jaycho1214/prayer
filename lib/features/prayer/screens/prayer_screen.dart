@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/talker.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
+import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/image_list.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
-import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
-import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
+import 'package:prayer/features/prayer/widgets/labels/pinned_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/written_by_me.dart';
 import 'package:prayer/features/prayer/widgets/open_graph_card.dart';
 import 'package:prayer/features/prayer/widgets/prayer_option_button.dart';
-
 import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/model/prayer_pray/prayer_pray_model.dart';
@@ -51,8 +52,76 @@ class PrayerScreen extends HookConsumerWidget {
     return KeyboardDismissOnTap(
       child: PlatformScaffold(
         appBar: PlatformAppBar(
-          leading: NavigateBackButton(),
-          title: Text(t.general.prayer),
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 30,
+                child: NavigateBackButton(),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(t.general.prayer),
+                    if (prayer.value?.groupId != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ShrinkingButton(
+                            onTap: () => context
+                                .push('/groups/${prayer.value?.groupId}'),
+                            child: Text(
+                              prayer.value?.group?.name ?? '',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.color,
+                              ),
+                            ),
+                          ),
+                          if (prayer.value?.corporateId != null) ...[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: FaIcon(
+                                FontAwesomeIcons.solidChevronRight,
+                                size: 8,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .labelMedium
+                                    ?.color,
+                              ),
+                            ),
+                            ShrinkingButton(
+                              onTap: () => context.push(
+                                  '/prayers/corporate/${prayer.value?.corporateId}'),
+                              child: Text(
+                                prayer.value?.corporate?.title ?? '',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium
+                                      ?.color,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 30),
+            ],
+          ),
           cupertino: (context, platform) => CupertinoNavigationBarData(
             backgroundColor: Theme.of(context).colorScheme.background,
           ),
@@ -90,40 +159,36 @@ class PrayerScreen extends HookConsumerWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          if (prayer.value?.anon == true &&
-                                              FirebaseAuth.instance.currentUser
-                                                      ?.uid ==
-                                                  prayer.value?.userId)
+                                          if (prayer.value?.pinnedBy != null)
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 35.0),
-                                              child: WrittenByMeLabel(),
+                                              child: PinnedLabel(
+                                                  pinnedBy:
+                                                      prayer.value!.pinnedBy!),
                                             ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 35.0),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                if (prayer.value?.group != null)
-                                                  GroupLabel(
-                                                      prayer: prayer.value!),
-                                                if (prayer.value?.corporate !=
-                                                    null)
-                                                  CorporateLabel(
-                                                      prayer: prayer.value!),
-                                              ],
-                                            ),
-                                          ),
-                                          UserChip(
-                                            uid: prayer.value?.userId,
-                                            name: prayer.value?.user?.name,
-                                            profile:
-                                                prayer.value?.user?.profile,
-                                            username:
-                                                prayer.value?.user?.username,
-                                            anon: prayer.value?.anon ?? false,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              UserChip(
+                                                uid: prayer.value?.userId,
+                                                name: prayer.value?.user?.name,
+                                                profile:
+                                                    prayer.value?.user?.profile,
+                                                username: prayer
+                                                    .value?.user?.username,
+                                                anon:
+                                                    prayer.value?.anon ?? false,
+                                              ),
+                                              if (prayer.value?.anon == true &&
+                                                  FirebaseAuth.instance
+                                                          .currentUser?.uid ==
+                                                      prayer.value?.userId)
+                                                WrittenByMeLabel(),
+                                            ],
                                           ),
                                         ],
                                       ),

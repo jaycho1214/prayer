@@ -6,7 +6,7 @@ part of 'group_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$groupNotifierHash() => r'670c5f33808081a5cf45201aa5431ed5b23b8f77';
+String _$groupNotifierHash() => r'b7edb80c0eb6f8f48b47e21493a7ae97a7fa4c38';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -31,10 +31,10 @@ class _SystemHash {
 
 abstract class _$GroupNotifier
     extends BuildlessAutoDisposeAsyncNotifier<Group?> {
-  late final String groupId;
+  late final String? groupId;
 
   FutureOr<Group?> build(
-    String groupId,
+    String? groupId,
   );
 }
 
@@ -49,7 +49,7 @@ class GroupNotifierFamily extends Family<AsyncValue<Group?>> {
 
   /// See also [GroupNotifier].
   GroupNotifierProvider call(
-    String groupId,
+    String? groupId,
   ) {
     return GroupNotifierProvider(
       groupId,
@@ -85,7 +85,7 @@ class GroupNotifierProvider
     extends AutoDisposeAsyncNotifierProviderImpl<GroupNotifier, Group?> {
   /// See also [GroupNotifier].
   GroupNotifierProvider(
-    String groupId,
+    String? groupId,
   ) : this._internal(
           () => GroupNotifier()..groupId = groupId,
           from: groupNotifierProvider,
@@ -110,7 +110,7 @@ class GroupNotifierProvider
     required this.groupId,
   }) : super.internal();
 
-  final String groupId;
+  final String? groupId;
 
   @override
   FutureOr<Group?> runNotifierBuild(
@@ -159,7 +159,7 @@ class GroupNotifierProvider
 
 mixin GroupNotifierRef on AutoDisposeAsyncNotifierProviderRef<Group?> {
   /// The parameter `groupId` of this provider.
-  String get groupId;
+  String? get groupId;
 }
 
 class _GroupNotifierProviderElement
@@ -168,7 +168,7 @@ class _GroupNotifierProviderElement
   _GroupNotifierProviderElement(super.provider);
 
   @override
-  String get groupId => (origin as GroupNotifierProvider).groupId;
+  String? get groupId => (origin as GroupNotifierProvider).groupId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

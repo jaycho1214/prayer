@@ -13,8 +13,11 @@ final groupJoinLock = new Lock();
 @riverpod
 class GroupNotifier extends _$GroupNotifier {
   @override
-  FutureOr<Group?> build(String groupId) async {
+  FutureOr<Group?> build(String? groupId) async {
     try {
+      if (groupId == null) {
+        return null;
+      }
       final data = await GetIt.I<GroupRepository>().fetchGroup(groupId);
       return data;
     } catch (error, stackTrace) {
@@ -44,7 +47,7 @@ class GroupNotifier extends _$GroupNotifier {
               : null,
         ));
         final data = await GetIt.I<GroupRepository>().joinGroup(
-          groupId: this.groupId,
+          groupId: this.groupId!,
           value: value,
         );
         if (value) {

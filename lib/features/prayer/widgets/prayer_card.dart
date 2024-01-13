@@ -7,6 +7,7 @@ import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/widgets/labels/corporate_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/group_label.dart';
+import 'package:prayer/features/prayer/widgets/labels/pinned_label.dart';
 import 'package:prayer/features/prayer/widgets/labels/written_by_me.dart';
 
 import 'package:prayer/i18n/strings.g.dart';
@@ -75,12 +76,10 @@ class PrayerCard extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (prayer.value?.anon == true &&
-                  FirebaseAuth.instance.currentUser?.uid ==
-                      prayer.value?.userId)
+              if (prayer.value?.pinnedBy != null)
                 Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: WrittenByMeLabel(),
+                  padding: const EdgeInsets.only(left: 40, bottom: 5),
+                  child: PinnedLabel(pinnedBy: prayer.value!.pinnedBy!),
                 ),
               if (prayer.value?.group != null)
                 Padding(
@@ -103,7 +102,8 @@ class PrayerCard extends ConsumerWidget {
                     name: prayer.value?.user?.name,
                     username: prayer.value?.user?.username,
                   ),
-                  if (prayer.value?.group?.moderator != null)
+                  if (prayer.value?.group?.moderator != null &&
+                      prayer.value?.anon == false)
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 3, vertical: 2),
@@ -122,6 +122,10 @@ class PrayerCard extends ConsumerWidget {
                         ),
                       ),
                     ),
+                  if (prayer.value?.anon == true &&
+                      prayer.value?.userId ==
+                          FirebaseAuth.instance.currentUser?.uid)
+                    WrittenByMeLabel(),
                   Spacer(),
                   const SizedBox(width: 10),
                   Text(

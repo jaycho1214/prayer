@@ -98,6 +98,17 @@ class PrayerRepository {
     return resp.data['data'];
   }
 
+  Future<void> pinPrayer({
+    required String prayerId,
+    required bool value,
+  }) async {
+    if (value) {
+      await dio.post('/v1/prayers/$prayerId/pin');
+    } else {
+      await dio.delete('/v1/prayers/$prayerId/pin');
+    }
+  }
+
   Future<bool> deletePrayer({
     required String prayerId,
   }) async {

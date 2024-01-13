@@ -22,6 +22,7 @@ class Prayer with _$Prayer {
     @Default([]) List<int> verses,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'corporate_id') String? corporateId,
+    @JsonKey(name: 'pinned_by') String? pinnedBy,
     @Default(0) @JsonKey(name: 'prays_count') int praysCount,
     @JsonKey(name: 'has_prayed') DateTime? hasPrayed,
     PUser? user,

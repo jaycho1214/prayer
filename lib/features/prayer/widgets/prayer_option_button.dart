@@ -4,12 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/features/common/sheets/confirm_slim_menu_form.dart';
 import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
+import 'package:prayer/features/group/providers/group_provider.dart';
 import 'package:prayer/features/prayer/models/prayer_model.dart';
 import 'package:prayer/features/prayer/providers/deleted_prayer_provider.dart';
+import 'package:prayer/features/prayer/providers/prayer_provider.dart';
 import 'package:prayer/features/user/providers/user_provider.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
-
+import 'package:prayer/constants/icons.dart';
 import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/repo/prayer_repository.dart';
 import 'package:pull_down_button/pull_down_button.dart';
@@ -25,6 +28,7 @@ class PrayerOptionButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userNotifierProvider(uid: prayer.userId));
+    final group = ref.watch(groupNotifierProvider(prayer.groupId));
     return PullDownButton(
       itemBuilder: (context) => [
         PullDownMenuHeader(
@@ -56,6 +60,39 @@ class PrayerOptionButton extends ConsumerWidget {
                 ? t.general.followUser(username: '@${user.value?.username}')
                 : t.general.unfollowUser(username: '@${user.value?.username}'),
             icon: FontAwesomeIcons.lightUserPlus,
+          ),
+        if (group.valueOrNull?.moderator != null)
+          PullDownMenuItem(
+            onTap: () async {
+              bool? resp;
+              if (prayer.pinnedBy == null) {
+                resp = await ConfirmSlimMenuForm.show(
+                  context,
+                  title: t.prayer.alert.pinPrayer.title,
+                  description: t.prayer.alert.pinPrayer.description,
+                  icon: FontAwesomeIcons.mapPin,
+                );
+              } else {
+                resp = await ConfirmSlimMenuForm.show(
+                  context,
+                  title: t.prayer.alert.unpinPrayer.title,
+                  icon: CustomFontAwesomeIcons.mapPinSlash,
+                );
+              }
+              if (resp == true) {
+                ref
+                    .read(prayerNotifierProvider(prayer.id).notifier)
+                    .pinPrayer(prayer.pinnedBy == null)
+                    .catchError((e) => print(e));
+              }
+            },
+            title: prayer.pinnedBy == null
+                ? t.general.pinPrayer
+                : t.general.unpinPrayer,
+            icon: prayer.pinnedBy == null
+                ? FontAwesomeIcons.mapPin
+                : CustomFontAwesomeIcons.mapPinSlash,
+            isDestructive: false,
           ),
         if (prayer.anon != true &&
             prayer.userId != FirebaseAuth.instance.currentUser?.uid)

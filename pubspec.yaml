@@ -93,6 +93,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.4.5
   hive_generator: ^2.0.1
+  icon_font_generator: ^4.0.0
   json_serializable: ^6.7.1
   riverpod_generator: ^2.3.8
   riverpod_lint: ^2.3.6
@@ -106,7 +107,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+  uses-material-design: false
 
   # To add assets to your application, add an assets section, like this:
   assets:
@@ -126,6 +127,10 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
+  fonts:
+    - family: CustomFontAwesomeIcons
+      fonts:
+        - asset: fonts/custom-icons.ttf
   # example:
   #   - family: Trajan Pro
   #     fonts:

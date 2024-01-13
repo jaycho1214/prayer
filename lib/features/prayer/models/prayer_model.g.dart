@@ -23,6 +23,7 @@ _$PrayerImpl _$$PrayerImplFromJson(Map<String, dynamic> json) => _$PrayerImpl(
           ? null
           : DateTime.parse(json['created_at'] as String),
       corporateId: json['corporate_id'] as String?,
+      pinnedBy: json['pinned_by'] as String?,
       praysCount: json['prays_count'] as int? ?? 0,
       hasPrayed: json['has_prayed'] == null
           ? null
@@ -52,6 +53,7 @@ Map<String, dynamic> _$$PrayerImplToJson(_$PrayerImpl instance) =>
       'verses': instance.verses,
       'created_at': instance.createdAt?.toIso8601String(),
       'corporate_id': instance.corporateId,
+      'pinned_by': instance.pinnedBy,
       'prays_count': instance.praysCount,
       'has_prayed': instance.hasPrayed?.toIso8601String(),
       'user': instance.user?.toJson(),

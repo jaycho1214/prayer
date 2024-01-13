@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/constants/talker.dart';
@@ -65,5 +66,12 @@ class PrayerNotifier extends _$PrayerNotifier {
         onError?.call();
       }
     });
+  }
+
+  Future<void> pinPrayer(bool value) async {
+    await GetIt.I<PrayerRepository>()
+        .pinPrayer(prayerId: prayerId, value: value);
+    state = AsyncValue.data(state.value?.copyWith(
+        pinnedBy: value ? FirebaseAuth.instance.currentUser?.uid : null));
   }
 }

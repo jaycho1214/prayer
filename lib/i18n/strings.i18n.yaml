@@ -103,10 +103,14 @@ general:
   members: Members
   membersCount: 
     one: '$membersCount Member'
-    other: $membersCount Members'
+    other: '$membersCount Members'
   membershipType: Membership Type
   removeFromGroup: Remove from group
   removeModerator: Remove as moderator
+  pinPrayer: 'Pin Prayer'
+  unpinPrayer: 'Unpin Prayer'
+  pinnedBy(rich): 'Pinned by $user'
+  myPost: My Post
 
 prayer:
   onlyVisibleToYou: Only visible to you
@@ -122,6 +126,11 @@ prayer:
       title: Pray with name?
       community: Do you want to pray using your name? Everyone will be able to see your prayer along with your name.
       group: Do you want to pray using your name? All members in the group will be able to see your prayer along with your name.
+    pinPrayer:
+      title: Pin this prayer?
+      description: This will replace the previously pinned prayer.
+    unpinPrayer:
+      title: Unpin this prayer?
   form:
     pray: 
       placeholder: Share your love

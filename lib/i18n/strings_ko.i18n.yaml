@@ -107,6 +107,10 @@ general:
   membershipType: 가입 조건
   removeFromGroup: 강제 퇴장
   removeModerator: 멤버로 전환
+  pinPrayer: '기도문 고정'
+  unpinPrayer: '기도문 고정 해제'
+  pinnedBy(rich): '$user에 의해 고정됨'
+  myPost: 내 기도문
 
 prayer:
   onlyVisibleToYou: 나한테만 보임
@@ -120,6 +124,11 @@ prayer:
       title: 공개적으로 기도하시겠습니까?
       community: 당신의 이름과 함께 기도문을 올리시겠습니까? 모든 사람이 당신의 기도문과 이름을 볼 수 있습니다.
       group: 그룹원이 당신의 이름과 함께 기도문을 볼 수 있습니다.
+    pinPrayer:
+      title: 이 기도문을 상단에 고정하시겠습니까?
+      description: 기존에 고정된 기도문과 대체됩니다.
+    unpinPrayer:
+      title: 이 기도문을 상단에서 내리겠습니까?
   form:
     pray: 
       placeholder: 사랑을 나눠주세요

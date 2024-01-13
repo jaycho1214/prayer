@@ -6,7 +6,7 @@ part of 'prayer_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$prayerNotifierHash() => r'd90ebc2b7e133e9b383d7db1501d91336bb657fc';
+String _$prayerNotifierHash() => r'47350994739473ce8d8b972d4c7513f389eb5f52';
 
 /// Copied from Dart SDK
 class _SystemHash {

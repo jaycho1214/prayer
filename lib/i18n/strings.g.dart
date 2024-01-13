@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 617 (308 per locale)
+/// Strings: 631 (315 per locale)
 ///
-/// Built on 2024-01-13 at 14:53 UTC
+/// Built on 2024-01-13 at 18:32 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -295,11 +295,18 @@ class _StringsGeneralEn {
 	String get members => 'Members';
 	String membersCount({required num n, required Object membersCount}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
 		one: '${membersCount} Member',
-		other: '${membersCount} Members\'',
+		other: '${membersCount} Members',
 	);
 	String get membershipType => 'Membership Type';
 	String get removeFromGroup => 'Remove from group';
 	String get removeModerator => 'Remove as moderator';
+	String get pinPrayer => 'Pin Prayer';
+	String get unpinPrayer => 'Unpin Prayer';
+	TextSpan pinnedBy({required InlineSpan user}) => TextSpan(children: [
+		const TextSpan(text: 'Pinned by '),
+		user,
+	]);
+	String get myPost => 'My Post';
 }
 
 // Path: prayer
@@ -579,6 +586,8 @@ class _StringsPrayerAlertEn {
 	// Translations
 	late final _StringsPrayerAlertNeedWaitToPrayEn needWaitToPray = _StringsPrayerAlertNeedWaitToPrayEn._(_root);
 	late final _StringsPrayerAlertPrayWithNameEn prayWithName = _StringsPrayerAlertPrayWithNameEn._(_root);
+	late final _StringsPrayerAlertPinPrayerEn pinPrayer = _StringsPrayerAlertPinPrayerEn._(_root);
+	late final _StringsPrayerAlertUnpinPrayerEn unpinPrayer = _StringsPrayerAlertUnpinPrayerEn._(_root);
 }
 
 // Path: prayer.form
@@ -912,6 +921,27 @@ class _StringsPrayerAlertPrayWithNameEn {
 	String get title => 'Pray with name?';
 	String get community => 'Do you want to pray using your name? Everyone will be able to see your prayer along with your name.';
 	String get group => 'Do you want to pray using your name? All members in the group will be able to see your prayer along with your name.';
+}
+
+// Path: prayer.alert.pinPrayer
+class _StringsPrayerAlertPinPrayerEn {
+	_StringsPrayerAlertPinPrayerEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Pin this prayer?';
+	String get description => 'This will replace the previously pinned prayer.';
+}
+
+// Path: prayer.alert.unpinPrayer
+class _StringsPrayerAlertUnpinPrayerEn {
+	_StringsPrayerAlertUnpinPrayerEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Unpin this prayer?';
 }
 
 // Path: prayer.form.pray
@@ -1498,6 +1528,13 @@ class _StringsGeneralKo extends _StringsGeneralEn {
 	@override String get membershipType => '가입 조건';
 	@override String get removeFromGroup => '강제 퇴장';
 	@override String get removeModerator => '멤버로 전환';
+	@override String get pinPrayer => '기도문 고정';
+	@override String get unpinPrayer => '기도문 고정 해제';
+	@override TextSpan pinnedBy({required InlineSpan user}) => TextSpan(children: [
+		user,
+		const TextSpan(text: '에 의해 고정됨'),
+	]);
+	@override String get myPost => '내 기도문';
 }
 
 // Path: prayer
@@ -1777,6 +1814,8 @@ class _StringsPrayerAlertKo extends _StringsPrayerAlertEn {
 	// Translations
 	@override late final _StringsPrayerAlertNeedWaitToPrayKo needWaitToPray = _StringsPrayerAlertNeedWaitToPrayKo._(_root);
 	@override late final _StringsPrayerAlertPrayWithNameKo prayWithName = _StringsPrayerAlertPrayWithNameKo._(_root);
+	@override late final _StringsPrayerAlertPinPrayerKo pinPrayer = _StringsPrayerAlertPinPrayerKo._(_root);
+	@override late final _StringsPrayerAlertUnpinPrayerKo unpinPrayer = _StringsPrayerAlertUnpinPrayerKo._(_root);
 }
 
 // Path: prayer.form
@@ -2110,6 +2149,27 @@ class _StringsPrayerAlertPrayWithNameKo extends _StringsPrayerAlertPrayWithNameE
 	@override String get title => '공개적으로 기도하시겠습니까?';
 	@override String get community => '당신의 이름과 함께 기도문을 올리시겠습니까? 모든 사람이 당신의 기도문과 이름을 볼 수 있습니다.';
 	@override String get group => '그룹원이 당신의 이름과 함께 기도문을 볼 수 있습니다.';
+}
+
+// Path: prayer.alert.pinPrayer
+class _StringsPrayerAlertPinPrayerKo extends _StringsPrayerAlertPinPrayerEn {
+	_StringsPrayerAlertPinPrayerKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '이 기도문을 상단에 고정하시겠습니까?';
+	@override String get description => '기존에 고정된 기도문과 대체됩니다.';
+}
+
+// Path: prayer.alert.unpinPrayer
+class _StringsPrayerAlertUnpinPrayerKo extends _StringsPrayerAlertUnpinPrayerEn {
+	_StringsPrayerAlertUnpinPrayerKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '이 기도문을 상단에서 내리겠습니까?';
 }
 
 // Path: prayer.form.pray
@@ -2635,11 +2695,18 @@ extension on Translations {
 			case 'general.members': return 'Members';
 			case 'general.membersCount': return ({required num n, required Object membersCount}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
 				one: '${membersCount} Member',
-				other: '${membersCount} Members\'',
+				other: '${membersCount} Members',
 			);
 			case 'general.membershipType': return 'Membership Type';
 			case 'general.removeFromGroup': return 'Remove from group';
 			case 'general.removeModerator': return 'Remove as moderator';
+			case 'general.pinPrayer': return 'Pin Prayer';
+			case 'general.unpinPrayer': return 'Unpin Prayer';
+			case 'general.pinnedBy': return ({required InlineSpan user}) => TextSpan(children: [
+				const TextSpan(text: 'Pinned by '),
+				user,
+			]);
+			case 'general.myPost': return 'My Post';
 			case 'prayer.onlyVisibleToYou': return 'Only visible to you';
 			case 'prayer.someoneHasPrayed': return ({required InlineSpan username}) => TextSpan(children: [
 				username,
@@ -2650,6 +2717,9 @@ extension on Translations {
 			case 'prayer.alert.prayWithName.title': return 'Pray with name?';
 			case 'prayer.alert.prayWithName.community': return 'Do you want to pray using your name? Everyone will be able to see your prayer along with your name.';
 			case 'prayer.alert.prayWithName.group': return 'Do you want to pray using your name? All members in the group will be able to see your prayer along with your name.';
+			case 'prayer.alert.pinPrayer.title': return 'Pin this prayer?';
+			case 'prayer.alert.pinPrayer.description': return 'This will replace the previously pinned prayer.';
+			case 'prayer.alert.unpinPrayer.title': return 'Unpin this prayer?';
 			case 'prayer.form.pray.placeholder': return 'Share your love';
 			case 'prayer.form.postAnonymously': return 'Post Anonymously';
 			case 'prayer.form.postPublicly': return 'Post Publicly';
@@ -3008,6 +3078,13 @@ extension on _StringsKo {
 			case 'general.membershipType': return '가입 조건';
 			case 'general.removeFromGroup': return '강제 퇴장';
 			case 'general.removeModerator': return '멤버로 전환';
+			case 'general.pinPrayer': return '기도문 고정';
+			case 'general.unpinPrayer': return '기도문 고정 해제';
+			case 'general.pinnedBy': return ({required InlineSpan user}) => TextSpan(children: [
+				user,
+				const TextSpan(text: '에 의해 고정됨'),
+			]);
+			case 'general.myPost': return '내 기도문';
 			case 'prayer.onlyVisibleToYou': return '나한테만 보임';
 			case 'prayer.someoneHasPrayed': return ({required InlineSpan username}) => TextSpan(children: [
 				username,
@@ -3018,6 +3095,9 @@ extension on _StringsKo {
 			case 'prayer.alert.prayWithName.title': return '공개적으로 기도하시겠습니까?';
 			case 'prayer.alert.prayWithName.community': return '당신의 이름과 함께 기도문을 올리시겠습니까? 모든 사람이 당신의 기도문과 이름을 볼 수 있습니다.';
 			case 'prayer.alert.prayWithName.group': return '그룹원이 당신의 이름과 함께 기도문을 볼 수 있습니다.';
+			case 'prayer.alert.pinPrayer.title': return '이 기도문을 상단에 고정하시겠습니까?';
+			case 'prayer.alert.pinPrayer.description': return '기존에 고정된 기도문과 대체됩니다.';
+			case 'prayer.alert.unpinPrayer.title': return '이 기도문을 상단에서 내리겠습니까?';
 			case 'prayer.form.pray.placeholder': return '사랑을 나눠주세요';
 			case 'prayer.form.postAnonymously': return '익명으로 공유하기';
 			case 'prayer.form.postPublicly': return '공개적으로 공유하기';
