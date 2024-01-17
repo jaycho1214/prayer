@@ -117,7 +117,9 @@ final lightThemeData = ThemeData.light().copyWith(
 );
 
 final lightDefaultCupertinoTheme =
-    MaterialBasedCupertinoThemeData(materialTheme: lightThemeData);
+    MaterialBasedCupertinoThemeData(materialTheme: lightThemeData).copyWith(
+  scaffoldBackgroundColor: lightColorScheme.background,
+);
 
 final darkColorScheme = ColorScheme.dark(
   background: Colors.black,
