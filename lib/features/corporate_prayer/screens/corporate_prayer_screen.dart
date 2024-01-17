@@ -355,7 +355,7 @@ class CorporatePrayerScreen extends HookConsumerWidget {
               onTap: () async {
                 checkingMember.value = true;
                 ref
-                    .read(GroupNotifierProvider(snapshot.value!.groupId))
+                    .read(groupNotifierProvider(snapshot.value!.groupId))
                     .whenData((value) {
                   checkingMember.value = false;
                   if (value == null) {

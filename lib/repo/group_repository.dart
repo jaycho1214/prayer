@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:prayer/constants/dio.dart';
 import 'package:prayer/constants/mixpanel.dart';
 import 'package:prayer/errors.dart';
 import 'package:prayer/features/group/models/group_member/group_member_model.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
+import 'package:prayer/features/group/models/group_rule/group_rule.dart';
 import 'package:prayer/repo/response_types.dart';
 
 class GroupRepository {
@@ -24,6 +26,12 @@ class GroupRepository {
     String? description,
     required String membershipType,
     String? banner,
+    List<GroupRule>? rules,
+    DateTime? reminderTime,
+    String? reminderText,
+    List<int>? reminderDays,
+    String? welcomeTitle,
+    String? welcomeMessage,
     void Function(double progress)? onSendProgress,
   }) async {
     int? uploadedBanner;
@@ -47,6 +55,20 @@ class GroupRepository {
         'description': description,
         'membershipType': membershipType,
         'banner': uploadedBanner,
+        'rules': rules
+            ?.map((e) => {'title': e.title, 'description': e.description})
+            .toList(),
+        'reminderTime': reminderTime?.toLocal() == null
+            ? null
+            : Jiffy.parseFromDateTime(reminderTime!.toLocal().copyWith(
+                  second: 0,
+                  microsecond: 0,
+                  millisecond: 0,
+                )).Hms,
+        'reminderText': reminderText,
+        'reminderDays': reminderDays,
+        'welcomeTitle': welcomeTitle,
+        'welcomeMessage': welcomeMessage,
       },
     );
     mixpanel.track("Group Created", properties: {
@@ -59,6 +81,12 @@ class GroupRepository {
     required String name,
     String? description,
     String? banner,
+    List<GroupRule>? rules,
+    DateTime? reminderTime,
+    String? reminderText,
+    List<int>? reminderDays,
+    String? welcomeTitle,
+    String? welcomeMessage,
     void Function(double progress)? onSendProgress,
   }) async {
     int? uploadedBanner;
@@ -82,6 +110,20 @@ class GroupRepository {
         'description': description,
         'banner':
             banner?.startsWith('https') == true ? banner : uploadedBanner ?? '',
+        'rules': rules
+            ?.map((e) => {'title': e.title, 'description': e.description})
+            .toList(),
+        'reminderTime': reminderTime?.toLocal() == null
+            ? null
+            : Jiffy.parseFromDateTime(reminderTime!.toLocal().copyWith(
+                  second: 0,
+                  microsecond: 0,
+                  millisecond: 0,
+                )).Hms,
+        'reminderText': reminderText,
+        'reminderDays': reminderDays,
+        'welcomeTitle': welcomeTitle,
+        'welcomeMessage': welcomeMessage,
       }..removeWhere(
           (_, value) => value?.toString().startsWith('https') == true),
     );

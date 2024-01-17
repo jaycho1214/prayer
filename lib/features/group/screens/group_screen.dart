@@ -9,6 +9,7 @@ import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/common/widgets/parseable_text.dart';
 import 'package:prayer/features/common/widgets/statistics_text.dart';
 import 'package:prayer/features/group/providers/group_notification_provider.dart';
+import 'package:prayer/features/group/screens/group_join_information_screen.dart';
 import 'package:prayer/features/group/widgets/group_member_ban_Card.dart';
 import 'package:prayer/features/group/widgets/group_notification_subscribe_button.dart';
 import 'package:prayer/features/group/widgets/group_share_button.dart';
@@ -24,7 +25,6 @@ import 'package:prayer/features/common/widgets/buttons/navigate_button.dart';
 import 'package:prayer/features/common/widgets/buttons/text_button.dart';
 import 'package:prayer/features/group/widgets/group_ban_card.dart';
 import 'package:prayer/features/common/widgets/nested_scroll_tab_bar.dart';
-import 'package:prayer/features/group/widgets/sheets/group_information_sheet.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
 import 'package:prayer/features/common/widgets/snackbar.dart';
 import 'package:prayer/features/user/widgets/user_image.dart';
@@ -48,7 +48,7 @@ class GroupScreen extends HookConsumerWidget {
     final corporatePagingController =
         usePagingController<String?, String>(firstPageKey: null);
 
-    ref.listen(GroupNotifierProvider(groupId), (previous, next) {
+    ref.listen(groupNotifierProvider(groupId), (previous, next) {
       next.when(
         data: (value) {},
         error: (err, _) {
@@ -58,7 +58,7 @@ class GroupScreen extends HookConsumerWidget {
       );
     });
 
-    final data = ref.watch(GroupNotifierProvider(groupId));
+    final data = ref.watch(groupNotifierProvider(groupId));
     final group = data.value ?? Group.placeholder;
 
     return PlatformScaffold(
@@ -72,7 +72,15 @@ class GroupScreen extends HookConsumerWidget {
             Text(t.general.group),
             const SizedBox(width: 10),
             PrimaryTextButton(
-                onTap: () => GroupInformationSheet.show(context, groupId),
+                onTap: () => Navigator.of(context).push(
+                      platformPageRoute(
+                        context: context,
+                        builder: (context) => GroupInformationScreen(
+                          groupId: groupId,
+                          type: GroupInformationScreenType.information,
+                        ),
+                      ),
+                    ),
                 text: switch (group.membershipType) {
                   'restricted' => t.general.restricted,
                   'private' => t.general.private,
@@ -86,7 +94,15 @@ class GroupScreen extends HookConsumerWidget {
             child: PullDownButton(
               itemBuilder: (context) => [
                 PullDownMenuItem(
-                  onTap: () => GroupInformationSheet.show(context, groupId),
+                  onTap: () => Navigator.of(context).push(
+                    platformPageRoute(
+                      context: context,
+                      builder: (context) => GroupInformationScreen(
+                        groupId: groupId,
+                        type: GroupInformationScreenType.information,
+                      ),
+                    ),
+                  ),
                   title: t.general.about,
                   icon: FontAwesomeIcons.circleInfo,
                   enabled: data.value != null,
@@ -110,7 +126,14 @@ class GroupScreen extends HookConsumerWidget {
                 ),
                 if (group.adminId == FirebaseAuth.instance.currentUser?.uid)
                   PullDownMenuItem(
-                    onTap: () => context.push('/form/group', extra: group),
+                    onTap: () async {
+                      final resp =
+                          await context.push('/form/group', extra: group);
+                      if (resp == true) {
+                        return ref
+                            .refresh(groupNotifierProvider(groupId).future);
+                      }
+                    },
                     title: t.general.edit,
                     icon: FontAwesomeIcons.penToSquare,
                     enabled:

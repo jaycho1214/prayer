@@ -111,6 +111,11 @@ general:
   unpinPrayer: 'Unpin Prayer'
   pinnedBy(rich): 'Pinned by $user'
   myPost: My Post
+  rule: Rule
+  rules: Rules
+  welcome: Welcome
+  joinGroup: Join Group
+  askJoin: Ask to Join
 
 prayer:
   onlyVisibleToYou: Only visible to you
@@ -163,11 +168,14 @@ group:
     detail:
       title: This group is $membershipType
       description: 
-        establishedAt(rich): This group was established on $establishedAt by $user
+        establishedAt(rich): This group was established on $establishedAt by $user.
         membershipType:
           open: All prayers in the group are public, visible to everyone, and joining is unrestricted.
           restricted: Joining the group requires approval, and only members can view prayers.
           private: Group is unlisted in searches and its prayers are inaccessible to non-members.
+      prayerTime:
+        empty: This group does not have a designated prayer time.
+        time(rich): The group's prayer time is scheduled for $day at $time. You will receive a notification at these times.
     acceptMember: Accept $username?
     deleteGroup: 
       - 1. Deletion is irreversible and immediate.
@@ -208,6 +216,14 @@ group:
       subtitle: '@:alert.actionIrreversible'
       description: 
         - All moderator privillegs will be immediately revoked.
+  welcome:
+    title: Welcome to $group
+    description: >-
+      Thank you for selecting us as your companions on this spiritual journey. 
+      Before we proceed, please take a moment to familiarize yourself with our guidelines.
+  prayerTime:
+    empty: This group does not have a prayer time.
+    yes: You will be reminded at $time everyday.
   form:
     main:
       name:
@@ -223,6 +239,13 @@ group:
           open: Anyone can freely view, join, and/or be invited to the group.
           private: Similar to restricted, but it is hidden from searches and exclusively for those who are invited
           restricted: People must ask or be invited to join the group; prayers are not visible to non-members
+      prayerTime:
+        title: Prayer Time
+        description: All members of the group will receive a notification at this time.
+      welcome:
+        title: Introduction
+        message: Welcome Message
+        description: This will be displayed when users attempt to join. You can always preview it by clicking on About.
     notifications:
       members: 
         title: '@:general.members'
@@ -418,6 +441,8 @@ empty:
     title: Pray with Others
     description: Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary.
     button: '@:general.createGroup'
+  groupRules:
+    title: While this group doesn't have rules, we expect all members to maintain respectful and considerate interactions.
   followersPrayer:
     title: Companions on the Journey
     description: Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you're not alone. Follow, lead, and grow in faith.

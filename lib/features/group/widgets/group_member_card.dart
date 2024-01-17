@@ -57,7 +57,7 @@ class GroupMemberCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loading = useState(false);
-    final group = ref.watch(GroupNotifierProvider(groupId)).value;
+    final group = ref.watch(groupNotifierProvider(groupId)).value;
 
     final handleAccept = useCallback(() async {
       loading.value = true;

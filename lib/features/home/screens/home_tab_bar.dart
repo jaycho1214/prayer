@@ -25,7 +25,7 @@ class HomeTabBar extends HookConsumerWidget {
       if (groupId != null) {
         context.push(Uri(
           path: '/form/prayer',
-          queryParameters: {'groupId': groupId == '' ? null : groupId},
+          queryParameters: groupId == '' ? null : {'groupId': groupId},
         ).toString());
       }
     } else {

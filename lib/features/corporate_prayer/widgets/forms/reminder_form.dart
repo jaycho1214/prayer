@@ -17,9 +17,11 @@ class ReminderDatePickerForm extends HookWidget {
   const ReminderDatePickerForm({
     super.key,
     required this.formKey,
+    this.title,
   });
 
   final GlobalKey<FormBuilderState> formKey;
+  final String? title;
 
   Widget buildButton(
     BuildContext context, {
@@ -99,7 +101,7 @@ class ReminderDatePickerForm extends HookWidget {
                 Row(
                   children: [
                     Text(
-                      t.general.reminder,
+                      title ?? t.general.reminder,
                       style: const TextStyle(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),

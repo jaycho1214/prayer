@@ -43,6 +43,12 @@ mixin _$Group {
   DateTime? get userBannedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'moderator')
   DateTime? get moderator => throw _privateConstructorUsedError;
+  List<GroupRule>? get rules => throw _privateConstructorUsedError;
+  @JsonKey(name: 'welcome_title')
+  String? get welcomeTitle => throw _privateConstructorUsedError;
+  @JsonKey(name: 'welcome_message')
+  String? get welcomeMessage => throw _privateConstructorUsedError;
+  Reminder? get reminder => throw _privateConstructorUsedError;
   @JsonKey(name: 'members_count')
   int get membersCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'prayers_count')
@@ -73,10 +79,15 @@ abstract class $GroupCopyWith<$Res> {
       @JsonKey(name: 'banned_at') DateTime? bannedAt,
       @JsonKey(name: 'user_banned_at') DateTime? userBannedAt,
       @JsonKey(name: 'moderator') DateTime? moderator,
+      List<GroupRule>? rules,
+      @JsonKey(name: 'welcome_title') String? welcomeTitle,
+      @JsonKey(name: 'welcome_message') String? welcomeMessage,
+      Reminder? reminder,
       @JsonKey(name: 'members_count') int membersCount,
       @JsonKey(name: 'prayers_count') int prayersCount});
 
   $PUserCopyWith<$Res>? get admin;
+  $ReminderCopyWith<$Res>? get reminder;
 }
 
 /// @nodoc
@@ -106,6 +117,10 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
     Object? bannedAt = freezed,
     Object? userBannedAt = freezed,
     Object? moderator = freezed,
+    Object? rules = freezed,
+    Object? welcomeTitle = freezed,
+    Object? welcomeMessage = freezed,
+    Object? reminder = freezed,
     Object? membersCount = null,
     Object? prayersCount = null,
   }) {
@@ -166,6 +181,22 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
           ? _value.moderator
           : moderator // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      rules: freezed == rules
+          ? _value.rules
+          : rules // ignore: cast_nullable_to_non_nullable
+              as List<GroupRule>?,
+      welcomeTitle: freezed == welcomeTitle
+          ? _value.welcomeTitle
+          : welcomeTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      welcomeMessage: freezed == welcomeMessage
+          ? _value.welcomeMessage
+          : welcomeMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      reminder: freezed == reminder
+          ? _value.reminder
+          : reminder // ignore: cast_nullable_to_non_nullable
+              as Reminder?,
       membersCount: null == membersCount
           ? _value.membersCount
           : membersCount // ignore: cast_nullable_to_non_nullable
@@ -186,6 +217,18 @@ class _$GroupCopyWithImpl<$Res, $Val extends Group>
 
     return $PUserCopyWith<$Res>(_value.admin!, (value) {
       return _then(_value.copyWith(admin: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ReminderCopyWith<$Res>? get reminder {
+    if (_value.reminder == null) {
+      return null;
+    }
+
+    return $ReminderCopyWith<$Res>(_value.reminder!, (value) {
+      return _then(_value.copyWith(reminder: value) as $Val);
     });
   }
 }
@@ -212,11 +255,17 @@ abstract class _$$GroupImplCopyWith<$Res> implements $GroupCopyWith<$Res> {
       @JsonKey(name: 'banned_at') DateTime? bannedAt,
       @JsonKey(name: 'user_banned_at') DateTime? userBannedAt,
       @JsonKey(name: 'moderator') DateTime? moderator,
+      List<GroupRule>? rules,
+      @JsonKey(name: 'welcome_title') String? welcomeTitle,
+      @JsonKey(name: 'welcome_message') String? welcomeMessage,
+      Reminder? reminder,
       @JsonKey(name: 'members_count') int membersCount,
       @JsonKey(name: 'prayers_count') int prayersCount});
 
   @override
   $PUserCopyWith<$Res>? get admin;
+  @override
+  $ReminderCopyWith<$Res>? get reminder;
 }
 
 /// @nodoc
@@ -244,6 +293,10 @@ class __$$GroupImplCopyWithImpl<$Res>
     Object? bannedAt = freezed,
     Object? userBannedAt = freezed,
     Object? moderator = freezed,
+    Object? rules = freezed,
+    Object? welcomeTitle = freezed,
+    Object? welcomeMessage = freezed,
+    Object? reminder = freezed,
     Object? membersCount = null,
     Object? prayersCount = null,
   }) {
@@ -304,6 +357,22 @@ class __$$GroupImplCopyWithImpl<$Res>
           ? _value.moderator
           : moderator // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      rules: freezed == rules
+          ? _value._rules
+          : rules // ignore: cast_nullable_to_non_nullable
+              as List<GroupRule>?,
+      welcomeTitle: freezed == welcomeTitle
+          ? _value.welcomeTitle
+          : welcomeTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      welcomeMessage: freezed == welcomeMessage
+          ? _value.welcomeMessage
+          : welcomeMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      reminder: freezed == reminder
+          ? _value.reminder
+          : reminder // ignore: cast_nullable_to_non_nullable
+              as Reminder?,
       membersCount: null == membersCount
           ? _value.membersCount
           : membersCount // ignore: cast_nullable_to_non_nullable
@@ -334,9 +403,14 @@ class _$GroupImpl extends _Group {
       @JsonKey(name: 'banned_at') this.bannedAt,
       @JsonKey(name: 'user_banned_at') this.userBannedAt,
       @JsonKey(name: 'moderator') this.moderator,
+      final List<GroupRule>? rules,
+      @JsonKey(name: 'welcome_title') this.welcomeTitle,
+      @JsonKey(name: 'welcome_message') this.welcomeMessage,
+      this.reminder,
       @JsonKey(name: 'members_count') this.membersCount = 0,
       @JsonKey(name: 'prayers_count') this.prayersCount = 0})
-      : super._();
+      : _rules = rules,
+        super._();
 
   factory _$GroupImpl.fromJson(Map<String, dynamic> json) =>
       _$$GroupImplFromJson(json);
@@ -378,6 +452,24 @@ class _$GroupImpl extends _Group {
   @override
   @JsonKey(name: 'moderator')
   final DateTime? moderator;
+  final List<GroupRule>? _rules;
+  @override
+  List<GroupRule>? get rules {
+    final value = _rules;
+    if (value == null) return null;
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey(name: 'welcome_title')
+  final String? welcomeTitle;
+  @override
+  @JsonKey(name: 'welcome_message')
+  final String? welcomeMessage;
+  @override
+  final Reminder? reminder;
   @override
   @JsonKey(name: 'members_count')
   final int membersCount;
@@ -387,7 +479,7 @@ class _$GroupImpl extends _Group {
 
   @override
   String toString() {
-    return 'Group(id: $id, name: $name, admin: $admin, description: $description, banner: $banner, adminId: $adminId, membershipType: $membershipType, createdAt: $createdAt, joinedAt: $joinedAt, acceptedAt: $acceptedAt, invitedAt: $invitedAt, bannedAt: $bannedAt, userBannedAt: $userBannedAt, moderator: $moderator, membersCount: $membersCount, prayersCount: $prayersCount)';
+    return 'Group(id: $id, name: $name, admin: $admin, description: $description, banner: $banner, adminId: $adminId, membershipType: $membershipType, createdAt: $createdAt, joinedAt: $joinedAt, acceptedAt: $acceptedAt, invitedAt: $invitedAt, bannedAt: $bannedAt, userBannedAt: $userBannedAt, moderator: $moderator, rules: $rules, welcomeTitle: $welcomeTitle, welcomeMessage: $welcomeMessage, reminder: $reminder, membersCount: $membersCount, prayersCount: $prayersCount)';
   }
 
   @override
@@ -418,6 +510,13 @@ class _$GroupImpl extends _Group {
                 other.userBannedAt == userBannedAt) &&
             (identical(other.moderator, moderator) ||
                 other.moderator == moderator) &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            (identical(other.welcomeTitle, welcomeTitle) ||
+                other.welcomeTitle == welcomeTitle) &&
+            (identical(other.welcomeMessage, welcomeMessage) ||
+                other.welcomeMessage == welcomeMessage) &&
+            (identical(other.reminder, reminder) ||
+                other.reminder == reminder) &&
             (identical(other.membersCount, membersCount) ||
                 other.membersCount == membersCount) &&
             (identical(other.prayersCount, prayersCount) ||
@@ -426,24 +525,29 @@ class _$GroupImpl extends _Group {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      admin,
-      description,
-      banner,
-      adminId,
-      membershipType,
-      createdAt,
-      joinedAt,
-      acceptedAt,
-      invitedAt,
-      bannedAt,
-      userBannedAt,
-      moderator,
-      membersCount,
-      prayersCount);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        admin,
+        description,
+        banner,
+        adminId,
+        membershipType,
+        createdAt,
+        joinedAt,
+        acceptedAt,
+        invitedAt,
+        bannedAt,
+        userBannedAt,
+        moderator,
+        const DeepCollectionEquality().hash(_rules),
+        welcomeTitle,
+        welcomeMessage,
+        reminder,
+        membersCount,
+        prayersCount
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -475,6 +579,10 @@ abstract class _Group extends Group {
       @JsonKey(name: 'banned_at') final DateTime? bannedAt,
       @JsonKey(name: 'user_banned_at') final DateTime? userBannedAt,
       @JsonKey(name: 'moderator') final DateTime? moderator,
+      final List<GroupRule>? rules,
+      @JsonKey(name: 'welcome_title') final String? welcomeTitle,
+      @JsonKey(name: 'welcome_message') final String? welcomeMessage,
+      final Reminder? reminder,
       @JsonKey(name: 'members_count') final int membersCount,
       @JsonKey(name: 'prayers_count') final int prayersCount}) = _$GroupImpl;
   const _Group._() : super._();
@@ -518,6 +626,16 @@ abstract class _Group extends Group {
   @override
   @JsonKey(name: 'moderator')
   DateTime? get moderator;
+  @override
+  List<GroupRule>? get rules;
+  @override
+  @JsonKey(name: 'welcome_title')
+  String? get welcomeTitle;
+  @override
+  @JsonKey(name: 'welcome_message')
+  String? get welcomeMessage;
+  @override
+  Reminder? get reminder;
   @override
   @JsonKey(name: 'members_count')
   int get membersCount;

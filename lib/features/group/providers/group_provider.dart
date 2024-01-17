@@ -27,6 +27,7 @@ class GroupNotifier extends _$GroupNotifier {
           generateLogMessage('[Group] Failed to fetch', data: {
             'groupId': groupId,
           }));
+      state = AsyncError(error, stackTrace);
       return null;
     }
   }

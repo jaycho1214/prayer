@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:prayer/features/corporate_prayer/providers/corporate_prayer_provider.dart';
 import 'package:prayer/features/corporate_prayer/widgets/forms/corporate_prayer_picker.dart';
-
 import 'package:prayer/i18n/strings.g.dart';
-import 'package:prayer/features/corporate_prayer/models/corporate_prayer/corporate_prayer_model.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
-import 'package:prayer/repo/prayer_repository.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CorporatePrayerForm extends HookWidget {
@@ -37,7 +35,7 @@ class CorporatePrayerForm extends HookWidget {
   }
 }
 
-class CorporatePrayerFormInner extends HookWidget {
+class CorporatePrayerFormInner extends ConsumerWidget {
   const CorporatePrayerFormInner({
     super.key,
     required this.groupId,
@@ -50,25 +48,23 @@ class CorporatePrayerFormInner extends HookWidget {
   final void Function(String?)? onChange;
 
   @override
-  Widget build(BuildContext context) {
-    final fetchFn = useMemoized(
-        () => corporateId == null
-            ? null
-            : GetIt.I<PrayerRepository>().fetchCorporatePrayer(corporateId!),
-        [corporateId]);
-    final snapshot =
-        useFuture(fetchFn, initialData: CorporatePrayer.placeholder);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapshot = ref.watch(corporatePrayerProvider(corporateId));
 
-    useEffect(() {
-      if (snapshot.connectionState == ConnectionState.done &&
-          snapshot.data == null) {
+    ref.listen(
+      corporatePrayerProvider(corporateId),
+      (previous, next) {
+        if (next.value == null) {
+          onChange?.call(null);
+        }
+      },
+      onError: (e, st) {
         onChange?.call(null);
-      }
-      return () => null;
-    }, [snapshot]);
+      },
+    );
 
     return Skeletonizer(
-      enabled: snapshot.connectionState == ConnectionState.waiting,
+      enabled: snapshot.isLoading,
       child: ShrinkingButton(
         onTap: () async {
           final prayerId = await CorporatePrayerPicker.show(
@@ -81,14 +77,14 @@ class CorporatePrayerFormInner extends HookWidget {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(100),
           ),
           child: Row(
             children: [
               Text(
                 corporateId == null
                     ? t.general.group
-                    : snapshot.data?.title ?? '',
+                    : snapshot.valueOrNull?.title ?? '',
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall

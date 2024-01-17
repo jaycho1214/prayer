@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 631 (315 per locale)
+/// Strings: 661 (330 per locale)
 ///
-/// Built on 2024-01-13 at 18:32 UTC
+/// Built on 2024-01-17 at 08:57 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -307,6 +307,11 @@ class _StringsGeneralEn {
 		user,
 	]);
 	String get myPost => 'My Post';
+	String get rule => 'Rule';
+	String get rules => 'Rules';
+	String get welcome => 'Welcome';
+	String get joinGroup => 'Join Group';
+	String get askJoin => 'Ask to Join';
 }
 
 // Path: prayer
@@ -344,6 +349,8 @@ class _StringsGroupEn {
 
 	// Translations
 	late final _StringsGroupAlertEn alert = _StringsGroupAlertEn._(_root);
+	late final _StringsGroupWelcomeEn welcome = _StringsGroupWelcomeEn._(_root);
+	late final _StringsGroupPrayerTimeEn prayerTime = _StringsGroupPrayerTimeEn._(_root);
 	late final _StringsGroupFormEn form = _StringsGroupFormEn._(_root);
 }
 
@@ -563,6 +570,7 @@ class _StringsEmptyEn {
 	late final _StringsEmptyGroupPrayerEn groupPrayer = _StringsEmptyGroupPrayerEn._(_root);
 	late final _StringsEmptyCorporatePrayerEn corporatePrayer = _StringsEmptyCorporatePrayerEn._(_root);
 	late final _StringsEmptyGroupEn group = _StringsEmptyGroupEn._(_root);
+	late final _StringsEmptyGroupRulesEn groupRules = _StringsEmptyGroupRulesEn._(_root);
 	late final _StringsEmptyFollowersPrayerEn followersPrayer = _StringsEmptyFollowersPrayerEn._(_root);
 	late final _StringsEmptyNeighborEn neighbor = _StringsEmptyNeighborEn._(_root);
 }
@@ -655,6 +663,28 @@ class _StringsGroupAlertEn {
 	late final _StringsGroupAlertBanEn ban = _StringsGroupAlertBanEn._(_root);
 	late final _StringsGroupAlertKickEn kick = _StringsGroupAlertKickEn._(_root);
 	late final _StringsGroupAlertRemoveModEn removeMod = _StringsGroupAlertRemoveModEn._(_root);
+}
+
+// Path: group.welcome
+class _StringsGroupWelcomeEn {
+	_StringsGroupWelcomeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String title({required Object group}) => 'Welcome to ${group}';
+	String get description => 'Thank you for selecting us as your companions on this spiritual journey.  Before we proceed, please take a moment to familiarize yourself with our guidelines.';
+}
+
+// Path: group.prayerTime
+class _StringsGroupPrayerTimeEn {
+	_StringsGroupPrayerTimeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get empty => 'This group does not have a prayer time.';
+	String yes({required Object time}) => 'You will be reminded at ${time} everyday.';
 }
 
 // Path: group.form
@@ -862,6 +892,16 @@ class _StringsEmptyGroupEn {
 	String get button => '${_root.general.createGroup}';
 }
 
+// Path: empty.groupRules
+class _StringsEmptyGroupRulesEn {
+	_StringsEmptyGroupRulesEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'While this group doesn\'t have rules, we expect all members to maintain respectful and considerate interactions.';
+}
+
 // Path: empty.followersPrayer
 class _StringsEmptyFollowersPrayerEn {
 	_StringsEmptyFollowersPrayerEn._(this._root);
@@ -1007,6 +1047,7 @@ class _StringsGroupAlertDetailEn {
 	// Translations
 	String title({required Object membershipType}) => 'This group is ${membershipType}';
 	late final _StringsGroupAlertDetailDescriptionEn description = _StringsGroupAlertDetailDescriptionEn._(_root);
+	late final _StringsGroupAlertDetailPrayerTimeEn prayerTime = _StringsGroupAlertDetailPrayerTimeEn._(_root);
 }
 
 // Path: group.alert.promote
@@ -1085,6 +1126,8 @@ class _StringsGroupFormMainEn {
 	late final _StringsGroupFormMainNameEn name = _StringsGroupFormMainNameEn._(_root);
 	late final _StringsGroupFormMainDescriptionEn description = _StringsGroupFormMainDescriptionEn._(_root);
 	late final _StringsGroupFormMainMembershipTypeEn membershipType = _StringsGroupFormMainMembershipTypeEn._(_root);
+	late final _StringsGroupFormMainPrayerTimeEn prayerTime = _StringsGroupFormMainPrayerTimeEn._(_root);
+	late final _StringsGroupFormMainWelcomeEn welcome = _StringsGroupFormMainWelcomeEn._(_root);
 }
 
 // Path: group.form.notifications
@@ -1221,8 +1264,26 @@ class _StringsGroupAlertDetailDescriptionEn {
 		establishedAt,
 		const TextSpan(text: ' by '),
 		user,
+		const TextSpan(text: '.'),
 	]);
 	late final _StringsGroupAlertDetailDescriptionMembershipTypeEn membershipType = _StringsGroupAlertDetailDescriptionMembershipTypeEn._(_root);
+}
+
+// Path: group.alert.detail.prayerTime
+class _StringsGroupAlertDetailPrayerTimeEn {
+	_StringsGroupAlertDetailPrayerTimeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get empty => 'This group does not have a designated prayer time.';
+	TextSpan time({required InlineSpan day, required InlineSpan time}) => TextSpan(children: [
+		const TextSpan(text: 'The group\'s prayer time is scheduled for '),
+		day,
+		const TextSpan(text: ' at '),
+		time,
+		const TextSpan(text: '. You will receive a notification at these times.'),
+	]);
 }
 
 // Path: group.form.main.name
@@ -1266,6 +1327,29 @@ class _StringsGroupFormMainMembershipTypeEn {
 				return 'People must ask or be invited to join the group; prayers are not visible to non-members';
 		}
 	}
+}
+
+// Path: group.form.main.prayerTime
+class _StringsGroupFormMainPrayerTimeEn {
+	_StringsGroupFormMainPrayerTimeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Prayer Time';
+	String get description => 'All members of the group will receive a notification at this time.';
+}
+
+// Path: group.form.main.welcome
+class _StringsGroupFormMainWelcomeEn {
+	_StringsGroupFormMainWelcomeEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Introduction';
+	String get message => 'Welcome Message';
+	String get description => 'This will be displayed when users attempt to join. You can always preview it by clicking on About.';
 }
 
 // Path: group.form.notifications.members
@@ -1535,6 +1619,11 @@ class _StringsGeneralKo extends _StringsGeneralEn {
 		const TextSpan(text: '에 의해 고정됨'),
 	]);
 	@override String get myPost => '내 기도문';
+	@override String get rule => '규칙';
+	@override String get rules => '규칙';
+	@override String get welcome => '환영';
+	@override String get joinGroup => '그룹 참가';
+	@override String get askJoin => '가입 요청';
 }
 
 // Path: prayer
@@ -1572,6 +1661,7 @@ class _StringsGroupKo extends _StringsGroupEn {
 
 	// Translations
 	@override late final _StringsGroupAlertKo alert = _StringsGroupAlertKo._(_root);
+	@override late final _StringsGroupWelcomeKo welcome = _StringsGroupWelcomeKo._(_root);
 	@override late final _StringsGroupFormKo form = _StringsGroupFormKo._(_root);
 }
 
@@ -1791,6 +1881,7 @@ class _StringsEmptyKo extends _StringsEmptyEn {
 	@override late final _StringsEmptyGroupPrayerKo groupPrayer = _StringsEmptyGroupPrayerKo._(_root);
 	@override late final _StringsEmptyCorporatePrayerKo corporatePrayer = _StringsEmptyCorporatePrayerKo._(_root);
 	@override late final _StringsEmptyGroupKo group = _StringsEmptyGroupKo._(_root);
+	@override late final _StringsEmptyGroupRulesKo groupRules = _StringsEmptyGroupRulesKo._(_root);
 	@override late final _StringsEmptyFollowersPrayerKo followersPrayer = _StringsEmptyFollowersPrayerKo._(_root);
 	@override late final _StringsEmptyNeighborKo neighbor = _StringsEmptyNeighborKo._(_root);
 }
@@ -1883,6 +1974,17 @@ class _StringsGroupAlertKo extends _StringsGroupAlertEn {
 	@override late final _StringsGroupAlertBanKo ban = _StringsGroupAlertBanKo._(_root);
 	@override late final _StringsGroupAlertKickKo kick = _StringsGroupAlertKickKo._(_root);
 	@override late final _StringsGroupAlertRemoveModKo removeMod = _StringsGroupAlertRemoveModKo._(_root);
+}
+
+// Path: group.welcome
+class _StringsGroupWelcomeKo extends _StringsGroupWelcomeEn {
+	_StringsGroupWelcomeKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required Object group}) => '${group} 오신 것을 환영합니다';
+	@override String get description => '이 영적 여정에서 저희를 동반자로 선택해 주셔서 감사합니다.  계속하기 전에, 예수 그리스도의 사랑으로 가득 찬 평화롭고 영적인 분위기를 조성하기 위해 마련된 우리의 지침들을 숙지해주시기 바랍니다.';
 }
 
 // Path: group.form
@@ -2090,6 +2192,16 @@ class _StringsEmptyGroupKo extends _StringsEmptyGroupEn {
 	@override String get button => '그룹 생성하기';
 }
 
+// Path: empty.groupRules
+class _StringsEmptyGroupRulesKo extends _StringsEmptyGroupRulesEn {
+	_StringsEmptyGroupRulesKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '이 그룹에는 정해진 규칙이 없지만, 모든 멤버들의 존중과 배려를 부탁드립니다.';
+}
+
 // Path: empty.followersPrayer
 class _StringsEmptyFollowersPrayerKo extends _StringsEmptyFollowersPrayerEn {
 	_StringsEmptyFollowersPrayerKo._(_StringsKo root) : this._root = root, super._(root);
@@ -2235,6 +2347,7 @@ class _StringsGroupAlertDetailKo extends _StringsGroupAlertDetailEn {
 	// Translations
 	@override String title({required Object membershipType}) => '이 그룹은 ${membershipType}입니다';
 	@override late final _StringsGroupAlertDetailDescriptionKo description = _StringsGroupAlertDetailDescriptionKo._(_root);
+	@override late final _StringsGroupAlertDetailPrayerTimeKo prayerTime = _StringsGroupAlertDetailPrayerTimeKo._(_root);
 }
 
 // Path: group.alert.promote
@@ -2314,6 +2427,7 @@ class _StringsGroupFormMainKo extends _StringsGroupFormMainEn {
 	@override late final _StringsGroupFormMainNameKo name = _StringsGroupFormMainNameKo._(_root);
 	@override late final _StringsGroupFormMainDescriptionKo description = _StringsGroupFormMainDescriptionKo._(_root);
 	@override late final _StringsGroupFormMainMembershipTypeKo membershipType = _StringsGroupFormMainMembershipTypeKo._(_root);
+	@override late final _StringsGroupFormMainWelcomeKo welcome = _StringsGroupFormMainWelcomeKo._(_root);
 }
 
 // Path: group.form.notifications
@@ -2455,6 +2569,23 @@ class _StringsGroupAlertDetailDescriptionKo extends _StringsGroupAlertDetailDesc
 	@override late final _StringsGroupAlertDetailDescriptionMembershipTypeKo membershipType = _StringsGroupAlertDetailDescriptionMembershipTypeKo._(_root);
 }
 
+// Path: group.alert.detail.prayerTime
+class _StringsGroupAlertDetailPrayerTimeKo extends _StringsGroupAlertDetailPrayerTimeEn {
+	_StringsGroupAlertDetailPrayerTimeKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get empty => '이 그룹은 지정된 기도 시간이 없습니다.';
+	@override TextSpan time({required InlineSpan day, required InlineSpan time}) => TextSpan(children: [
+		const TextSpan(text: '이 그룹의 기도 시간은 '),
+		day,
+		const TextSpan(text: ' '),
+		time,
+		const TextSpan(text: '로 예정되어 있습니다. 해당 시간에 알림을 받게 됩니다.'),
+	]);
+}
+
 // Path: group.form.main.name
 class _StringsGroupFormMainNameKo extends _StringsGroupFormMainNameEn {
 	_StringsGroupFormMainNameKo._(_StringsKo root) : this._root = root, super._(root);
@@ -2496,6 +2627,18 @@ class _StringsGroupFormMainMembershipTypeKo extends _StringsGroupFormMainMembers
 				return '그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
 		}
 	}
+}
+
+// Path: group.form.main.welcome
+class _StringsGroupFormMainWelcomeKo extends _StringsGroupFormMainWelcomeEn {
+	_StringsGroupFormMainWelcomeKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '그룹 소개';
+	@override String get message => '그룹 소개글';
+	@override String get description => '소개는 유저가 그룹에 가입할때 보여집니다. 항상 \'그룹 정보\'를 클릭해 미리 볼 수 있습니다.';
 }
 
 // Path: group.form.notifications.members
@@ -2707,6 +2850,11 @@ extension on Translations {
 				user,
 			]);
 			case 'general.myPost': return 'My Post';
+			case 'general.rule': return 'Rule';
+			case 'general.rules': return 'Rules';
+			case 'general.welcome': return 'Welcome';
+			case 'general.joinGroup': return 'Join Group';
+			case 'general.askJoin': return 'Ask to Join';
 			case 'prayer.onlyVisibleToYou': return 'Only visible to you';
 			case 'prayer.someoneHasPrayed': return ({required InlineSpan username}) => TextSpan(children: [
 				username,
@@ -2746,10 +2894,19 @@ extension on Translations {
 				establishedAt,
 				const TextSpan(text: ' by '),
 				user,
+				const TextSpan(text: '.'),
 			]);
 			case 'group.alert.detail.description.membershipType.open': return 'All prayers in the group are public, visible to everyone, and joining is unrestricted.';
 			case 'group.alert.detail.description.membershipType.restricted': return 'Joining the group requires approval, and only members can view prayers.';
 			case 'group.alert.detail.description.membershipType.private': return 'Group is unlisted in searches and its prayers are inaccessible to non-members.';
+			case 'group.alert.detail.prayerTime.empty': return 'This group does not have a designated prayer time.';
+			case 'group.alert.detail.prayerTime.time': return ({required InlineSpan day, required InlineSpan time}) => TextSpan(children: [
+				const TextSpan(text: 'The group\'s prayer time is scheduled for '),
+				day,
+				const TextSpan(text: ' at '),
+				time,
+				const TextSpan(text: '. You will receive a notification at these times.'),
+			]);
 			case 'group.alert.acceptMember': return ({required Object username}) => 'Accept ${username}?';
 			case 'group.alert.deleteGroup.0': return '1. Deletion is irreversible and immediate.';
 			case 'group.alert.deleteGroup.1': return '2. All group members will be removed automatically.';
@@ -2780,6 +2937,10 @@ extension on Translations {
 			case 'group.alert.removeMod.title': return ({required Object name}) => 'Remove ${name} as moderator?';
 			case 'group.alert.removeMod.subtitle': return '${_root.alert.actionIrreversible}';
 			case 'group.alert.removeMod.description.0': return 'All moderator privillegs will be immediately revoked.';
+			case 'group.welcome.title': return ({required Object group}) => 'Welcome to ${group}';
+			case 'group.welcome.description': return 'Thank you for selecting us as your companions on this spiritual journey.  Before we proceed, please take a moment to familiarize yourself with our guidelines.';
+			case 'group.prayerTime.empty': return 'This group does not have a prayer time.';
+			case 'group.prayerTime.yes': return ({required Object time}) => 'You will be reminded at ${time} everyday.';
 			case 'group.form.main.name.title': return 'Group Name';
 			case 'group.form.main.name.subtitle': return 'Names must be less than 30 characters and do not include hashtag and or the \'@\' symbol.';
 			case 'group.form.main.description.title': return 'Group Description';
@@ -2796,6 +2957,11 @@ extension on Translations {
 						return 'People must ask or be invited to join the group; prayers are not visible to non-members';
 				}
 			};
+			case 'group.form.main.prayerTime.title': return 'Prayer Time';
+			case 'group.form.main.prayerTime.description': return 'All members of the group will receive a notification at this time.';
+			case 'group.form.main.welcome.title': return 'Introduction';
+			case 'group.form.main.welcome.message': return 'Welcome Message';
+			case 'group.form.main.welcome.description': return 'This will be displayed when users attempt to join. You can always preview it by clicking on About.';
 			case 'group.form.notifications.members.title': return '${_root.general.members}';
 			case 'group.form.notifications.members.description': return 'Notify when the prayer is posted to the group.';
 			case 'group.form.notifications.moderator.title': return '${_root.general.moderator}';
@@ -2955,6 +3121,7 @@ extension on Translations {
 			case 'empty.group.title': return 'Pray with Others';
 			case 'empty.group.description': return 'Connect, share, and experience the power of collective prayer. Unite with others in faith and witness the extraordinary.';
 			case 'empty.group.button': return '${_root.general.createGroup}';
+			case 'empty.groupRules.title': return 'While this group doesn\'t have rules, we expect all members to maintain respectful and considerate interactions.';
 			case 'empty.followersPrayer.title': return 'Companions on the Journey';
 			case 'empty.followersPrayer.description': return 'Find comfort in companionship, and uplift each other through every step of your journey. Your path is unique, but you\'re not alone. Follow, lead, and grow in faith.';
 			case 'empty.followersPrayer.button': return 'Search a companion';
@@ -3085,6 +3252,11 @@ extension on _StringsKo {
 				const TextSpan(text: '에 의해 고정됨'),
 			]);
 			case 'general.myPost': return '내 기도문';
+			case 'general.rule': return '규칙';
+			case 'general.rules': return '규칙';
+			case 'general.welcome': return '환영';
+			case 'general.joinGroup': return '그룹 참가';
+			case 'general.askJoin': return '가입 요청';
 			case 'prayer.onlyVisibleToYou': return '나한테만 보임';
 			case 'prayer.someoneHasPrayed': return ({required InlineSpan username}) => TextSpan(children: [
 				username,
@@ -3129,6 +3301,14 @@ extension on _StringsKo {
 			case 'group.alert.detail.description.membershipType.open': return '누구나 그룹내 모든 기도문을 볼 수 있고, 가입을 자유롭게 할 수 있습니다.';
 			case 'group.alert.detail.description.membershipType.restricted': return '그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
 			case 'group.alert.detail.description.membershipType.private': return '그룹이 검색되지 않고 초대를 통해서만 들어올 수 있습니다.';
+			case 'group.alert.detail.prayerTime.empty': return '이 그룹은 지정된 기도 시간이 없습니다.';
+			case 'group.alert.detail.prayerTime.time': return ({required InlineSpan day, required InlineSpan time}) => TextSpan(children: [
+				const TextSpan(text: '이 그룹의 기도 시간은 '),
+				day,
+				const TextSpan(text: ' '),
+				time,
+				const TextSpan(text: '로 예정되어 있습니다. 해당 시간에 알림을 받게 됩니다.'),
+			]);
 			case 'group.alert.acceptMember': return ({required Object username}) => '${username}님을 승인하시겠습니까?';
 			case 'group.alert.deleteGroup.0': return '1. 삭제는 되돌릴 수 없으며 즉시 이루어집니다.';
 			case 'group.alert.deleteGroup.1': return '2. 모든 그룹 구성원은 자동으로 탈퇴됩니다.';
@@ -3160,6 +3340,8 @@ extension on _StringsKo {
 			case 'group.alert.removeMod.title': return ({required Object name}) => '${name}님을 일반 멤버로 전환하시겠습니까?';
 			case 'group.alert.removeMod.subtitle': return '${_root.alert.actionIrreversible}';
 			case 'group.alert.removeMod.description.0': return '기존에 사역자 권한이 즉시 박탈됩니다.';
+			case 'group.welcome.title': return ({required Object group}) => '${group} 오신 것을 환영합니다';
+			case 'group.welcome.description': return '이 영적 여정에서 저희를 동반자로 선택해 주셔서 감사합니다.  계속하기 전에, 예수 그리스도의 사랑으로 가득 찬 평화롭고 영적인 분위기를 조성하기 위해 마련된 우리의 지침들을 숙지해주시기 바랍니다.';
 			case 'group.form.main.name.title': return '그룹 이름';
 			case 'group.form.main.name.subtitle': return '이름은 30자 미만이어야 하며 해시태그 및 \'@\' 기호를 포함하지 않아야 합니다.';
 			case 'group.form.main.description.title': return '그룹 설명';
@@ -3176,6 +3358,9 @@ extension on _StringsKo {
 						return '그룹을 가입하기 위해 승인받거나 초대받아야하며, 그룹내 멤버들만 기도문을 볼 수 있습니다.';
 				}
 			};
+			case 'group.form.main.welcome.title': return '그룹 소개';
+			case 'group.form.main.welcome.message': return '그룹 소개글';
+			case 'group.form.main.welcome.description': return '소개는 유저가 그룹에 가입할때 보여집니다. 항상 \'그룹 정보\'를 클릭해 미리 볼 수 있습니다.';
 			case 'group.form.notifications.members.title': return '${_root.general.members}';
 			case 'group.form.notifications.members.description': return '그룹원이 기도문을 올릴때 알림을 받습니다.';
 			case 'group.form.notifications.moderator.title': return '${_root.general.moderator}';
@@ -3335,6 +3520,7 @@ extension on _StringsKo {
 			case 'empty.group.title': return '다른 사람과 기도해보세요';
 			case 'empty.group.description': return '연결되고 나누어 중보기도의 힘을 경험하세요. 다른 이들과 신앙 안에서 하나가 되어 놀라운 일을 목격하세요.';
 			case 'empty.group.button': return '그룹 생성하기';
+			case 'empty.groupRules.title': return '이 그룹에는 정해진 규칙이 없지만, 모든 멤버들의 존중과 배려를 부탁드립니다.';
 			case 'empty.followersPrayer.title': return '믿음의 동반자';
 			case 'empty.followersPrayer.description': return '동행에서 위안을 찾고, 여정의 모든 단계에서 서로를 격려하세요. 당신의 길은 특별하지만, 혼자가 아닙니다.';
 			case 'empty.followersPrayer.button': return '동반자 찾기';

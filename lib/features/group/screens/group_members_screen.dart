@@ -27,7 +27,7 @@ class GroupMembersScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final group = ref.watch(GroupNotifierProvider(groupId)).value;
+    final group = ref.watch(groupNotifierProvider(groupId)).value;
     final membersPageController =
         usePagingController<String?, GroupMember>(firstPageKey: null);
     final moderatorsPageController =

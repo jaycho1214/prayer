@@ -3,7 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:prayer/constants/talker.dart';
 import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/features/group/widgets/forms/group_picker.dart';
 import 'package:prayer/features/common/widgets/buttons/shrinking_button.dart';
@@ -33,14 +33,6 @@ class PrayerGroupForm extends HookWidget {
   }
 }
 
-final conditionalGroupProvider =
-    Provider.autoDispose.family((ref, String? groupId) {
-  if (groupId == null) {
-    return null;
-  }
-  return ref.watch(groupNotifierProvider(groupId));
-});
-
 class PlayerGroupFormInner extends HookConsumerWidget {
   const PlayerGroupFormInner({
     super.key,
@@ -53,20 +45,25 @@ class PlayerGroupFormInner extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(conditionalGroupProvider(groupId));
-    final group = provider?.value;
+    final provider = ref.watch(groupNotifierProvider(groupId));
+    final group = provider.value;
 
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        if (groupId != null && !provider!.isLoading && provider.value == null) {
+    ref.listen(
+      groupNotifierProvider(groupId),
+      (_, next) {
+        if (next.valueOrNull == null) {
           onChange?.call(null);
         }
-      });
-      return () => null;
-    }, [onChange, groupId, onChange]);
+      },
+      onError: (e, st) {
+        talker.error(
+            "[PlayerGroupForm] failed to fetch a group: $groupId", e, st);
+        onChange?.call(null);
+      },
+    );
 
     return Skeletonizer(
-      enabled: groupId != null && provider!.isLoading,
+      enabled: groupId != null && provider.isLoading,
       child: ShrinkingButton(
         onTap: () async {
           final groupId = await GroupPicker.show(context);
@@ -78,7 +75,7 @@ class PlayerGroupFormInner extends HookConsumerWidget {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(100),
           ),
           child: Row(
             children: [
