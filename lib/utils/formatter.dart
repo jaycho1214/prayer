@@ -40,7 +40,7 @@ class Formatter {
   }
 
   static String daysToString(List<int> days) {
-    final sortedDays = days..sort();
+    final sortedDays = [...days]..sort();
     if (listEquals([6, 7], sortedDays)) {
       return t.general.weekend;
     } else if (listEquals(sortedDays, [1, 2, 3, 4, 5])) {
