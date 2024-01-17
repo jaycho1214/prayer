@@ -64,7 +64,7 @@ dependencies:
   hooks_riverpod: ^2.4.8
   riverpod_annotation: ^2.3.2
   get_it: ^7.6.4
-  wolt_modal_sheet: ^0.2.0
+  wolt_modal_sheet: ^0.3.0
   synchronized: ^3.1.0
   intl: ^0.18.1
   share_plus: ^7.2.1
@@ -93,7 +93,6 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.4.5
   hive_generator: ^2.0.1
-  icon_font_generator: ^4.0.0
   json_serializable: ^6.7.1
   riverpod_generator: ^2.3.8
   riverpod_lint: ^2.3.6
@@ -107,7 +106,7 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: false
+  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
