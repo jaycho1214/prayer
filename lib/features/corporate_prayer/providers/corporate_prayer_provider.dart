@@ -8,8 +8,11 @@ part 'corporate_prayer_provider.g.dart';
 
 @riverpod
 Future<CorporatePrayer?> corporatePrayer(
-    CorporatePrayerRef ref, String prayerId) async {
+    CorporatePrayerRef ref, String? prayerId) async {
   try {
+    if (prayerId == null) {
+      return null;
+    }
     final data =
         await GetIt.I<PrayerRepository>().fetchCorporatePrayer(prayerId);
     return data;

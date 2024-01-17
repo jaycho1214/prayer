@@ -6,7 +6,7 @@ part of 'corporate_prayer_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$corporatePrayerHash() => r'ec950db329a2c3ffeb0a6e660ac2dd2736f3b4f7';
+String _$corporatePrayerHash() => r'6b81becbde09d29cdcf7a522210ec74a18d11ac6';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -40,7 +40,7 @@ class CorporatePrayerFamily extends Family<AsyncValue<CorporatePrayer?>> {
 
   /// See also [corporatePrayer].
   CorporatePrayerProvider call(
-    String prayerId,
+    String? prayerId,
   ) {
     return CorporatePrayerProvider(
       prayerId,
@@ -76,7 +76,7 @@ class CorporatePrayerProvider
     extends AutoDisposeFutureProvider<CorporatePrayer?> {
   /// See also [corporatePrayer].
   CorporatePrayerProvider(
-    String prayerId,
+    String? prayerId,
   ) : this._internal(
           (ref) => corporatePrayer(
             ref as CorporatePrayerRef,
@@ -104,7 +104,7 @@ class CorporatePrayerProvider
     required this.prayerId,
   }) : super.internal();
 
-  final String prayerId;
+  final String? prayerId;
 
   @override
   Override overrideWith(
@@ -145,7 +145,7 @@ class CorporatePrayerProvider
 
 mixin CorporatePrayerRef on AutoDisposeFutureProviderRef<CorporatePrayer?> {
   /// The parameter `prayerId` of this provider.
-  String get prayerId;
+  String? get prayerId;
 }
 
 class _CorporatePrayerProviderElement
@@ -154,7 +154,7 @@ class _CorporatePrayerProviderElement
   _CorporatePrayerProviderElement(super.provider);
 
   @override
-  String get prayerId => (origin as CorporatePrayerProvider).prayerId;
+  String? get prayerId => (origin as CorporatePrayerProvider).prayerId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
