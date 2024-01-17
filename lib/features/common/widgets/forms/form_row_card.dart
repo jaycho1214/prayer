@@ -46,7 +46,7 @@ class FormRowCard extends StatelessWidget {
                 if (value == null)
                   FaIcon(
                     FontAwesomeIcons.chevronRight,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.onBackground,
                     size: 15,
                   ),
               ],
