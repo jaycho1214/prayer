@@ -104,7 +104,6 @@ class UserRepository {
           'name': name,
           'bio': bio
         },
-        options: Options(contentType: Headers.formUrlEncodedContentType),
       );
       return fetchUser(uid: FirebaseAuth.instance.currentUser!.uid);
     } on DioException catch (err) {
