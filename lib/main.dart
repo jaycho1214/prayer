@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,5 +128,15 @@ Future<void> initialize() async {
     dotenv.env['MIXPANEL_TOKEN']!,
     trackAutomaticEvents: true,
     optOutTrackingDefault: kDebugMode,
+  );
+}
+
+Future<void> initializeFirebaseRemoteConfig() async {
+  await FirebaseRemoteConfig.instance.setConfigSettings(
+    RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval:
+          kDebugMode ? const Duration(minutes: 1) : const Duration(hours: 1),
+    ),
   );
 }

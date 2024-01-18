@@ -288,6 +288,10 @@ alert:
     pickImageFromGallery: 갤러리에서 사진 가져오기
     resetToDefault: 기본값으로 초기화
     removeCurrentPhoto: 현재 사진 제거하기
+  update:
+    title: Prayer 업데이트
+    description: 새 업데이트를 다운로드하여 더 나은 기도와 신앙 생활을 경험하세요
+    button: 업데이트
   confirmClose: 정말로 닫으시겠습니까?
   actionIrreversible: 이 작업은 취소할 수 없습니다
   deleteAccount:

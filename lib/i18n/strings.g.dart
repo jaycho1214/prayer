@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 661 (330 per locale)
+/// Strings: 667 (333 per locale)
 ///
-/// Built on 2024-01-17 at 08:57 UTC
+/// Built on 2024-01-18 at 05:40 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -373,6 +373,7 @@ class _StringsAlertEn {
 
 	// Translations
 	late final _StringsAlertImagePickerEn imagePicker = _StringsAlertImagePickerEn._(_root);
+	late final _StringsAlertUpdateEn update = _StringsAlertUpdateEn._(_root);
 	String get confirmClose => 'Do you want to close?';
 	String get actionIrreversible => 'You cannot undo this action';
 	late final _StringsAlertDeleteAccountEn deleteAccount = _StringsAlertDeleteAccountEn._(_root);
@@ -733,6 +734,18 @@ class _StringsAlertImagePickerEn {
 	String get pickImageFromGallery => 'Pick image from gallery';
 	String get resetToDefault => 'Reset to default';
 	String get removeCurrentPhoto => 'Remove current photo';
+}
+
+// Path: alert.update
+class _StringsAlertUpdateEn {
+	_StringsAlertUpdateEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'New Update Available';
+	String get description => 'Please download the new update to enhance your prayer and religious life experience.';
+	String get button => 'Update';
 }
 
 // Path: alert.deleteAccount
@@ -1684,6 +1697,7 @@ class _StringsAlertKo extends _StringsAlertEn {
 
 	// Translations
 	@override late final _StringsAlertImagePickerKo imagePicker = _StringsAlertImagePickerKo._(_root);
+	@override late final _StringsAlertUpdateKo update = _StringsAlertUpdateKo._(_root);
 	@override String get confirmClose => '정말로 닫으시겠습니까?';
 	@override String get actionIrreversible => '이 작업은 취소할 수 없습니다';
 	@override late final _StringsAlertDeleteAccountKo deleteAccount = _StringsAlertDeleteAccountKo._(_root);
@@ -2033,6 +2047,18 @@ class _StringsAlertImagePickerKo extends _StringsAlertImagePickerEn {
 	@override String get pickImageFromGallery => '갤러리에서 사진 가져오기';
 	@override String get resetToDefault => '기본값으로 초기화';
 	@override String get removeCurrentPhoto => '현재 사진 제거하기';
+}
+
+// Path: alert.update
+class _StringsAlertUpdateKo extends _StringsAlertUpdateEn {
+	_StringsAlertUpdateKo._(_StringsKo root) : this._root = root, super._(root);
+
+	@override final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Prayer 업데이트';
+	@override String get description => '새 업데이트를 다운로드하여 더 나은 기도와 신앙 생활을 경험하세요';
+	@override String get button => '업데이트';
 }
 
 // Path: alert.deleteAccount
@@ -2991,6 +3017,9 @@ extension on Translations {
 			case 'alert.imagePicker.pickImageFromGallery': return 'Pick image from gallery';
 			case 'alert.imagePicker.resetToDefault': return 'Reset to default';
 			case 'alert.imagePicker.removeCurrentPhoto': return 'Remove current photo';
+			case 'alert.update.title': return 'New Update Available';
+			case 'alert.update.description': return 'Please download the new update to enhance your prayer and religious life experience.';
+			case 'alert.update.button': return 'Update';
 			case 'alert.confirmClose': return 'Do you want to close?';
 			case 'alert.actionIrreversible': return 'You cannot undo this action';
 			case 'alert.deleteAccount.title': return 'Delete an account';
@@ -3390,6 +3419,9 @@ extension on _StringsKo {
 			case 'alert.imagePicker.pickImageFromGallery': return '갤러리에서 사진 가져오기';
 			case 'alert.imagePicker.resetToDefault': return '기본값으로 초기화';
 			case 'alert.imagePicker.removeCurrentPhoto': return '현재 사진 제거하기';
+			case 'alert.update.title': return 'Prayer 업데이트';
+			case 'alert.update.description': return '새 업데이트를 다운로드하여 더 나은 기도와 신앙 생활을 경험하세요';
+			case 'alert.update.button': return '업데이트';
 			case 'alert.confirmClose': return '정말로 닫으시겠습니까?';
 			case 'alert.actionIrreversible': return '이 작업은 취소할 수 없습니다';
 			case 'alert.deleteAccount.title': return '정말 계정을 삭제하시겠습니까?';

@@ -14,6 +14,7 @@ import 'package:prayer/features/group/widgets/forms/group_picker.dart';
 import 'package:prayer/features/auth/providers/auth_provider.dart';
 import 'package:prayer/features/auth/providers/auth_state.dart';
 import 'package:prayer/hook/use_app_link.dart';
+import 'package:prayer/hook/use_app_update_hook.dart';
 import 'package:prayer/hook/use_notifications_hook.dart';
 
 class HomeTabBar extends HookConsumerWidget {
@@ -42,6 +43,7 @@ class HomeTabBar extends HookConsumerWidget {
     useAutomaticKeepAlive(wantKeepAlive: authState is AuthStateSignedUp);
     useNotifications(context);
     useAppLink(context);
+    useAppUpdate(context);
 
     return Scaffold(
       body: authState.hasError ||

@@ -295,7 +295,10 @@ alert:
     pickImageFromGallery: Pick image from gallery
     resetToDefault: Reset to default
     removeCurrentPhoto: Remove current photo
-
+  update:
+    title: New Update Available
+    description: Please download the new update to enhance your prayer and religious life experience.
+    button: Update
   confirmClose: Do you want to close?
   actionIrreversible: You cannot undo this action
   deleteAccount:
