@@ -23,7 +23,8 @@ void useAppUpdate(BuildContext context) {
       talker.good("[FirebaseRemoteConfig] minimum version: $version");
       final package = await PackageInfo.fromPlatform();
       bool activate = false;
-      if (Platform.isAndroid && version['android'] > package.buildNumber) {
+      if (Platform.isAndroid &&
+          version['android'] > int.tryParse(package.buildNumber)) {
         activate = true;
       } else if (Platform.isIOS &&
           (version['ios'] as String)
