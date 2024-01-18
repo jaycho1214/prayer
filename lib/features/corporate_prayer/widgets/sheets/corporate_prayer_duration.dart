@@ -49,7 +49,7 @@ class CorporatePrayerDuration extends StatelessWidget {
         20,
         10,
         20,
-        MediaQuery.of(context).padding.bottom,
+        MediaQuery.of(context).padding.bottom + 10,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -70,8 +70,9 @@ class CorporatePrayerDuration extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.fade,
           ),
+          const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               children: [
                 if (startedAt != null) ...[
@@ -98,6 +99,7 @@ class CorporatePrayerDuration extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Text.rich(
