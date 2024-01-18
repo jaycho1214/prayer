@@ -66,7 +66,16 @@ class PrayerScreen extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(t.general.prayer),
+                    Text(
+                      t.general.prayer,
+                      style: platformThemeData(
+                        context,
+                        material: (ThemeData data) =>
+                            data.textTheme.headlineSmall,
+                        cupertino: (data) => data.textTheme.navTitleTextStyle
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     if (prayer.value?.groupId != null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

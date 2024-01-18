@@ -120,7 +120,15 @@ class CorporatePrayerScreen extends HookConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.background,
         ),
         leading: NavigateBackButton(),
-        title: Text(t.general.corporate),
+        title: Text(
+          t.general.corporate,
+          style: platformThemeData(
+            context,
+            material: (ThemeData data) => data.textTheme.headlineSmall,
+            cupertino: (data) => data.textTheme.navTitleTextStyle
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+        ),
         trailingActions: [
           if (snapshot.value?.userId == FirebaseAuth.instance.currentUser?.uid)
             PullDownButton(

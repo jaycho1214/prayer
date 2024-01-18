@@ -69,7 +69,15 @@ class GroupScreen extends HookConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(t.general.group),
+            Text(
+              t.general.group,
+              style: platformThemeData(
+                context,
+                material: (ThemeData data) => data.textTheme.headlineSmall,
+                cupertino: (data) => data.textTheme.navTitleTextStyle
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
             const SizedBox(width: 10),
             PrimaryTextButton(
                 onTap: () => Navigator.of(context).push(
@@ -202,8 +210,9 @@ class GroupScreen extends HookConsumerWidget {
                                       maxLines: 2,
                                       overflow: TextOverflow.fade,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                     if (group.description != null)
                                       ParseableText(
@@ -226,8 +235,9 @@ class GroupScreen extends HookConsumerWidget {
                                         ),
                                         const SizedBox(width: 15),
                                         StatisticsText(
-                                            value: group.prayersCount,
-                                            text: t.general.prayers),
+                                          value: group.prayersCount,
+                                          text: t.general.prayers,
+                                        ),
                                         Spacer(),
                                         if (group.acceptedAt != null)
                                           Padding(
@@ -239,9 +249,7 @@ class GroupScreen extends HookConsumerWidget {
                                           ),
                                         GroupShareButton(groupId: groupId),
                                         const SizedBox(width: 10),
-                                        JoinButton(
-                                          groupId: groupId,
-                                        ),
+                                        JoinButton(groupId: groupId),
                                       ],
                                     ),
                                   ],

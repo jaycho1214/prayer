@@ -44,9 +44,18 @@ class GroupInformationScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(type == GroupInformationScreenType.join
-                      ? t.general.joinGroup
-                      : t.general.group),
+                  Text(
+                    type == GroupInformationScreenType.join
+                        ? t.general.joinGroup
+                        : t.general.group,
+                    style: platformThemeData(
+                      context,
+                      material: (ThemeData data) =>
+                          data.textTheme.headlineSmall,
+                      cupertino: (data) => data.textTheme.navTitleTextStyle
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   Text(
                     group.value?.name ?? '',
                     style: TextStyle(
