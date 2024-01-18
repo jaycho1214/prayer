@@ -30,4 +30,7 @@ class CustomFontAwesomeIcons {
 
   static const IconData mapPinSlash =
       IconData(0xe001, fontFamily: iconFontFamily);
+
+  static const IconData solidUserGroupSimplePlus =
+      IconData(0xe002, fontFamily: iconFontFamily);
 }

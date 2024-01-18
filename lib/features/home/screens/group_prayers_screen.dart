@@ -7,10 +7,10 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:prayer/constants/icons.dart';
 import 'package:prayer/features/common/screens/empty_prayers_screen.dart';
 import 'package:prayer/features/group/models/group/group_model.dart';
 import 'package:prayer/features/home/widgets/mini_my_group_list.dart';
-
 import 'package:prayer/i18n/strings.g.dart';
 import 'package:prayer/hook/paging_controller_hook.dart';
 import 'package:prayer/features/prayer/widgets/prayers_screen.dart';
@@ -95,30 +95,9 @@ class GroupPrayersScreen extends HookWidget {
                             onTap: () async {
                               context.push('/form/group');
                             },
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: 32,
-                                  height: 20,
-                                  child: const FaIcon(
-                                    FontAwesomeIcons.userGroupSimple,
-                                    size: 20,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 2,
-                                  right: 0,
-                                  child: Container(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .background,
-                                    child: const FaIcon(
-                                      FontAwesomeIcons.solidPlus,
-                                      size: 10,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            child: const FaIcon(
+                              CustomFontAwesomeIcons.solidUserGroupSimplePlus,
+                              size: 20,
                             ),
                           ),
                         ],
