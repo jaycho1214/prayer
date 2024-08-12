@@ -63,11 +63,3 @@ Thanks to all [our contributors](/docs/contributors.md).
 ## License
 
 MIT License. See [LICENSE](LICENSE).
-
-## About The Agape Foundation
-
-<a href="#">
-  <img align="left" src="https://avatars.githubusercontent.com/u/154545056?s=200&v=4"/>
-</a>
-
-Agape Foundation is a non-profit organization dedicated to embodying and spreading the love of Jesus Christ to communities worldwide. Founded with a deep commitment to reflecting the unconditional love that is central to Christian teachings, our mission is to serve, uplift, and bring hope to individuals from all walks of life.
